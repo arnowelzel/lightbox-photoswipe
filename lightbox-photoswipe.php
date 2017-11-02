@@ -1,12 +1,13 @@
 <?php
-/**
- * Plugin Name: Lightbox with PhotoSwipe
- * Description: Lightbox with PhotoSwipe
- * Version: 1.1
- * Author: Arno Welzel
- * Author URI: http://arnowelzel.de
- * Text Domain: lightbox-photoswipe
- */
+/*
+Plugin Name: Lightbox with PhotoSwipe
+Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
+Description: Lightbox with PhotoSwipe
+Version: 1.1
+Author: Arno Welzel
+Author URI: http://arnowelzel.de
+Text Domain: lightbox-photoswipe
+*/
 define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.1');
 
 defined('ABSPATH') or die();
