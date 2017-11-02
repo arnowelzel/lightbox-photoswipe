@@ -2,11 +2,12 @@
 /**
  * Plugin Name: Lightbox with PhotoSwipe
  * Description: Lightbox with PhotoSwipe
- * Version: 1.0
+ * Version: 1.1
  * Author: Arno Welzel
  * Author URI: http://arnowelzel.de
+ * Text Domain: lightbox-photoswipe
  */
-define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.0');
+define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.1');
 
 defined('ABSPATH') or die();
 
