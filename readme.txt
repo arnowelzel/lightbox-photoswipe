@@ -32,6 +32,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.1 =
+
+* Added missing text-domain header for proper localization support.
+
 = 1.0 =
 
 * Initial release.
