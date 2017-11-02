@@ -1,0 +1,48 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-31 20:14+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: lightbox-photoswipe.php:66
+msgid "Close (Esc)"
+msgstr ""
+
+#: lightbox-photoswipe.php:67
+msgid "Toggle fullscreen"
+msgstr ""
+
+#: lightbox-photoswipe.php:68
+msgid "Zoom in/out"
+msgstr ""
+
+#: lightbox-photoswipe.php:77
+msgid "Previous (arrow left)"
+msgstr ""
+
+#: lightbox-photoswipe.php:79
+msgid "Next (arrow right)"
+msgstr ""
+
+#. Name of the plugin
+#. Description of the plugin
+msgid "Lightbox with PhotoSwipe"
+msgstr ""
+
+#. Author of the plugin
+msgid "Arno Welzel"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://arnowelzel.de"
+msgstr ""
