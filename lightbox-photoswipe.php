@@ -3,12 +3,12 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.2
+Version: 1.3
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
 */
-define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.1');
+define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.3');
 
 defined('ABSPATH') or die();
 
@@ -152,14 +152,6 @@ function lightbox_photoswipe_filter( $content ) {
 
 add_action('template_redirect','lightbox_photoswipe_filter',99);
 
-/* Plugin init */
-
-function lightbox_photoswipe_init() {
-	load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
-}
-
-add_action('plugins_loaded', 'lightbox_photoswipe_init');
-
 /* Database handling */
 
 function lightbox_photoswipe_create_tables() {
@@ -179,50 +171,13 @@ function lightbox_photoswipe_create_tables() {
 	dbDelta($sql);
 }
 
-function lightbox_photoswipe_update_tables_1() {
+function lightbox_photoswipe_delete_tables() {
 	global $wpdb;
 	
 	$table_name = $wpdb->prefix . 'lightbox_photoswipe_img'; 
-	$sql = "DELETE FROM $table_name";
-	$wpdb->query($sql);
-	$sql = "ALTER TABLE $table_name DROP COLUMN created";
+	$sql = "DROP TABLE IF EXISTS $table_name";
 	$wpdb->query($sql);
 }
-
-function lightbox_photoswipe_activate($network_wide) {
-	global $wpdb;
-
-	$db_version = get_option('lightbox_photoswipe_db_version');
-	if($db_version = '1.0') {
-		if(is_multisite()) {
-			$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
-			foreach($blog_ids as $blog_id) {
-				switch_to_blog($blog_id);
-				lightbox_photoswipe_update_tables_1();
-				restore_current_blog();
-			}
-		} else {
-			lightbox_photoswipe_update_tables_1();
-		}
-	}
-	
-	if(is_multisite() && $network_wide) {
-		$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
-		foreach($blog_ids as $blog_id) {
-			switch_to_blog($blog_id);
-			lightbox_photoswipe_create_tables();
-			restore_current_blog();
-		}
-	} else {
-		lightbox_photoswipe_create_tables();
-	}	
-
-	add_option('lightbox_photoswipe_db_version', '1.2');
-
-	register_uninstall_hook( __FILE__, 'lightbox_photoswipe_uninstall' );
-}
-
-register_activation_hook( __FILE__, 'lightbox_photoswipe_activate' );
 
 function lightbox_photoswipe_on_create_blog($blog_id, $user_id, $domain, $path, $site_id, $meta) {
 	if(is_plugin_active_for_network('lightbox-photoswipe/lightbox-photoswipe.php')) {
@@ -243,3 +198,48 @@ function lightbox_photoswipe_on_delete_blog($tables) {
 }
 
 add_filter( 'wpmu_drop_tables', 'lightbox_photoswipe_on_delete_blog' );
+
+/* Plugin init */
+
+function lightbox_photoswipe_init() {
+	global $wpdb;
+
+	load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
+
+	$db_version = get_option('lightbox_photoswipe_db_version');
+	
+	if($db_version == '')
+	{
+		// No database tables yet, then create them
+		if(is_multisite() && $network_wide) {
+			$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
+			foreach($blog_ids as $blog_id) {
+				switch_to_blog($blog_id);
+				lightbox_photoswipe_create_tables();
+				restore_current_blog();
+			}
+		} else {
+			lightbox_photoswipe_create_tables();
+		}	
+	}
+	else if($db_version < '1.3') {
+		// If we are upgrading to version 1.3, we need to re-create the db tables
+		if(is_multisite()) {
+			$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
+			foreach($blog_ids as $blog_id) {
+				switch_to_blog($blog_id);
+				lightbox_photoswipe_delete_tables();
+				lightbox_photoswipe_create_tables();
+				restore_current_blog();
+			}
+		} else {
+			lightbox_photoswipe_delete_tables();
+			lightbox_photoswipe_create_tables();
+		}
+	}
+	
+	// Set db version
+	add_option('lightbox_photoswipe_db_version', '1.3');
+}
+
+add_action('plugins_loaded', 'lightbox_photoswipe_init');
