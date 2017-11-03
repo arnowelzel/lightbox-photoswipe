@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.1
+Version: 1.2
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -117,7 +117,8 @@ function lightbox_photoswipe_output_ds($matches) {
 				$imagesize[1] = $entry->height;
 			} else {
 				$imagesize = getimagesize($file);
-				$sql = "INSERT INTO $table_img (imgkey, width, height) VALUES (\"$imgkey\", $imagesize[0], $imagesize[1])";
+				$created = strftime('%Y-%m-%d %H:%M:%S');
+				$sql = "INSERT INTO $table_img (imgkey, created, width, height) VALUES (\"$imgkey\", \"$created\", $imagesize[0], $imagesize[1])";
 				$wpdb->query($sql);
 			}
 			$attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
@@ -168,7 +169,7 @@ function lightbox_photoswipe_create_tables() {
 	$charset_collate = $wpdb->get_charset_collate();
 	$sql = "CREATE TABLE $table_name (
 	  imgkey char(64) DEFAULT '' NOT NULL,
-	  created datetime DEFAULT NOW(),
+	  created datetime,
 	  width mediumint(7),
 	  height mediumint(7),
 	  PRIMARY KEY  (imgkey),
@@ -178,9 +179,33 @@ function lightbox_photoswipe_create_tables() {
 	dbDelta($sql);
 }
 
+function lightbox_photoswipe_update_tables_1() {
+	global $wpdb;
+	
+	$table_name = $wpdb->prefix . 'lightbox_photoswipe_img'; 
+	$sql = "DELETE FROM $table_name";
+	$wpdb->query($sql);
+	$sql = "ALTER TABLE $table_name DROP COLUMN created";
+	$wpdb->query($sql);
+}
+
 function lightbox_photoswipe_activate($network_wide) {
 	global $wpdb;
 
+	$db_version = get_option('lightbox_photoswipe_db_version');
+	if($db_version = '1.0') {
+		if(is_multisite()) {
+			$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
+			foreach($blog_ids as $blog_id) {
+				switch_to_blog($blog_id);
+				lightbox_photoswipe_update_tables_1();
+				restore_current_blog();
+			}
+		} else {
+			lightbox_photoswipe_update_tables_1();
+		}
+	}
+	
 	if(is_multisite() && $network_wide) {
 		$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
 		foreach($blog_ids as $blog_id) {
@@ -192,7 +217,7 @@ function lightbox_photoswipe_activate($network_wide) {
 		lightbox_photoswipe_create_tables();
 	}	
 
-	add_option('lightbox_photoswipe_db_version', '1.0');
+	add_option('lightbox_photoswipe_db_version', '1.2');
 
 	register_uninstall_hook( __FILE__, 'lightbox_photoswipe_uninstall' );
 }
