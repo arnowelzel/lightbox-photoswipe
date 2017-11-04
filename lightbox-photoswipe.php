@@ -3,12 +3,12 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.4
+Version: 1.5
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
 */
-define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.4');
+define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.5');
 
 defined('ABSPATH') or die();
 
@@ -211,34 +211,15 @@ function lightbox_photoswipe_init() {
 	if($db_version == '')
 	{
 		// No database tables yet, then create them
-		if(is_multisite() && $network_wide) {
-			$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
-			foreach($blog_ids as $blog_id) {
-				switch_to_blog($blog_id);
-				lightbox_photoswipe_create_tables();
-				restore_current_blog();
-			}
-		} else {
-			lightbox_photoswipe_create_tables();
-		}	
+		lightbox_photoswipe_create_tables();
 	}
 	else if($db_version < '1.4') {
-		// If we are upgrading to version 1.4, we need to re-create the db tables
-		if(is_multisite()) {
-			$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
-			foreach($blog_ids as $blog_id) {
-				switch_to_blog($blog_id);
-				lightbox_photoswipe_delete_tables();
-				lightbox_photoswipe_create_tables();
-				restore_current_blog();
-			}
-		} else {
-			lightbox_photoswipe_delete_tables();
-			lightbox_photoswipe_create_tables();
-		}
+		// If we are upgrading to version 1.4 or later, we need to re-create the db tables
+		lightbox_photoswipe_delete_tables();
+		lightbox_photoswipe_create_tables();
 	}
 	
-	// Set db version
+	// Set database version
 	update_option('lightbox_photoswipe_db_version', LIGHTBOX_PHOTOSWIPE_VERSION);
 }
 
