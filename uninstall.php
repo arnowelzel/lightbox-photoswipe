@@ -17,13 +17,13 @@ function lightbox_photoswipe_uninstall() {
 		foreach($blog_ids as $blog_id) {
 			switch_to_blog($blog_id);
 			lightbox_photoswipe_delete_tables();
+			delete_option('lightbox_photoswipe_db_version');
 			restore_current_blog();
 		}
 	} else {
 		lightbox_photoswipe_delete_tables();
+		delete_option('lightbox_photoswipe_db_version');
 	}
-
-	delete_option('lightbox_photoswipe_db_version');
 }
 
 lightbox_photoswipe_uninstall();
