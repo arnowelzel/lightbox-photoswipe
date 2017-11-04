@@ -3,12 +3,12 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.3
+Version: 1.4
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
 */
-define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.3');
+define('LIGHTBOX_PHOTOSWIPE_VERSION', '1.4');
 
 defined('ABSPATH') or die();
 
@@ -164,11 +164,11 @@ function lightbox_photoswipe_create_tables() {
 	  created datetime,
 	  width mediumint(7),
 	  height mediumint(7),
-	  PRIMARY KEY  (imgkey),
+	  PRIMARY KEY (imgkey),
 	  INDEX (created)
 	) $charset_collate;";
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	dbDelta($sql);
+	$wpdb->query($sql);
 }
 
 function lightbox_photoswipe_delete_tables() {
@@ -222,8 +222,8 @@ function lightbox_photoswipe_init() {
 			lightbox_photoswipe_create_tables();
 		}	
 	}
-	else if($db_version < '1.3') {
-		// If we are upgrading to version 1.3, we need to re-create the db tables
+	else if($db_version < '1.4') {
+		// If we are upgrading to version 1.4, we need to re-create the db tables
 		if(is_multisite()) {
 			$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
 			foreach($blog_ids as $blog_id) {
@@ -239,7 +239,7 @@ function lightbox_photoswipe_init() {
 	}
 	
 	// Set db version
-	add_option('lightbox_photoswipe_db_version', '1.3');
+	update_option('lightbox_photoswipe_db_version', LIGHTBOX_PHOTOSWIPE_VERSION);
 }
 
 add_action('plugins_loaded', 'lightbox_photoswipe_init');

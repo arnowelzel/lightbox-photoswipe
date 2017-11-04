@@ -32,6 +32,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.4 = 
+
+* Fixed an upgrade/installation issue.
+
 = 1.3 = 
 
 * Fixed an upgrade issue.
