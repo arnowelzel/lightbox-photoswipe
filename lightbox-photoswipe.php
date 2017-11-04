@@ -213,8 +213,8 @@ function lightbox_photoswipe_init() {
 		// No database tables yet, then create them
 		lightbox_photoswipe_create_tables();
 	}
-	else if($db_version < '1.4') {
-		// If we are upgrading to version 1.4 or later, we need to re-create the db tables
+	else if($db_version < '1.5') {
+		// If we are upgrading to version 1.5 or later, we need to re-create the db tables
 		lightbox_photoswipe_delete_tables();
 		lightbox_photoswipe_create_tables();
 	}
