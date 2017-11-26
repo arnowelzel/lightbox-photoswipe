@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 1.6
+Stable tag: 1.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,10 @@ Source of PhotoSwipe see here: <https://github.com/dimsemenov/PhotoSwipe>
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
 
 == Changelog ==
+
+= 1.7 =
+
+* Fix in PhotoSwipe: when closing an image by a vertical drag, the image was displayed again once to fade out, even though it was already moved out of the view. Now the image will just be closed and not be faded out after dragging it up or down.
 
 = 1.6 =
 
