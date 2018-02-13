@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 1.7
+Stable tag: 1.8
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,10 @@ Source of PhotoSwipe see here: <https://github.com/dimsemenov/PhotoSwipe>
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
 
 == Changelog ==
+
+= 1.8 =
+
+* Change UI elements from `button` to `div` to avoid layout problems with certain themes (Hamilton, Oria).
 
 = 1.7 =
 
