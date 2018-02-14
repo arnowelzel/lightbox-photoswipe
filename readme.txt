@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 1.9
+Stable tag: 1.10
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,9 +31,13 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.10 =
+
+* Fixed problems with Firefox for Android which needs `button` elements to handle the UI properly.
+
 = 1.9 =
 
-Modified CSS rules to make sure that the lightbox is not covered by other elements.
+* Modified CSS rules to make sure that the lightbox is not covered by other elements.
 
 = 1.8 =
 
