@@ -25,6 +25,10 @@ More about PhotoSwipe see here: <http://photoswipe.com>
 
 = Using the plugin =
 
+All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images.
+
+Make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
+
 = Licensing =
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
