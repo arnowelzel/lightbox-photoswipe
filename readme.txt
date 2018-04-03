@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 1.11
+Stable tag: 1.12
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,10 @@ Make sure that you link the image or gallery directly to the media and not the a
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
 
 == Changelog ==
+
+= 1.12 =
+
+* Fixed a problem which may occur when activating the plugin after an older version already had been in use.
 
 = 1.11 =
 
