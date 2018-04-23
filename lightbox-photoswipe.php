@@ -157,11 +157,11 @@ class LightboxPhotoSwipe {
 	 */
 	function output($content) {
 		$content = preg_replace_callback(
-			'/(<a href=["\'])(.[^"]*?)(["\'])(.[^>]*)(><img )/s',
+			'/(<a href=["\'])(.[^"\']*?)(["\'])(.[^>]*)(><img )/s',
 			array(get_class($this), 'output_callback'),
 			$content);
 		$content = preg_replace_callback(
-			'/(<a href=["\'])(.[^"]*?)(["\'])(><img )/s',
+			'/(<a href=["\'])(.[^"\']*?)(["\'])(><img )/s',
 			array(get_class($this), 'output_callback'),
 			$content);
 		return $content;
