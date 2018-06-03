@@ -63,9 +63,15 @@ jQuery(function($) {
 			getThumbBoundsFn: false,
 			showHideOpacity: true,
 			history: false,
-			shareEl: false
+			shareEl: true,
+			shareButtons: [
+				{id:'facebook', label:object_name.facebook, url:'https://www.facebook.com/sharer/sharer.php?u={{url}}'},
+				{id:'twitter', label:object_name.twitter, url:'https://twitter.com/intent/tweet?text={{text}}&url={{url}}'},
+				{id:'pinterest', label:object_name.pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'},
+				{id:'download', label:object_name.download, url:'{{raw_image_url}}', download:true}
+			]
 		};
-
+		
 		if(disableAnimation) {
 			options.showAnimationDuration = 0;
 		}

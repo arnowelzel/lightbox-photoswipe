@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.20
+Version: 1.30
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  * @package lightbox-photoswipe
  */
 class LightboxPhotoSwipe {
-	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.20';
+	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.30';
 	var $disabled_post_ids;
 
 	/**
@@ -55,13 +55,21 @@ class LightboxPhotoSwipe {
 			array('photoswipe-lib'),
 			self::LIGHTBOX_PHOTOSWIPE_VERSION
 		);
-
+		
 		wp_enqueue_script(
 			'photoswipe',
 			plugin_dir_url( __FILE__ ) . 'js/photoswipe.js',
 			array('photoswipe-lib', 'photoswipe-ui-default', 'jquery'),
 			self::LIGHTBOX_PHOTOSWIPE_VERSION
 		);
+		$translation_array = array(
+			'facebook' => __( 'Share on Facebook', 'lightbox-photoswipe' ),
+			'twitter' => __( 'Tweet', 'lightbox-photoswipe' ),
+			'pinterest' => __( 'Pin it', 'lightbox-photoswipe' ),
+			'download' => __( 'Download image', 'lightbox-photoswipe' ),
+		);
+		wp_localize_script( 'photoswipe', 'object_name', $translation_array);
+		
 		wp_enqueue_style(
 			'photoswipe-lib',
 			plugin_dir_url( __FILE__ ) . 'lib/photoswipe.css',
@@ -92,6 +100,7 @@ class LightboxPhotoSwipe {
 			<div class="pswp__top-bar">
 				<div class="pswp__counter"></div>
 				<button class="pswp__button pswp__button--close" title="'.__('Close (Esc)', 'lightbox-photoswipe').'"></button>
+				<button class="pswp__button pswp__button--share" title="'.__('Share', 'lightbox-photoswipe').'"></button>
 				<button class="pswp__button pswp__button--fs" title="'.__('Toggle fullscreen', 'lightbox-photoswipe').'"></button>
 				<button class="pswp__button pswp__button--zoom" title="'.__('Zoom in/out', 'lightbox-photoswipe').'"></button>
 				<div class="pswp__preloader">
@@ -102,6 +111,10 @@ class LightboxPhotoSwipe {
 					</div>
 				</div>
 			</div>
+			<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip">
+				</div> 
+            </div>
 			<button class="pswp__button pswp__button--arrow--left" title="'.__('Previous (arrow left)', 'lightbox-photoswipe').'"></button>
 			<button class="pswp__button pswp__button--arrow--right" title="'.__('Next (arrow right)', 'lightbox-photoswipe').'"></button>
 			<div class="pswp__caption">

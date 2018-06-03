@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-03 18:37+0000\n"
+"POT-Creation-Date: 2018-06-03 19:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,37 +14,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: lightbox-photoswipe.php:94
+#: lightbox-photoswipe.php:66
+msgid "Share on Facebook"
+msgstr ""
+
+#: lightbox-photoswipe.php:67
+msgid "Tweet"
+msgstr ""
+
+#: lightbox-photoswipe.php:68
+msgid "Pin it"
+msgstr ""
+
+#: lightbox-photoswipe.php:69
+msgid "Download image"
+msgstr ""
+
+#: lightbox-photoswipe.php:102
 msgid "Close (Esc)"
 msgstr ""
 
-#: lightbox-photoswipe.php:95
+#: lightbox-photoswipe.php:103
+msgid "Share"
+msgstr ""
+
+#: lightbox-photoswipe.php:104
 msgid "Toggle fullscreen"
 msgstr ""
 
-#: lightbox-photoswipe.php:96
+#: lightbox-photoswipe.php:105
 msgid "Zoom in/out"
 msgstr ""
 
-#: lightbox-photoswipe.php:105
+#: lightbox-photoswipe.php:118
 msgid "Previous (arrow left)"
 msgstr ""
 
-#: lightbox-photoswipe.php:106
+#: lightbox-photoswipe.php:119
 msgid "Next (arrow right)"
 msgstr ""
 
 #. Name of the plugin
 #. Description of the plugin
-#: lightbox-photoswipe.php:186 lightbox-photoswipe.php:198
+#: lightbox-photoswipe.php:199 lightbox-photoswipe.php:211
 msgid "Lightbox with PhotoSwipe"
 msgstr ""
 
-#: lightbox-photoswipe.php:204
+#: lightbox-photoswipe.php:217
 msgid "Excluded pages/posts"
 msgstr ""
 
-#: lightbox-photoswipe.php:205
+#: lightbox-photoswipe.php:218
 msgid ""
 "Enter a comma separated list with the IDs of the pages/posts where the "
 "lightbox should not be used."
