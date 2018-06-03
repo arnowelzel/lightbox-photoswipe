@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.14
+Version: 1.20
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,12 +17,15 @@ defined('ABSPATH') or die();
  * @package lightbox-photoswipe
  */
 class LightboxPhotoSwipe {
-	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.14';
+	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.20';
+	var $disabled_post_ids;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
+		$this->disabled_post_ids = explode(',', get_option('disabled_post_ids'));
+		
 		if(!is_admin()) {
 			add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 			add_action('wp_footer', array($this, 'footer'));
@@ -31,12 +34,15 @@ class LightboxPhotoSwipe {
 		add_action('wpmu_new_blog', array($this, 'on_create_blog'), 10, 6);
 		add_filter('wpmu_drop_tables', array($this, 'on_delete_blog'));
 		add_action('plugins_loaded', array($this, 'init'));
+		add_action('admin_menu', array($this, 'admin_menu'));
 	}
 	
 	/**
 	 * Scripts/CSS
 	 */
 	function enqueue_scripts() {
+		if(in_array(get_the_ID(), $this->disabled_post_ids)) return;
+		
 		wp_enqueue_script(
 			'photoswipe-lib',
 			plugin_dir_url( __FILE__ ) . 'lib/photoswipe.min.js',
@@ -168,7 +174,40 @@ class LightboxPhotoSwipe {
 	}
 	
 	function output_filter( $content ) {
+		if(in_array(get_the_ID(), $this->disabled_post_ids)) return;
+		
 		ob_start(array(get_class($this), 'output'));
+	}
+
+	/**
+	 * Handling of settings
+	 */
+	function admin_menu() {
+		add_options_page(__('Lightbox with PhotoSwipe', 'lightbox-photoswipe'), __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'),
+			'administrator', 'lightbox-photoswipe', array($this, 'settings_page') , plugins_url('/images/icon.png', __FILE__) );
+
+		add_action( 'admin_init', array($this, 'register_settings') );
+	}
+
+	function register_settings() {
+		//register our settings
+		register_setting( 'lighbox-photoswipe-settings-group', 'disabled_post_ids' );
+	}
+
+	function settings_page() {
+		echo '<div class="wrap"><h1>' . __('Lightbox with PhotoSwipe', 'lightbox-photoswipe') . '</h1>
+	<form method="post" action="options.php">';
+		settings_fields( 'lighbox-photoswipe-settings-group' );
+		do_settings_sections( 'lighbox-photoswipe-settings-group' );
+		echo '		<table class="form-table">';
+		echo '			<tr valign="top">
+			<th scope="row"><label for="disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
+			<td><input id="disabled_post_ids" class="regular-text" type="text" name="disabled_post_ids" value="' . esc_attr( get_option('disabled_post_ids') ) . '" /><p id="disabled_post_ids_description" class="description">'.__('Enter a comma separated list with the IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</td>
+			</tr>';
+		echo '		</table>';
+		submit_button();
+		echo '	</form>
+</div>';
 	}
 
 	/**
@@ -238,7 +277,7 @@ class LightboxPhotoSwipe {
 			$this->delete_tables();
 			$this->create_tables();
 		}
-		
+
 		update_option('lightbox_photoswipe_db_version', 2);
 	}
 }

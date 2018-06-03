@@ -3,40 +3,55 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-31 20:14+0000\n"
+"POT-Creation-Date: 2018-06-03 18:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
 "Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco - https://localise.biz/"
+"X-Generator: Loco https://localise.biz/"
 
-#: lightbox-photoswipe.php:66
+#: lightbox-photoswipe.php:94
 msgid "Close (Esc)"
 msgstr ""
 
-#: lightbox-photoswipe.php:67
+#: lightbox-photoswipe.php:95
 msgid "Toggle fullscreen"
 msgstr ""
 
-#: lightbox-photoswipe.php:68
+#: lightbox-photoswipe.php:96
 msgid "Zoom in/out"
 msgstr ""
 
-#: lightbox-photoswipe.php:77
+#: lightbox-photoswipe.php:105
 msgid "Previous (arrow left)"
 msgstr ""
 
-#: lightbox-photoswipe.php:79
+#: lightbox-photoswipe.php:106
 msgid "Next (arrow right)"
 msgstr ""
 
 #. Name of the plugin
 #. Description of the plugin
+#: lightbox-photoswipe.php:186 lightbox-photoswipe.php:198
 msgid "Lightbox with PhotoSwipe"
+msgstr ""
+
+#: lightbox-photoswipe.php:204
+msgid "Excluded pages/posts"
+msgstr ""
+
+#: lightbox-photoswipe.php:205
+msgid ""
+"Enter a comma separated list with the IDs of the pages/posts where the "
+"lightbox should not be used."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://wordpress.org/plugins/lightbox-photoswipe/"
 msgstr ""
 
 #. Author of the plugin
