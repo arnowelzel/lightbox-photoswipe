@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.30
+Version: 1.31
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  * @package lightbox-photoswipe
  */
 class LightboxPhotoSwipe {
-	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.30';
+	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.31';
 	var $disabled_post_ids;
 
 	/**
@@ -41,7 +41,7 @@ class LightboxPhotoSwipe {
 	 * Scripts/CSS
 	 */
 	function enqueue_scripts() {
-		if(in_array(get_the_ID(), $this->disabled_post_ids)) return;
+		if(!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) return;
 		
 		wp_enqueue_script(
 			'photoswipe-lib',
@@ -88,6 +88,8 @@ class LightboxPhotoSwipe {
 	 * Footer in frontend with PhotoSwipe UI
 	 */
 	function footer() {
+		if(!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) return;
+
 		echo '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="pswp__bg"></div>
 	<div class="pswp__scroll-wrap">
@@ -187,7 +189,7 @@ class LightboxPhotoSwipe {
 	}
 	
 	function output_filter( $content ) {
-		if(in_array(get_the_ID(), $this->disabled_post_ids)) return;
+		if(!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) return;
 		
 		ob_start(array(get_class($this), 'output'));
 	}
