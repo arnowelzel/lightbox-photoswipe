@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 1.31
+Stable tag: 1.40
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,9 +35,13 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
-= 1.31 =
+= 1.40 =
 
-* Fix handling of 404 pages.
+* Fixed an issue with "will-change" CSS hints.
+* Fixed a potential issue with internal options names.
+* Renamed JavaScript object which is used by WordPress to pass translated labels in the frontend from `object_name` to `lightbox_photoswipe`.
+* Sharing options can now be configured.
+* Layout modifications for the sharing menu.
 
 = 1.30 =
 

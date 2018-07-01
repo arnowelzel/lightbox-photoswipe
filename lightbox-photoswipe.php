@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.31
+Version: 1.40
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,14 +17,22 @@ defined('ABSPATH') or die();
  * @package lightbox-photoswipe
  */
 class LightboxPhotoSwipe {
-	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.31';
+	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.40';
 	var $disabled_post_ids;
+	var $share_facebook;
+	var $share_pinterest;
+	var $share_twitter;
+	var $share_download;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->disabled_post_ids = explode(',', get_option('disabled_post_ids'));
+		$this->disabled_post_ids = explode(',', get_option('lightbox_photoswipe_disabled_post_ids'));
+		$this->share_facebook = get_option('lightbox_photoswipe_share_facebook');
+		$this->share_pinterest = get_option('lightbox_photoswipe_share_pinterest');
+		$this->share_twitter = get_option('lightbox_photoswipe_share_twitter');
+		$this->share_download = get_option('lightbox_photoswipe_share_download');
 		
 		if(!is_admin()) {
 			add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -63,12 +71,16 @@ class LightboxPhotoSwipe {
 			self::LIGHTBOX_PHOTOSWIPE_VERSION
 		);
 		$translation_array = array(
-			'facebook' => __( 'Share on Facebook', 'lightbox-photoswipe' ),
-			'twitter' => __( 'Tweet', 'lightbox-photoswipe' ),
-			'pinterest' => __( 'Pin it', 'lightbox-photoswipe' ),
-			'download' => __( 'Download image', 'lightbox-photoswipe' ),
+			'label_facebook' => __( 'Share on Facebook', 'lightbox-photoswipe' ),
+			'label_twitter' => __( 'Tweet', 'lightbox-photoswipe' ),
+			'label_pinterest' => __( 'Pin it', 'lightbox-photoswipe' ),
+			'label_download' => __( 'Download image', 'lightbox-photoswipe' )
 		);
-		wp_localize_script( 'photoswipe', 'object_name', $translation_array);
+		if($this->share_facebook == '1') $translation_array['share_facebook'] = '1';else $translation_array['share_facebook'] = '0';
+		if($this->share_twitter == '1') $translation_array['share_twitter'] = '1';else $translation_array['share_twitter'] = '0';
+		if($this->share_pinterest == '1') $translation_array['share_pinterest'] = '1';else $translation_array['share_pinterest'] = '0';
+		if($this->share_download == '1') $translation_array['share_download'] = '1';else $translation_array['share_download'] = '0';
+		wp_localize_script( 'photoswipe', 'lightbox_photoswipe', $translation_array);
 		
 		wp_enqueue_style(
 			'photoswipe-lib',
@@ -89,7 +101,7 @@ class LightboxPhotoSwipe {
 	 */
 	function footer() {
 		if(!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) return;
-
+		
 		echo '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="pswp__bg"></div>
 	<div class="pswp__scroll-wrap">
@@ -205,24 +217,31 @@ class LightboxPhotoSwipe {
 	}
 
 	function register_settings() {
-		//register our settings
-		register_setting( 'lighbox-photoswipe-settings-group', 'disabled_post_ids' );
+		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_disabled_post_ids' );
+		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_facebook' );
+		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_twitter' );
+		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_pinterest' );
+		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_download' );
 	}
 
 	function settings_page() {
-		echo '<div class="wrap"><h1>' . __('Lightbox with PhotoSwipe', 'lightbox-photoswipe') . '</h1>
-	<form method="post" action="options.php">';
+		echo '<div class="wrap"><h1>' . __('Lightbox with PhotoSwipe', 'lightbox-photoswipe') . '</h1><form method="post" action="options.php">';
 		settings_fields( 'lighbox-photoswipe-settings-group' );
-		do_settings_sections( 'lighbox-photoswipe-settings-group' );
-		echo '		<table class="form-table">';
-		echo '			<tr valign="top">
-			<th scope="row"><label for="disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
-			<td><input id="disabled_post_ids" class="regular-text" type="text" name="disabled_post_ids" value="' . esc_attr( get_option('disabled_post_ids') ) . '" /><p id="disabled_post_ids_description" class="description">'.__('Enter a comma separated list with the IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</td>
-			</tr>';
-		echo '		</table>';
+		// do_settings_sections( 'lighbox-photoswipe-settings-group' );
+		echo '<table class="form-table"><tr>
+			<th scope="row"><label for="lightbox_photoswipe_disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
+			<td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" /><p class="description">'.__('Enter a comma separated list with the IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</p></td>
+			</tr>
+			<tr>
+			<th scope="row">'.__('Visible sharing options', 'lightbox-photoswipe').':</th>
+			<td>
+			<label for="lightbox_photoswipe_share_facebook"><input id="lightbox_photoswipe_share_facebook" type="checkbox" name="lightbox_photoswipe_share_facebook" value="1"'; if(get_option('lightbox_photoswipe_share_facebook')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Share on Facebook', 'lightbox-photoswipe').'</label><br />
+			<label for="lightbox_photoswipe_share_twitter"><input id="lightbox_photoswipe_share_twitter" type="checkbox" name="lightbox_photoswipe_share_twitter" value="1" '; if(get_option('lightbox_photoswipe_share_twitter')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Tweet', 'lightbox-photoswipe').'</label><br />
+			<label for="lightbox_photoswipe_share_pinterest"><input id="lightbox_photoswipe_share_pinterest" type="checkbox" name="lightbox_photoswipe_share_pinterest" value="1" '; if(get_option('lightbox_photoswipe_share_pinterest')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Pin it', 'lightbox-photoswipe').'</label><br />
+			<label for="lightbox_photoswipe_share_download"><input id="lightbox_photoswipe_share_download" type="checkbox" name="lightbox_photoswipe_share_download" value="1"'; if(get_option('lightbox_photoswipe_share_download')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Download image', 'lightbox-photoswipe').'</label>
+			</td></tr></table>';
 		submit_button();
-		echo '	</form>
-</div>';
+		echo '</form></div>';
 	}
 
 	/**
@@ -263,6 +282,10 @@ class LightboxPhotoSwipe {
 		if(is_plugin_active_for_network('lightbox-photoswipe/lightbox-photoswipe.php')) {
 			switch_to_blog($blog_id);
 			$this->create_tables();
+			update_option('lightbox_photoswipe_share_facebook', '1');
+			update_option('lightbox_photoswipe_share_pinterest', '1');
+			update_option('lightbox_photoswipe_share_twitter', '1');
+			update_option('lightbox_photoswipe_share_download', '1');
 			restore_current_blog();
 		}
 	}
@@ -292,8 +315,16 @@ class LightboxPhotoSwipe {
 			$this->delete_tables();
 			$this->create_tables();
 		}
-
-		update_option('lightbox_photoswipe_db_version', 2);
+		if($db_version < 3) {
+			update_option('lightbox_photoswipe_disabled_post_ids', get_option('disabled_post_ids'));
+			delete_option('disabled_post_ids');
+			update_option('lightbox_photoswipe_share_facebook', '1');
+			update_option('lightbox_photoswipe_share_pinterest', '1');
+			update_option('lightbox_photoswipe_share_twitter', '1');
+			update_option('lightbox_photoswipe_share_download', '1');
+		}
+		
+		update_option('lightbox_photoswipe_db_version', 3);
 	}
 }
 

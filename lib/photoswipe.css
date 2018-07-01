@@ -28,7 +28,6 @@
 .pswp--animate_opacity {
   /* 0.001, because opacity:0 doesn't trigger Paint action, which causes lag at start of transition */
   opacity: 0.001;
-  will-change: opacity;
   /* for open/close transition */
   -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
           transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1); }
@@ -69,7 +68,7 @@
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
   -webkit-backface-visibility: hidden;
-  will-change: opacity; }
+  }
 
 .pswp__scroll-wrap {
   position: absolute;
@@ -110,7 +109,6 @@
           transition: transform 333ms cubic-bezier(0.4, 0, 0.22, 1); }
 
 .pswp__bg {
-  will-change: opacity;
   /* for open/close transition */
   -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
           transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1); }
