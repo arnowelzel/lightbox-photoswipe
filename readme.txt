@@ -40,6 +40,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.51 =
+
+* Improved handling of browser history: URLs which refer to specific images will open the lightbox as well.
+* Some frontend code refactoring.
+
 = 1.50 =
 
 * Added more customization options for PhotoSwipe.

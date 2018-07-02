@@ -8,11 +8,11 @@ jQuery(function($) {
 		}
 
 		e.preventDefault();
-		openPhotoSwipe( this );
+		openPhotoSwipe( false, this, false, false );
 	});
 
-	var parseThumbnailElements = function(gallery, el) {
-		var elements = $(gallery).find('a[data-width]').has('img'),
+	var parseThumbnailElements = function(el) {
+		var elements = $('body').find('a[data-width]').has('img'),
 			galleryItems = [],
 			index;
 
@@ -47,15 +47,44 @@ jQuery(function($) {
 		return [galleryItems, parseInt(index, 10)];
 	};
 
-	var openPhotoSwipe = function( element, disableAnimation ) {
+	var photoswipeParseHash = function() {
+		var hash = window.location.hash.substring(1), params = {};
+
+		if(hash.length < 5) {
+			return params;
+		}
+
+		var vars = hash.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			if(!vars[i]) {
+				continue;
+			}
+			var pair = vars[i].split('=');
+			if(pair.length < 2) {
+				continue;
+			}
+			params[pair[0]] = pair[1];
+		}
+
+		if(params.gid) {
+			params.gid = parseInt(params.gid, 10);
+		}
+
+		return params;
+	};
+
+	var openPhotoSwipe = function( element_index, element, disableAnimation, fromURL ) {
 		var pswpElement = $('.pswp').get(0),
-			galleryElement = $(element).parents('body').first(),
 			gallery,
 			options,
 			items, index;
 
-		items = parseThumbnailElements(galleryElement, element);
-		index = items[1];
+		items = parseThumbnailElements(element);
+		if(element_index == false) {
+			index = items[1];
+		} else {
+			index = element_index;
+		}
 		items = items[0];
 
 		options = {
@@ -89,18 +118,27 @@ jQuery(function($) {
 			options.showAnimationDuration = 0;
 		}
 
+		if(fromURL == true) {
+			options.index = parseInt(index, 10);
+		}
+
 		gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
 		gallery.listen('gettingData', function (index, item) {
 			if (item.w < 1 || item.h < 1) {
-        		var img = new Image();
-	        	img.onload = function () {
-    	    	    item.w = this.width;
-        		    item.h = this.height;
-            		gallery.updateSize(true);
-	        	};
-	        	img.src = item.src;
-	    	}
+				var img = new Image();
+				img.onload = function () {
+					item.w = this.width;
+					item.h = this.height;
+					gallery.updateSize(true);
+				};
+				img.src = item.src;
+			}
 		});
 		gallery.init();
 	};
+
+	var hashData = photoswipeParseHash();
+	if(hashData.pid && hashData.gid) {
+		openPhotoSwipe( hashData.pid, null, true, true );
+	}
 });
