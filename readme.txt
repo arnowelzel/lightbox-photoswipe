@@ -33,6 +33,11 @@ Make sure that you link the image or gallery directly to the media and not the a
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
 
+== Screenshots ==
+
+1. Configuration options in the backend
+2. Example for the use in the frontend
+
 == Changelog ==
 
 = 1.50 =
