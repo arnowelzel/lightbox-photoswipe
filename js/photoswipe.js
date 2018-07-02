@@ -119,7 +119,7 @@ jQuery(function($) {
 		}
 
 		if(fromURL == true) {
-			options.index = parseInt(index, 10);
+			options.index = parseInt(index, 10) - 1;
 		}
 
 		gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
