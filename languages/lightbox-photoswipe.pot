@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-01 11:43+0000\n"
+"POT-Creation-Date: 2018-07-02 20:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,64 +14,84 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: lightbox-photoswipe.php:74 lightbox-photoswipe.php:238
+#: lightbox-photoswipe.php:82 lightbox-photoswipe.php:254
 msgid "Share on Facebook"
 msgstr ""
 
-#: lightbox-photoswipe.php:75 lightbox-photoswipe.php:239
+#: lightbox-photoswipe.php:83 lightbox-photoswipe.php:255
 msgid "Tweet"
 msgstr ""
 
-#: lightbox-photoswipe.php:76 lightbox-photoswipe.php:240
+#: lightbox-photoswipe.php:84 lightbox-photoswipe.php:256
 msgid "Pin it"
 msgstr ""
 
-#: lightbox-photoswipe.php:77 lightbox-photoswipe.php:241
+#: lightbox-photoswipe.php:85 lightbox-photoswipe.php:257
 msgid "Download image"
 msgstr ""
 
-#: lightbox-photoswipe.php:116
+#: lightbox-photoswipe.php:128
 msgid "Close (Esc)"
 msgstr ""
 
-#: lightbox-photoswipe.php:117
+#: lightbox-photoswipe.php:129
 msgid "Share"
 msgstr ""
 
-#: lightbox-photoswipe.php:118
+#: lightbox-photoswipe.php:130
 msgid "Toggle fullscreen"
 msgstr ""
 
-#: lightbox-photoswipe.php:119
+#: lightbox-photoswipe.php:131
 msgid "Zoom in/out"
 msgstr ""
 
-#: lightbox-photoswipe.php:132
+#: lightbox-photoswipe.php:144
 msgid "Previous (arrow left)"
 msgstr ""
 
-#: lightbox-photoswipe.php:133
+#: lightbox-photoswipe.php:145
 msgid "Next (arrow right)"
 msgstr ""
 
 #. Name of the plugin
 #. Description of the plugin
-#: lightbox-photoswipe.php:213 lightbox-photoswipe.php:228
+#: lightbox-photoswipe.php:225 lightbox-photoswipe.php:244
 msgid "Lightbox with PhotoSwipe"
 msgstr ""
 
-#: lightbox-photoswipe.php:232
+#: lightbox-photoswipe.php:248
 msgid "Excluded pages/posts"
 msgstr ""
 
-#: lightbox-photoswipe.php:233
+#: lightbox-photoswipe.php:249
 msgid ""
 "Enter a comma separated list with the IDs of the pages/posts where the "
 "lightbox should not be used."
 msgstr ""
 
-#: lightbox-photoswipe.php:236
+#: lightbox-photoswipe.php:252
 msgid "Visible sharing options"
+msgstr ""
+
+#: lightbox-photoswipe.php:260
+msgid "Other options"
+msgstr ""
+
+#: lightbox-photoswipe.php:262
+msgid "Close when scrolling in desktop view"
+msgstr ""
+
+#: lightbox-photoswipe.php:263
+msgid "Close with vertical drag in mobile view"
+msgstr ""
+
+#: lightbox-photoswipe.php:264
+msgid "Activate browser history"
+msgstr ""
+
+#: lightbox-photoswipe.php:265
+msgid "Show picture counter"
 msgstr ""
 
 #. URI of the plugin
