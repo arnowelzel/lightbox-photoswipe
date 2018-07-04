@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.52
+Version: 1.60
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  * @package lightbox-photoswipe
  */
 class LightboxPhotoSwipe {
-	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.52';
+	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.60';
 	var $disabled_post_ids;
 	var $share_facebook;
 	var $share_pinterest;
@@ -27,6 +27,7 @@ class LightboxPhotoSwipe {
 	var $close_on_drag;
 	var $history;
 	var $show_counter;
+	var $skin;
 
 	/**
 	 * Constructor
@@ -41,6 +42,7 @@ class LightboxPhotoSwipe {
 		$this->close_on_drag = get_option('lightbox_photoswipe_close_on_drag');
 		$this->history = get_option('lightbox_photoswipe_history');
 		$this->show_counter = get_option('lightbox_photoswipe_show_counter');
+		$this->skin = get_option('lightbox_photoswipe_skin');
 		
 		if(!is_admin()) {
 			add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -100,9 +102,27 @@ class LightboxPhotoSwipe {
 			false,
 			self::LIGHTBOX_PHOTOSWIPE_VERSION
 		);
+
+		switch($this->skin) {
+		case '1':
+			$skin = 'classic';
+			break;
+		case '2':
+			$skin = 'classic-solid';
+			break;
+		case '3':
+			$skin = 'default';
+			break;
+		case '4':
+			$skin = 'default-solid';
+			break;
+		default:
+			$skin = 'classic';
+			break;
+		}
 		wp_enqueue_style(
-			'photoswipe-default-skin',
-			plugin_dir_url( __FILE__ ) . 'lib/default-skin/default-skin.css',
+			'photoswipe-skin',
+			plugin_dir_url( __FILE__ ) . 'lib/skins/' . $skin . '/skin.css',
 			false,
 			self::LIGHTBOX_PHOTOSWIPE_VERSION
 		);
@@ -229,21 +249,22 @@ class LightboxPhotoSwipe {
 	}
 
 	function register_settings() {
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_disabled_post_ids' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_facebook' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_twitter' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_pinterest' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_share_download' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_scroll' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_drag' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_history' );
-		register_setting( 'lighbox-photoswipe-settings-group', 'lightbox_photoswipe_show_counter' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_disabled_post_ids' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_facebook' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_twitter' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_pinterest' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_download' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_scroll' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_drag' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_history' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_counter' );
+		register_setting( 'lightbox-photoswipe-settings-group', 'lightbox_photoswipe_skin' );
 	}
 
 	function settings_page() {
 		echo '<div class="wrap"><h1>' . __('Lightbox with PhotoSwipe', 'lightbox-photoswipe') . '</h1><form method="post" action="options.php">';
-		settings_fields( 'lighbox-photoswipe-settings-group' );
-		// do_settings_sections( 'lighbox-photoswipe-settings-group' );
+		settings_fields( 'lightbox-photoswipe-settings-group' );
+		// do_settings_sections( 'lightbox-photoswipe-settings-group' );
 		echo '<table class="form-table"><tr>
 			<th scope="row"><label for="lightbox_photoswipe_disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
 			<td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" /><p class="description">'.__('Enter a comma separated list with the IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</p></td>
@@ -264,7 +285,24 @@ class LightboxPhotoSwipe {
 			<label for="lightbox_photoswipe_history"><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"'; if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Activate browser history', 'lightbox-photoswipe').'</label><br />
 			<label for="lightbox_photoswipe_show_counter"><input id="lightbox_photoswipe_show_counter" type="checkbox" name="lightbox_photoswipe_show_counter" value="1"'; if(get_option('lightbox_photoswipe_show_counter')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show picture counter', 'lightbox-photoswipe').'</label>
 			</td></tr>
-			</table>';
+			<tr>
+			<th scope="row">'.__('Skin', 'lightbox-photoswipe').'</th>
+			<td><label for="lightbox_photoswipe_skin"><select id="lightbox_photoswipe_skin" name="lightbox_photoswipe_skin">';
+		echo '<option value="1"';
+		if(get_option('lightbox_photoswipe_skin')=='1') echo ' selected="selected"';
+		echo '>Original</option>';
+		echo '<option value="2"';
+		if(get_option('lightbox_photoswipe_skin')=='2') echo ' selected="selected"';
+		echo '>Original solid</option>';
+		echo '<option value="3"';
+		if(get_option('lightbox_photoswipe_skin')=='3') echo ' selected="selected"';
+		echo '>New</option>';
+		echo '<option value="4"';
+		if(get_option('lightbox_photoswipe_skin')=='4') echo ' selected="selected"';
+		echo '>New solid</option>';
+		echo '</select></label>';
+		echo '</td></tr>';
+		echo '	</table>';
 		submit_button();
 		echo '</form></div>';
 	}
@@ -314,6 +352,7 @@ class LightboxPhotoSwipe {
 			update_option('lightbox_photoswipe_close_on_scroll', '1');
 			update_option('lightbox_photoswipe_close_on_drag', '1');
 			update_option('lightbox_photoswipe_show_counter', '1');
+			update_option('lightbox_photoswipe_skin', '3');
 			restore_current_blog();
 		}
 	}
@@ -356,8 +395,11 @@ class LightboxPhotoSwipe {
 			update_option('lightbox_photoswipe_close_on_drag', '1');
 			update_option('lightbox_photoswipe_show_counter', '1');
 		}
+		else if(intval($db_version) < 5) {
+			update_option('lightbox_photoswipe_skin', '3');
+		}
 		
-		update_option('lightbox_photoswipe_db_version', 4);
+		update_option('lightbox_photoswipe_db_version', 5);
 	}
 }
 

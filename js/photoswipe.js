@@ -8,7 +8,7 @@ jQuery(function($) {
 		}
 
 		e.preventDefault();
-		openPhotoSwipe( false, this, false, false );
+		openPhotoSwipe( false, this, false );
 	});
 
 	var parseThumbnailElements = function(el) {
@@ -73,7 +73,7 @@ jQuery(function($) {
 		return params;
 	};
 
-	var openPhotoSwipe = function( element_index, element, disableAnimation, fromURL ) {
+	var openPhotoSwipe = function( element_index, element, fromURL ) {
 		var pswpElement = $('.pswp').get(0),
 			gallery,
 			options,
@@ -90,7 +90,6 @@ jQuery(function($) {
 		options = {
 			index: index,
 			getThumbBoundsFn: false,
-			showHideOpacity: true,
 			showHideOpacity: true,
 			loop: true,
 		};
@@ -114,10 +113,6 @@ jQuery(function($) {
 		if(lightbox_photoswipe.history == '1') options.history = true;else options.history = false;
 		if(lightbox_photoswipe.show_counter == '1') options.counterEl = true;else options.counterEl = false;
 		
-		if(disableAnimation) {
-			options.showAnimationDuration = 0;
-		}
-
 		if(fromURL == true) {
 			options.index = parseInt(index, 10) - 1;
 		}
@@ -139,6 +134,6 @@ jQuery(function($) {
 
 	var hashData = photoswipeParseHash();
 	if(hashData.pid && hashData.gid) {
-		openPhotoSwipe( hashData.pid, null, true, true );
+		openPhotoSwipe( hashData.pid, null, true );
 	}
 });
