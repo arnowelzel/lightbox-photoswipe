@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-02 20:49+0000\n"
-"PO-Revision-Date: 2018-07-02 20:49+0000\n"
+"POT-Creation-Date: 2018-07-04 16:20+0000\n"
+"PO-Revision-Date: 2018-07-04 16:21+0000\n"
 "Last-Translator: Arno Welzel <privat@arnowelzel.local>\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -13,57 +13,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: lightbox-photoswipe.php:82 lightbox-photoswipe.php:254
+#: lightbox-photoswipe.php:84 lightbox-photoswipe.php:275
 msgid "Share on Facebook"
 msgstr "Auf Facebook teilen"
 
-#: lightbox-photoswipe.php:83 lightbox-photoswipe.php:255
+#: lightbox-photoswipe.php:85 lightbox-photoswipe.php:276
 msgid "Tweet"
 msgstr "Tweet"
 
-#: lightbox-photoswipe.php:84 lightbox-photoswipe.php:256
+#: lightbox-photoswipe.php:86 lightbox-photoswipe.php:277
 msgid "Pin it"
 msgstr "Auf Pinterest merken"
 
-#: lightbox-photoswipe.php:85 lightbox-photoswipe.php:257
+#: lightbox-photoswipe.php:87 lightbox-photoswipe.php:278
 msgid "Download image"
 msgstr "Herunterladen"
 
-#: lightbox-photoswipe.php:128
+#: lightbox-photoswipe.php:148
 msgid "Close (Esc)"
 msgstr "Schließen (Esc)"
 
-#: lightbox-photoswipe.php:129
+#: lightbox-photoswipe.php:149
 msgid "Share"
 msgstr "Teilen"
 
-#: lightbox-photoswipe.php:130
+#: lightbox-photoswipe.php:150
 msgid "Toggle fullscreen"
 msgstr "Vollbildanzeige umschalten"
 
-#: lightbox-photoswipe.php:131
+#: lightbox-photoswipe.php:151
 msgid "Zoom in/out"
 msgstr "Vergrößern/Verkleinern"
 
-#: lightbox-photoswipe.php:144
+#: lightbox-photoswipe.php:164
 msgid "Previous (arrow left)"
 msgstr "Vorheriges (Cursor links)"
 
-#: lightbox-photoswipe.php:145
+#: lightbox-photoswipe.php:165
 msgid "Next (arrow right)"
 msgstr "Nächstes (Cursor rechts)"
 
 #. Name of the plugin
 #. Description of the plugin
-#: lightbox-photoswipe.php:225 lightbox-photoswipe.php:244
+#: lightbox-photoswipe.php:245 lightbox-photoswipe.php:265
 msgid "Lightbox with PhotoSwipe"
 msgstr "Lightbox mit PhotoSwipe"
 
-#: lightbox-photoswipe.php:248
+#: lightbox-photoswipe.php:269
 msgid "Excluded pages/posts"
 msgstr "Ausgeschlossene Seiten/Beiträge"
 
-#: lightbox-photoswipe.php:249
+#: lightbox-photoswipe.php:270
 msgid ""
 "Enter a comma separated list with the IDs of the pages/posts where the "
 "lightbox should not be used."
@@ -71,29 +71,49 @@ msgstr ""
 "Eine mit Komma getrennte Liste mit den IDs der Seiten/Beiträge, auf denen "
 "die Lightbox nicht verwendet werden soll."
 
-#: lightbox-photoswipe.php:252
+#: lightbox-photoswipe.php:273
 msgid "Visible sharing options"
 msgstr "Sichtbare Weitergabe-Optionen"
 
-#: lightbox-photoswipe.php:260
+#: lightbox-photoswipe.php:281
 msgid "Other options"
 msgstr "Weitere Optionen"
 
-#: lightbox-photoswipe.php:262
+#: lightbox-photoswipe.php:283
 msgid "Close when scrolling in desktop view"
 msgstr "Schließen beim Scrollen in der Desktop-Ansicht"
 
-#: lightbox-photoswipe.php:263
+#: lightbox-photoswipe.php:284
 msgid "Close with vertical drag in mobile view"
 msgstr "Schließen mit vertikalem Ziehen in der mobilen Ansicht"
 
-#: lightbox-photoswipe.php:264
+#: lightbox-photoswipe.php:285
 msgid "Activate browser history"
 msgstr "Browserverlauf aktivieren"
 
-#: lightbox-photoswipe.php:265
+#: lightbox-photoswipe.php:286
 msgid "Show picture counter"
 msgstr "Bildzähler anzeigen"
+
+#: lightbox-photoswipe.php:289
+msgid "Skin"
+msgstr "Darstellung"
+
+#: lightbox-photoswipe.php:293
+msgid "Original"
+msgstr "Original"
+
+#: lightbox-photoswipe.php:296
+msgid "Original solid"
+msgstr "Original undurchsichtig"
+
+#: lightbox-photoswipe.php:299
+msgid "New"
+msgstr "Neu"
+
+#: lightbox-photoswipe.php:302
+msgid "New solid"
+msgstr "Neu undurchsichtig"
 
 #. URI of the plugin
 msgid "https://wordpress.org/plugins/lightbox-photoswipe/"

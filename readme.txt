@@ -29,6 +29,30 @@ All linked images in a post or page will be displayed using PhotoSwipe, regardle
 
 Make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
+= How to disable the plugin in certain pages/posts =
+
+Some other plugins use PhotoSwipe as well and there may be a conflict - for example with the product pages of WooCommerce.
+
+You can either configure the pages/posts manually in the settings or you can use the filter `lbwps_enabled`. This filter gets the ID of the current page/post and if the lightbox is currently enabled (`true` or `false`). If the filter returns `true`, the lightbox will be used, if it returns `false` the lightbox will be disabled - which means, no scripts and stylesheets will be included at all on the current page/post.
+
+Example:
+
+`
+// Disable Lightbox with PhotoSwipe on WooCommerce product pages
+
+function my_lbwps_enabled($id, $enabled)
+{
+	if( function_exists( 'is_product' ) )
+	{
+		if( is_product() ) return false;
+	}
+
+	return $enabled;
+}
+
+add_filter( 'lbwps_enabled', 'my_lbwps_enabled', 10, 2 );
+`
+
 = Licensing =
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
@@ -42,7 +66,8 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 1.60 =
 
-* Added selectable skins.
+* Added selectable skins and new "share" symbol in PhotoSwipe.
+* Added filter for disabling the lightbox if needed.
 
 = 1.52 =
 

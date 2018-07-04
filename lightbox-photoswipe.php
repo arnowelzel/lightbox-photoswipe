@@ -233,8 +233,13 @@ class LightboxPhotoSwipe {
 	}
 	
 	function output_filter( $content ) {
-		if(!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) return;
-		
+		$id = get_the_ID();
+		$enabled = true;
+
+		if(!is_404() && in_array($id, $this->disabled_post_ids)) $enabled = false;;
+		$enabled = apply_filters( 'lbwps_enabled', $id, $enabled );
+		if(!$enabled) return;
+
 		ob_start(array(get_class($this), 'output'));
 	}
 
@@ -290,16 +295,16 @@ class LightboxPhotoSwipe {
 			<td><label for="lightbox_photoswipe_skin"><select id="lightbox_photoswipe_skin" name="lightbox_photoswipe_skin">';
 		echo '<option value="1"';
 		if(get_option('lightbox_photoswipe_skin')=='1') echo ' selected="selected"';
-		echo '>Original</option>';
+		echo '>'.__('Original', 'lightbox-photoswipe').'</option>';
 		echo '<option value="2"';
 		if(get_option('lightbox_photoswipe_skin')=='2') echo ' selected="selected"';
-		echo '>Original solid</option>';
+		echo '>'.__('Original solid', 'lightbox-photoswipe').'</option>';
 		echo '<option value="3"';
 		if(get_option('lightbox_photoswipe_skin')=='3') echo ' selected="selected"';
-		echo '>New</option>';
+		echo '>'.__('New', 'lightbox-photoswipe').'</option>';
 		echo '<option value="4"';
 		if(get_option('lightbox_photoswipe_skin')=='4') echo ' selected="selected"';
-		echo '>New solid</option>';
+		echo '>'.__('New solid', 'lightbox-photoswipe').'</option>';
 		echo '</select></label>';
 		echo '</td></tr>';
 		echo '	</table>';
