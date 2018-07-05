@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.60
+Version: 1.61
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  * @package lightbox-photoswipe
  */
 class LightboxPhotoSwipe {
-	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.60';
+	const LIGHTBOX_PHOTOSWIPE_VERSION = '1.61';
 	var $disabled_post_ids;
 	var $share_facebook;
 	var $share_pinterest;
@@ -134,7 +134,7 @@ class LightboxPhotoSwipe {
 	function footer() {
 		if(!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) return;
 		
-		echo '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+		$footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="pswp__bg"></div>
 	<div class="pswp__scroll-wrap">
 		<div class="pswp__container">
@@ -169,6 +169,8 @@ class LightboxPhotoSwipe {
 		</div>
 	</div>
 </div>';
+		$footer = apply_filters( 'lbwps_markup', $footer );
+		echo $footer;
 	}
 
 	/**

@@ -53,6 +53,24 @@ function my_lbwps_enabled($id, $enabled)
 add_filter( 'lbwps_enabled', 'my_lbwps_enabled', 10, 2 );
 `
 
+= How to modify the PhotoSwipe markup =
+
+If you want to modify the existing PhotoSwipe markup, you can use the filter `lbwps_markup`. This filter gets one parameter with the existing markup and must return the modified markup to be used.
+
+A "quick & dirty" example to add additional stuff in the header with the controls (CSS should never be inline - this is just to get a working example):
+
+`function my_lbwps_markup($markup)
+{
+	// Add some additional elements
+	$markup = str_replace(
+		'<div class="pswp__top-bar">',
+		'<div class="pswp__top-bar"><div style="position:absolute; width:100%; text-align:center; line-height:44px; font-size:13px; color:#fff; opacity: 0.75;">Our content</div>',
+		$markup );
+	return $markup;
+}
+
+add_filter( 'lbwps_markup', 'my_lbwps_markup', 10, 1 );`
+
 = Licensing =
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
@@ -63,6 +81,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 1.61 =
+
+* Added filter to modify the PhotoSwipe markup, if needed.
 
 = 1.60 =
 
