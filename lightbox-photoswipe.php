@@ -158,9 +158,9 @@ class LightboxPhotoSwipe {
 				</div>
 			</div>
 			<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip">
+				<div class="pswp__share-tooltip">
 				</div> 
-            </div>
+			</div>
 			<button class="pswp__button pswp__button--arrow--left" title="'.__('Previous (arrow left)', 'lightbox-photoswipe').'"></button>
 			<button class="pswp__button pswp__button--arrow--right" title="'.__('Next (arrow right)', 'lightbox-photoswipe').'"></button>
 			<div class="pswp__caption">
