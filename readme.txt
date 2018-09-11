@@ -82,6 +82,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.62 =
+
+* Fixed missing captions in lightbox for "Cleaner Gallery".
+
 = 1.61 =
 
 * Added filter to modify the PhotoSwipe markup, if needed.
