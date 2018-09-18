@@ -79,7 +79,7 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2018-09-19.
 
 2) There are four skins, which you can choose from. Every skin is based on the default UI with some modifications. "New" contains a modified "share" symbol while "solid" in the name indicates, that all controls have a solid background instead of a slight transparency.
 
-3) When dragging he picture to the top, there is no additional fade out animation when closing the picture.
+3) When dragging the picture to the top, there is no additional fade out animation when closing the picture.
 
 = Licensing =
 
