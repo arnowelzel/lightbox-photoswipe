@@ -26,6 +26,9 @@ jQuery(function($) {
 			} else if( $el.parent().next().is('.wp-caption-text') ) {
 				// gallery icon with caption
 				caption = $el.parent().next().text();
+			} else if( $el.parent().next().is('.gallery-caption') ) {
+				// gallery item with figure caption
+				caption = $el.parent().next().text();
 			} else {
 				caption = $el.attr('title');
 			}
