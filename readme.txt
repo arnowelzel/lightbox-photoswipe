@@ -92,6 +92,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.64 =
+
+* Refactoring for better PSR compliance
+
 = 1.63 =
 
 * Fixed missing captions in lightbox for "Cleaner Gallery".
