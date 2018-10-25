@@ -42,6 +42,8 @@ class LightboxPhotoSwipe
         $this->close_on_drag = get_option('lightbox_photoswipe_close_on_drag');
         $this->history = get_option('lightbox_photoswipe_history');
         $this->show_counter = get_option('lightbox_photoswipe_show_counter');
+		$this->show_zoom = get_option('lightbox_photoswipe_show_zoom');
+		$this->spacing = get_option('lightbox_photoswipe_spacing');
         $this->skin = get_option('lightbox_photoswipe_skin');
         
         if(!is_admin()) {
@@ -97,6 +99,9 @@ class LightboxPhotoSwipe
         $translation_array['close_on_drag'] = ($this->close_on_drag != '1')?'1':'0';
         $translation_array['history'] = ($this->history == '1')?'1':'0';
         $translation_array['show_counter'] = ($this->show_counter == '1')?'1':'0';
+        $translation_array['show_zoom'] = ($this->show_zoom == '1')?'1':'0';
+		$translation_array['show_caption'] = ($this->show_caption == '1')?'1':'0';
+		$translation_array['spacing'] = intval($this->spacing);
         wp_localize_script('photoswipe', 'lightbox_photoswipe', $translation_array);
         
         wp_enqueue_style(
@@ -305,7 +310,10 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_drag');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_history');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_counter');
+		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_zoom');
+		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_caption');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_skin');
+		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_spacing');
     }
 
     /**
@@ -336,23 +344,35 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_close_on_scroll"><input id="lightbox_photoswipe_close_on_scroll" type="checkbox" name="lightbox_photoswipe_close_on_scroll" value="1"'; if(get_option('lightbox_photoswipe_close_on_scroll')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close when scrolling in desktop view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_drag"><input id="lightbox_photoswipe_close_on_drag" type="checkbox" name="lightbox_photoswipe_close_on_drag" value="1"'; if(get_option('lightbox_photoswipe_close_on_drag')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close with vertical drag in mobile view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_history"><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"'; if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Activate browser history', 'lightbox-photoswipe').'</label><br />
-            <label for="lightbox_photoswipe_show_counter"><input id="lightbox_photoswipe_show_counter" type="checkbox" name="lightbox_photoswipe_show_counter" value="1"'; if(get_option('lightbox_photoswipe_show_counter')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show picture counter', 'lightbox-photoswipe').'</label>
-            </td></tr>
-            <tr>
-            <th scope="row">'.__('Skin', 'lightbox-photoswipe').'</th>
+            <label for="lightbox_photoswipe_show_counter"><input id="lightbox_photoswipe_show_counter" type="checkbox" name="lightbox_photoswipe_show_counter" value="1"'; if(get_option('lightbox_photoswipe_show_counter')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show picture counter', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_show_zoom"><input id="lightbox_photoswipe_show_zoom" type="checkbox" name="lightbox_photoswipe_show_zoom" value="1"'; if(get_option('lightbox_photoswipe_show_zoom')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show zoom button if available', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_show_caption"><input id="lightbox_photoswipe_show_caption" type="checkbox" name="lightbox_photoswipe_show_caption" value="1"'; if(get_option('lightbox_photoswipe_show_caption')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show caption if available', 'lightbox-photoswipe').'</label>
+            </td></tr>';
+		echo '<th scope="row">'.__('Spacing between pictures', 'lightbox-photoswipe').'</th>';
+		echo '<td><label for="lightbox_photoswipe_spacing"><select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">';
+		for ($spacing = 0; $spacing < 13; $spacing++) {
+			echo '<option value="'.$spacing.'"';
+			if (get_option('lightbox_photoswipe_spacing')==$spacing) echo ' selected="selected"';
+			echo '>'.$spacing.'%';
+			if ($spacing == 12) echo ' ('.__('Default', 'lightbox-photoswipe').')';
+			echo '</option>';
+		}
+        echo '</select></label>';
+        echo '</td></tr>';
+		echo '<tr><th scope="row">'.__('Skin', 'lightbox-photoswipe').'</th>
             <td><label for="lightbox_photoswipe_skin"><select id="lightbox_photoswipe_skin" name="lightbox_photoswipe_skin">';
         echo '<option value="1"';
         if (get_option('lightbox_photoswipe_skin')=='1') echo ' selected="selected"';
         echo '>'.__('Original', 'lightbox-photoswipe').'</option>';
         echo '<option value="2"';
         if (get_option('lightbox_photoswipe_skin')=='2') echo ' selected="selected"';
-        echo '>'.__('Original solid', 'lightbox-photoswipe').'</option>';
+        echo '>'.__('Original with solid background', 'lightbox-photoswipe').'</option>';
         echo '<option value="3"';
         if (get_option('lightbox_photoswipe_skin')=='3') echo ' selected="selected"';
-        echo '>'.__('New', 'lightbox-photoswipe').'</option>';
+        echo '>'.__('New share symbol', 'lightbox-photoswipe').'</option>';
         echo '<option value="4"';
         if (get_option('lightbox_photoswipe_skin')=='4') echo ' selected="selected"';
-        echo '>'.__('New solid', 'lightbox-photoswipe').'</option>';
+        echo '>'.__('New share symbol with solid background', 'lightbox-photoswipe').'</option>';
         echo '</select></label>';
         echo '</td></tr>';
         echo '    </table>';
@@ -414,7 +434,10 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_close_on_scroll', '1');
             update_option('lightbox_photoswipe_close_on_drag', '1');
             update_option('lightbox_photoswipe_show_counter', '1');
+			update_option('lightbox_photoswipe_show_zoom', '1');
+			update_option('lightbox_photoswipe_show_caption', '1');
             update_option('lightbox_photoswipe_skin', '3');
+			update_option('lightbox_photoswipe_spacing', '12');
             restore_current_blog();
         }
     }
@@ -464,9 +487,13 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_show_counter', '1');
         } else if (intval($db_version) < 5) {
             update_option('lightbox_photoswipe_skin', '3');
-        }
+        } else if (intval($db_version) < 6) {
+            update_option('lightbox_photoswipe_show_zoom', '1');
+			update_option('lightbox_photoswipe_show_caption', '1');
+			update_option('lightbox_photoswipe_spacing', '12');
+		}
         
-        update_option('lightbox_photoswipe_db_version', 5);
+        update_option('lightbox_photoswipe_db_version', 6);
     }
 }
 

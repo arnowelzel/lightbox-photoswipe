@@ -115,6 +115,9 @@ jQuery(function($) {
 		if(lightbox_photoswipe.close_on_drag == '1') options.closeOnVerticalDrag = false;
 		if(lightbox_photoswipe.history == '1') options.history = true;else options.history = false;
 		if(lightbox_photoswipe.show_counter == '1') options.counterEl = true;else options.counterEl = false;
+		if(lightbox_photoswipe.show_zoom == '1') options.zoomEl = true;else options.zoomEl = false;
+		if(lightbox_photoswipe.show_caption == '1') options.captionEl = true;else options.captionEl = false;
+		options.spacing = lightbox_photoswipe.spacing/100;
 		
 		if(fromURL == true) {
 			options.index = parseInt(index, 10) - 1;

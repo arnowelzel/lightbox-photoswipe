@@ -3,8 +3,8 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
-Tested up to: 4.9
-Stable tag: 1.63
+Tested up to: 5.0
+Stable tag: 1.64
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,7 +94,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 1.64 =
 
+* Zoom button can be disabled
+* Captions can be disabled
+* Spacing between pictures can be adjusted
 * Refactoring for better PSR compliance
+* Fix in PhotoSwipe: images will now fade out, when closing them by dragging them vertically up or down.
 
 = 1.63 =
 
