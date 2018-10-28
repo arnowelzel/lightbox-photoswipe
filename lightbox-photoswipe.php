@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.65
+Version: 1.66
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.65';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.66';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -206,14 +206,29 @@ class LightboxPhotoSwipe
         if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https) {
             $file = str_replace($baseurl_http.'/', '', $file);
             $file = str_replace($baseurl_https.'/', '', $file);
+            
+            // Normalized URLs
+            $url_http = $baseurl_http.'/'.$file;
+            $url_https = $baseurl_https.'/'.$file;
+            
             $file = ABSPATH . $file;
             $type = wp_check_filetype($file);
             
             if (in_array($type['ext'], array('jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico')) && file_exists($file)) {
+                // Try to get the image post data based on the original URL first.
+                // If this does not work, use the alternative version with (or without) HTTPS.
                 $imgid = $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s";', $url)); 
-                $imgpost = get_post($imgid[0]);
-                $caption = $imgpost->post_excerpt;
-                        
+                if (!isset($imgid[0])) {
+                    if ($url != $url_https) $url = $url_https;
+                    else $url = $url_http;
+                    $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s";', $url));
+                }
+                if(isset($imgid[0]))  {
+                    $imgpost = get_post($imgid[0]);
+                    $caption = $imgpost->post_excerpt;
+                } else {
+                    $caption = '';
+                }
                 $imgkey = md5($file) . '-'. filemtime($file);
                 $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';
                 $entry = $wpdb->get_row("SELECT width, height FROM $table_img where imgkey='$imgkey'");
@@ -227,7 +242,7 @@ class LightboxPhotoSwipe
                     $wpdb->query($sql);
                 }
                 $attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
-                if ($caption != '') $attr .= ' data-caption="'.htmlentities($caption).'"';
+                if ($caption != '') $attr .= ' data-caption="'.nl2br(htmlspecialchars($caption)).'"';
             }
         }
 
