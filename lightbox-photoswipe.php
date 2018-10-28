@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.66
+Version: 1.67
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.66';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.67';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -207,7 +207,7 @@ class LightboxPhotoSwipe
             $file = str_replace($baseurl_http.'/', '', $file);
             $file = str_replace($baseurl_https.'/', '', $file);
             
-            // Normalized URLs
+            // Normalized URLs to retrieve the image caption
             $url_http = $baseurl_http.'/'.$file;
             $url_https = $baseurl_https.'/'.$file;
             
@@ -215,14 +215,7 @@ class LightboxPhotoSwipe
             $type = wp_check_filetype($file);
             
             if (in_array($type['ext'], array('jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico')) && file_exists($file)) {
-                // Try to get the image post data based on the original URL first.
-                // If this does not work, use the alternative version with (or without) HTTPS.
-                $imgid = $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s";', $url)); 
-                if (!isset($imgid[0])) {
-                    if ($url != $url_https) $url = $url_https;
-                    else $url = $url_http;
-                    $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s";', $url));
-                }
+                $imgid = $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s" or guid="%s";', $url_http, $url_https)); 
                 if(isset($imgid[0]))  {
                     $imgpost = get_post($imgid[0]);
                     $caption = $imgpost->post_excerpt;

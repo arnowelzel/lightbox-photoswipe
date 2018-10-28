@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 1.66
+Stable tag: 1.67
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,7 +92,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
-= 1.66 =
+= 1.67 =
 
 * Fixed missing captions if images got added using HTTPS and served via HTTP or vice versa
 * Improved handling of multilined captions
