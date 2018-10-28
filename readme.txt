@@ -12,7 +12,7 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 == Description ==
 
-This plugins is a simple integration of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
+This plugin is a simple integration of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
 More about PhotoSwipe see here: <http://photoswipe.com>
 
