@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.67
+Version: 1.68
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.67';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.68';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -28,6 +28,7 @@ class LightboxPhotoSwipe
     var $history;
     var $show_counter;
     var $skin;
+    var $enabled;
 
     /**
      * Constructor
@@ -46,6 +47,7 @@ class LightboxPhotoSwipe
         $this->show_caption = get_option('lightbox_photoswipe_show_caption');
         $this->spacing = get_option('lightbox_photoswipe_spacing');
         $this->skin = get_option('lightbox_photoswipe_skin');
+        $this->enabled = true;
         
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
@@ -65,7 +67,12 @@ class LightboxPhotoSwipe
      */
     function enqueueScripts()
     {
-        if (!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) return;
+        $id = get_the_ID();
+
+        if (!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) $this->enabled = false;
+        $this->enabled = apply_filters('lbwps_enabled', $id, $this->enabled);
+
+        if (!$this->enabled) return;
         
         wp_enqueue_script(
             'photoswipe-lib',
@@ -279,12 +286,7 @@ class LightboxPhotoSwipe
      */
     function outputFilter($content)
     {
-        $id = get_the_ID();
-        $enabled = true;
-
-        if (!is_404() && in_array($id, $this->disabled_post_ids)) $enabled = false;;
-        $enabled = apply_filters('lbwps_enabled', $id, $enabled);
-        if (!$enabled) return;
+        if (!$this->enabled) return;
 
         ob_start(array(get_class($this), 'output'));
     }

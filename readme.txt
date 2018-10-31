@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 1.67
+Stable tag: 1.68
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,15 +42,14 @@ Example:
 
 function my_lbwps_enabled($id, $enabled)
 {
-	if( function_exists( 'is_product' ) )
-	{
-		if( is_product() ) return false;
-	}
+    if (function_exists('is_product')) {
+        if (is_product()) return false;
+    }
 
-	return $enabled;
+    return $enabled;
 }
 
-add_filter( 'lbwps_enabled', 'my_lbwps_enabled', 10, 2 );
+add_filter('lbwps_enabled', 'my_lbwps_enabled', 10, 2);
 `
 
 = How to modify the PhotoSwipe markup =
@@ -61,15 +60,16 @@ A "quick & dirty" example to add additional stuff in the header with the control
 
 `function my_lbwps_markup($markup)
 {
-	// Add some additional elements
-	$markup = str_replace(
-		'<div class="pswp__top-bar">',
-		'<div class="pswp__top-bar"><div style="position:absolute; width:100%; text-align:center; line-height:44px; font-size:13px; color:#fff; opacity: 0.75;">Our content</div>',
-		$markup );
-	return $markup;
+    // Add some additional elements
+    $markup = str_replace(
+        '<div class="pswp__top-bar">',
+        '<div class="pswp__top-bar"><div style="position:absolute; width:100%; text-align:center; line-height:44px; font-size:13px; color:#fff; opacity: 0.75;">Our content</div>',
+        $markup
+	);
+    return $markup;
 }
 
-add_filter( 'lbwps_markup', 'my_lbwps_markup', 10, 1 );`
+add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
 = Local changes in PhotoSwipe =
 
@@ -91,6 +91,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 1.68 =
+
+* Fixed supressing of script output if the plugin is disabled by a setting or the `lbwps_enabled` filter.
 
 = 1.67 =
 
