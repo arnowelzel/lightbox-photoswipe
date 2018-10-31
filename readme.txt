@@ -92,6 +92,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.69 =
+
+* Fixed supressing of lightbox UI if the plugin is disabled by a setting or the `lbwps_enabled` filter.
+
 = 1.68 =
 
 * Fixed supressing of script output if the plugin is disabled by a setting or the `lbwps_enabled` filter.
