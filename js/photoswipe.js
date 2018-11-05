@@ -14,16 +14,38 @@ jQuery(function($) {
 	var parseThumbnailElements = function(el) {
 		var elements = $('body').find('a[data-width]').has('img'),
 			galleryItems = [],
-            index;
-        
+			index;
+
 		elements.each(function(i) {
 			var $el = $(this);
+
+			caption = $el.attr('data-caption');
+
+			if( caption == null ) {
+				describedby = $el.children().first().attr('aria-describedby');
+				if(describedby != null ) {
+					description = $('#'+describedby);
+					if( description != null) caption = description.text();
+				}
+			}
+
+			if( caption == null ) {
+				if( $el.next().is('.wp-caption-text') ) {
+					caption = $el.next().text();
+				} else if( $el.parent().next().is('.wp-caption-text') ) {
+					caption = $el.parent().next().text();
+				} else if( $el.parent().next().is('.gallery-caption') ) {
+					caption = $el.parent().next().text();
+				} else {
+					caption = $el.attr('title');
+				}
+			}
 
 			galleryItems.push({
 				src: $el.attr('href'),
 				w: $el.attr('data-width'),
 				h: $el.attr('data-height'),
-				title: $el.attr('data-caption'),
+				title: caption,
 				getThumbBoundsFn: false,
 				showHideOpacity: true,
 				el: $el
