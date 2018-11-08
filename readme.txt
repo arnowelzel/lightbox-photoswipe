@@ -96,11 +96,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 1.71 =
 
-* Getting captions from the database can be disabled.
-* Captions from the database are now texturized to have proper quotes, dashes etc..
-* Additional option to enable or disable pinch to zoom gesture.
+* Reading captions from the database can be disabled.
+* Captions from the database are now texturized to have proper curly quotes, dashes etc..
+* Additional option to enable or disable pinch to close gesture.
 * Additional option to enable or disable infinite loop.
-* Change in PhotoSwipe: disabled loop also applies to the desktop view.
+* Change in PhotoSwipe: disabling loop option now also applies to the desktop view.
 
 = 1.70 =
 
