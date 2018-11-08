@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-27 19:30+0000\n"
-"PO-Revision-Date: 2018-10-27 19:31+0000\n"
+"POT-Creation-Date: 2018-11-08 11:59+0000\n"
+"PO-Revision-Date: 2018-11-08 11:59+0000\n"
 "Last-Translator: Arno Welzel <privat@arnowelzel.local>\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -13,58 +13,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: lightbox-photoswipe.php:90 lightbox-photoswipe.php:342
+#: lightbox-photoswipe.php:103 lightbox-photoswipe.php:368
 msgid "Share on Facebook"
 msgstr "Auf Facebook teilen"
 
-#: lightbox-photoswipe.php:91 lightbox-photoswipe.php:343
+#: lightbox-photoswipe.php:104 lightbox-photoswipe.php:369
 msgid "Tweet"
 msgstr "Tweet"
 
-#: lightbox-photoswipe.php:92 lightbox-photoswipe.php:344
+#: lightbox-photoswipe.php:105 lightbox-photoswipe.php:370
 msgid "Pin it"
 msgstr "Auf Pinterest merken"
 
-#: lightbox-photoswipe.php:93 lightbox-photoswipe.php:345
+#: lightbox-photoswipe.php:106 lightbox-photoswipe.php:371
 msgid "Download image"
 msgstr "Herunterladen"
 
-#: lightbox-photoswipe.php:159
+#: lightbox-photoswipe.php:175
 msgid "Close (Esc)"
 msgstr "Schließen (Esc)"
 
-#: lightbox-photoswipe.php:160
+#: lightbox-photoswipe.php:176
 msgid "Share"
 msgstr "Teilen"
 
-#: lightbox-photoswipe.php:161
+#: lightbox-photoswipe.php:177
 msgid "Toggle fullscreen"
 msgstr "Vollbildanzeige umschalten"
 
-#: lightbox-photoswipe.php:162
+#: lightbox-photoswipe.php:178
 msgid "Zoom in/out"
 msgstr "Vergrößern/Verkleinern"
 
-#: lightbox-photoswipe.php:175
+#: lightbox-photoswipe.php:191
 msgid "Previous (arrow left)"
 msgstr "Vorheriges (Cursor links)"
 
-#: lightbox-photoswipe.php:176
+#: lightbox-photoswipe.php:192
 msgid "Next (arrow right)"
 msgstr "Nächstes (Cursor rechts)"
 
 #. Name of the plugin
 #. Description of the plugin
-#: lightbox-photoswipe.php:292 lightbox-photoswipe.php:293
-#: lightbox-photoswipe.php:332
+#: lightbox-photoswipe.php:315 lightbox-photoswipe.php:316
+#: lightbox-photoswipe.php:358
 msgid "Lightbox with PhotoSwipe"
 msgstr "Lightbox mit PhotoSwipe"
 
-#: lightbox-photoswipe.php:336
+#: lightbox-photoswipe.php:362
 msgid "Excluded pages/posts"
 msgstr "Ausgeschlossene Seiten/Beiträge"
 
-#: lightbox-photoswipe.php:337
+#: lightbox-photoswipe.php:363
 msgid ""
 "Enter a comma separated list with the IDs of the pages/posts where the "
 "lightbox should not be used."
@@ -72,67 +72,83 @@ msgstr ""
 "Eine mit Komma getrennte Liste mit den IDs der Seiten/Beiträge, auf denen "
 "die Lightbox nicht verwendet werden soll."
 
-#: lightbox-photoswipe.php:340
+#: lightbox-photoswipe.php:366
 msgid "Visible sharing options"
 msgstr "Sichtbare Weitergabe-Optionen"
 
-#: lightbox-photoswipe.php:348
+#: lightbox-photoswipe.php:374
 msgid "Other options"
 msgstr "Weitere Optionen"
 
-#: lightbox-photoswipe.php:350
+#: lightbox-photoswipe.php:376
+msgid ""
+"Get the image captions from the database (this may cause delays on slower "
+"servers)"
+msgstr ""
+"Bildunterschriften aus der Datenbank lesen (dies kann auf langsameren "
+"Servern zu Verzögerungen führen)"
+
+#: lightbox-photoswipe.php:377
 msgid "Close when scrolling in desktop view"
 msgstr "Schließen beim Scrollen in der Desktop-Ansicht"
 
-#: lightbox-photoswipe.php:351
+#: lightbox-photoswipe.php:378
 msgid "Close with vertical drag in mobile view"
-msgstr "Schließen mit vertikalem Ziehen in der mobilen Ansicht"
+msgstr "Schließen mit vertikalem ziehen in der mobilen Ansicht"
 
-#: lightbox-photoswipe.php:352
+#: lightbox-photoswipe.php:379
 msgid "Activate browser history"
 msgstr "Browserverlauf aktivieren"
 
-#: lightbox-photoswipe.php:353
+#: lightbox-photoswipe.php:380
 msgid "Show picture counter"
 msgstr "Bildzähler anzeigen"
 
-#: lightbox-photoswipe.php:354
+#: lightbox-photoswipe.php:381
 msgid "Show zoom button if available"
 msgstr "Zoom-Knopf anzeigen, wenn verfügbar"
 
-#: lightbox-photoswipe.php:355
+#: lightbox-photoswipe.php:382
 msgid "Show caption if available"
 msgstr "Bildunterschrift anzeigen, wenn verfügbar"
 
-#: lightbox-photoswipe.php:357
+#: lightbox-photoswipe.php:383
+msgid "Allow infinite loop"
+msgstr "Endlosschleife zulassen"
+
+#: lightbox-photoswipe.php:384
+msgid "Enable pinch to close gesture"
+msgstr "\"Pinch to close\" aktivieren"
+
+#: lightbox-photoswipe.php:386
 msgid "Spacing between pictures"
 msgstr "Abstand zwischen den Bildern"
 
-#: lightbox-photoswipe.php:363
+#: lightbox-photoswipe.php:392
 msgid "Default"
 msgstr "Standard"
 
-#: lightbox-photoswipe.php:366
+#: lightbox-photoswipe.php:395
 msgid "Space between pictures relative to screenwidth."
 msgstr "Abstand zwischen den Bildern relativ zur Bildschirmbreite."
 
-#: lightbox-photoswipe.php:368
+#: lightbox-photoswipe.php:397
 msgid "Skin"
 msgstr "Darstellung"
 
-#: lightbox-photoswipe.php:372
+#: lightbox-photoswipe.php:401
 msgid "Original"
 msgstr "Original"
 
-#: lightbox-photoswipe.php:375
+#: lightbox-photoswipe.php:404
 msgid "Original with solid background"
 msgstr "Original mit festem Hintergrund"
 
-#: lightbox-photoswipe.php:378
+#: lightbox-photoswipe.php:407
 msgid "New share symbol"
 msgstr "Neues Teilen-Symbol"
 
-#: lightbox-photoswipe.php:381
+#: lightbox-photoswipe.php:410
 msgid "New share symbol with solid background"
 msgstr "Neues Teilen-Symbol mit festem Hintergrund"
 

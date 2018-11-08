@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 1.70
+Stable tag: 1.71
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,13 +73,15 @@ add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
 = Local changes in PhotoSwipe =
 
-The following changes are the differences to PhotoSwipe 4.0 as of 2018-09-19.
+The following changes are the differences to PhotoSwipe 4.0 as of 2018-11-08:
 
 1) The default UI is based on a CSS file and a number of graphics in different formats. This CSS file got modified to provide a fix for WordPress themes which use elements with a quite high Z index which hide the controls of PhotoSwipe. By setting the Z index of the affected controls to the highest possible value, all controls stay visible in front.
 
 2) There are four skins, which you can choose from. Every skin is based on the default UI with some modifications. "New" contains a modified "share" symbol while "solid" in the name indicates, that all controls have a solid background instead of a slight transparency.
 
 3) When dragging the picture to the top, there is no additional fade out animation when closing the picture.
+
+4) When looping is disabled, this also applies to the desktop view.
 
 = Licensing =
 
@@ -92,9 +94,17 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.71 =
+
+* Getting captions from the database can be disabled.
+* Captions from the database are now texturized to have proper quotes, dashes etc..
+* Additional option to enable or disable pinch to zoom gesture.
+* Additional option to enable or disable infinite loop.
+* Change in PhotoSwipe: disabled loop also applies to the desktop view.
+
 = 1.70 =
 
-* Using client side captions from the gallery, if image meta data can not be loaded from the database based on the URL.
+* Using client side captions from the gallery, if image meta data can not be loaded using its URL.
 
 = 1.69 =
 
