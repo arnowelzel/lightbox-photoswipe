@@ -47,7 +47,7 @@ class LightboxPhotoSwipe
         $this->show_counter = get_option('lightbox_photoswipe_show_counter');
         $this->show_zoom = get_option('lightbox_photoswipe_show_zoom');
         $this->show_caption = get_option('lightbox_photoswipe_show_caption');
-        $this->loop = get_option('lightbox_loop');
+        $this->loop = get_option('lightbox_photoswipe_loop');
         $this->pinchtoclose = get_option('lightbox_photoswipe_pinchtoclose');
         $this->spacing = get_option('lightbox_photoswipe_spacing');
         $this->skin = get_option('lightbox_photoswipe_skin');
