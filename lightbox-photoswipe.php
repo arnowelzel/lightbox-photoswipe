@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.74
+Version: 1.80
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.74';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.80';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -64,6 +64,9 @@ class LightboxPhotoSwipe
         add_filter('wpmu_drop_tables', array($this, 'onDeleteBlog'));
         add_action('plugins_loaded', array($this, 'init'));
         add_action('admin_menu', array($this, 'adminMenu'));
+
+        register_activation_hook(__FILE__, array(get_class($this), 'onActivate'));
+        register_deactivation_hook(__FILE__, array(get_class($this), 'onDeactivate'));
     }
     
     /**
@@ -218,19 +221,24 @@ class LightboxPhotoSwipe
         
         // Workaround for pictures served by Jetpack Photon
         $file = preg_replace('/(i[0-2]\.wp.com\/)/s', '', $url);
-        
-        if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https) {
-            $file = str_replace($baseurl_http.'/', '', $file);
-            $file = str_replace($baseurl_https.'/', '', $file);
+
+        $type = wp_check_filetype($file);
+        $caption = '';
+
+        // Only work on known image formats
+        if (in_array($type['ext'], array('jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico'))) {
             
-            // Normalized URLs to retrieve the image caption
-            $url_http = $baseurl_http.'/'.$file;
-            $url_https = $baseurl_https.'/'.$file;
+            // If image is served by the website itself, try to get caption for local file
+            if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https) {
+                $file = str_replace($baseurl_http.'/', '', $file);
+                $file = str_replace($baseurl_https.'/', '', $file);
             
-            $file = ABSPATH . $file;
-            $type = wp_check_filetype($file);
+                // Normalized URLs to retrieve the image caption
+                $url_http = $baseurl_http.'/'.$file;
+                $url_https = $baseurl_https.'/'.$file;
             
-            if (in_array($type['ext'], array('jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico')) && file_exists($file)) {
+                $file = ABSPATH . $file;
+           
                 if ('1' == $this->usepostdata && '1' == $this->show_caption) {
                     $imgid = $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s" or guid="%s";', $url_http, $url_https)); 
                     if (isset($imgid[0])) {
@@ -239,23 +247,30 @@ class LightboxPhotoSwipe
                     } else {
                         $caption = '';
                     }
-                } else {
-                    $caption = '';
                 }
-                $imgkey = md5($file) . '-'. filemtime($file);
-                $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';
-                $entry = $wpdb->get_row("SELECT width, height FROM $table_img where imgkey='$imgkey'");
-                if (null != $entry) {
-                    $imagesize[0] = $entry->width;
-                    $imagesize[1] = $entry->height;
-                } else {
-                    $imagesize = getimagesize($file);
-                    $created = strftime('%Y-%m-%d %H:%M:%S');
-                    $sql = "INSERT INTO $table_img (imgkey, created, width, height) VALUES (\"$imgkey\", \"$created\", $imagesize[0], $imagesize[1])";
-                    $wpdb->query($sql);
-                }
-                $attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
-                if ($caption != '') $attr .= ' data-caption="'.nl2br(htmlspecialchars(wptexturize($caption))).'"';
+            }
+            
+            $imgdate = @filemtime($file);
+            if (false == $imgdate) {
+                $imgdate = 0;
+            }
+            $imgkey = md5($file) . '-'. $imgdate;
+            $imagesize[0] = 0;
+            $imagesize[1] = 0;
+            $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';
+            $entry = $wpdb->get_row("SELECT width, height FROM $table_img where imgkey='$imgkey'");
+            if (null != $entry) {
+                $imagesize[0] = $entry->width;
+                $imagesize[1] = $entry->height;
+            } else {
+                $imagesize = @getimagesize($file);
+                $created = strftime('%Y-%m-%d %H:%M:%S');
+                $sql = "INSERT INTO $table_img (imgkey, created, width, height) VALUES (\"$imgkey\", \"$created\", $imagesize[0], $imagesize[1])";
+                $wpdb->query($sql);
+            }
+            $attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
+            if ($caption != '') {
+                $attr .= ' data-caption="'.nl2br(htmlspecialchars(wptexturize($caption))).'"';
             }
         }
 
@@ -498,6 +513,41 @@ class LightboxPhotoSwipe
     }
 
     /**
+     * Hook for plugin activation
+     *
+     * @return void
+     */
+    function onActivate() {
+        if (!wp_next_scheduled ('lbwps_cleanup')) {
+            wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
+        }
+}
+
+    /**
+     * Hook for plugin deactivation
+     *
+     * @return void
+     */
+    function onDeactivate() {
+        wp_clear_scheduled_hook('lbwps_cleanup');
+    }        
+
+    /**
+     * Scheduled job for database cleanup
+     * This will remove cached image data which is older than 24 hours
+     *
+     * @return void
+     */
+    function cleanupDatabase() {
+        global $wpdb;
+
+        $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';
+        $date = strftime('%Y-%m-%d %H:%M:%S', time()-86400);
+        $sql = "DELETE FROM $table_img where created<(\"$date\")";
+        $wpdb->query($sql);
+    }            
+    
+    /**
      * Plugin initialization
      * 
      * @return void
@@ -534,9 +584,12 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_loop', '1');
             update_option('lightbox_photoswipe_pinchtoclose', '1');
             update_option('lightbox_photoswipe_usepostdata', '1');
+        } else if (intval($db_version) < 8) {
+            $this->onActivate();
         }
         
-        update_option('lightbox_photoswipe_db_version', 7);
+        add_action('lbwps_cleanup', array(get_class($this), 'cleanupDatabase'));
+        update_option('lightbox_photoswipe_db_version', 8);
     }
 }
 
