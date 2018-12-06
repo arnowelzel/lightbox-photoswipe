@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.80
+Version: 1.81
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.80';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.81';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -268,18 +268,18 @@ class LightboxPhotoSwipe
                 $sql = "INSERT INTO $table_img (imgkey, created, width, height) VALUES (\"$imgkey\", \"$created\", $imagesize[0], $imagesize[1])";
                 $wpdb->query($sql);
             }
-            $attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
-            if ($caption != '') {
-                $attr .= ' data-caption="'.nl2br(htmlspecialchars(wptexturize($caption))).'"';
+            $attr = '';
+            if ($imagesize[0]!=0 && $imagesize[1]!=0) {
+                $attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
+            
+                if ($caption != '') {
+                    $attr .= ' data-caption="'.nl2br(htmlspecialchars(wptexturize($caption))).'"';
+                }
             }
         }
 
-        if (count($matches) == 6) {
-            $result = $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
-        } else {
-            $result = $matches[1].$matches[2].$matches[3].$attr.$matches[4];
-        }
-        
+        $result = $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
+
         return $result;
     }
 
@@ -293,7 +293,7 @@ class LightboxPhotoSwipe
     function output($content)
     {
         $content = preg_replace_callback(
-            '/(<a.[^>]*href=["\'])(.[^"]*?)(["\'])([^>]*)(>\s*<img )/s',
+            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>.|\s*?<img )/U',
             array(get_class($this), 'outputCallback'),
             $content
         );
@@ -521,7 +521,7 @@ class LightboxPhotoSwipe
         if (!wp_next_scheduled ('lbwps_cleanup')) {
             wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
         }
-}
+    }
 
     /**
      * Hook for plugin deactivation
