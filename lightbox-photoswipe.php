@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.81';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.82';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
