@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.81
+Version: 1.82
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -293,7 +293,7 @@ class LightboxPhotoSwipe
     function output($content)
     {
         $content = preg_replace_callback(
-            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>.|\s*?<img )/U',
+            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
             array(get_class($this), 'outputCallback'),
             $content
         );
@@ -517,8 +517,9 @@ class LightboxPhotoSwipe
      *
      * @return void
      */
-    function onActivate() {
-        if (!wp_next_scheduled ('lbwps_cleanup')) {
+    function onActivate()
+    {
+        if (!wp_next_scheduled('lbwps_cleanup')) {
             wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
         }
     }
@@ -528,7 +529,8 @@ class LightboxPhotoSwipe
      *
      * @return void
      */
-    function onDeactivate() {
+    function onDeactivate()
+    {
         wp_clear_scheduled_hook('lbwps_cleanup');
     }        
 
@@ -538,7 +540,8 @@ class LightboxPhotoSwipe
      *
      * @return void
      */
-    function cleanupDatabase() {
+    function cleanupDatabase()
+    {
         global $wpdb;
 
         $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';

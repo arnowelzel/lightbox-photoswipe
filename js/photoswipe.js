@@ -2,7 +2,7 @@ jQuery(function($) {
     var PhotoSwipe = window.PhotoSwipe,
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
-    $('body').on('click', 'a[data-width]', function(e) {
+    $('body').on('click', 'a[data-width]:has(img)', function(e) {
         if( !PhotoSwipe || !PhotoSwipeUI_Default ) {
             return;
         }
@@ -12,7 +12,7 @@ jQuery(function($) {
     });
 
     var parseThumbnailElements = function(el) {
-        var elements = $('body').find('a[data-width]').has('img'),
+        var elements = $('body').find('a[data-width]:has(img)'),
             galleryItems = [],
             index;
 
