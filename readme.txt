@@ -14,7 +14,7 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 This plugin is a simple integration of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
-More about PhotoSwipe see here: <http://photoswipe.com>
+More about PhotoSwipe see here: http://photoswipe.com
 
 == Installation ==
 
@@ -71,6 +71,10 @@ A "quick & dirty" example to add additional stuff in the header with the control
 
 add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
+= Why is there not "zoom animation" when opening the lightbox? =
+
+PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a black background where the final image gets loaded seems to be the better solution. Also see http://photoswipe.com/documentation/faq.html about this topic.
+
 = Local changes in PhotoSwipe =
 
 The following changes are the differences to PhotoSwipe 4.0 as of 2018-11-08:
@@ -82,6 +86,8 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2018-11-08:
 3) When dragging the picture to the top, there is no additional fade out animation when closing the picture.
 
 4) When looping is disabled, this also applies to the desktop view.
+
+5) The grey placeholder for images when opening the lightbox is not visible (this was accomplished by adding `display: none;` for the placeholder).
 
 = Licensing =
 
