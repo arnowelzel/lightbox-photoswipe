@@ -153,7 +153,8 @@
 	large image loads on top of it
 */
 .pswp__img--placeholder--blank {
-  background: #222; }
+  background: #222;
+  display: none; }
 
 .pswp--ie .pswp__img {
   width: 100% !important;
