@@ -123,6 +123,7 @@ jQuery(function($) {
         if(lbwps_options.close_on_drag == '1') options.closeOnVerticalDrag = false;
         if(lbwps_options.history == '1') options.history = true;else options.history = false;
         if(lbwps_options.show_counter == '1') options.counterEl = true;else options.counterEl = false;
+        if(lbwps_options.show_fullscreen == '1') options.fullscreenEl = true;else options.fullscreenEl = false;
         if(lbwps_options.show_zoom == '1') options.zoomEl = true;else options.zoomEl = false;
         if(lbwps_options.show_caption == '1') options.captionEl = true;else options.captionEl = false;
         if(lbwps_options.loop == '1') options.loop = true;else options.loop = false;

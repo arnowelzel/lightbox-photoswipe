@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.83
+Version: 1.84
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.83';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.84';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -45,6 +45,7 @@ class LightboxPhotoSwipe
         $this->close_on_drag = get_option('lightbox_photoswipe_close_on_drag');
         $this->history = get_option('lightbox_photoswipe_history');
         $this->show_counter = get_option('lightbox_photoswipe_show_counter');
+        $this->show_fullscreen = get_option('lightbox_photoswipe_show_fullscreen');
         $this->show_zoom = get_option('lightbox_photoswipe_show_zoom');
         $this->show_caption = get_option('lightbox_photoswipe_show_caption');
         $this->loop = get_option('lightbox_photoswipe_loop');
@@ -116,6 +117,7 @@ class LightboxPhotoSwipe
         $translation_array['close_on_drag'] = ($this->close_on_drag != '1')?'1':'0';
         $translation_array['history'] = ($this->history == '1')?'1':'0';
         $translation_array['show_counter'] = ($this->show_counter == '1')?'1':'0';
+        $translation_array['show_fullscreen'] = ($this->show_fullscreen == '1')?'1':'0';
         $translation_array['show_zoom'] = ($this->show_zoom == '1')?'1':'0';
         $translation_array['show_caption'] = ($this->show_caption == '1')?'1':'0';
         $translation_array['loop'] = ($this->loop == '1')?'1':'0';
@@ -349,6 +351,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_drag');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_history');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_counter');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_fullscreen');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_zoom');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_caption');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_loop');
@@ -388,6 +391,7 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_close_on_drag"><input id="lightbox_photoswipe_close_on_drag" type="checkbox" name="lightbox_photoswipe_close_on_drag" value="1"'; if(get_option('lightbox_photoswipe_close_on_drag')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close with vertical drag in mobile view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_history"><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"'; if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Activate browser history', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_show_counter"><input id="lightbox_photoswipe_show_counter" type="checkbox" name="lightbox_photoswipe_show_counter" value="1"'; if(get_option('lightbox_photoswipe_show_counter')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show picture counter', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_show_fullscreen"><input id="lightbox_photoswipe_show_fullscreen" type="checkbox" name="lightbox_photoswipe_show_fullscreen" value="1"'; if(get_option('lightbox_photoswipe_show_fullscreen')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show fullscreen button', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_show_zoom"><input id="lightbox_photoswipe_show_zoom" type="checkbox" name="lightbox_photoswipe_show_zoom" value="1"'; if(get_option('lightbox_photoswipe_show_zoom')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show zoom button if available', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_show_caption"><input id="lightbox_photoswipe_show_caption" type="checkbox" name="lightbox_photoswipe_show_caption" value="1"'; if(get_option('lightbox_photoswipe_show_caption')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show caption if available', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_loop"><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"'; if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Allow infinite loop', 'lightbox-photoswipe').'</label><br />
@@ -486,6 +490,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_close_on_scroll', '1');
             update_option('lightbox_photoswipe_close_on_drag', '1');
             update_option('lightbox_photoswipe_show_counter', '1');
+            update_option('lightbox_photoswipe_show_fullscreen', '1');
             update_option('lightbox_photoswipe_show_zoom', '1');
             update_option('lightbox_photoswipe_show_caption', '1');
             update_option('lightbox_photoswipe_loop', '1');
@@ -588,11 +593,13 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_pinchtoclose', '1');
             update_option('lightbox_photoswipe_usepostdata', '1');
         } else if (intval($db_version) < 8) {
+            update_option('lightbox_photoswipe_show_fullscreen', '1');
+        } else if (intval($db_version) < 9) {
             $this->onActivate();
         }
         
         add_action('lbwps_cleanup', array(get_class($this), 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 8);
+        update_option('lightbox_photoswipe_db_version', 9);
     }
 }
 
