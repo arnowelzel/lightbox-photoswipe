@@ -102,7 +102,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 1.84 =
 
-* Added option to enable or disable the fullscreen-button in PhotoSwipe
+* Added option to enable or disable the fullscreen button in PhotoSwipe (thanks to Thomas Biering contributing this feature).
 
 = 1.83 =
 
