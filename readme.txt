@@ -100,6 +100,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 1.84 =
+
+* Added option to enable or disable the fullscreen-button in PhotoSwipe
+
 = 1.83 =
 
 * Removed visible grey placeholder when opening the lightbox.
