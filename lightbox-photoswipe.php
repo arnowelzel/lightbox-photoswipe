@@ -86,7 +86,7 @@ class LightboxPhotoSwipe
         
         wp_enqueue_script(
             'photoswipe-lib',
-            plugin_dir_url(__FILE__) . 'lib/photoswipe.js',
+            plugin_dir_url(__FILE__) . 'lib/photoswipe.min.js',
             array(),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
@@ -99,7 +99,7 @@ class LightboxPhotoSwipe
         
         wp_enqueue_script(
             'photoswipe',
-            plugin_dir_url(__FILE__) . 'js/photoswipe.js',
+            plugin_dir_url(__FILE__) . 'js/photoswipe.min.js',
             array('photoswipe-lib', 'photoswipe-ui-default', 'jquery'),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
