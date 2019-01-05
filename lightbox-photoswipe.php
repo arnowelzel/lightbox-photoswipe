@@ -593,7 +593,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_pinchtoclose', '1');
             update_option('lightbox_photoswipe_usepostdata', '1');
         } else if (intval($db_version) < 8) {
-			$this->onActivate();
+           $this->onActivate();
         } else if (intval($db_version) < 9) {
             update_option('lightbox_photoswipe_show_fullscreen', '1');
         }
