@@ -593,9 +593,9 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_pinchtoclose', '1');
             update_option('lightbox_photoswipe_usepostdata', '1');
         } else if (intval($db_version) < 8) {
-            update_option('lightbox_photoswipe_show_fullscreen', '1');
+			$this->onActivate();
         } else if (intval($db_version) < 9) {
-            $this->onActivate();
+            update_option('lightbox_photoswipe_show_fullscreen', '1');
         }
         
         add_action('lbwps_cleanup', array(get_class($this), 'cleanupDatabase'));
