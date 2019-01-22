@@ -80,7 +80,7 @@ class LightboxPhotoSwipe
         $id = get_the_ID();
 
         if (!is_404() && in_array($id, $this->disabled_post_ids)) $this->enabled = false;
-        $this->enabled = apply_filters('lbwps_enabled', $id, $this->enabled);
+        $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
 
         if (!$this->enabled) return;
         

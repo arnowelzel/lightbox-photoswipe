@@ -31,6 +31,8 @@ Make sure that you link the image or gallery directly to the media and not the a
 
 = How to disable the plugin in certain pages/posts =
 
+Please note: the order of the parameters have changed in version 1.90.
+
 Some other plugins use PhotoSwipe as well and there may be a conflict - for example with the product pages of WooCommerce.
 
 You can either configure the pages/posts manually in the settings or you can use the filter `lbwps_enabled`. This filter gets the ID of the current page/post and if the lightbox is currently enabled (`true` or `false`). If the filter returns `true`, the lightbox will be used, if it returns `false` the lightbox will be disabled - which means, no scripts and stylesheets will be included at all on the current page/post.
@@ -40,7 +42,7 @@ Example:
 `
 // Disable Lightbox with PhotoSwipe on WooCommerce product pages
 
-function my_lbwps_enabled($id, $enabled)
+function my_lbwps_enabled($enabled, $id)
 {
     if (function_exists('is_product')) {
         if (is_product()) return false;
@@ -99,6 +101,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 1.90 =
+
+* Fixed wrong order in `lbwps_enabled` filter.
 
 = 1.84 =
 
