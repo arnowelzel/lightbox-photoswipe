@@ -42,6 +42,8 @@ jQuery(function($) {
                     caption = $el.parent().next().text();
                 } else if( $el.parent().next().is('.gallery-caption') ) {
                     caption = $el.parent().next().text();
+                } else if( $el.next().is("figcaption") ) {
+                    caption = $el.next().text();
                 } else {
                     caption = $el.attr('title');
                 }

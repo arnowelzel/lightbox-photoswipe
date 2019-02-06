@@ -102,6 +102,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= Unreleased =
+
+* Added support for reading caption from figcaption.
+
 = 1.91 =
 
 * Fixed some CSS issues with some themes which could cause the lightbox buttons not to show properly.
