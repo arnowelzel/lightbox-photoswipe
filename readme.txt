@@ -105,6 +105,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 1.92 =
 
 * Added support for reading caption from figcaption (thanks to Maciej Majewski contributing this feature).
+* Added support for captions in Gutenberg gallery blocks.
 * Fixed database upgrade behaviour for new installations to make sure all defaults and cleanup job are set properly.
 * When deleting the plugin in the backend, plugin options will now also get removed from the WordPress database.
 
