@@ -32,7 +32,12 @@ jQuery(function($) {
                 if(describedby != null ) {
                     description = $('#'+describedby);
                     if( description != null) caption = description.text();
-                }
+                } else {
+					describedby = $el.children().first().attr('figcaption');
+					if(describedby != null ) {
+						caption = $el.next().text();
+					}
+				}
             }
 
             if( caption == null ) {

@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.91';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.92';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -571,35 +571,42 @@ class LightboxPhotoSwipe
         if ($db_version == '' || intval($db_version) < 2) {
             $this->deleteTables();
             $this->createTables();
-        } else if (intval($db_version) < 3) {
+        }
+		if (intval($db_version) < 3) {
             update_option('lightbox_photoswipe_disabled_post_ids', get_option('disabled_post_ids'));
             delete_option('disabled_post_ids');
             update_option('lightbox_photoswipe_share_facebook', '1');
             update_option('lightbox_photoswipe_share_pinterest', '1');
             update_option('lightbox_photoswipe_share_twitter', '1');
             update_option('lightbox_photoswipe_share_download', '1');
-        } else if (intval($db_version) < 4) {
+        }
+		if (intval($db_version) < 4) {
             update_option('lightbox_photoswipe_close_on_scroll', '1');
             update_option('lightbox_photoswipe_close_on_drag', '1');
             update_option('lightbox_photoswipe_show_counter', '1');
-        } else if (intval($db_version) < 5) {
+        }
+		if (intval($db_version) < 5) {
             update_option('lightbox_photoswipe_skin', '3');
-        } else if (intval($db_version) < 6) {
+        }
+		if (intval($db_version) < 6) {
             update_option('lightbox_photoswipe_show_zoom', '1');
             update_option('lightbox_photoswipe_show_caption', '1');
             update_option('lightbox_photoswipe_spacing', '12');
-        } else if (intval($db_version) < 7) {
+        }
+		if (intval($db_version) < 7) {
             update_option('lightbox_photoswipe_loop', '1');
             update_option('lightbox_photoswipe_pinchtoclose', '1');
             update_option('lightbox_photoswipe_usepostdata', '1');
-        } else if (intval($db_version) < 8) {
-            $this->onActivate();
-        } else if (intval($db_version) < 9) {
+        }
+		if (intval($db_version) < 9) {
             update_option('lightbox_photoswipe_show_fullscreen', '1');
+        }
+		if (intval($db_version) < 10) {
+            $this->onActivate();
         }
         
         add_action('lbwps_cleanup', array(get_class($this), 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 9);
+        update_option('lightbox_photoswipe_db_version', 10);
     }
 }
 
