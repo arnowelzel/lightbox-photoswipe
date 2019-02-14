@@ -12,16 +12,10 @@ jQuery(function($) {
     });
 
     var parseThumbnailElements = function(el) {
-        var elements,
+        var elements = $('body').find('a[data-width]:has(img)'),
             galleryItems = [],
             index;
         
-        if (galid = el.getAttribute('data-galid')){
-            elements = $('body').find('a[data-width][data-galid='+galid+']:has(img)');
-        } else {
-            elements = $('body').find('a[data-width]:has(img)');
-        }        
-
         elements.each(function(i) {
             var $el = $(this);
 
