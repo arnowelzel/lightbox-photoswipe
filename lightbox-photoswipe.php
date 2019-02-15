@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.93
+Version: 1.94
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.93';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.94';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -78,11 +78,13 @@ class LightboxPhotoSwipe
     function enqueueScripts()
     {
         $id = get_the_ID();
-
-        if (!is_404() && in_array($id, $this->disabled_post_ids)) $this->enabled = false;
-        $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
-
-        if (!$this->enabled) return;
+		
+		if (!is_404()) {
+			if (in_array($id, $this->disabled_post_ids)) $this->enabled = false;
+			$this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
+			
+			if (!$this->enabled) return;
+		}
         
         wp_enqueue_script(
             'photoswipe-lib',
@@ -164,7 +166,9 @@ class LightboxPhotoSwipe
      */
     function footer()
     {
-        if ((!is_404() && in_array(get_the_ID(), $this->disabled_post_ids)) || !$this->enabled) return;
+		if (!is_404()) {
+			if (in_array(get_the_ID(), $this->disabled_post_ids) || !$this->enabled) return;
+		}
         
         $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
@@ -373,7 +377,7 @@ class LightboxPhotoSwipe
         // do_settings_sections( 'lightbox-photoswipe-settings-group' );
         echo '<table class="form-table"><tr>
             <th scope="row"><label for="lightbox_photoswipe_disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
-            <td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" /><p class="description">'.__('Enter a comma separated list with the IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</p></td>
+            <td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" /><p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</p></td>
             </tr>
             <tr>
             <th scope="row">'.__('Visible sharing options', 'lightbox-photoswipe').'</th>

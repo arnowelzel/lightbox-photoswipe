@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-30T22:27:39+00:00\n"
+"POT-Creation-Date: 2019-02-15 16:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,142 +14,142 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: lightbox-photoswipe.php:107 lightbox-photoswipe.php:381
+#: lightbox-photoswipe.php:109 lightbox-photoswipe.php:385
 msgid "Share on Facebook"
 msgstr ""
 
-#: lightbox-photoswipe.php:108 lightbox-photoswipe.php:382
+#: lightbox-photoswipe.php:110 lightbox-photoswipe.php:386
 msgid "Tweet"
 msgstr ""
 
-#: lightbox-photoswipe.php:109 lightbox-photoswipe.php:383
+#: lightbox-photoswipe.php:111 lightbox-photoswipe.php:387
 msgid "Pin it"
 msgstr ""
 
-#: lightbox-photoswipe.php:110 lightbox-photoswipe.php:384
+#: lightbox-photoswipe.php:112 lightbox-photoswipe.php:388
 msgid "Download image"
 msgstr ""
 
-#: lightbox-photoswipe.php:180
+#: lightbox-photoswipe.php:184
 msgid "Close (Esc)"
 msgstr ""
 
-#: lightbox-photoswipe.php:181
+#: lightbox-photoswipe.php:185
 msgid "Share"
 msgstr ""
 
-#: lightbox-photoswipe.php:182
+#: lightbox-photoswipe.php:186
 msgid "Toggle fullscreen"
 msgstr ""
 
-#: lightbox-photoswipe.php:183
+#: lightbox-photoswipe.php:187
 msgid "Zoom in/out"
 msgstr ""
 
-#: lightbox-photoswipe.php:196
+#: lightbox-photoswipe.php:200
 msgid "Previous (arrow left)"
 msgstr ""
 
-#: lightbox-photoswipe.php:197
+#: lightbox-photoswipe.php:201
 msgid "Next (arrow right)"
 msgstr ""
 
 #. Name of the plugin
 #. Description of the plugin
-#: lightbox-photoswipe.php:327 lightbox-photoswipe.php:328
-#: lightbox-photoswipe.php:371
+#: lightbox-photoswipe.php:331 lightbox-photoswipe.php:332
+#: lightbox-photoswipe.php:375
 msgid "Lightbox with PhotoSwipe"
 msgstr ""
 
-#: lightbox-photoswipe.php:375
+#: lightbox-photoswipe.php:379
 msgid "Excluded pages/posts"
 msgstr ""
 
-#: lightbox-photoswipe.php:376
+#: lightbox-photoswipe.php:380
 msgid ""
-"Enter a comma separated list with the IDs of the pages/posts where the "
-"lightbox should not be used."
+"Enter a comma separated list with the numerical IDs of the pages/posts where "
+"the lightbox should not be used."
 msgstr ""
 
-#: lightbox-photoswipe.php:379
+#: lightbox-photoswipe.php:383
 msgid "Visible sharing options"
 msgstr ""
 
-#: lightbox-photoswipe.php:387
+#: lightbox-photoswipe.php:391
 msgid "Other options"
 msgstr ""
 
-#: lightbox-photoswipe.php:389
+#: lightbox-photoswipe.php:393
 msgid ""
 "Get the image captions from the database (this may cause delays on slower "
 "servers)"
 msgstr ""
 
-#: lightbox-photoswipe.php:390
+#: lightbox-photoswipe.php:394
 msgid "Close when scrolling in desktop view"
 msgstr ""
 
-#: lightbox-photoswipe.php:391
+#: lightbox-photoswipe.php:395
 msgid "Close with vertical drag in mobile view"
 msgstr ""
 
-#: lightbox-photoswipe.php:392
+#: lightbox-photoswipe.php:396
 msgid "Activate browser history"
 msgstr ""
 
-#: lightbox-photoswipe.php:393
+#: lightbox-photoswipe.php:397
 msgid "Show picture counter"
 msgstr ""
 
-#: lightbox-photoswipe.php:394
+#: lightbox-photoswipe.php:398
 msgid "Show fullscreen button"
 msgstr ""
 
-#: lightbox-photoswipe.php:395
+#: lightbox-photoswipe.php:399
 msgid "Show zoom button if available"
 msgstr ""
 
-#: lightbox-photoswipe.php:396
+#: lightbox-photoswipe.php:400
 msgid "Show caption if available"
 msgstr ""
 
-#: lightbox-photoswipe.php:397
+#: lightbox-photoswipe.php:401
 msgid "Allow infinite loop"
 msgstr ""
 
-#: lightbox-photoswipe.php:398
+#: lightbox-photoswipe.php:402
 msgid "Enable pinch to close gesture"
 msgstr ""
 
-#: lightbox-photoswipe.php:400
+#: lightbox-photoswipe.php:404
 msgid "Spacing between pictures"
 msgstr ""
 
-#: lightbox-photoswipe.php:406
+#: lightbox-photoswipe.php:410
 msgid "Default"
 msgstr ""
 
-#: lightbox-photoswipe.php:409
+#: lightbox-photoswipe.php:413
 msgid "Space between pictures relative to screenwidth."
 msgstr ""
 
-#: lightbox-photoswipe.php:411
+#: lightbox-photoswipe.php:415
 msgid "Skin"
 msgstr ""
 
-#: lightbox-photoswipe.php:415
+#: lightbox-photoswipe.php:419
 msgid "Original"
 msgstr ""
 
-#: lightbox-photoswipe.php:418
+#: lightbox-photoswipe.php:422
 msgid "Original with solid background"
 msgstr ""
 
-#: lightbox-photoswipe.php:421
+#: lightbox-photoswipe.php:425
 msgid "New share symbol"
 msgstr ""
 
-#: lightbox-photoswipe.php:424
+#: lightbox-photoswipe.php:428
 msgid "New share symbol with solid background"
 msgstr ""
 
