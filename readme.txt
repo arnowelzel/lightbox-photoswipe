@@ -3,7 +3,7 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
-Tested up to: 5.1
+Tested up to: 5.0
 Stable tag: 1.94
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -76,6 +76,10 @@ add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 = Why is there not "zoom animation" when opening the lightbox? =
 
 PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a black background where the final image gets loaded seems to be the better solution. Also see http://photoswipe.com/documentation/faq.html about this topic.
+
+= Conflict with Advanced Gutenberg =
+
+Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. However when you use the "Advanced Gutenberg" plugin it brings its own lightbox script which can cause conflicts. To avoid any problems, you should disable the Advanced Gutenberg lightbox in the settings. Disable the option "Open galleries in lightbox" in the backend configuration of Advanced Gutenberg.
 
 = Local changes in PhotoSwipe =
 
