@@ -10,7 +10,7 @@ jQuery(function($) {
         e.preventDefault();
         openPhotoSwipe( false, this, false );
     });
-	
+    
     var parseThumbnailElements = function(link) {
         var elements = $('body').find('a[data-width]:has(img)'),
             galleryItems = [],
@@ -27,11 +27,11 @@ jQuery(function($) {
                     description = $('#'+describedby);
                     if( description != null) caption = description.text();
                 } else {
-					describedby = element.children().first().attr('figcaption');
-					if(describedby != null ) {
-						caption = element.next().text();
-					}
-				}
+                    describedby = element.children().first().attr('figcaption');
+                    if(describedby != null ) {
+                        caption = element.next().text();
+                    }
+                }
             }
 
             if( caption == null ) {
@@ -61,7 +61,7 @@ jQuery(function($) {
                 index = i;
             }
         });
-		
+        
         return [galleryItems, parseInt(index, 10)];
     };
 
