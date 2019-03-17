@@ -10,58 +10,58 @@ jQuery(function($) {
         e.preventDefault();
         openPhotoSwipe( false, this, false );
     });
-
-    var parseThumbnailElements = function(el) {
+	
+    var parseThumbnailElements = function(link) {
         var elements = $('body').find('a[data-width]:has(img)'),
             galleryItems = [],
             index;
         
         elements.each(function(i) {
-            var $el = $(this);
+            var element = $(this);
 
-            caption = $el.attr('data-caption');
+            caption = element.attr('data-caption');
 
             if( caption == null ) {
-                describedby = $el.children().first().attr('aria-describedby');
+                describedby = element.children().first().attr('aria-describedby');
                 if(describedby != null ) {
                     description = $('#'+describedby);
                     if( description != null) caption = description.text();
                 } else {
-					describedby = $el.children().first().attr('figcaption');
+					describedby = element.children().first().attr('figcaption');
 					if(describedby != null ) {
-						caption = $el.next().text();
+						caption = element.next().text();
 					}
 				}
             }
 
             if( caption == null ) {
-                if( $el.next().is('.wp-caption-text') ) {
-                    caption = $el.next().text();
-                } else if( $el.parent().next().is('.wp-caption-text') ) {
-                    caption = $el.parent().next().text();
-                } else if( $el.parent().next().is('.gallery-caption') ) {
-                    caption = $el.parent().next().text();
-                } else if( $el.next().is("figcaption") ) {
-                    caption = $el.next().text();
+                if( element.next().is('.wp-caption-text') ) {
+                    caption = element.next().text();
+                } else if( element.parent().next().is('.wp-caption-text') ) {
+                    caption = element.parent().next().text();
+                } else if( element.parent().next().is('.gallery-caption') ) {
+                    caption = element.parent().next().text();
+                } else if( element.next().is("figcaption") ) {
+                    caption = element.next().text();
                 } else {
-                    caption = $el.attr('title');
+                    caption = element.attr('title');
                 }
             }
 
             galleryItems.push({
-                src: $el.attr('href'),
-                w: $el.attr('data-width'),
-                h: $el.attr('data-height'),
+                src: element.attr('href'),
+                w: element.attr('data-width'),
+                h: element.attr('data-height'),
                 title: caption,
                 getThumbBoundsFn: false,
                 showHideOpacity: true,
-                el: $el
+                el: element
             });
-            if( el === $el.get(0) ) {
+            if( link === element.get(0) ) {
                 index = i;
             }
         });
-
+		
         return [galleryItems, parseInt(index, 10)];
     };
 
@@ -118,8 +118,8 @@ jQuery(function($) {
             lbwps_options.share_download == '1') {
             options.shareEl = true;
             options.shareButtons = [];
-            if(lbwps_options.share_facebook == '1') options.shareButtons.push( {id:'facebook', label:lbwps_options.label_facebook, url:'https://www.facebook.com/sharer/sharer.php?u={{url}}'} );
-            if(lbwps_options.share_twitter == '1') options.shareButtons.push( {id:'twitter', label:lbwps_options.label_twitter, url:'https://twitter.com/intent/tweet?text={{text}}&url={{url}}'} );
+            if(lbwps_options.share_facebook == '1') options.shareButtons.push( {id:'facebook', label:lbwps_options.label_facebook, url:'https://www.facebook.com/sharer/sharer.php?u={{image_url}}'} );
+            if(lbwps_options.share_twitter == '1') options.shareButtons.push( {id:'twitter', label:lbwps_options.label_twitter, url:'https://twitter.com/intent/tweet?text={{text}}&url={{image_url}}'} );
             if(lbwps_options.share_pinterest == '1') options.shareButtons.push( {id:'pinterest', label:lbwps_options.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'} );
             if(lbwps_options.share_download == '1') options.shareButtons.push( {id:'download', label:lbwps_options.label_download, url:'{{raw_image_url}}', download:true} );
         } else {
