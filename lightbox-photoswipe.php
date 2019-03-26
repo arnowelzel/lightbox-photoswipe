@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.95
+Version: 1.96
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.95';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.96';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -78,14 +78,14 @@ class LightboxPhotoSwipe
     function enqueueScripts()
     {
         $id = get_the_ID();
-		
-		if (!is_404()) {
-			if (in_array($id, $this->disabled_post_ids)) $this->enabled = false;
-			$this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
-			
-			if (!$this->enabled) return;
-		}
-        
+
+        if (!is_404()) {
+            if (in_array($id, $this->disabled_post_ids)) $this->enabled = false;
+            $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
+
+            if (!$this->enabled) return;
+        }
+
         wp_enqueue_script(
             'photoswipe-lib',
             plugin_dir_url(__FILE__) . 'lib/photoswipe.min.js',
@@ -98,7 +98,7 @@ class LightboxPhotoSwipe
             array('photoswipe-lib'),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
-        
+
         wp_enqueue_script(
             'photoswipe',
             plugin_dir_url(__FILE__) . 'js/photoswipe.min.js',
@@ -166,9 +166,9 @@ class LightboxPhotoSwipe
      */
     function footer()
     {
-		if (!is_404()) {
-			if (in_array(get_the_ID(), $this->disabled_post_ids) || !$this->enabled) return;
-		}
+        if (!is_404()) {
+            if (in_array(get_the_ID(), $this->disabled_post_ids) || !$this->enabled) return;
+        }
         
         $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
@@ -270,9 +270,14 @@ class LightboxPhotoSwipe
                 $imagesize[1] = $entry->height;
             } else {
                 $imagesize = @getimagesize($file);
-                $created = strftime('%Y-%m-%d %H:%M:%S');
-                $sql = "INSERT INTO $table_img (imgkey, created, width, height) VALUES (\"$imgkey\", \"$created\", $imagesize[0], $imagesize[1])";
-                $wpdb->query($sql);
+                if (is_numeric($imagesize[0]) && is_numeric($imagesize[1])) {
+                    $created = strftime('%Y-%m-%d %H:%M:%S');
+                    $sql = "INSERT INTO $table_img (imgkey, created, width, height) VALUES (\"$imgkey\", \"$created\", $imagesize[0], $imagesize[1])";
+                    $wpdb->query($sql);
+                } else {
+                    $imagesize[0] = 0;
+                    $imagesize[1] = 0;
+                }
             }
             $attr = '';
             if ($imagesize[0]!=0 && $imagesize[1]!=0) {
@@ -576,7 +581,7 @@ class LightboxPhotoSwipe
             $this->deleteTables();
             $this->createTables();
         }
-		if (intval($db_version) < 3) {
+        if (intval($db_version) < 3) {
             update_option('lightbox_photoswipe_disabled_post_ids', get_option('disabled_post_ids'));
             delete_option('disabled_post_ids');
             update_option('lightbox_photoswipe_share_facebook', '1');
@@ -584,28 +589,28 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_share_twitter', '1');
             update_option('lightbox_photoswipe_share_download', '1');
         }
-		if (intval($db_version) < 4) {
+        if (intval($db_version) < 4) {
             update_option('lightbox_photoswipe_close_on_scroll', '1');
             update_option('lightbox_photoswipe_close_on_drag', '1');
             update_option('lightbox_photoswipe_show_counter', '1');
         }
-		if (intval($db_version) < 5) {
+        if (intval($db_version) < 5) {
             update_option('lightbox_photoswipe_skin', '3');
         }
-		if (intval($db_version) < 6) {
+        if (intval($db_version) < 6) {
             update_option('lightbox_photoswipe_show_zoom', '1');
             update_option('lightbox_photoswipe_show_caption', '1');
             update_option('lightbox_photoswipe_spacing', '12');
         }
-		if (intval($db_version) < 7) {
+        if (intval($db_version) < 7) {
             update_option('lightbox_photoswipe_loop', '1');
             update_option('lightbox_photoswipe_pinchtoclose', '1');
             update_option('lightbox_photoswipe_usepostdata', '1');
         }
-		if (intval($db_version) < 9) {
+        if (intval($db_version) < 9) {
             update_option('lightbox_photoswipe_show_fullscreen', '1');
         }
-		if (intval($db_version) < 10) {
+        if (intval($db_version) < 10) {
             $this->onActivate();
         }
         
