@@ -8,7 +8,7 @@ jQuery(function($) {
         }
 
         e.preventDefault();
-        openPhotoSwipe( false, this, false );
+        openPhotoSwipe( false, this, false, false );
     });
     
     var parseThumbnailElements = function(link) {
@@ -43,6 +43,8 @@ jQuery(function($) {
                     caption = element.parent().next().text();
                 } else if( element.next().is("figcaption") ) {
                     caption = element.next().text();
+                } else if( element.parent().parent().next().is("figcaption") ) {
+                    caption = element.parent().parent().next().text();
                 } else {
                     caption = element.attr('title');
                 }
@@ -91,7 +93,7 @@ jQuery(function($) {
         return params;
     };
 
-    var openPhotoSwipe = function( element_index, element, fromURL ) {
+    var openPhotoSwipe = function( element_index, element, fromURL, returnOnClose ) {
         var pswpElement = $('.pswp').get(0),
             gallery,
             options,
@@ -110,6 +112,7 @@ jQuery(function($) {
             getThumbBoundsFn: false,
             showHideOpacity: true,
             loop: true,
+            tapToToggleControls: true,
         };
 
         if(lbwps_options.share_facebook == '1' ||
@@ -135,6 +138,7 @@ jQuery(function($) {
         if(lbwps_options.show_caption == '1') options.captionEl = true;else options.captionEl = false;
         if(lbwps_options.loop == '1') options.loop = true;else options.loop = false;
         if(lbwps_options.pinchtoclose == '1') options.pinchToClose = true;else options.pinchToClose = false;
+        if(lbwps_options.taptotoggle == '1') options.tapToToggleControls = true; else options.tapToToggleControls = false;
         options.spacing = lbwps_options.spacing/100;
 
         if(fromURL == true) {
@@ -153,11 +157,22 @@ jQuery(function($) {
                 img.src = item.src;
             }
         });
+        
+        if (returnOnClose == true) {
+            gallery.listen('destroy', function() {
+                history.back();
+            });
+        }
+        
         gallery.init();
     };
 
     var hashData = photoswipeParseHash();
     if(hashData.pid && hashData.gid) {
-        openPhotoSwipe( hashData.pid, null, true );
+        if (hashData.return == 1) {
+            openPhotoSwipe( hashData.pid, null, true, true );
+        } else {
+            openPhotoSwipe( hashData.pid, null, true, false );
+        }
     }
 });

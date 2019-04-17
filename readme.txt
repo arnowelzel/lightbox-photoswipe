@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.1
-Stable tag: 1.97
+Stable tag: 1.98
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,18 @@ More about PhotoSwipe see here: http://photoswipe.com
 All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images.
 
 Make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
+
+= Experimental feature: linking to the first image of a page or post with "return on close" =
+
+When you activate the setting for "Activate browser history" you can link directly to an image inside a page or post:
+
+`http://domain.example/example-page#gid=1&pid=1`
+
+This will load the given page/post and automatically open the first image (`pid=1`) in the lightbox. However, when closing the lightbox, you will see the page or post itself. Sometimes it is preferred to return to the previous URL when closing the lightbox. This can be done by using `return=1` as the first parameter:
+
+`http://domain.example/example-page#return=1&gid=1&pid=1`
+
+When a visitor now opens the link, closing the lightbox will try get the visitor back to the previous URL.
 
 = How to disable the plugin in certain pages/posts =
 
@@ -105,6 +117,14 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 1.98 =
+
+* Added backend option to enable or disable "tap to toggle UI controls" gesture on mobile devices.
+* Added experimental support for "return on close" (see the description how to use this).
+* Internal links without domain part (`/wp-content/...` instead of `http://domain.example/wp-content/...`) now also work.
+* Code refactoring: frontend script is now called "js/frontend.js".
+* Improved support for captions in Meow Gallery.
 
 = 1.97 =
 

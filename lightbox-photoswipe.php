@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.97
+Version: 1.98
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.97';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.98';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -50,6 +50,7 @@ class LightboxPhotoSwipe
         $this->show_caption = get_option('lightbox_photoswipe_show_caption');
         $this->loop = get_option('lightbox_photoswipe_loop');
         $this->pinchtoclose = get_option('lightbox_photoswipe_pinchtoclose');
+		$this->taptotoggle = get_option('lightbox_photoswipe_taptotoggle');
         $this->spacing = get_option('lightbox_photoswipe_spacing');
         $this->skin = get_option('lightbox_photoswipe_skin');
         $this->usepostdata = get_option('lightbox_photoswipe_usepostdata');
@@ -100,8 +101,8 @@ class LightboxPhotoSwipe
         );
 
         wp_enqueue_script(
-            'photoswipe',
-            plugin_dir_url(__FILE__) . 'js/photoswipe.min.js',
+            'photoswipe-frontend',
+            plugin_dir_url(__FILE__) . 'js/frontend.min.js',
             array('photoswipe-lib', 'photoswipe-ui-default', 'jquery'),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
@@ -124,8 +125,9 @@ class LightboxPhotoSwipe
         $translation_array['show_caption'] = ($this->show_caption == '1')?'1':'0';
         $translation_array['loop'] = ($this->loop == '1')?'1':'0';
         $translation_array['pinchtoclose'] = ($this->pinchtoclose == '1')?'1':'0';
+		$translation_array['taptotoggle'] = ($this->taptotoggle == '1')?'1':'0';
         $translation_array['spacing'] = intval($this->spacing);
-        wp_localize_script('photoswipe', 'lbwps_options', $translation_array);
+        wp_localize_script('photoswipe-frontend', 'lbwps_options', $translation_array);
         
         wp_enqueue_style(
             'photoswipe-lib',
@@ -233,12 +235,16 @@ class LightboxPhotoSwipe
 
         // Only work on known image formats
         if (in_array($type['ext'], array('jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'))) {
-            
             // If image is served by the website itself, try to get caption for local file
-            if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https) {
+            if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https
+                || substr($file, 0, 7) !== 'http://' || substr($file, 0, 8) !== 'https://') {
+                // Remove domain part
                 $file = str_replace($baseurl_http.'/', '', $file);
                 $file = str_replace($baseurl_https.'/', '', $file);
-            
+
+                // Remove leading slash
+                $file = ltrim($file, '/');
+
                 // Normalized URLs to retrieve the image caption
                 $url_http = $baseurl_http.'/'.$file;
                 $url_https = $baseurl_https.'/'.$file;
@@ -284,7 +290,7 @@ class LightboxPhotoSwipe
                 $attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
             
                 if ($caption != '') {
-                    $attr .= ' data-caption="'.nl2br(htmlspecialchars(wptexturize($caption))).'"';
+                    $attr .= ' data-caption="'.htmlspecialchars(nl2br(wptexturize($caption))).'"';
                 }
             }
         }
@@ -365,6 +371,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_caption');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_loop');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_pinchtoclose');
+		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_taptotoggle');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_skin');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_spacing');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usepostdata');
@@ -395,7 +402,7 @@ class LightboxPhotoSwipe
             <tr>
             <th scope="row">'.__('Other options', 'lightbox-photoswipe').'</th>
             <td>
-            <label for="lightbox_photoswipe_usepostdata"><input id="lightbox_photoswipe_pinctoclose" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"'; if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_usepostdata"><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"'; if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_scroll"><input id="lightbox_photoswipe_close_on_scroll" type="checkbox" name="lightbox_photoswipe_close_on_scroll" value="1"'; if(get_option('lightbox_photoswipe_close_on_scroll')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close when scrolling in desktop view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_drag"><input id="lightbox_photoswipe_close_on_drag" type="checkbox" name="lightbox_photoswipe_close_on_drag" value="1"'; if(get_option('lightbox_photoswipe_close_on_drag')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close with vertical drag in mobile view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_history"><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"'; if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Activate browser history', 'lightbox-photoswipe').'</label><br />
@@ -404,7 +411,8 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_show_zoom"><input id="lightbox_photoswipe_show_zoom" type="checkbox" name="lightbox_photoswipe_show_zoom" value="1"'; if(get_option('lightbox_photoswipe_show_zoom')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show zoom button if available', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_show_caption"><input id="lightbox_photoswipe_show_caption" type="checkbox" name="lightbox_photoswipe_show_caption" value="1"'; if(get_option('lightbox_photoswipe_show_caption')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show caption if available', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_loop"><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"'; if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Allow infinite loop', 'lightbox-photoswipe').'</label><br />
-            <label for="lightbox_photoswipe_pinchtoclose"><input id="lightbox_photoswipe_pinctoclose" type="checkbox" name="lightbox_photoswipe_pinchtoclose" value="1"'; if(get_option('lightbox_photoswipe_pinchtoclose')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable pinch to close gesture', 'lightbox-photoswipe').'</label>
+            <label for="lightbox_photoswipe_pinchtoclose"><input id="lightbox_photoswipe_pinchtoclose" type="checkbox" name="lightbox_photoswipe_pinchtoclose" value="1"'; if(get_option('lightbox_photoswipe_pinchtoclose')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable pinch to close gesture on mobile devices', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_taptotoggle"><input id="lightbox_photoswipe_taptotoggle" type="checkbox" name="lightbox_photoswipe_taptotoggle" value="1"'; if(get_option('lightbox_photoswipe_taptotoggle')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable tap to toggle controls on mobile devices', 'lightbox-photoswipe').'</label>
             </td></tr>';
         echo '<th scope="row">'.__('Spacing between pictures', 'lightbox-photoswipe').'</th>';
         echo '<td><label for="lightbox_photoswipe_spacing"><select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">';
@@ -504,6 +512,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_show_caption', '1');
             update_option('lightbox_photoswipe_loop', '1');
             update_option('lightbox_photoswipe_pinchtoclose', '1');
+            update_option('lightbox_photoswipe_taptotoggle', '1');
             update_option('lightbox_photoswipe_skin', '3');
             update_option('lightbox_photoswipe_spacing', '12');
             restore_current_blog();
@@ -613,9 +622,12 @@ class LightboxPhotoSwipe
         if (intval($db_version) < 10) {
             $this->onActivate();
         }
+        if (intval($db_version) < 11) {
+            update_option('lightbox_photoswipe_taptotoggle', '1');
+		}
         
         add_action('lbwps_cleanup', array(get_class($this), 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 10);
+        update_option('lightbox_photoswipe_db_version', 11);
     }
 }
 
