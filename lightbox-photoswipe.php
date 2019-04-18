@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.98
+Version: 1.99
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,12 +17,13 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.98';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.99';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
     var $share_twitter;
     var $share_download;
+    var $share_direct;
     var $close_on_scroll;
     var $close_on_drag;
     var $history;
@@ -41,6 +42,7 @@ class LightboxPhotoSwipe
         $this->share_pinterest = get_option('lightbox_photoswipe_share_pinterest');
         $this->share_twitter = get_option('lightbox_photoswipe_share_twitter');
         $this->share_download = get_option('lightbox_photoswipe_share_download');
+        $this->share_direct = get_option('lightbox_photoswipe_share_direct');
         $this->close_on_scroll = get_option('lightbox_photoswipe_close_on_scroll');
         $this->close_on_drag = get_option('lightbox_photoswipe_close_on_drag');
         $this->history = get_option('lightbox_photoswipe_history');
@@ -116,6 +118,7 @@ class LightboxPhotoSwipe
         $translation_array['share_twitter'] = ($this->share_twitter == '1')?'1':'0';
         $translation_array['share_pinterest'] = ($this->share_pinterest == '1')?'1':'0';
         $translation_array['share_download'] = ($this->share_download == '1')?'1':'0';
+        $translation_array['share_direct'] = ($this->share_direct == '1')?'1':'0';
         $translation_array['close_on_scroll'] = ($this->close_on_scroll != '1')?'1':'0';
         $translation_array['close_on_drag'] = ($this->close_on_drag != '1')?'1':'0';
         $translation_array['history'] = ($this->history == '1')?'1':'0';
@@ -362,6 +365,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_twitter');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_pinterest');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_download');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_direct');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_scroll');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_drag');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_history');
@@ -396,9 +400,11 @@ class LightboxPhotoSwipe
             <td>
             <label for="lightbox_photoswipe_share_facebook"><input id="lightbox_photoswipe_share_facebook" type="checkbox" name="lightbox_photoswipe_share_facebook" value="1"'; if(get_option('lightbox_photoswipe_share_facebook')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Share on Facebook', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_share_twitter"><input id="lightbox_photoswipe_share_twitter" type="checkbox" name="lightbox_photoswipe_share_twitter" value="1" '; if(get_option('lightbox_photoswipe_share_twitter')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Tweet', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_share_direct"><input id="lightbox_photoswipe_share_direct" type="checkbox" name="lightbox_photoswipe_share_direct" value="1"'; if(get_option('lightbox_photoswipe_share_direct')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Use URL of images instead of lightbox on Facebook and Twitter', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_share_pinterest"><input id="lightbox_photoswipe_share_pinterest" type="checkbox" name="lightbox_photoswipe_share_pinterest" value="1" '; if(get_option('lightbox_photoswipe_share_pinterest')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Pin it', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_share_download"><input id="lightbox_photoswipe_share_download" type="checkbox" name="lightbox_photoswipe_share_download" value="1"'; if(get_option('lightbox_photoswipe_share_download')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Download image', 'lightbox-photoswipe').'</label>
-            </td></tr>
+            </td>
+            </tr>
             <tr>
             <th scope="row">'.__('Other options', 'lightbox-photoswipe').'</th>
             <td>
@@ -504,6 +510,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_share_pinterest', '1');
             update_option('lightbox_photoswipe_share_twitter', '1');
             update_option('lightbox_photoswipe_share_download', '1');
+            update_option('lightbox_photoswipe_share_direct', '0');
             update_option('lightbox_photoswipe_close_on_scroll', '1');
             update_option('lightbox_photoswipe_close_on_drag', '1');
             update_option('lightbox_photoswipe_show_counter', '1');
@@ -625,9 +632,12 @@ class LightboxPhotoSwipe
         if (intval($db_version) < 11) {
             update_option('lightbox_photoswipe_taptotoggle', '1');
 		}
-        
+        if (intval($db_version) < 12) {
+            update_option('lightbox_photoswipe_share_direct', '0');
+        }
+
         add_action('lbwps_cleanup', array(get_class($this), 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 11);
+        update_option('lightbox_photoswipe_db_version', 12);
     }
 }
 

@@ -121,8 +121,22 @@ jQuery(function($) {
             lbwps_options.share_download == '1') {
             options.shareEl = true;
             options.shareButtons = [];
-            if(lbwps_options.share_facebook == '1') options.shareButtons.push( {id:'facebook', label:lbwps_options.label_facebook, url:'https://www.facebook.com/sharer/sharer.php?u={{image_url}}'} );
-            if(lbwps_options.share_twitter == '1') options.shareButtons.push( {id:'twitter', label:lbwps_options.label_twitter, url:'https://twitter.com/intent/tweet?text={{text}}&url={{image_url}}'} );
+            if(lbwps_options.share_facebook == '1') {
+                if(lbwps_options.share_direct == '1') {
+                    url = 'https://www.facebook.com/sharer/sharer.php?u={{image_url}}';
+                } else {
+                    url = 'https://www.facebook.com/sharer/sharer.php?u={{url}}';
+                }
+                options.shareButtons.push( {id:'facebook', label:lbwps_options.label_facebook, url:url} );
+            }
+            if(lbwps_options.share_twitter == '1') {
+                if(lbwps_options.share_direct == '1') {
+                    url = 'https://twitter.com/intent/tweet?text={{text}}&url={{image_url}}';
+                } else {
+                    url = 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}';
+                }
+                options.shareButtons.push( {id:'twitter', label:lbwps_options.label_twitter, url:url} );
+            }
             if(lbwps_options.share_pinterest == '1') options.shareButtons.push( {id:'pinterest', label:lbwps_options.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'} );
             if(lbwps_options.share_download == '1') options.shareButtons.push( {id:'download', label:lbwps_options.label_download, url:'{{raw_image_url}}', download:true} );
         } else {
@@ -159,7 +173,7 @@ jQuery(function($) {
         });
         
         if (returnOnClose == true) {
-            gallery.listen('destroy', function() {
+            gallery.listen('unbindEvents', function() {
                 history.back();
             });
         }
