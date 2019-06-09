@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 1.99
+Stable tag: 2.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,17 +29,19 @@ All linked images in a post or page will be displayed using PhotoSwipe, regardle
 
 Make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
-= Experimental feature: linking to the first image of a page or post with "return on close" =
+= Experimental feature: return to a specific URL when closing the lightbox =
+
+Note: this was changed with version 2.0. The previous parameter `return` is no longer supported.
 
 When you activate the setting for "Activate browser history" you can link directly to an image inside a page or post:
 
 `http://domain.example/example-page#gid=1&pid=1`
 
-This will load the given page/post and automatically open the first image (`pid=1`) in the lightbox. However, when closing the lightbox, you will see the page or post itself. Sometimes it is preferred to return to the previous URL when closing the lightbox. This can be done by using `return=1` as the first parameter:
+This will load the given page/post and automatically open the first image (`pid=1`) in the lightbox. However, when closing the lightbox, you will see the page or post itself. Sometimes it is preferred to go to a specific URL when closing the lightbox. This can be done by using `returnurl` combined with the URL to got to as the first parameter:
 
-`http://domain.example/example-page#return=1&gid=1&pid=1`
+`http://domain.example/example-page#returnurl=http://domain.example&gid=1&pid=1`
 
-When a visitor now opens the link, closing the lightbox will try get the visitor back to the previous URL.
+When a visitor now opens the link, closing the lightbox will get the visitor to specified URL `http://domain.example`.
 
 = How to disable the plugin in certain pages/posts =
 
@@ -118,9 +120,15 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 2.0 =
+
+* The lightbox will not close any longer when clicking the background.
+* Fix to avoid PHP notices because of using dynamic methods as static ones.
+* Changed experimental feature "return on close" to "open URL on close".
+
 = 1.99 =
 
-* Modified "return to close" option to return to the previous URL without closing animation.
+* Modified "return on close" option to return to the previous URL without closing animation.
 * Added option to select between image or lightbox URL when sharing on Facebook or Twitter.
 * Added missing translations.
 

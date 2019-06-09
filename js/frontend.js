@@ -8,7 +8,7 @@ jQuery(function($) {
         }
 
         e.preventDefault();
-        openPhotoSwipe( false, this, false, false );
+        openPhotoSwipe( false, this, false, '' );
     });
     
     var parseThumbnailElements = function(link) {
@@ -93,7 +93,7 @@ jQuery(function($) {
         return params;
     };
 
-    var openPhotoSwipe = function( element_index, element, fromURL, returnOnClose ) {
+    var openPhotoSwipe = function( element_index, element, fromURL, returnToUrl ) {
         var pswpElement = $('.pswp').get(0),
             gallery,
             options,
@@ -113,6 +113,7 @@ jQuery(function($) {
             showHideOpacity: true,
             loop: true,
             tapToToggleControls: true,
+			closeElClasses: ['pspw__button--close'],
         };
 
         if(lbwps_options.share_facebook == '1' ||
@@ -172,9 +173,9 @@ jQuery(function($) {
             }
         });
         
-        if (returnOnClose == true) {
+        if (returnToUrl != '') {
             gallery.listen('unbindEvents', function() {
-                history.back();
+                document.location.href = returnToUrl;
             });
         }
         
@@ -183,10 +184,10 @@ jQuery(function($) {
 
     var hashData = photoswipeParseHash();
     if(hashData.pid && hashData.gid) {
-        if (hashData.return == 1) {
-            openPhotoSwipe( hashData.pid, null, true, true );
+        if (typeof(hashData.returnurl) !== 'undefined') {
+            openPhotoSwipe( hashData.pid, null, true, hashData.returnurl );
         } else {
-            openPhotoSwipe( hashData.pid, null, true, false );
+            openPhotoSwipe( hashData.pid, null, true, '' );
         }
     }
 });

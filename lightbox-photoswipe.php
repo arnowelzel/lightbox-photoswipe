@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 1.99
+Version: 2.0
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '1.99';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.0';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -69,8 +69,8 @@ class LightboxPhotoSwipe
         add_action('plugins_loaded', array($this, 'init'));
         add_action('admin_menu', array($this, 'adminMenu'));
 
-        register_activation_hook(__FILE__, array(get_class($this), 'onActivate'));
-        register_deactivation_hook(__FILE__, array(get_class($this), 'onDeactivate'));
+        register_activation_hook(__FILE__, array($this, 'onActivate'));
+        register_deactivation_hook(__FILE__, array($this, 'onDeactivate'));
     }
     
     /**
@@ -314,7 +314,7 @@ class LightboxPhotoSwipe
     {
         $content = preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-            array(get_class($this), 'outputCallback'),
+            array($this, 'outputCallback'),
             $content
         );
         return $content;
@@ -331,7 +331,7 @@ class LightboxPhotoSwipe
     {
         if (!$this->enabled) return;
 
-        ob_start(array(get_class($this), 'output'));
+        ob_start(array($this, 'output'));
     }
 
     /**
@@ -636,7 +636,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_share_direct', '0');
         }
 
-        add_action('lbwps_cleanup', array(get_class($this), 'cleanupDatabase'));
+        add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
         update_option('lightbox_photoswipe_db_version', 12);
     }
 }
