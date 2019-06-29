@@ -163,6 +163,10 @@ jQuery(function($) {
             options.index = parseInt(index, 10) - 1;
         }
 
+        if(lbwps_options.fulldesktop == '1') {
+            options.barsSize = {top: 0, bottom: 0};
+        }
+
         gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
         gallery.listen('gettingData', function (index, item) {
             if (item.w < 1 || item.h < 1) {

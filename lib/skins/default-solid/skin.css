@@ -447,7 +447,8 @@ a.pswp__share--download:hover:before {
   background-color: rgba(0, 0, 0, 1); }
 
 /* pswp__ui--idle class is added when mouse isn't moving for several seconds (JS option timeToIdle) */
-.pswp__ui--idle .pswp__top-bar {
+.pswp__ui--idle .pswp__top-bar,
+.pswp__caption.pswp__ui--idle {
   opacity: 0; }
 
 .pswp__ui--idle .pswp__button--arrow--left,
