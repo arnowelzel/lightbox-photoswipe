@@ -113,6 +113,7 @@ jQuery(function($) {
             showHideOpacity: true,
             loop: true,
             tapToToggleControls: true,
+            clickToCloseNonZoomable: false,
         };
 		
 		if(lbwps_options.close_on_click == '0') {
