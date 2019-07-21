@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.3
+Version: 2.4
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.3';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.4';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -33,6 +33,7 @@ class LightboxPhotoSwipe
     var $enabled;
     var $close_on_click;
     var $fulldesktop;
+    var $use_alt;
 
     /**
      * Constructor
@@ -60,6 +61,7 @@ class LightboxPhotoSwipe
         $this->usepostdata = get_option('lightbox_photoswipe_usepostdata');
 		$this->close_on_click = get_option('lightbox_photoswipe_close_on_click');
 		$this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
+		$this->use_alt = get_option('lightbox_photoswipe_use_alt');
 
         $this->enabled = true;
         
@@ -136,6 +138,7 @@ class LightboxPhotoSwipe
         $translation_array['spacing'] = intval($this->spacing);
 		$translation_array['close_on_click'] = ($this->close_on_click == '1')?'1':'0';
         $translation_array['fulldesktop'] = ($this->fulldesktop == '1')?'1':'0';
+		$translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         wp_localize_script('photoswipe-frontend', 'lbwps_options', $translation_array);
         
         wp_enqueue_style(
@@ -387,6 +390,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usepostdata');
 		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_click');
 		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
+		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
     }
 
     /**
@@ -417,6 +421,7 @@ class LightboxPhotoSwipe
             <th scope="row">'.__('Other options', 'lightbox-photoswipe').'</th>
             <td>
             <label for="lightbox_photoswipe_usepostdata"><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"'; if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_use_alt"><input id="lightbox_photoswipe_use_alt" type="checkbox" name="lightbox_photoswipe_use_alt" value="1"'; if(get_option('lightbox_photoswipe_use_alt')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Use alternative text of images as captions if needed', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_scroll"><input id="lightbox_photoswipe_close_on_scroll" type="checkbox" name="lightbox_photoswipe_close_on_scroll" value="1"'; if(get_option('lightbox_photoswipe_close_on_scroll')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close when scrolling in desktop view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_drag"><input id="lightbox_photoswipe_close_on_drag" type="checkbox" name="lightbox_photoswipe_close_on_drag" value="1"'; if(get_option('lightbox_photoswipe_close_on_drag')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close with vertical drag in mobile view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_history"><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"'; if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Activate browser history', 'lightbox-photoswipe').'</label><br />
@@ -534,6 +539,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_spacing', '12');
 			update_option('lightbox_photoswipe_close_on_click', '1');
             update_option('lightbox_photoswipe_fulldesktop', '0');
+			update_option('lightbox_photoswipe_use_alt', '0');
             restore_current_blog();
         }
     }
@@ -653,9 +659,12 @@ class LightboxPhotoSwipe
         if (intval($db_version) < 14) {
             update_option('lightbox_photoswipe_fulldesktop', '0');
         }
+        if (intval($db_version) < 15) {
+            update_option('lightbox_photoswipe_use_alt', '0');
+        }
 
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 14);
+        update_option('lightbox_photoswipe_db_version', 15);
     }
 }
 

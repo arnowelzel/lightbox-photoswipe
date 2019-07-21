@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 2.3
+Stable tag: 2.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,12 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 2.4 =
+
+* Fixed a bug when using full picture size in desktop view.
+* Endless loop is now also supported with only two images.
+* Added an option to use the alternative text in the image as caption if needed.
 
 = 2.3 =
 

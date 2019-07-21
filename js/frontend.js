@@ -50,6 +50,10 @@ jQuery(function($) {
                 }
             }
 
+            if( caption == null && lbwps_options.use_alt == '1') {
+                caption = element.children().first().attr('alt');
+            }
+
             galleryItems.push({
                 src: element.attr('href'),
                 w: element.attr('data-width'),
