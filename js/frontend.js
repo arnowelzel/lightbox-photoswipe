@@ -21,7 +21,7 @@ jQuery(function($) {
 
             caption = element.attr('data-caption');
 
-            if( caption == null ) {
+            if(caption == null) {
                 describedby = element.children().first().attr('aria-describedby');
                 if(describedby != null ) {
                     description = $('#'+describedby);
@@ -34,7 +34,7 @@ jQuery(function($) {
                 }
             }
 
-            if( caption == null ) {
+            if(caption == null) {
                 if( element.next().is('.wp-caption-text') ) {
                     caption = element.next().text();
                 } else if( element.parent().next().is('.wp-caption-text') ) {
@@ -50,7 +50,7 @@ jQuery(function($) {
                 }
             }
 
-            if( caption == null && lbwps_options.use_alt == '1') {
+            if(caption == null && lbwps_options.use_alt == '1') {
                 caption = element.children().first().attr('alt');
             }
 
@@ -79,7 +79,7 @@ jQuery(function($) {
         }
 
         var vars = hash.split('&');
-        for (var i = 0; i < vars.length; i++) {
+        for(var i = 0; i < vars.length; i++) {
             if(!vars[i]) {
                 continue;
             }

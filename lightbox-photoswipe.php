@@ -537,9 +537,9 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_taptotoggle', '1');
             update_option('lightbox_photoswipe_skin', '3');
             update_option('lightbox_photoswipe_spacing', '12');
-			update_option('lightbox_photoswipe_close_on_click', '1');
+            update_option('lightbox_photoswipe_close_on_click', '1');
             update_option('lightbox_photoswipe_fulldesktop', '0');
-			update_option('lightbox_photoswipe_use_alt', '0');
+            update_option('lightbox_photoswipe_use_alt', '0');
             restore_current_blog();
         }
     }
