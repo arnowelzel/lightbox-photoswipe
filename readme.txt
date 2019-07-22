@@ -97,7 +97,7 @@ Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. Howev
 
 = Local changes in PhotoSwipe =
 
-The following changes are the differences to PhotoSwipe 4.0 as of 2018-11-08:
+The following changes are the differences to PhotoSwipe 4.0 as of 2019-07-21:
 
 1) The default UI is based on a CSS file and a number of graphics in different formats. This CSS file got modified to provide a fix for WordPress themes which use elements with a quite high Z index which hide the controls of PhotoSwipe. By setting the Z index of the affected controls to the highest possible value, all controls stay visible in front.
 
@@ -108,6 +108,10 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2018-11-08:
 4) When looping is disabled, this also applies to the desktop view.
 
 5) The grey placeholder for images when opening the lightbox is not visible (this was accomplished by adding `display: none;` for the placeholder).
+
+6) Arrows for next and previous picture will be hidden for the first or last picture if no endless loop is activated.
+
+7) When using full picture size in desktop view the UI elements will hide automatically and not only after a mouse movemment and the image caption will also be hidden together with the navigation.
 
 = Licensing =
 
