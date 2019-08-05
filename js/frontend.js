@@ -18,8 +18,20 @@ jQuery(function($) {
         
         elements.each(function(i) {
             var element = $(this);
+            var caption = null;
 
             caption = element.attr('data-caption');
+
+            if(caption == null) {
+                if(element.attr('data-caption-title') != null) {
+                    caption = '<div class="pswp__caption__title">'+element.attr('data-caption-title')+'</div>';
+                }
+
+                if(element.attr('data-caption-desc') != null) {
+                    if(caption == null) caption = '';
+                    caption = caption + '<div class="pswp__caption__desc">'+element.attr('data-caption-desc')+'</div>';
+                }
+            }
 
             if(caption == null) {
                 describedby = element.children().first().attr('aria-describedby');

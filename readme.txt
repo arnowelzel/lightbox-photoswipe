@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 2.4
+Stable tag: 2.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,14 @@ A "quick & dirty" example to add additional stuff in the header with the control
 
 add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
+= How to style the caption below the images =
+
+If you want to style the caption below the images, you need to create custom styles for the following CSS classes:
+
+`pswp__caption__center` - this class is used for the whole caption area
+
+`pswp__caption__title` and `pswp__caption__desc` - these classes are used, if the caption is divided in title an description
+
 = Why is there no "zoom animation" when opening the lightbox? =
 
 PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a black background where the final image gets loaded seems to be the better solution. Also see http://photoswipe.com/documentation/faq.html about this topic.
@@ -123,6 +131,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 2.5 =
+
+* If images links contain attributes `data-caption-title` and `data-caption-desc` these attributes will be used as separate elements in the caption.
 
 = 2.4 =
 
