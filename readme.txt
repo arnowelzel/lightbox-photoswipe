@@ -14,7 +14,7 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 This plugin is a simple integration of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
-More about PhotoSwipe see here: http://photoswipe.com
+More about PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
 == Installation ==
 
@@ -91,9 +91,9 @@ add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
 If you want to style the caption below the images, you need to create custom styles for the following CSS classes:
 
-`pswp__caption__center` - this class is used for the whole caption area
+pswp__caption__center - this class is used for the whole caption area.
 
-`pswp__caption__title` and `pswp__caption__desc` - these classes are used, if the caption is divided in title an description
+pswp__caption__title and pswp__caption__desc - these classes are used, if the caption is divided into a title an description (based on the data-caption-title and data-caption-desc attributes in the image link).
 
 = Why is there no "zoom animation" when opening the lightbox? =
 
