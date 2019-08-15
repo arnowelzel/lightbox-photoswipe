@@ -119,7 +119,7 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2019-07-21:
 
 6) Arrows for next and previous picture will be hidden for the first or last picture if no endless loop is activated.
 
-7) When using full picture size in desktop view the UI elements will hide automatically and not only after a mouse movemment and the image caption will also be hidden together with the navigation.
+7) When using full picture size in desktop view the UI elements will hide automatically and not only after a mouse movement and the image caption will also be hidden together with the navigation.
 
 = Licensing =
 
