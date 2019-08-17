@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 2.5
+Stable tag: 2.6
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,8 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 This plugin is a simple integration of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
 More about PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
+
+The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
 
 == Installation ==
 
@@ -121,6 +123,8 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2019-07-21:
 
 7) When using full picture size in desktop view the UI elements will hide automatically and not only after a mouse movement and the image caption will also be hidden together with the navigation.
 
+8) Full screen mode can also be activated by pressing the key "F" on the keyboard.
+
 = Licensing =
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
@@ -131,6 +135,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 2.6 =
+
+* Full screen mode can now also be activated by pressing the key "F" on the keyboard.
+* Set maximum possible priority for the output filter so it will be called at the latest possible moment.
 
 = 2.5 =
 
