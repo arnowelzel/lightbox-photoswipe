@@ -107,7 +107,7 @@ Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. Howev
 
 = Local changes in PhotoSwipe =
 
-The following changes are the differences to PhotoSwipe 4.0 as of 2019-07-21:
+The following changes are the differences to PhotoSwipe 4.0 as of 2019-08-17:
 
 1) The default UI is based on a CSS file and a number of graphics in different formats. This CSS file got modified to provide a fix for WordPress themes which use elements with a quite high Z index which hide the controls of PhotoSwipe. By setting the Z index of the affected controls to the highest possible value, all controls stay visible in front.
 
