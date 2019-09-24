@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.7
+Version: 2.8
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.7';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.8';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -450,12 +450,14 @@ class LightboxPhotoSwipe
             } else {
                 $imageSize = @getimagesize($file);
 
-                $exif = exif_read_data($file, 'EXIF', true);
-                $exifCamera = $this->getExifCamera($exif);
-                $exifFocal = $this->exifGetFocalLength($exif);
-                $exifFstop = $this->exifGetFstop($exif);
-                $exifShutter = $this->exifGetShutter($exif);
-                $exifIso = $this->exifGetIso($exif);
+                if (function_exists('exif_read_data')) {
+                    $exif = exif_read_data($file, 'EXIF', true);
+                    $exifCamera = $this->getExifCamera($exif);
+                    $exifFocal = $this->exifGetFocalLength($exif);
+                    $exifFstop = $this->exifGetFstop($exif);
+                    $exifShutter = $this->exifGetShutter($exif);
+                    $exifIso = $this->exifGetIso($exif);
+                }
 
                 if (is_numeric($imageSize[0]) && is_numeric($imageSize[1])) {
                     $created = strftime('%Y-%m-%d %H:%M:%S');
