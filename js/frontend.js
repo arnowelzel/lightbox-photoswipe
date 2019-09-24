@@ -71,6 +71,7 @@ jQuery(function($) {
                 w: element.attr('data-width'),
                 h: element.attr('data-height'),
                 title: caption,
+                exif: element.attr('data-exif'),
                 getThumbBoundsFn: false,
                 showHideOpacity: true,
                 el: element

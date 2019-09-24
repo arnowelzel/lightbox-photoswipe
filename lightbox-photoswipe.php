@@ -3,12 +3,14 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.6
+Version: 2.7
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
 */
 defined('ABSPATH') or die();
+
+require_once ABSPATH . '/wp-admin/includes/image.php';
 
 /**
  * Lightbox with PhotoSwipe
@@ -17,7 +19,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.6';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.7';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -34,6 +36,7 @@ class LightboxPhotoSwipe
     var $close_on_click;
     var $fulldesktop;
     var $use_alt;
+    var $show_exif;
 
     /**
      * Constructor
@@ -62,6 +65,7 @@ class LightboxPhotoSwipe
 		$this->close_on_click = get_option('lightbox_photoswipe_close_on_click');
 		$this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
 		$this->use_alt = get_option('lightbox_photoswipe_use_alt');
+		$this->show_exif = get_option('lightbox_photoswipe_showexif');
 
         $this->enabled = true;
         
@@ -149,9 +153,6 @@ class LightboxPhotoSwipe
         );
 
         switch($this->skin) {
-        case '1':
-            $skin = 'classic';
-            break;
         case '2':
             $skin = 'classic-solid';
             break;
@@ -224,6 +225,156 @@ class LightboxPhotoSwipe
     }
 
     /**
+     * Helper to get the camera model from an EXIF array
+     *
+     * @param $exif array  The EXIF array containing the original value
+     *
+     * @return string  The camera model as readable text
+     */
+    function getExifCamera(&$exif)
+    {
+        $make = '';
+        if (isset($exif['IFD0']['Make'])) {
+            $make = $exif['IFD0']['Make'];
+        }
+
+        $model = '';
+        if (isset($exif['IFD0']['Model'])) {
+            $model .= $exif['IFD0']['Model'];
+        }
+
+        $camera = '';
+        if (strlen($make)>0) {
+            if (substr($model, 0, strlen($make)) == $make) {
+                $camera = $model;
+            } else {
+                $camera = $make . ' ' . $model;
+            }
+        } else {
+            $camera = $model;
+        }
+
+        return $camera;
+    }
+
+    /**
+     * Helper to get a float value from an EXIF value
+     *
+     * @param $value string  The value to work with (e.g. "10/40")
+     *
+     * @return float|int
+     */
+    function exifGetFloat($value)
+    {
+        $pos = strpos($value, '/');
+        if ($pos === false) {
+            return (float) $value;
+        }
+        $a = (float) substr($value, 0, $pos);
+        $b = (float) substr($value, $pos+1);
+        return ($b == 0) ? ($a) : ($a / $b);
+    }
+
+    /**
+     * Helper to get the focal length from an EXIF array
+     *
+     * @param $exif array  The EXIF array containing the original value
+     *
+     * @return string      The focal length as readable text (e.h. "100mm")
+     */
+    function exifGetFocalLength(&$exif)
+    {
+        $focal = '';
+        if (isset($exif['EXIF']['FocalLengthIn35mmFilm'])) {
+            $focal = $exif['EXIF']['FocalLengthIn35mmFilm'];
+        } else if (isset($exif['EXIF']['FocalLength'])) {
+            $focal = $exif['EXIF']['FocalLength'];
+        } else {
+            return '';
+        }
+        $focalLength = $this->exifGetFloat($focal);
+        return round($focalLength) . 'mm';
+    }
+
+    /**
+     * Helper to get the shutter speed from an EXIF array
+     *
+     * @param $exif array  The EXIF array containing the original value
+     *
+     * @return string      The shutter speed as readable text (e.h. "1/250s")
+     */
+    function exifGetShutter(&$exif)
+    {
+        if (isset($exif['EXIF']['ExposureTime'])) {
+            return $exif['EXIF']['ExposureTime'].'s';
+        }
+        if (!isset($exif['EXIF']['ShutterSpeedValue'])) {
+            return '';
+        }
+        $apex = $this->exifGetFloat($exif['EXIF']['ShutterSpeedValue']);
+        $shutter = pow(2, -$apex);
+        if ($shutter == 0) {
+            return '';
+        }
+        if ($shutter >= 1) {
+            return round($shutter) . 's';
+        }
+        return '1/' . round(1 / $shutter) . 's';
+    }
+
+    /**
+     * Helper to get the ISO speed rating from an EXIF array
+     *
+     * @param $exif    The EXIF array containing the original value
+     *
+     * @return string  The ISO speed rating as readable text
+     */
+    function exifGetIso(&$exif)
+    {
+        if (!isset($exif['EXIF']['ISOSpeedRatings'])) {
+            return '';
+        }
+        return 'ISO' . $exif['EXIF']['ISOSpeedRatings'];
+    }
+
+    /**
+     * Helper to get the f-stop from an EXIF array
+     *
+     * @param $exif array  The EXIF array containing the original value
+     *
+     * @return string      The f-stop value as readable text (e.g. "f/3.5")
+     */
+    function exifGetFstop(&$exif)
+    {
+        $aperture = '';
+        if (isset($exif['EXIF']['ApertureValue'])) {
+            $aperture = $exif['EXIF']['ApertureValue'];
+        } else if (isset($exif['EXIF']['FNumber'])) {
+            $aperture = isset($exif['EXIF']['FNumber']);
+        } else {
+            return '';
+        }
+        $apex  = $this->exifGetFloat($aperture);
+        $fstop = pow(2, $apex/2);
+        if ($fstop == 0) return '';
+        return 'f/' . round($fstop,1);
+    }
+
+    /**
+     * Helper to add some detail to the EXIF output
+     *
+     * @param $output  Existing output
+     * @param $detail  Detail to add
+     */
+    function exifAddOutput(&$output, $detail)
+    {
+        if ($output != '') {
+            $output .= ', ';
+        }
+        $output .= $detail;
+    }
+
+    /**
      * Callback to handle a single image
      * 
      * @param string $matches existing matches
@@ -279,30 +430,78 @@ class LightboxPhotoSwipe
                 $imgdate = 0;
             }
             $imgkey = md5($file) . '-'. $imgdate;
-            $imagesize[0] = 0;
-            $imagesize[1] = 0;
-            $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';
-            $entry = $wpdb->get_row("SELECT width, height FROM $table_img where imgkey='$imgkey'");
+            $imageSize[0] = 0;
+            $imageSize[1] = 0;
+            $exifCamera = '';
+            $exifFocal = '';
+            $exifFstop = '';
+            $exifShutter = '';
+            $exifIso = '';
+            $tableImg = $wpdb->prefix . 'lightbox_photoswipe_img';
+            $entry = $wpdb->get_row("SELECT width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso FROM $tableImg where imgkey='$imgkey'");
             if (null != $entry) {
-                $imagesize[0] = $entry->width;
-                $imagesize[1] = $entry->height;
+                $imageSize[0] = $entry->width;
+                $imageSize[1] = $entry->height;
+                $exifCamera = $entry->exif_camera;
+                $exifFocal = $entry->exif_focal;
+                $exifFstop  = $entry->exif_fstop;
+                $exifShutter = $entry->exif_shutter;
+                $exifIso = $entry->exif_iso;
             } else {
-                $imagesize = @getimagesize($file);
-                if (is_numeric($imagesize[0]) && is_numeric($imagesize[1])) {
+                $imageSize = @getimagesize($file);
+
+                $exif = exif_read_data($file, 'EXIF', true);
+                $exifCamera = $this->getExifCamera($exif);
+                $exifFocal = $this->exifGetFocalLength($exif);
+                $exifFstop = $this->exifGetFstop($exif);
+                $exifShutter = $this->exifGetShutter($exif);
+                $exifIso = $this->exifGetIso($exif);
+
+                if (is_numeric($imageSize[0]) && is_numeric($imageSize[1])) {
                     $created = strftime('%Y-%m-%d %H:%M:%S');
-                    $sql = "INSERT INTO $table_img (imgkey, created, width, height) VALUES (\"$imgkey\", \"$created\", $imagesize[0], $imagesize[1])";
+                    $sql = sprintf(
+                    'INSERT INTO %s (imgkey, created, width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso)'.
+                        ' VALUES ("%s", "%s", "%d", "%d", "%s", "%s", "%s", "%s", "%s")',
+                        $tableImg,
+                        $imgkey,
+                        $created,
+                        $imageSize[0],
+                        $imageSize[1],
+                        $exifCamera,
+                        $exifFocal,
+                        $exifFstop,
+                        $exifShutter,
+                        $exifIso
+                    );
                     $wpdb->query($sql);
                 } else {
-                    $imagesize[0] = 0;
-                    $imagesize[1] = 0;
+                    $imageSize[0] = 0;
+                    $imageSize[1] = 0;
                 }
             }
+
             $attr = '';
-            if ($imagesize[0]!=0 && $imagesize[1]!=0) {
-                $attr = ' data-width="'.$imagesize[0].'" data-height="'.$imagesize[1].'"';
+            if (0!=$imageSize[0] && 0!=$imageSize[1]) {
+                $attr = sprintf(' data-width="%s" data-height="%s"', $imageSize[0], $imageSize[1]);
             
                 if ($caption != '') {
-                    $attr .= ' data-caption="'.htmlspecialchars(nl2br(wptexturize($caption))).'"';
+                    $attr .= sprintf(' data-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
+                }
+
+                $exifOutput = '';
+
+                if ($this->show_exif) {
+                    $this->exifAddOutput($exifOutput, $exifFocal);
+                    $this->exifAddOutput($exifOutput, $exifFstop);
+                    $this->exifAddOutput($exifOutput, $exifShutter);
+                    $this->exifAddOutput($exifOutput, $exifIso);
+                    if ($exifCamera != '') {
+                        $exifOutput = sprintf('%s (%s)', $exifCamera, $exifOutput);
+                    }
+
+                    if ($exifOutput != '') {
+                        $attr .= sprintf(' data-exif="%s"', htmlspecialchars($exifOutput));
+                    }
                 }
             }
         }
@@ -391,6 +590,7 @@ class LightboxPhotoSwipe
 		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_click');
 		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
 		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
+		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_showexif');
     }
 
     /**
@@ -400,7 +600,8 @@ class LightboxPhotoSwipe
      */
     function settingsPage()
     {
-        echo '<div class="wrap"><h1>' . __('Lightbox with PhotoSwipe', 'lightbox-photoswipe') . '</h1><form method="post" action="options.php">';
+        echo '<div class="wrap"><h1>' . __('Lightbox with PhotoSwipe', 'lightbox-photoswipe') . '</h1>';
+        echo '<form method="post" action="options.php">';
         settings_fields('lightbox-photoswipe-settings-group');
         // do_settings_sections( 'lightbox-photoswipe-settings-group' );
         echo '<table class="form-table"><tr>
@@ -434,7 +635,15 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_taptotoggle"><input id="lightbox_photoswipe_taptotoggle" type="checkbox" name="lightbox_photoswipe_taptotoggle" value="1"'; if(get_option('lightbox_photoswipe_taptotoggle')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable tap to toggle controls on mobile devices', 'lightbox-photoswipe').'</label><br />
 			<label for="lightbox_photoswipe_close_on_click"><input id="lightbox_photoswipe_close_on_click" type="checkbox" name="lightbox_photoswipe_close_on_click" value="1"'; if(get_option('lightbox_photoswipe_close_on_click')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close the lightbox by clicking outside the image', 'lightbox-photoswipe').'</label><br />
 			<label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label>
-            </td></tr>';
+            <tr>';
+        echo '<th scope="row">'.__('EXIF data', 'lightbox-photoswipe').'</th><td>';
+        echo '<label for="lightbox_photoswipe_showexif"><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"'; if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show EXIF data if available', 'lightbox-photoswipe').'</label>';
+        if (!function_exists('exif_read_data')) {
+            echo '<p><em>';
+            echo __('Please note: <a href="https://www.php.net/manual/en/book.exif.php" target="_blank">The PHP EXIF extension</a> is missing!', 'lightbox-photoswipe');
+            echo '</em></p>';
+        }
+        echo '</td></tr>';
         echo '<th scope="row">'.__('Spacing between pictures', 'lightbox-photoswipe').'</th>';
         echo '<td><label for="lightbox_photoswipe_spacing"><select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">';
         for ($spacing = 0; $spacing < 13; $spacing++) {
@@ -483,6 +692,11 @@ class LightboxPhotoSwipe
           created datetime,
           width mediumint(7),
           height mediumint(7),
+          exif_camera varchar(255),
+          exif_focal varchar(255),
+          exif_fstop varchar(255),
+          exif_shutter varchar(255),
+          exif_iso varchar(255),
           PRIMARY KEY (imgkey),
           INDEX idx_created (created)
         ) $charset_collate;";
@@ -662,9 +876,12 @@ class LightboxPhotoSwipe
         if (intval($db_version) < 15) {
             update_option('lightbox_photoswipe_use_alt', '0');
         }
-
+        if (intval($db_version) < 16) {
+            $this->deleteTables();
+            $this->createTables();
+        }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 15);
+        update_option('lightbox_photoswipe_db_version', 16);
     }
 }
 

@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 2.6
+Stable tag: 2.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,8 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2019-08-17:
 
 8) Full screen mode can also be activated by pressing the key "F" on the keyboard.
 
+9) Gallery items support an optional "exif" property to display EXIF information in addition to the caption.
+
 = Licensing =
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
@@ -135,6 +137,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 2.7 =
+
+* Additional option to display EXIF information as caption.
 
 = 2.6 =
 
