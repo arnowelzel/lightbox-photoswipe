@@ -58,14 +58,14 @@ class LightboxPhotoSwipe
         $this->show_caption = get_option('lightbox_photoswipe_show_caption');
         $this->loop = get_option('lightbox_photoswipe_loop');
         $this->pinchtoclose = get_option('lightbox_photoswipe_pinchtoclose');
-		$this->taptotoggle = get_option('lightbox_photoswipe_taptotoggle');
+        $this->taptotoggle = get_option('lightbox_photoswipe_taptotoggle');
         $this->spacing = get_option('lightbox_photoswipe_spacing');
         $this->skin = get_option('lightbox_photoswipe_skin');
         $this->usepostdata = get_option('lightbox_photoswipe_usepostdata');
-		$this->close_on_click = get_option('lightbox_photoswipe_close_on_click');
-		$this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
-		$this->use_alt = get_option('lightbox_photoswipe_use_alt');
-		$this->show_exif = get_option('lightbox_photoswipe_showexif');
+        $this->close_on_click = get_option('lightbox_photoswipe_close_on_click');
+        $this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
+        $this->use_alt = get_option('lightbox_photoswipe_use_alt');
+        $this->show_exif = get_option('lightbox_photoswipe_showexif');
 
         $this->enabled = true;
         
@@ -138,11 +138,11 @@ class LightboxPhotoSwipe
         $translation_array['show_caption'] = ($this->show_caption == '1')?'1':'0';
         $translation_array['loop'] = ($this->loop == '1')?'1':'0';
         $translation_array['pinchtoclose'] = ($this->pinchtoclose == '1')?'1':'0';
-		$translation_array['taptotoggle'] = ($this->taptotoggle == '1')?'1':'0';
+        $translation_array['taptotoggle'] = ($this->taptotoggle == '1')?'1':'0';
         $translation_array['spacing'] = intval($this->spacing);
-		$translation_array['close_on_click'] = ($this->close_on_click == '1')?'1':'0';
+        $translation_array['close_on_click'] = ($this->close_on_click == '1')?'1':'0';
         $translation_array['fulldesktop'] = ($this->fulldesktop == '1')?'1':'0';
-		$translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
+        $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         wp_localize_script('photoswipe-frontend', 'lbwps_options', $translation_array);
         
         wp_enqueue_style(
@@ -583,14 +583,14 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_show_caption');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_loop');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_pinchtoclose');
-		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_taptotoggle');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_taptotoggle');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_skin');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_spacing');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usepostdata');
-		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_click');
-		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
-		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
-		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_showexif');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_click');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_showexif');
     }
 
     /**
@@ -633,8 +633,8 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_loop"><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"'; if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Allow infinite loop', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_pinchtoclose"><input id="lightbox_photoswipe_pinchtoclose" type="checkbox" name="lightbox_photoswipe_pinchtoclose" value="1"'; if(get_option('lightbox_photoswipe_pinchtoclose')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable pinch to close gesture on mobile devices', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_taptotoggle"><input id="lightbox_photoswipe_taptotoggle" type="checkbox" name="lightbox_photoswipe_taptotoggle" value="1"'; if(get_option('lightbox_photoswipe_taptotoggle')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable tap to toggle controls on mobile devices', 'lightbox-photoswipe').'</label><br />
-			<label for="lightbox_photoswipe_close_on_click"><input id="lightbox_photoswipe_close_on_click" type="checkbox" name="lightbox_photoswipe_close_on_click" value="1"'; if(get_option('lightbox_photoswipe_close_on_click')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close the lightbox by clicking outside the image', 'lightbox-photoswipe').'</label><br />
-			<label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label>
+            <label for="lightbox_photoswipe_close_on_click"><input id="lightbox_photoswipe_close_on_click" type="checkbox" name="lightbox_photoswipe_close_on_click" value="1"'; if(get_option('lightbox_photoswipe_close_on_click')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close the lightbox by clicking outside the image', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label>
             <tr>';
         echo '<th scope="row">'.__('EXIF data', 'lightbox-photoswipe').'</th><td>';
         echo '<label for="lightbox_photoswipe_showexif"><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"'; if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show EXIF data if available', 'lightbox-photoswipe').'</label>';
@@ -754,6 +754,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_close_on_click', '1');
             update_option('lightbox_photoswipe_fulldesktop', '0');
             update_option('lightbox_photoswipe_use_alt', '0');
+            update_option('lightbox_photoswipe_showexif', '0');
             restore_current_blog();
         }
     }
@@ -863,7 +864,7 @@ class LightboxPhotoSwipe
         }
         if (intval($db_version) < 11) {
             update_option('lightbox_photoswipe_taptotoggle', '1');
-		}
+        }
         if (intval($db_version) < 12) {
             update_option('lightbox_photoswipe_share_direct', '0');
         }
@@ -877,6 +878,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_use_alt', '0');
         }
         if (intval($db_version) < 16) {
+            update_option('lightbox_photoswipe_showexif', '0');
             $this->deleteTables();
             $this->createTables();
         }
