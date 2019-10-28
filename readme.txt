@@ -142,7 +142,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
-= 2.10 =
+= 2.10, 2.11 =
 
 * Fixed incorrect handling of external images which are not served by the website itself.
 * Better error handling if EXIF data can not be read.
