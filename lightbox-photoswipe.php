@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.9
+Version: 2.10
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.9';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.10';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -408,11 +408,23 @@ class LightboxPhotoSwipe
                 // Remove leading slash
                 $file = ltrim($file, '/');
 
-                // Normalized URLs to retrieve the image caption
-                $url_http = $baseurl_http.'/'.$file;
-                $url_https = $baseurl_https.'/'.$file;
-            
-                $file = ABSPATH . $file;
+                $url_http = '';
+                $url_https = '';
+
+                // Add local path only if the file is not an external URL
+                if (substr($file, 0, 6) != 'ftp://' &&
+                    substr($file, 0, 7) != 'http://' &&
+                    substr($file, 0, 8) != 'https://') {
+                    $file = ABSPATH . $file;
+
+                    // Normalized URLs to retrieve the image caption
+                    $url_http = $baseurl_http.'/'.$file;
+                    $url_https = $baseurl_https.'/'.$file;
+                } else {
+                    // The image is an external URL, then use this
+                    $url_http = $file;
+                    $url_https = $file;
+                }
            
                 if ('1' == $this->usepostdata && '1' == $this->show_caption) {
                     $imgid = $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s" or guid="%s";', $url_http, $url_https)); 
@@ -424,7 +436,7 @@ class LightboxPhotoSwipe
                     }
                 }
             }
-            
+
             $imgdate = @filemtime($file);
             if (false == $imgdate) {
                 $imgdate = 0;
@@ -451,12 +463,14 @@ class LightboxPhotoSwipe
                 $imageSize = @getimagesize($file);
 
                 if (function_exists('exif_read_data')) {
-                    $exif = exif_read_data($file, 'EXIF', true);
-                    $exifCamera = $this->getExifCamera($exif);
-                    $exifFocal = $this->exifGetFocalLength($exif);
-                    $exifFstop = $this->exifGetFstop($exif);
-                    $exifShutter = $this->exifGetShutter($exif);
-                    $exifIso = $this->exifGetIso($exif);
+                    $exif = @exif_read_data($file, 'EXIF', true);
+                    if ($exif !== false) {
+                        $exifCamera = $this->getExifCamera($exif);
+                        $exifFocal = $this->exifGetFocalLength($exif);
+                        $exifFstop = $this->exifGetFstop($exif);
+                        $exifShutter = $this->exifGetShutter($exif);
+                        $exifIso = $this->exifGetIso($exif);
+                    }
                 }
 
                 if (is_numeric($imageSize[0]) && is_numeric($imageSize[1])) {
