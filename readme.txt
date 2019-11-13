@@ -3,8 +3,8 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
-Tested up to: 5.2
-Stable tag: 2.11
+Tested up to: 5.3
+Stable tag: 2.12
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 2.12 =
+
+* Fixed WordPress 5.3 compatibility in backend.
 
 = 2.10, 2.11 =
 
