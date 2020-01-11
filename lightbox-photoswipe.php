@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.13
+Version: 2.14
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -72,7 +72,7 @@ class LightboxPhotoSwipe
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
             add_action('wp_footer', array($this, 'footer'));
-            add_action('template_redirect', array($this, 'outputFilter'), PHP_INT_MAX);
+            add_action('wp_head', array($this, 'startOutput'));
         }
         add_action('wpmu_new_blog', array($this, 'onCreateBlog'), 10, 6);
         add_filter('wpmu_drop_tables', array($this, 'onDeleteBlog'));
@@ -181,6 +181,8 @@ class LightboxPhotoSwipe
      */
     function footer()
     {
+		if (!$this->enabled) return;
+		
         if (!is_404()) {
             if (in_array(get_the_ID(), $this->disabled_post_ids) || !$this->enabled) return;
         }
@@ -222,6 +224,8 @@ class LightboxPhotoSwipe
 </div>';
         $footer = apply_filters('lbwps_markup', $footer);
         echo $footer;
+
+        ob_end_flush();
     }
 
     /**
@@ -550,19 +554,17 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Filter output of curent page/post
-     * 
-     * @param string $content Current HTML output
-     * 
-     * @return string filtered HTML output
-     */
-    function outputFilter($content)
+     * Start output buffer handling
+	 * 
+	 * @return void
+	 */
+    function startOutput()
     {
         if (!$this->enabled) return;
 
         ob_start(array($this, 'output'));
     }
-
+	
     /**
      * Add admin menu in the backend
      * 

@@ -15,11 +15,17 @@
 
  */
 /* <button> css reset */
+/*
+Note:
+
+Originally background was defined as "background: none", but this does not work with Twenty Twenty as
+this theme defines a global background color for button elements
+*/
 .pswp__button {
   width: 44px;
   height: 44px;
   position: relative;
-  background: none;
+  background-color: #00000000 !important;
   cursor: pointer;
   overflow: visible;
   -webkit-appearance: none;
