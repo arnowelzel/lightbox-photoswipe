@@ -72,7 +72,7 @@ class LightboxPhotoSwipe
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
             add_action('wp_footer', array($this, 'footer'));
-            add_action('wp_head', array($this, 'startOutput'));
+            add_action('the_content', array($this, 'filterOutput'), PHP_INT_MAX);
         }
         add_action('wpmu_new_blog', array($this, 'onCreateBlog'), 10, 6);
         add_filter('wpmu_drop_tables', array($this, 'onDeleteBlog'));
@@ -224,8 +224,6 @@ class LightboxPhotoSwipe
 </div>';
         $footer = apply_filters('lbwps_markup', $footer);
         echo $footer;
-
-        ob_end_flush();
     }
 
     /**
@@ -545,11 +543,6 @@ class LightboxPhotoSwipe
      */
     function output($content)
     {
-        $content = preg_replace_callback(
-            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-            array($this, 'outputCallback'),
-            $content
-        );
         return $content;
     }
 
@@ -558,11 +551,17 @@ class LightboxPhotoSwipe
 	 * 
 	 * @return void
 	 */
-    function startOutput()
+    function filterOutput($content)
     {
-        if (!$this->enabled) return;
+        if ($this->enabled && in_the_loop() && is_main_query()) {
+            return preg_replace_callback(
+                '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+                array($this, 'outputCallback'),
+                $content
+            );
+        }
 
-        ob_start(array($this, 'output'));
+        return $content;
     }
 	
     /**
