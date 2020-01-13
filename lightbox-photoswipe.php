@@ -80,6 +80,7 @@ class LightboxPhotoSwipe
             if ($this->separate_galleries) {
                 remove_shortcode('gallery');
                 add_shortcode('gallery', array($this, 'shortcodeGallery'), 10, 1);
+                add_filter('render_block', array($this, 'gutenbergBlock'), 10, 2);
             }
         }
         add_action('wpmu_new_blog', array($this, 'onCreateBlog'), 10, 6);
@@ -389,9 +390,9 @@ class LightboxPhotoSwipe
      * 
      * @param string $matches existing matches
      * 
-     * @return string modified HTML code 
+     * @return string modified HTML content
      */
-    function outputCallback($matches)
+    function outputCallbackProperties($matches)
     {
         global $wpdb;
         
@@ -540,6 +541,13 @@ class LightboxPhotoSwipe
         return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
     }
 
+    /**
+     * Callback to add current gallery id to a single image
+     *
+     * @param string $matches existing matches
+     *
+     * @return string modified HTML content
+     */
     function outputCallbackGalleryId($matches)
     {
         $attr = sprintf(' data-gallery-id="%s"', $this->gallery_id);
@@ -547,28 +555,18 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Output filter
+     * Output filter for post content
      *
-     * @param string $content Current HTML output
+     * @param string $content current HTML content
      *
-     * @return string modified HTML output
-     */
-    function output($content)
-    {
-        return $content;
-    }
-
-    /**
-     * Start output buffer handling
-	 * 
-	 * @return void
+	 * @return void modified HTML content
 	 */
     function filterOutput($content)
     {
         if ($this->enabled && in_the_loop() && is_main_query()) {
             return preg_replace_callback(
                 '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-                array($this, 'outputCallback'),
+                array($this, 'outputCallbackProperties'),
                 $content
             );
         }
@@ -586,6 +584,28 @@ class LightboxPhotoSwipe
             $content
         );
         return $content;
+    }
+
+
+    /**
+     * Filter for Gutenberg blocks to add gallery id to images
+     *
+     * @param string $block_content current HTML content
+     * @param array $block block information
+     *
+     * @return string modified HTML content
+     */
+    function gutenbergBlock($block_content, $block)
+    {
+        if ($block['blockName'] == 'core/gallery') {
+            $this->gallery_id++;
+            return preg_replace_callback(
+                '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+                array($this, 'outputCallbackGalleryId'),
+                $block_content
+            );
+        }
+        return $block_content;
     }
 
     /**
@@ -672,7 +692,7 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_use_alt"><input id="lightbox_photoswipe_use_alt" type="checkbox" name="lightbox_photoswipe_use_alt" value="1"'; if(get_option('lightbox_photoswipe_use_alt')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Use alternative text of images as captions if needed', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_scroll"><input id="lightbox_photoswipe_close_on_scroll" type="checkbox" name="lightbox_photoswipe_close_on_scroll" value="1"'; if(get_option('lightbox_photoswipe_close_on_scroll')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close when scrolling in desktop view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_drag"><input id="lightbox_photoswipe_close_on_drag" type="checkbox" name="lightbox_photoswipe_close_on_drag" value="1"'; if(get_option('lightbox_photoswipe_close_on_drag')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close with vertical drag in mobile view', 'lightbox-photoswipe').'</label><br />
-            <label for="lightbox_photoswipe_history"><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"'; if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Activate browser history', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_history"><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"'; if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Update browser history (going back in the browser will first close the lightbox)', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_show_counter"><input id="lightbox_photoswipe_show_counter" type="checkbox" name="lightbox_photoswipe_show_counter" value="1"'; if(get_option('lightbox_photoswipe_show_counter')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show picture counter', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_show_fullscreen"><input id="lightbox_photoswipe_show_fullscreen" type="checkbox" name="lightbox_photoswipe_show_fullscreen" value="1"'; if(get_option('lightbox_photoswipe_show_fullscreen')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show fullscreen button', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_show_zoom"><input id="lightbox_photoswipe_show_zoom" type="checkbox" name="lightbox_photoswipe_show_zoom" value="1"'; if(get_option('lightbox_photoswipe_show_zoom')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show zoom button if available', 'lightbox-photoswipe').'</label><br />
@@ -682,7 +702,7 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_taptotoggle"><input id="lightbox_photoswipe_taptotoggle" type="checkbox" name="lightbox_photoswipe_taptotoggle" value="1"'; if(get_option('lightbox_photoswipe_taptotoggle')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable tap to toggle controls on mobile devices', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_click"><input id="lightbox_photoswipe_close_on_click" type="checkbox" name="lightbox_photoswipe_close_on_click" value="1"'; if(get_option('lightbox_photoswipe_close_on_click')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close the lightbox by clicking outside the image', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label><br />
-            <label for="lightbox_photoswipe_separate_galleries"><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"'; if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show picture galleries in separate lightboxes', 'lightbox-photoswipe').'</label>
+            <label for="lightbox_photoswipe_separate_galleries"><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"'; if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe').'</label>
             <tr>';
         echo '<th scope="row">'.__('EXIF data', 'lightbox-photoswipe').'</th><td>';
         echo '<label for="lightbox_photoswipe_showexif"><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"'; if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show EXIF data if available', 'lightbox-photoswipe').'</label>';
@@ -721,10 +741,11 @@ class LightboxPhotoSwipe
         echo '</td></tr>';
         echo '</table>';
         submit_button();
-        echo '</form></div>';
+        echo '</form>';
         echo '<p><b>'.__('If you like my WordPress plugins and want to support my work you can send a donation via PayPal.', 'lightbox-photoswipe').'</b><p>';
         echo '<p><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>';
         echo '<p><b>'.__('Thank you :-)', 'lightbox-photoswipe').'</b><p>';
+        echo '</div>';
     }
 
     /**
@@ -935,6 +956,7 @@ class LightboxPhotoSwipe
             $this->createTables();
         }
         if (intval($db_version) < 17) {
+            update_option('lightbox_photoswipe_history', '1');
             update_option('lightbox_photoswipe_separate_galleries', '0');
             $this->deleteTables();
             $this->createTables();

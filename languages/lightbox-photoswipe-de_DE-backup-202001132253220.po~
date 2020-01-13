@@ -111,8 +111,8 @@ msgid ""
 "Update browser history (going back in the browser will first close the "
 "lightbox)"
 msgstr ""
-"Browserverlauf aktualisieren (wenn man im Browser zurück geht, wird zuerst "
-"die Lightbox geschlossen)"
+"Aggiorna cronologia browser (se torni nel browser, la lightbox viene chiusa "
+"per prima)"
 
 #: lightbox-photoswipe.php:695
 msgid "Show picture counter"

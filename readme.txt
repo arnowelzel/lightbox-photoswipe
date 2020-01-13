@@ -150,8 +150,9 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 2.50 =
 
+* Use browser history modification by default (you can turn this off in the settings if you don't want this).
 * Added a workaround for a bug in the CSS rule for buttons in Twenty Twenty to avoid the wrong background color for UI elements.
-* Added option for separate galleries
+* Added option to display WordPress galleries and Gutenberg gallery blocks in separate lightboxes.
 * Changed handling of output buffering to avoid potential problems with CDNs and caching plugins.
 
 = 2.13 =
