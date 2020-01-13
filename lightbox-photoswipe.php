@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.14
+Version: 2.50
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.13';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.50';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -37,6 +37,8 @@ class LightboxPhotoSwipe
     var $fulldesktop;
     var $use_alt;
     var $show_exif;
+    var $separate_galleries;
+    var $gallery_id;
 
     /**
      * Constructor
@@ -66,13 +68,19 @@ class LightboxPhotoSwipe
         $this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
         $this->use_alt = get_option('lightbox_photoswipe_use_alt');
         $this->show_exif = get_option('lightbox_photoswipe_showexif');
+        $this->separate_galleries = get_option('lightbox_photoswipe_separate_galleries');
 
         $this->enabled = true;
+        $this->gallery_id = 1;
         
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
             add_action('wp_footer', array($this, 'footer'));
             add_action('the_content', array($this, 'filterOutput'), PHP_INT_MAX);
+            if ($this->separate_galleries) {
+                remove_shortcode('gallery');
+                add_shortcode('gallery', array($this, 'shortcodeGallery'), 10, 1);
+            }
         }
         add_action('wpmu_new_blog', array($this, 'onCreateBlog'), 10, 6);
         add_filter('wpmu_drop_tables', array($this, 'onDeleteBlog'));
@@ -114,7 +122,7 @@ class LightboxPhotoSwipe
 
         wp_enqueue_script(
             'photoswipe-frontend',
-            plugin_dir_url(__FILE__) . 'js/frontend.min.js',
+            plugin_dir_url(__FILE__) . 'js/frontend.js',
             array('photoswipe-lib', 'photoswipe-ui-default', 'jquery'),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
@@ -529,9 +537,13 @@ class LightboxPhotoSwipe
             }
         }
 
-        $result = $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
+        return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
+    }
 
-        return $result;
+    function outputCallbackGalleryId($matches)
+    {
+        $attr = sprintf(' data-gallery-id="%s"', $this->gallery_id);
+        return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
     }
 
     /**
@@ -563,7 +575,19 @@ class LightboxPhotoSwipe
 
         return $content;
     }
-	
+
+    function shortcodeGallery($attr)
+    {
+        $this->gallery_id++;
+        $content = gallery_shortcode($attr);
+        return preg_replace_callback(
+            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+            array($this, 'outputCallbackGalleryId'),
+            $content
+        );
+        return $content;
+    }
+
     /**
      * Add admin menu in the backend
      * 
@@ -612,6 +636,8 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_showexif');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_separate_galleries');
+
     }
 
     /**
@@ -655,7 +681,8 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_pinchtoclose"><input id="lightbox_photoswipe_pinchtoclose" type="checkbox" name="lightbox_photoswipe_pinchtoclose" value="1"'; if(get_option('lightbox_photoswipe_pinchtoclose')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable pinch to close gesture on mobile devices', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_taptotoggle"><input id="lightbox_photoswipe_taptotoggle" type="checkbox" name="lightbox_photoswipe_taptotoggle" value="1"'; if(get_option('lightbox_photoswipe_taptotoggle')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable tap to toggle controls on mobile devices', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_close_on_click"><input id="lightbox_photoswipe_close_on_click" type="checkbox" name="lightbox_photoswipe_close_on_click" value="1"'; if(get_option('lightbox_photoswipe_close_on_click')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Close the lightbox by clicking outside the image', 'lightbox-photoswipe').'</label><br />
-            <label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label>
+            <label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_separate_galleries"><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"'; if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show picture galleries in separate lightboxes', 'lightbox-photoswipe').'</label>
             <tr>';
         echo '<th scope="row">'.__('EXIF data', 'lightbox-photoswipe').'</th><td>';
         echo '<label for="lightbox_photoswipe_showexif"><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"'; if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show EXIF data if available', 'lightbox-photoswipe').'</label>';
@@ -692,9 +719,12 @@ class LightboxPhotoSwipe
         echo '>'.__('New share symbol with solid background', 'lightbox-photoswipe').'</option>';
         echo '</select></label>';
         echo '</td></tr>';
-        echo '    </table>';
+        echo '</table>';
         submit_button();
         echo '</form></div>';
+        echo '<p><b>'.__('If you like my WordPress plugins and want to support my work you can send a donation via PayPal.', 'lightbox-photoswipe').'</b><p>';
+        echo '<p><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>';
+        echo '<p><b>'.__('Thank you :-)', 'lightbox-photoswipe').'</b><p>';
     }
 
     /**
@@ -776,6 +806,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_fulldesktop', '0');
             update_option('lightbox_photoswipe_use_alt', '0');
             update_option('lightbox_photoswipe_showexif', '0');
+            update_option('lightbox_photoswipe_separate_galleries', '0');
             restore_current_blog();
         }
     }
@@ -903,8 +934,13 @@ class LightboxPhotoSwipe
             $this->deleteTables();
             $this->createTables();
         }
+        if (intval($db_version) < 17) {
+            update_option('lightbox_photoswipe_separate_galleries', '0');
+            $this->deleteTables();
+            $this->createTables();
+        }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 16);
+        update_option('lightbox_photoswipe_db_version', 17);
     }
 }
 

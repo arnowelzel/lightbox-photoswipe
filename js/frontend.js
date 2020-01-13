@@ -8,14 +8,20 @@ jQuery(function($) {
         }
 
         e.preventDefault();
-        openPhotoSwipe( false, this, false, '' );
+        openPhotoSwipe( false, 0, this, false, '' );
     });
     
-    var parseThumbnailElements = function(link) {
-        var elements = $('body').find('a[data-width]:has(img)'),
+    var parseThumbnailElements = function(link, id) {
+        var elements,
             galleryItems = [],
             index;
-        
+
+        if (id == null) {
+            elements = $('body').find('a[data-width]:not([data-gallery-id]):has(img)');
+        } else {
+            elements = $('body').find('a[data-width][data-gallery-id="'+id+'"]:has(img)');
+        }
+
         elements.each(function(i) {
             var element = $(this);
             var caption = null;
@@ -110,13 +116,21 @@ jQuery(function($) {
         return params;
     };
 
-    var openPhotoSwipe = function( element_index, element, fromURL, returnToUrl ) {
-        var pswpElement = $('.pswp').get(0),
+    var openPhotoSwipe = function( element_index, group_index, element, fromURL, returnToUrl ) {
+        var id = 1,
+            pswpElement = $('.pswp').get(0),
             gallery,
             options,
-            items, index;
+            items,
+            index;
 
-        items = parseThumbnailElements(element);
+        if (element != null) {
+            id = element.getAttribute('data-gallery-id');
+        } else {
+            id = group_index;
+        }
+
+        items = parseThumbnailElements(element, id);
         if(element_index == false) {
             index = items[1];
         } else {
@@ -132,6 +146,10 @@ jQuery(function($) {
             tapToToggleControls: true,
             clickToCloseNonZoomable: false,
         };
+
+        if (id != null) {
+            options.galleryUID = id;
+        }
 		
 		if(lbwps_options.close_on_click == '0') {
 			options.closeElClasses = ['pspw__button--close'];
@@ -209,10 +227,10 @@ jQuery(function($) {
 
     var hashData = photoswipeParseHash();
     if(hashData.pid && hashData.gid) {
+        var returnUrl = '';
         if (typeof(hashData.returnurl) !== 'undefined') {
-            openPhotoSwipe( hashData.pid, null, true, hashData.returnurl );
-        } else {
-            openPhotoSwipe( hashData.pid, null, true, '' );
+            returnUrl = hashData.returnurl;
         }
+        openPhotoSwipe( hashData.pid, hashData.gid, null, true, returnUrl );
     }
 });
