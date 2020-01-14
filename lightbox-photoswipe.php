@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.50
+Version: 2.51
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.50';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.51';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -76,7 +76,7 @@ class LightboxPhotoSwipe
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
             add_action('wp_footer', array($this, 'footer'));
-            add_action('the_content', array($this, 'filterOutput'), PHP_INT_MAX);
+            add_action('template_redirect', array($this, 'bufferStart'), 2000);
             if ($this->separate_galleries) {
                 remove_shortcode('gallery');
                 add_shortcode('gallery', array($this, 'shortcodeGallery'), 10, 1);
@@ -191,12 +191,9 @@ class LightboxPhotoSwipe
     function footer()
     {
 		if (!$this->enabled) return;
-		
-        if (!is_404()) {
-            if (in_array(get_the_ID(), $this->disabled_post_ids) || !$this->enabled) return;
-        }
-        
-        $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+        if (is_404() || !in_array(get_the_ID(), $this->disabled_post_ids)) {
+            $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
     <div class="pswp__scroll-wrap">
         <div class="pswp__container">
@@ -207,10 +204,10 @@ class LightboxPhotoSwipe
         <div class="pswp__ui pswp__ui--hidden">
             <div class="pswp__top-bar">
                 <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="'.__('Close (Esc)', 'lightbox-photoswipe').'"></button>
-                <button class="pswp__button pswp__button--share" title="'.__('Share', 'lightbox-photoswipe').'"></button>
-                <button class="pswp__button pswp__button--fs" title="'.__('Toggle fullscreen', 'lightbox-photoswipe').'"></button>
-                <button class="pswp__button pswp__button--zoom" title="'.__('Zoom in/out', 'lightbox-photoswipe').'"></button>
+                <button class="pswp__button pswp__button--close" title="' . __('Close (Esc)', 'lightbox-photoswipe') . '"></button>
+                <button class="pswp__button pswp__button--share" title="' . __('Share', 'lightbox-photoswipe') . '"></button>
+                <button class="pswp__button pswp__button--fs" title="' . __('Toggle fullscreen', 'lightbox-photoswipe') . '"></button>
+                <button class="pswp__button pswp__button--zoom" title="' . __('Zoom in/out', 'lightbox-photoswipe') . '"></button>
                 <div class="pswp__preloader">
                     <div class="pswp__preloader__icn">
                       <div class="pswp__preloader__cut">
@@ -223,16 +220,19 @@ class LightboxPhotoSwipe
                 <div class="pswp__share-tooltip">
                 </div> 
             </div>
-            <button class="pswp__button pswp__button--arrow--left" title="'.__('Previous (arrow left)', 'lightbox-photoswipe').'"></button>
-            <button class="pswp__button pswp__button--arrow--right" title="'.__('Next (arrow right)', 'lightbox-photoswipe').'"></button>
+            <button class="pswp__button pswp__button--arrow--left" title="' . __('Previous (arrow left)', 'lightbox-photoswipe') . '"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="' . __('Next (arrow right)', 'lightbox-photoswipe') . '"></button>
             <div class="pswp__caption">
                 <div class="pswp__caption__center"></div>
             </div>
         </div>
     </div>
 </div>';
-        $footer = apply_filters('lbwps_markup', $footer);
-        echo $footer;
+            $footer = apply_filters('lbwps_markup', $footer);
+            echo $footer;
+        }
+
+        ob_end_flush();
     }
 
     /**
@@ -563,15 +563,25 @@ class LightboxPhotoSwipe
 	 */
     function filterOutput($content)
     {
-        if ($this->enabled && in_the_loop() && is_main_query()) {
-            return preg_replace_callback(
-                '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-                array($this, 'outputCallbackProperties'),
-                $content
-            );
+        return preg_replace_callback(
+            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+            array($this, 'outputCallbackProperties'),
+            $content
+        );
+    }
+
+    /**
+     * Output filter for post content
+     *
+     * @return void
+     */
+    function bufferStart()
+    {
+        if (!$this->enabled) {
+            return;
         }
 
-        return $content;
+        ob_start(array($this, 'filterOutput'));
     }
 
     function shortcodeGallery($attr)
