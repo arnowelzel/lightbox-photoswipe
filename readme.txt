@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 2.51
+Stable tag: 2.60
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,7 +115,7 @@ Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. Howev
 
 = Local changes in PhotoSwipe =
 
-The following changes are the differences to PhotoSwipe 4.0 as of 2019-10-22:
+The following changes are the differences to PhotoSwipe 4.0 as of 2020-01-14:
 
 1) The default UI is based on a CSS file and a number of graphics in different formats. This CSS file got modified to provide a fix for WordPress themes which use elements with a quite high Z index which hide the controls of PhotoSwipe. By setting the Z index of the affected controls to the highest possible value, all controls stay visible in front.
 
@@ -137,6 +137,8 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2019-10-22:
 
 10) Infinite loop is also possible with only two images.
 
+11) Added slide animation for changing images using the arrow buttons or via keyboard as suggested in https://github.com/dimsemenov/PhotoSwipe/pull/1179.
+
 = Licensing =
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
@@ -147,6 +149,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 2.60 =
+
+* Added slide animation for changing images using the arrow buttons or keyboard.
+* Fixed direct opening of images using gid/pid parameter in the URL.
 
 = 2.51 =
 

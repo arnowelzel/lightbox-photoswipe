@@ -16,7 +16,7 @@ jQuery(function($) {
             galleryItems = [],
             index;
 
-        if (id == null) {
+        if (id == null || id == 1) {
             elements = $('body').find('a[data-width]:not([data-gallery-id]):has(img)');
         } else {
             elements = $('body').find('a[data-width][data-gallery-id="'+id+'"]:has(img)');
@@ -221,7 +221,7 @@ jQuery(function($) {
                 document.location.href = returnToUrl;
             });
         }
-        
+
         gallery.init();
     };
 
