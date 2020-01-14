@@ -150,7 +150,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
-= 2.60 =
+= 2.60, 2.61 =
 
 * Added slide animation for changing images using the arrow buttons or keyboard.
 * Fixed direct opening of images using gid/pid parameter in the URL.
