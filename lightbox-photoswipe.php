@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.61
+Version: 2.62
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.61';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.62';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -39,6 +39,7 @@ class LightboxPhotoSwipe
     var $show_exif;
     var $separate_galleries;
     var $gallery_id;
+	var $ob_active;
 
     /**
      * Constructor
@@ -72,11 +73,12 @@ class LightboxPhotoSwipe
 
         $this->enabled = true;
         $this->gallery_id = 1;
+		$this->ob_active = false;
         
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
             add_action('wp_footer', array($this, 'footer'));
-            add_action('template_redirect', array($this, 'bufferStart'), 2000);
+            add_action('wp_head', array($this, 'bufferStart'), 2000);
             if ($this->separate_galleries) {
                 remove_shortcode('gallery');
                 add_shortcode('gallery', array($this, 'shortcodeGallery'), 10, 1);
@@ -232,7 +234,7 @@ class LightboxPhotoSwipe
             echo $footer;
         }
 
-        ob_end_flush();
+        if ($this->ob_active) ob_end_flush();
     }
 
     /**
@@ -582,6 +584,7 @@ class LightboxPhotoSwipe
         }
 
         ob_start(array($this, 'filterOutput'));
+		$this->ob_active = true;
     }
 
     function shortcodeGallery($attr)
