@@ -193,6 +193,7 @@ jQuery(function($) {
         if(lbwps_options.loop == '1') options.loop = true;else options.loop = false;
         if(lbwps_options.pinchtoclose == '1') options.pinchToClose = true;else options.pinchToClose = false;
         if(lbwps_options.taptotoggle == '1') options.tapToToggleControls = true; else options.tapToToggleControls = false;
+        if(lbwps_options.desktop_slider == '1') options.desktopSlider = true; else options.desktopSlider = false;
         options.spacing = lbwps_options.spacing/100;
 
         if(fromURL == true) {
