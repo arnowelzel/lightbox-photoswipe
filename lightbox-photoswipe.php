@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.62';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.63';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
