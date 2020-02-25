@@ -3,12 +3,12 @@ jQuery(function($) {
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
     $('body').on('click', 'a[data-width]:has(img)', function(e) {
-        if( !PhotoSwipe || !PhotoSwipeUI_Default ) {
+        if(!PhotoSwipe || !PhotoSwipeUI_Default) {
             return;
         }
 
         e.preventDefault();
-        openPhotoSwipe( false, 0, this, false, '' );
+        openPhotoSwipe(false, 0, this, false, '');
     });
     
     var parseThumbnailElements = function(link, id) {
@@ -43,7 +43,7 @@ jQuery(function($) {
                 describedby = element.children().first().attr('aria-describedby');
                 if(describedby != null ) {
                     description = $('#'+describedby);
-                    if( description != null) caption = description.text();
+                    if(description != null) caption = description.text();
                 } else {
                     describedby = element.children().first().attr('figcaption');
                     if(describedby != null ) {
@@ -53,19 +53,24 @@ jQuery(function($) {
             }
 
             if(caption == null) {
-                if( element.next().is('.wp-caption-text') ) {
+                if(element.next().is('.wp-caption-text')) {
                     caption = element.next().text();
-                } else if( element.parent().next().is('.wp-caption-text') ) {
+                } else if(element.parent().next().is('.wp-caption-text')) {
                     caption = element.parent().next().text();
-                } else if( element.parent().next().is('.gallery-caption') ) {
+                } else if(element.parent().next().is('.gallery-caption')) {
                     caption = element.parent().next().text();
-                } else if( element.next().is("figcaption") ) {
+                } else if(element.next().is("figcaption")) {
                     caption = element.next().text();
-                } else if( element.parent().parent().next().is("figcaption") ) {
+                } else if(element.parent().parent().next().is("figcaption")) {
                     caption = element.parent().parent().next().text();
-                } else {
-                    caption = element.attr('title');
+                } else if(element.parent().parent().parent().next().is("figcaption")) {
+                    // This variant is used by Gutenberg gallery blocks
+                    caption = element.parent().parent().parent().next().text();
                 }
+            }
+
+            if(caption == null) {
+                caption = element.attr('title');
             }
 
             if(caption == null && lbwps_options.use_alt == '1') {
@@ -82,7 +87,7 @@ jQuery(function($) {
                 showHideOpacity: true,
                 el: element
             });
-            if( link === element.get(0) ) {
+            if(link === element.get(0)) {
                 index = i;
             }
         });
@@ -116,7 +121,7 @@ jQuery(function($) {
         return params;
     };
 
-    var openPhotoSwipe = function( element_index, group_index, element, fromURL, returnToUrl ) {
+    var openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
         var id = 1,
             pswpElement = $('.pswp').get(0),
             gallery,
@@ -167,7 +172,7 @@ jQuery(function($) {
                 } else {
                     url = 'https://www.facebook.com/sharer/sharer.php?u={{url}}';
                 }
-                options.shareButtons.push( {id:'facebook', label:lbwps_options.label_facebook, url:url} );
+                options.shareButtons.push({id:'facebook', label:lbwps_options.label_facebook, url:url});
             }
             if(lbwps_options.share_twitter == '1') {
                 if(lbwps_options.share_direct == '1') {
@@ -175,10 +180,10 @@ jQuery(function($) {
                 } else {
                     url = 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}';
                 }
-                options.shareButtons.push( {id:'twitter', label:lbwps_options.label_twitter, url:url} );
+                options.shareButtons.push({id:'twitter', label:lbwps_options.label_twitter, url:url});
             }
-            if(lbwps_options.share_pinterest == '1') options.shareButtons.push( {id:'pinterest', label:lbwps_options.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'} );
-            if(lbwps_options.share_download == '1') options.shareButtons.push( {id:'download', label:lbwps_options.label_download, url:'{{raw_image_url}}', download:true} );
+            if(lbwps_options.share_pinterest == '1') options.shareButtons.push({id:'pinterest', label:lbwps_options.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'});
+            if(lbwps_options.share_download == '1') options.shareButtons.push({id:'download', label:lbwps_options.label_download, url:'{{raw_image_url}}', download:true});
         } else {
             options.shareEl = false;
         }
@@ -204,7 +209,7 @@ jQuery(function($) {
             options.barsSize = {top: 0, bottom: 0};
         }
 
-        gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+        gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
         gallery.listen('gettingData', function (index, item) {
             if (item.w < 1 || item.h < 1) {
                 var img = new Image();
@@ -232,6 +237,6 @@ jQuery(function($) {
         if (typeof(hashData.returnurl) !== 'undefined') {
             returnUrl = hashData.returnurl;
         }
-        openPhotoSwipe( hashData.pid, hashData.gid, null, true, returnUrl );
+        openPhotoSwipe(hashData.pid, hashData.gid, null, true, returnUrl);
     }
 });
