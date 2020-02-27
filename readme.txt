@@ -31,6 +31,12 @@ All linked images in a post or page will be displayed using PhotoSwipe, regardle
 
 Make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
+If you want to display an image in it's own lightbox which does not display other images from the same post or page, you can add the attribute `data-gallery-id` to the link element with a unique value for this image. This value must not be a number since numbers are already used internally. For example you could the file name of the image like this:
+
+`<a href="myimage.jpg" data-gallery-id="myimage.jpg"><img src="myimage-300x300.jpg" alt="My Image" /></a>`
+
+You can also add the same `data-gallery-id` attribute to multiple single images to combine them in the same lightbox.
+
 = Experimental feature: return to a specific URL when closing the lightbox =
 
 Note: this was changed with version 2.0. The previous parameter `return` is no longer supported.
