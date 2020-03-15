@@ -172,10 +172,10 @@ window.addEventListener('DOMContentLoaded', function() {
         if (id != null) {
             options.galleryUID = id;
         }
-		
-		if(lbwps_options.close_on_click == '0') {
-			options.closeElClasses = ['pspw__button--close'];
-		}
+
+        if(lbwps_options.close_on_click == '0') {
+            options.closeElClasses = ['pspw__button--close'];
+        }
 
         if(lbwps_options.share_facebook == '1' ||
             lbwps_options.share_twitter == '1' ||
