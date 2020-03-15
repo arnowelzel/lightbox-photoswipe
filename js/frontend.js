@@ -46,15 +46,15 @@ window.addEventListener('DOMContentLoaded', function() {
                 var childElement = element.firstElementChild;
                 if(childElement != null) {
                     var describedby = childElement.getAttribute('aria-describedby')
-                    if (describedby) {
+                    if (describedby != null) {
                         var description = document.getElementById('#' + describedby);
-                        if (description) {
-                            caption = description.text();
+                        if (description != null) {
+                            caption = description.textContent;
                         }
                     } else {
-                        describedby = childElement.getAttribute('figcaption');
-                        if (describedby) {
-                            caption = element.next().text();
+                        var figcaption  = childElement.getAttribute('figcaption');
+                        if (figcaption != null) {
+                            caption = figcaption.textContent;
                         }
                     }
                 }
@@ -66,14 +66,18 @@ window.addEventListener('DOMContentLoaded', function() {
                 var parentElement2 = element.parentElement.parentElement.nextElementSibling;
                 var parentElement3 = element.parentElement.parentElement.parentElement.nextElementSibling;
 
-                if(nextElement && nextElement.className === '.wp-caption-text') {
-                    caption = nextElement.textContent;
-                } else if(parentElement && parentElement.className === '.wp-caption-text') {
-                    caption = parentElement.textContent;
-                } else if(parentElement && parentElement.className === '.gallery-caption') {
-                    caption = parentElement.textContent;
-                } else if(nextElement && nextElement.nodeName === "FIGCAPTION") {
-                    caption = nextElement.textContent;
+                if(nextElement != null) {
+                    if(nextElement.className === '.wp-caption-text') {
+                        caption = nextElement.textContent;
+                    } else if(nextElement && nextElement.nodeName === "FIGCAPTION") {
+                        caption = nextElement.textContent;
+                    }
+                } else if(parentElement != null) {
+                    if(parentElement.className === '.wp-caption-text') {
+                        caption = parentElement.textContent;
+                    } else if(parentElement.className === '.gallery-caption') {
+                        caption = parentElement.textContent;
+                    }
                 } else if(parentElement2 && parentElement2.nodeName === "FIGCAPTION") {
                     caption = parentElement2.textContent;
                 } else if(parentElement3 && parentElement3.nodeName === "FIGCAPTION") {
@@ -84,9 +88,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
             if(caption == null) {
                 caption = element.getAttribute('title');
-            }
-
-            if(caption == null && lbwps_options.use_alt == '1') {
+            } else if(caption == null && lbwps_options.use_alt == '1') {
                 caption = element.firstElementChild.getAttribute('alt');
             }
 
