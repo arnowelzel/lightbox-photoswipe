@@ -113,22 +113,22 @@ class LightboxPhotoSwipe
         }
 
         wp_enqueue_script(
-            'photoswipe-lib',
+            'lbwps-lib',
             plugin_dir_url(__FILE__) . 'lib/photoswipe.min.js',
             array(),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
         wp_enqueue_script(
-            'photoswipe-ui-default',
+            'lbwps-ui-default',
             plugin_dir_url(__FILE__) . 'lib/photoswipe-ui-default.min.js',
-            array('photoswipe-lib'),
+            array('lbwps-lib'),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
 
         wp_enqueue_script(
-            'photoswipe-frontend',
+            'lbwps-frontend',
             plugin_dir_url(__FILE__) . 'js/frontend.min.js',
-            array('photoswipe-lib', 'photoswipe-ui-default'),
+            array('lbwps-lib', 'lbwps-ui-default'),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
         $translation_array = array(
@@ -157,10 +157,10 @@ class LightboxPhotoSwipe
         $translation_array['fulldesktop'] = ($this->fulldesktop == '1')?'1':'0';
         $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
-        wp_localize_script('photoswipe-frontend', 'lbwps_options', $translation_array);
+        wp_localize_script('lbwps-frontend', 'lbwps_options', $translation_array);
         
         wp_enqueue_style(
-            'photoswipe-lib',
+            'lbwps-lib',
             plugin_dir_url(__FILE__) . 'lib/photoswipe.css',
             false,
             self::LIGHTBOX_PHOTOSWIPE_VERSION

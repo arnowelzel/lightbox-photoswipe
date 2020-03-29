@@ -158,7 +158,9 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 2.65 =
 
+* Change enqueue handle names for scripts to avoid compatibility issues with some themes.
 * Refactored frontend script to remove jQuery.
+* Added CSS rule to automatically rotate images based on EXIF data.
 
 = 2.64 =
 
