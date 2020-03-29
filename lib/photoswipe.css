@@ -138,7 +138,10 @@
   width: auto;
   height: auto;
   top: 0;
-  left: 0; }
+  left: 0;
+  image-orientation: from-image;
+  object-fit: contain;
+}
 
 /*
 	stretched thumbnail or div placeholder element (see below)
