@@ -88,7 +88,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
             if(caption == null) {
                 caption = element.getAttribute('title');
-            } else if(caption == null && lbwps_options.use_alt == '1') {
+            }
+
+            if(caption == null && lbwps_options.use_alt == '1') {
                 caption = element.firstElementChild.getAttribute('alt');
             }
 
