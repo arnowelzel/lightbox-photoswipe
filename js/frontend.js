@@ -1,17 +1,14 @@
-window.addEventListener('DOMContentLoaded', function() {
+jQuery(function($) {
     var PhotoSwipe = window.PhotoSwipe,
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
-    var links = document.querySelectorAll('a[data-width]');
-    links.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            if (!PhotoSwipe || !PhotoSwipeUI_Default) {
-                return;
-            }
+    $('body').on('click', 'a[data-width]:has(img)', function(e) {
+        if(!PhotoSwipe || !PhotoSwipeUI_Default) {
+            return;
+        }
 
-            event.preventDefault();
-            openPhotoSwipe(false, 0, this, false, '');
-        });
+        e.preventDefault();
+        openPhotoSwipe(false, 0, this, false, '');
     });
     
     var parseThumbnailElements = function(link, id) {
@@ -20,95 +17,79 @@ window.addEventListener('DOMContentLoaded', function() {
             index;
 
         if (id == null || id == 1) {
-            elements = document.querySelectorAll('a[data-width]:not([data-gallery-id])');
+            elements = $('body').find('a[data-width]:not([data-gallery-id]):has(img)');
         } else {
-            elements = document.querySelectorAll('a[data-width][data-gallery-id="'+id+'"]');
+            elements = $('body').find('a[data-width][data-gallery-id="'+id+'"]:has(img)');
         }
 
-        var number = 0;
-        elements.forEach(function(element) {
+        elements.each(function(i) {
+            var element = $(this);
             var caption = null;
 
-            caption = element.getAttribute('data-caption');
+            caption = element.attr('data-caption');
 
             if(caption == null) {
-                if(element.getAttribute('data-caption-title') != null) {
-                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-caption-title')+'</div>';
+                if(element.attr('data-caption-title') != null) {
+                    caption = '<div class="pswp__caption__title">'+element.attr('data-caption-title')+'</div>';
                 }
 
-                if(element.getAttribute('data-caption-desc') != null) {
+                if(element.attr('data-caption-desc') != null) {
                     if(caption == null) caption = '';
-                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-caption-desc')+'</div>';
+                    caption = caption + '<div class="pswp__caption__desc">'+element.attr('data-caption-desc')+'</div>';
                 }
             }
 
             if(caption == null) {
-                var childElement = element.firstElementChild;
-                if(childElement != null) {
-                    var describedby = childElement.getAttribute('aria-describedby')
-                    if (describedby != null) {
-                        var description = document.getElementById('#' + describedby);
-                        if (description != null) {
-                            caption = description.textContent;
-                        }
-                    } else {
-                        var figcaption  = childElement.getAttribute('figcaption');
-                        if (figcaption != null) {
-                            caption = figcaption.textContent;
-                        }
+                describedby = element.children().first().attr('aria-describedby');
+                if(describedby != null ) {
+                    description = $('#'+describedby);
+                    if(description != null) caption = description.text();
+                } else {
+                    describedby = element.children().first().attr('figcaption');
+                    if(describedby != null ) {
+                        caption = element.next().text();
                     }
                 }
             }
 
             if(caption == null) {
-                var nextElement = element.nextElementSibling;
-                var parentElement = element.parentElement.nextElementSibling;
-                var parentElement2 = element.parentElement.parentElement.nextElementSibling;
-                var parentElement3 = element.parentElement.parentElement.parentElement.nextElementSibling;
-
-                if(nextElement != null) {
-                    if(nextElement.className === '.wp-caption-text') {
-                        caption = nextElement.textContent;
-                    } else if(nextElement && nextElement.nodeName === "FIGCAPTION") {
-                        caption = nextElement.textContent;
-                    }
-                } else if(parentElement != null) {
-                    if(parentElement.className === '.wp-caption-text') {
-                        caption = parentElement.textContent;
-                    } else if(parentElement.className === '.gallery-caption') {
-                        caption = parentElement.textContent;
-                    }
-                } else if(parentElement2 && parentElement2.nodeName === "FIGCAPTION") {
-                    caption = parentElement2.textContent;
-                } else if(parentElement3 && parentElement3.nodeName === "FIGCAPTION") {
+                if(element.next().is('.wp-caption-text')) {
+                    caption = element.next().text();
+                } else if(element.parent().next().is('.wp-caption-text')) {
+                    caption = element.parent().next().text();
+                } else if(element.parent().next().is('.gallery-caption')) {
+                    caption = element.parent().next().text();
+                } else if(element.next().is("figcaption")) {
+                    caption = element.next().text();
+                } else if(element.parent().parent().next().is("figcaption")) {
+                    caption = element.parent().parent().next().text();
+                } else if(element.parent().parent().parent().next().is("figcaption")) {
                     // This variant is used by Gutenberg gallery blocks
-                    caption = parentElement3.textContent;
+                    caption = element.parent().parent().parent().next().text();
                 }
             }
 
             if(caption == null) {
-                caption = element.getAttribute('title');
+                caption = element.attr('title');
             }
 
             if(caption == null && lbwps_options.use_alt == '1') {
-                caption = element.firstElementChild.getAttribute('alt');
+                caption = element.children().first().attr('alt');
             }
 
             galleryItems.push({
-                src: element.getAttribute('href'),
-                w: element.getAttribute('data-width'),
-                h: element.getAttribute('data-height'),
+                src: element.attr('href'),
+                w: element.attr('data-width'),
+                h: element.attr('data-height'),
                 title: caption,
-                exif: element.getAttribute('data-exif'),
+                exif: element.attr('data-exif'),
                 getThumbBoundsFn: false,
                 showHideOpacity: true,
                 el: element
             });
-            if(link === element) {
-                index = number;
+            if(link === element.get(0)) {
+                index = i;
             }
-
-            number++;
         });
         
         return [galleryItems, parseInt(index, 10)];
@@ -142,7 +123,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     var openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
         var id = 1,
-            pswpElement = document.querySelector('.pswp'),
+            pswpElement = $('.pswp').get(0),
             gallery,
             options,
             items,
