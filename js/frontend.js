@@ -201,6 +201,8 @@ jQuery(function($) {
         if(lbwps_options.desktop_slider == '1') options.desktopSlider = true; else options.desktopSlider = false;
         options.spacing = lbwps_options.spacing/100;
 
+        options.timeToIdle = lbwps_options.idletime;
+
         if(fromURL == true) {
             options.index = parseInt(index, 10) - 1;
         }

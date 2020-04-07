@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.70
+Version: 2.75
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.70';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.75';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -39,8 +39,10 @@ class LightboxPhotoSwipe
     var $show_exif;
     var $separate_galleries;
     var $desktop_slider;
+	var $idletime;
     var $gallery_id;
 	var $ob_active;
+	var $ob_level;
 
     /**
      * Constructor
@@ -72,11 +74,13 @@ class LightboxPhotoSwipe
         $this->show_exif = get_option('lightbox_photoswipe_showexif');
         $this->separate_galleries = get_option('lightbox_photoswipe_separate_galleries');
         $this->desktop_slider = get_option('lightbox_photoswipe_desktop_slider');
+		$this->idletime = get_option('lightbox_photoswipe_idletime');
 
         $this->enabled = true;
         $this->gallery_id = 1;
 		$this->ob_active = false;
-        
+		$this->ob_level = 0;
+
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
             add_action('wp_footer', array($this, 'footer'));
@@ -157,6 +161,7 @@ class LightboxPhotoSwipe
         $translation_array['fulldesktop'] = ($this->fulldesktop == '1')?'1':'0';
         $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
+		$translation_array['idletime'] =intval($this->idletime);
         wp_localize_script('lbwps-frontend', 'lbwps_options', $translation_array);
         
         wp_enqueue_style(
@@ -237,7 +242,12 @@ class LightboxPhotoSwipe
             echo $footer;
         }
 
-        if ($this->ob_active) ob_end_flush();
+        if ($this->ob_active) {
+            $this->ob_active = false;
+            if($this->ob_level == ob_get_level()) {
+                ob_end_flush();
+            }
+        }
     }
 
     /**
@@ -587,7 +597,8 @@ class LightboxPhotoSwipe
         }
 
         ob_start(array($this, 'filterOutput'));
-		$this->ob_active = true;
+        $this->ob_level = ob_get_level();
+        $this->ob_active = true;
     }
 
     function shortcodeGallery($attr)
@@ -674,6 +685,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_showexif');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_separate_galleries');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_desktop_slider');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_idletime');
     }
 
     /**
@@ -737,9 +749,8 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_taptotoggle"><input id="lightbox_photoswipe_taptotoggle" type="checkbox" name="lightbox_photoswipe_taptotoggle" value="1"'; if(get_option('lightbox_photoswipe_taptotoggle')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable tap to toggle controls on mobile devices', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_desktop_slider"><input id="lightbox_photoswipe_desktop_slider" type="checkbox" name="lightbox_photoswipe_desktop_slider" value="1"'; if(get_option('lightbox_photoswipe_desktop_slider')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Use slide animation when using arrows in desktop view', 'lightbox-photoswipe').'</label><br />
-            </tr>
-            <tr>';
-        echo '<th scope="row">'.__('Spacing between pictures', 'lightbox-photoswipe').'</th>';
+            </tr>';
+        echo '<tr><th scope="row">'.__('Spacing between pictures', 'lightbox-photoswipe').'</th>';
         echo '<td><label for="lightbox_photoswipe_spacing"><select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">';
         for ($spacing = 0; $spacing < 13; $spacing++) {
             echo '<option value="'.$spacing.'"';
@@ -749,6 +760,17 @@ class LightboxPhotoSwipe
             echo '</option>';
         }
         echo '</select></label><p class="description">'.__('Space between pictures relative to screenwidth.', 'lightbox-photoswipe').'</p>';
+        echo '</td></tr>';
+	    echo '<tr></tr><th scope="row">'.__('Idle time for controls', 'lightbox-photoswipe').'</th>';
+        echo '<td><label for="lightbox_photoswipe_idletime"><select id="lightbox_photoswipe_idletime" name="lightbox_photoswipe_idletime">';
+        for ($idletime = 1000; $idletime <= 10000; $idletime+=1000) {
+            echo '<option value="'.$idletime.'"';
+            if (get_option('lightbox_photoswipe_idletime')==$idletime) echo ' selected="selected"';
+            echo '>'.($idletime/1000).' '._n('second','seconds', $idletime/1000, 'lightbox-photoswipe');
+            if ($idletime == 4000) echo ' ('.__('Default', 'lightbox-photoswipe').')';
+            echo '</option>';
+        }
+        echo '</select></label><p class="description">'.__('Time until the on screen controls will disappear automatically in desktop view.', 'lightbox-photoswipe').'</p>';
         echo '</td></tr>';
         echo '<tr><th scope="row">'.__('Skin', 'lightbox-photoswipe').'</th>
             <td><label for="lightbox_photoswipe_skin"><select id="lightbox_photoswipe_skin" name="lightbox_photoswipe_skin">';
@@ -856,6 +878,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_showexif', '0');
             update_option('lightbox_photoswipe_separate_galleries', '0');
 	        update_option('lightbox_photoswipe_desktop_slider', '1');
+	        update_option('lightbox_photoswipe_idletime', '4000');
             restore_current_blog();
         }
     }
@@ -990,8 +1013,11 @@ class LightboxPhotoSwipe
 	    if (intval($db_version) < 18) {
 		    update_option( 'lightbox_photoswipe_desktop_slider', '1' );
 	    }
+	    if (intval($db_version) < 19) {
+		    update_option( 'lightbox_photoswipe_idletime', '4000' );
+	    }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 18);
+        update_option('lightbox_photoswipe_db_version', 19);
     }
 }
 
