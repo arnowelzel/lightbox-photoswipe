@@ -40,6 +40,7 @@ class LightboxPhotoSwipe
     var $separate_galleries;
     var $desktop_slider;
 	var $idletime;
+	var $add_lazyloading;
     var $gallery_id;
 	var $ob_active;
 	var $ob_level;
@@ -75,6 +76,7 @@ class LightboxPhotoSwipe
         $this->separate_galleries = get_option('lightbox_photoswipe_separate_galleries');
         $this->desktop_slider = get_option('lightbox_photoswipe_desktop_slider');
 		$this->idletime = get_option('lightbox_photoswipe_idletime');
+		$this->add_lazyloading = get_option('lightbox_photoswipe_add_lazyloading');
 
         $this->enabled = true;
         $this->gallery_id = 1;
@@ -554,12 +556,16 @@ class LightboxPhotoSwipe
         }
 
         // Add "lazy loading" to the image if needed
-	    if (strpos($matches[8], 'loading="lazy"') === false) {
-		    $matches[8].=' loading="lazy"';
-	    }
+	    if ('1' === $this->add_lazyloading) {
+		    if (strpos( $matches[8], 'loading="lazy"' ) === false) {
+			    $matches[8] .= ' loading="lazy"';
+		    }
 
-        return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5].
-               $matches[6].$matches[7].$matches[8].$matches[9].$matches[10].$matches[11];
+		    return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5] .
+		           $matches[6] . $matches[7] . $matches[8] . $matches[9] . $matches[10] . $matches[11];
+	    } else {
+		    return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5];
+	    }
     }
 
     /**
@@ -584,10 +590,20 @@ class LightboxPhotoSwipe
 	 */
     function filterOutput($content)
     {
-	    return preg_replace_callback('/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)(((?!<\/a>).)*)(<img [^>]+)(>)(.*)(<\/a>)/sU',
-            array($this, 'outputCallbackProperties' ),
-            $content
-        );
+	    if ('1' === $this->add_lazyloading) {
+		    $content = preg_replace_callback(
+			    '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)(((?!<\/a>).)*)(<img [^>]+)(>)(.*)(<\/a>)/sU',
+			    array( $this, 'outputCallbackProperties' ),
+			    $content
+		    );
+	    } else {
+		    $content = preg_replace_callback(
+			    '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+			    array($this, 'outputCallbackProperties'),
+			    $content
+		    );
+	    }
+	    return $content;
     }
 
     /**
@@ -691,6 +707,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_separate_galleries');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_desktop_slider');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_idletime');
+	    register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_add_lazyloading');
     }
 
     /**
@@ -754,6 +771,7 @@ class LightboxPhotoSwipe
             <label for="lightbox_photoswipe_taptotoggle"><input id="lightbox_photoswipe_taptotoggle" type="checkbox" name="lightbox_photoswipe_taptotoggle" value="1"'; if(get_option('lightbox_photoswipe_taptotoggle')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Enable tap to toggle controls on mobile devices', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_fulldesktop"><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"'; if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Full picture size in desktop view', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_desktop_slider"><input id="lightbox_photoswipe_desktop_slider" type="checkbox" name="lightbox_photoswipe_desktop_slider" value="1"'; if(get_option('lightbox_photoswipe_desktop_slider')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Use slide animation when using arrows in desktop view', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_add_lazyloading"><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"'; if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Add native lazy loading to images', 'lightbox-photoswipe').'</label><br />
             </tr>';
         echo '<tr><th scope="row">'.__('Spacing between pictures', 'lightbox-photoswipe').'</th>';
         echo '<td><label for="lightbox_photoswipe_spacing"><select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">';
@@ -884,6 +902,7 @@ class LightboxPhotoSwipe
             update_option('lightbox_photoswipe_separate_galleries', '0');
 	        update_option('lightbox_photoswipe_desktop_slider', '1');
 	        update_option('lightbox_photoswipe_idletime', '4000');
+	        update_option('lightbox_photoswipe_add_lazyloading', '1');
             restore_current_blog();
         }
     }
@@ -1020,6 +1039,7 @@ class LightboxPhotoSwipe
 	    }
 	    if (intval($db_version) < 19) {
 		    update_option( 'lightbox_photoswipe_idletime', '4000' );
+		    update_option( 'lightbox_photoswipe_add_lazyloading', '1' );
 	    }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
         update_option('lightbox_photoswipe_db_version', 19);
