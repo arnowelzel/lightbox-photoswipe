@@ -401,7 +401,7 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Callback to handle a single image
+     * Callback to handle a single image link
      * 
      * @param string $matches existing matches
      * 
@@ -553,7 +553,13 @@ class LightboxPhotoSwipe
             }
         }
 
-        return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
+        // Add "lazy loading" to the image if needed
+	    if (strpos($matches[8], 'loading="lazy"') === false) {
+		    $matches[8].=' loading="lazy"';
+	    }
+
+        return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5].
+               $matches[6].$matches[7].$matches[8].$matches[9].$matches[10].$matches[11];
     }
 
     /**
@@ -578,9 +584,8 @@ class LightboxPhotoSwipe
 	 */
     function filterOutput($content)
     {
-        return preg_replace_callback(
-            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-            array($this, 'outputCallbackProperties'),
+	    return preg_replace_callback('/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)(((?!<\/a>).)*)(<img [^>]+)(>)(.*)(<\/a>)/sU',
+            array($this, 'outputCallbackProperties' ),
             $content
         );
     }
