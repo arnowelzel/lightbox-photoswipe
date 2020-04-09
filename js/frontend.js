@@ -29,17 +29,6 @@ jQuery(function($) {
             caption = element.attr('data-caption');
 
             if(caption == null) {
-                if(element.attr('data-caption-title') != null) {
-                    caption = '<div class="pswp__caption__title">'+element.attr('data-caption-title')+'</div>';
-                }
-
-                if(element.attr('data-caption-desc') != null) {
-                    if(caption == null) caption = '';
-                    caption = caption + '<div class="pswp__caption__desc">'+element.attr('data-caption-desc')+'</div>';
-                }
-            }
-
-            if(caption == null) {
                 describedby = element.children().first().attr('aria-describedby');
                 if(describedby != null ) {
                     description = $('#'+describedby);
@@ -75,6 +64,11 @@ jQuery(function($) {
 
             if(caption == null && lbwps_options.use_alt == '1') {
                 caption = element.children().first().attr('alt');
+            }
+
+            if(element.attr('data-description') != null) {
+                if(caption == null) caption = '';
+                caption = caption + '<div class="pswp__caption__desc">'+element.attr('data-description')+'</div>';
             }
 
             galleryItems.push({

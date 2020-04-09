@@ -32,6 +32,7 @@ class LightboxPhotoSwipe
     var $show_counter;
     var $skin;
     var $usepostdata;
+	var $usedescription;
     var $enabled;
     var $close_on_click;
     var $fulldesktop;
@@ -69,6 +70,7 @@ class LightboxPhotoSwipe
         $this->spacing = get_option('lightbox_photoswipe_spacing');
         $this->skin = get_option('lightbox_photoswipe_skin');
         $this->usepostdata = get_option('lightbox_photoswipe_usepostdata');
+	    $this->usedescription = get_option('lightbox_photoswipe_usedescription');
         $this->close_on_click = get_option('lightbox_photoswipe_close_on_click');
         $this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
         $this->use_alt = get_option('lightbox_photoswipe_use_alt');
@@ -427,6 +429,7 @@ class LightboxPhotoSwipe
 
         $type = wp_check_filetype($file);
         $caption = '';
+	    $description = '';
 
         // Only work on known image formats
         if (in_array($type['ext'], array('jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'))) {
@@ -464,6 +467,7 @@ class LightboxPhotoSwipe
                     if (isset($imgid[0])) {
                         $imgpost = get_post($imgid[0]);
                         $caption = $imgpost->post_excerpt;
+                        $description = $imgpost->post_content;
                     } else {
                         $caption = '';
                     }
@@ -536,6 +540,10 @@ class LightboxPhotoSwipe
                 if ($caption != '') {
                     $attr .= sprintf(' data-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
                 }
+
+	            if ($this->usedescription == '1' && $description != '') {
+		            $attr .= sprintf(' data-description="%s"', htmlspecialchars(nl2br(wptexturize($description))));
+	            }
 
                 $exifOutput = '';
 
@@ -700,6 +708,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_skin');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_spacing');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usepostdata');
+	    register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usedescription');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_click');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
@@ -721,6 +730,16 @@ class LightboxPhotoSwipe
         echo '<form method="post" action="options.php">';
         settings_fields('lightbox-photoswipe-settings-group');
         // do_settings_sections( 'lightbox-photoswipe-settings-group' );
+	    echo '<script>
+function lbwpsUpdateDescriptionCheck(checkbox) {
+    var useDescription = document.getElementById("lightbox_photoswipe_usedescription");
+    if (checkbox.checked) {
+        useDescription.disabled = false;
+    } else {
+        useDescription.disabled = true;
+    }
+}
+</script>';
         echo '<table class="form-table"><tr>
             <th scope="row"><label for="lightbox_photoswipe_disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
             <td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" /><p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</p></td>
@@ -747,7 +766,8 @@ class LightboxPhotoSwipe
             <th scope="row">'.__('Captions', 'lightbox-photoswipe').'</th>
             <td>
             <label for="lightbox_photoswipe_show_caption"><input id="lightbox_photoswipe_show_caption" type="checkbox" name="lightbox_photoswipe_show_caption" value="1"'; if(get_option('lightbox_photoswipe_show_caption')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show caption if available', 'lightbox-photoswipe').'</label><br />
-            <label for="lightbox_photoswipe_usepostdata"><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"'; if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_usepostdata"><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"'; if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; echo ' onClick="lbwpsUpdateDescriptionCheck(this)" />&nbsp;'.__('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe').'</label><br />
+            <label for="lightbox_photoswipe_usedescription"><input id="lightbox_photoswipe_usedescription" type="checkbox" name="lightbox_photoswipe_usedescription" value="1"'; if(get_option('lightbox_photoswipe_usedescription')=='1') echo ' checked="checked"'; echo ' />&nbsp;... '.__('also use description if available', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_use_alt"><input id="lightbox_photoswipe_use_alt" type="checkbox" name="lightbox_photoswipe_use_alt" value="1"'; if(get_option('lightbox_photoswipe_use_alt')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Use alternative text of images as captions if needed', 'lightbox-photoswipe').'</label><br />';
         echo '<label for="lightbox_photoswipe_showexif"><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"'; if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show EXIF data if available', 'lightbox-photoswipe');
         if (!function_exists('exif_read_data')) {
@@ -818,6 +838,7 @@ class LightboxPhotoSwipe
         echo '<p><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>';
         echo '<p><b>'.__('Thank you :-)', 'lightbox-photoswipe').'</b><p>';
         echo '</div>';
+        echo '<script>lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_usepostdata"))</script>';
     }
 
     /**
@@ -1040,6 +1061,7 @@ class LightboxPhotoSwipe
 	    if (intval($db_version) < 19) {
 		    update_option( 'lightbox_photoswipe_idletime', '4000' );
 		    update_option( 'lightbox_photoswipe_add_lazyloading', '1' );
+		    update_option( 'lightbox_photoswipe_usedescription', '0' );
 	    }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
         update_option('lightbox_photoswipe_db_version', 19);
