@@ -109,6 +109,8 @@ pswp__caption__center - this class is used for the whole caption area.
 
 pswp__caption__title and pswp__caption__desc - these classes are used, if the caption is divided into a title an description (based on the data-caption-title and data-caption-desc attributes in the image link).
 
+pswp__description - this class is used for the description if this is displayed in addition to the regular caption.
+
 pswp__caption__exif - this class is used for the EXIF data DIV element.
 
 = Why is there no "zoom animation" when opening the lightbox? =

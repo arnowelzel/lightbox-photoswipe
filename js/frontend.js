@@ -79,7 +79,7 @@ jQuery(function($) {
 
             if(element.attr('data-description') != null) {
                 if(caption == null) caption = '';
-                caption = caption + '<div class="pswp__caption__desc">'+element.attr('data-description')+'</div>';
+                caption = caption + '<div class="pswp__description">'+element.attr('data-description')+'</div>';
             }
 
             galleryItems.push({
