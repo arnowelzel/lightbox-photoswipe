@@ -162,8 +162,8 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 * Additional checks for output buffering.
 * New option to configure the timeout before controls will hide automatically in desktop view.
-* New option to add native lazy loading to images
-* Added support for image descriptions
+* New option to add native lazy loading to images.
+* Added support for image descriptions.
 
 = 2.70 =
 
