@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.75
+Version: 2.76
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.75';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.76';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -563,18 +563,28 @@ class LightboxPhotoSwipe
             }
         }
 
-        // Add "lazy loading" to the image if needed
-	    if ('1' === $this->add_lazyloading) {
-		    if (strpos( $matches[8], 'loading="lazy"' ) === false) {
-			    $matches[8] .= ' loading="lazy"';
-		    }
-
-		    return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5] .
-		           $matches[6] . $matches[7] . $matches[8] . $matches[9] . $matches[10] . $matches[11];
-	    } else {
-		    return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5];
-	    }
+	    return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5];
     }
+
+	/**
+	 * Callback to add the "lazy loading" attribute to an image
+	 *
+	 * @param string $matches existing matches
+	 *
+	 * @return string modified HTML content
+	 */
+	function outputCallbackLazyLoading($matches)
+	{
+		$replacement = $matches[4];
+		if(false === strpos($replacement, 'loading="')) {
+			if('/' === substr($replacement, -1)) {
+				$replacement = substr($replacement, 1, strlen($replacement) - 1) . ' loading="lazy" /';
+			} else {
+				$replacement .= ' loading="lazy"';
+			}
+		}
+		return $matches[1] . $matches[2] . $matches[3] . $replacement . $matches[5];
+	}
 
     /**
      * Callback to add current gallery id to a single image
@@ -598,16 +608,15 @@ class LightboxPhotoSwipe
 	 */
     function filterOutput($content)
     {
+	    $content = preg_replace_callback(
+		    '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+		    array($this, 'outputCallbackProperties'),
+		    $content
+	    );
 	    if ('1' === $this->add_lazyloading) {
 		    $content = preg_replace_callback(
-			    '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)(((?!<\/a>).)*)(<img [^>]+)(>)(.*)(<\/a>)/sU',
-			    array( $this, 'outputCallbackProperties' ),
-			    $content
-		    );
-	    } else {
-		    $content = preg_replace_callback(
-			    '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-			    array($this, 'outputCallbackProperties'),
+			    '/(<img.[^>]*src=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+			    array($this, 'outputCallbackLazyLoading'),
 			    $content
 		    );
 	    }
