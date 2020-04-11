@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.77
+Version: 2.80
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.77';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.80';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -75,6 +75,7 @@ class LightboxPhotoSwipe
         $this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
         $this->use_alt = get_option('lightbox_photoswipe_use_alt');
         $this->show_exif = get_option('lightbox_photoswipe_showexif');
+	    $this->show_exif_date = get_option('lightbox_photoswipe_showexif_date');
         $this->separate_galleries = get_option('lightbox_photoswipe_separate_galleries');
         $this->desktop_slider = get_option('lightbox_photoswipe_desktop_slider');
 		$this->idletime = get_option('lightbox_photoswipe_idletime');
@@ -368,6 +369,28 @@ class LightboxPhotoSwipe
     }
 
     /**
+     * Helper to get the date taken from an EXIF array
+     *
+     * @param $exif    The EXIF array containing the original value
+     *
+     * @return string  The date taken in local date format
+     */
+    function exifGetDateTime(&$exif)
+    {
+        $result = '';
+
+        if (isset($exif['EXIF']['DateTimeOriginal'])) {
+            $exifDate = $exif['EXIF']['DateTimeOriginal'];
+            $date = date_create_from_format('Y-m-d H-i-s',
+                substr(0, 4, $exifDate).'-'.substr(5, 2, $exifDate).'-'.substr(8, 2, $exifDate).
+                    ' '.substr(11, 2, $exifDate).':'.substr(14, 2, $exifDate).'.'.substr(17, 2, $exifDate));
+            $result = date_i18n(get_option('date_format'), $date);
+        }
+
+        return $result;
+    }
+
+    /**
      * Helper to get the f-stop from an EXIF array
      *
      * @param $exif array  The EXIF array containing the original value
@@ -396,12 +419,12 @@ class LightboxPhotoSwipe
      * @param $output  Existing output
      * @param $detail  Detail to add
      */
-    function exifAddOutput(&$output, $detail)
+    function exifAddOutput(&$output, $detail, $cssclass)
     {
         if ($output != '') {
             $output .= ', ';
         }
-        $output .= $detail;
+        $output .= sprintf('<span class="pswp__caption__exif_%s">%s</span>', $cssclass, $detail);
     }
 
     /**
@@ -496,6 +519,7 @@ class LightboxPhotoSwipe
                 $exifFstop  = $entry->exif_fstop;
                 $exifShutter = $entry->exif_shutter;
                 $exifIso = $entry->exif_iso;
+	            $exifDateTime = $entry->exif_datetime;
             } else {
                 $imageSize = @getimagesize($file);
 
@@ -507,14 +531,15 @@ class LightboxPhotoSwipe
                         $exifFstop = $this->exifGetFstop($exif);
                         $exifShutter = $this->exifGetShutter($exif);
                         $exifIso = $this->exifGetIso($exif);
+                        $exifDateTime = $this->exifGetDateTime($exif);
                     }
                 }
 
                 if (is_numeric($imageSize[0]) && is_numeric($imageSize[1])) {
                     $created = strftime('%Y-%m-%d %H:%M:%S');
                     $sql = sprintf(
-                    'INSERT INTO %s (imgkey, created, width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso)'.
-                        ' VALUES ("%s", "%s", "%d", "%d", "%s", "%s", "%s", "%s", "%s")',
+                    'INSERT INTO %s (imgkey, created, width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime)'.
+                        ' VALUES ("%s", "%s", "%d", "%d", "%s", "%s", "%s", "%s", "%s", "%s")',
                         $tableImg,
                         $imgkey,
                         $created,
@@ -524,7 +549,8 @@ class LightboxPhotoSwipe
                         $exifFocal,
                         $exifFstop,
                         $exifShutter,
-                        $exifIso
+                        $exifIso,
+	                    $exifDateTime
                     );
                     $wpdb->query($sql);
                 } else {
@@ -548,10 +574,13 @@ class LightboxPhotoSwipe
                 $exifOutput = '';
 
                 if ($this->show_exif) {
-                    $this->exifAddOutput($exifOutput, $exifFocal);
-                    $this->exifAddOutput($exifOutput, $exifFstop);
-                    $this->exifAddOutput($exifOutput, $exifShutter);
-                    $this->exifAddOutput($exifOutput, $exifIso);
+                    $this->exifAddOutput($exifOutput, $exifFocal, 'focal');
+                    $this->exifAddOutput($exifOutput, $exifFstop, 'fstop');
+                    $this->exifAddOutput($exifOutput, $exifShutter, 'shutter');
+                    $this->exifAddOutput($exifOutput, $exifIso, 'iso');
+                    if ($this->show_exif_date) {
+	                    $this->exifAddOutput($exifOutput, $exifDateTime, 'datetime');
+                    }
                     if ($exifCamera != '') {
                         $exifOutput = sprintf('%s (%s)', $exifCamera, $exifOutput);
                     }
@@ -578,7 +607,7 @@ class LightboxPhotoSwipe
 		$replacement = $matches[4];
 		if(false === strpos($replacement, 'loading="')) {
 			if('/' === substr($replacement, -1)) {
-				$replacement = substr($replacement, 1, strlen($replacement) - 1) . ' loading="lazy" /';
+				$replacement = substr($replacement, 0, strlen($replacement) - 1) . ' loading="lazy" /';
 			} else {
 				$replacement .= ' loading="lazy"';
 			}
@@ -722,6 +751,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_showexif');
+	    register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_showexif_date');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_separate_galleries');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_desktop_slider');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_idletime');
@@ -746,6 +776,16 @@ function lbwpsUpdateDescriptionCheck(checkbox) {
         useDescription.disabled = false;
     } else {
         useDescription.disabled = true;
+    }
+}
+
+function lbwpsUpdateExifDateCheck(checkbox) {
+    var showExifDate = document.getElementById("lightbox_photoswipe_showexif_date");
+    console.log(showExifDate);
+    if (checkbox.checked) {
+        showExifDate.disabled = false;
+    } else {
+        showExifDate.disabled = true;
     }
 }
 </script>';
@@ -778,12 +818,13 @@ function lbwpsUpdateDescriptionCheck(checkbox) {
             <label for="lightbox_photoswipe_usepostdata"><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"'; if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; echo ' onClick="lbwpsUpdateDescriptionCheck(this)" />&nbsp;'.__('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_usedescription"><input id="lightbox_photoswipe_usedescription" type="checkbox" name="lightbox_photoswipe_usedescription" value="1"'; if(get_option('lightbox_photoswipe_usedescription')=='1') echo ' checked="checked"'; echo ' />&nbsp;... '.__('also use description if available', 'lightbox-photoswipe').'</label><br />
             <label for="lightbox_photoswipe_use_alt"><input id="lightbox_photoswipe_use_alt" type="checkbox" name="lightbox_photoswipe_use_alt" value="1"'; if(get_option('lightbox_photoswipe_use_alt')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Use alternative text of images as captions if needed', 'lightbox-photoswipe').'</label><br />';
-        echo '<label for="lightbox_photoswipe_showexif"><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"'; if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show EXIF data if available', 'lightbox-photoswipe');
+        echo '<label for="lightbox_photoswipe_showexif"><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"'; if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; echo ' onClick="lbwpsUpdateExifDateCheck(this)" />&nbsp;'.__('Show EXIF data if available', 'lightbox-photoswipe');
         if (!function_exists('exif_read_data')) {
             echo ' (';
             echo __('<a href="https://www.php.net/manual/en/book.exif.php" target="_blank">the PHP EXIF extension</a> is missing on this server!', 'lightbox-photoswipe');
             echo ')';
         }
+	    echo '</label></br><label for="lightbox_photoswipe_showexif_date"><input id="lightbox_photoswipe_showexif_date" type="checkbox" name="lightbox_photoswipe_showexif_date" value="1"'; if(get_option('lightbox_photoswipe_showexif_date')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show date in EXIF data if available', 'lightbox-photoswipe');
         echo '</label>
 			</td>
 			</tr>
@@ -847,7 +888,8 @@ function lbwpsUpdateDescriptionCheck(checkbox) {
         echo '<p><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>';
         echo '<p><b>'.__('Thank you :-)', 'lightbox-photoswipe').'</b><p>';
         echo '</div>';
-        echo '<script>lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_usepostdata"))</script>';
+        echo '<script>lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_usepostdata"));lbwpsUpdateExifDateCheck(document.getElementById("lightbox_photoswipe_showexif"))</script>';
+
     }
 
     /**
@@ -871,6 +913,7 @@ function lbwpsUpdateDescriptionCheck(checkbox) {
           exif_fstop varchar(255),
           exif_shutter varchar(255),
           exif_iso varchar(255),
+          exif_datetime varchr(255),
           PRIMARY KEY (imgkey),
           INDEX idx_created (created)
         ) $charset_collate;";
@@ -1075,8 +1118,12 @@ function lbwpsUpdateDescriptionCheck(checkbox) {
 	    if (intval($db_version) < 20) {
 		    update_option( 'lightbox_photoswipe_add_lazyloading', '0' );
 	    }
+	    if (intval($db_version) < 21) {
+		    $this->deleteTables();
+		    $this->createTables();
+	    }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 20);
+        update_option('lightbox_photoswipe_db_version', 21);
     }
 }
 

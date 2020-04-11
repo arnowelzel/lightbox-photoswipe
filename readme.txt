@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 2.77
+Stable tag: 2.80
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,12 @@ This plugin is a simple integration of PhotoSwipe to WordPress. All linked image
 More about PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
 The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
+
+If you like my WordPress plugins and want to support my work you can send a donation via PayPal.
+
+[https://paypal.me/ArnoWelzel](https://paypal.me/ArnoWelzel)
+
+Thank you :-)
 
 == Installation ==
 
@@ -113,6 +119,8 @@ pswp__description - this class is used for the description if this is displayed 
 
 pswp__caption__exif - this class is used for the EXIF data DIV element.
 
+pswp__caption__exif_focal, pswp__caption__exif_fstop, pswp__caption__exif_shutter, pswp__caption__exif_iso, pswp__caption__exif_datetime - these classes are used for the individual properties in the EXIF data.
+
 = Why is there no "zoom animation" when opening the lightbox? =
 
 PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a black background where the final image gets loaded seems to be the better solution. Also see [http://photoswipe.com/documentation/faq.html](http://photoswipe.com/documentation/faq.html) about this topic.
@@ -158,13 +166,18 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 2.80 =
+
+* Added optional display of EXIF date.
+* Fixed another bug for adding lazy loading attributes for images.
+
 = 2.77 =
 
 * Adding of lazy loading turned off by default since this may cause problems with certain themes and plugins. You can enable it again manually in the backend settings, if you want to keep this feature.
 
 = 2.76 =
 
-* Fix a bug for adding lazy loading attributes for images.
+* Fixed a bug for adding lazy loading attributes for images.
 
 = 2.75 =
 
@@ -179,7 +192,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 2.66 =
 
-* Fix a bug in caption handling to use alt attributes if no other caption source is available.
+* Fixed a bug in caption handling to use alt attributes if no other caption source is available.
 
 = 2.65 =
 
