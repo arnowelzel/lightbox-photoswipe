@@ -1028,10 +1028,13 @@ function lbwpsUpdateExifDateCheck(checkbox) {
     {
         global $wpdb;
 
+
         $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';
-        $date = strftime('%Y-%m-%d %H:%M:%S', time()-86400);
-        $sql = "DELETE FROM $table_img where created<(\"$date\")";
-        $wpdb->query($sql);
+	    if ($wpdb->get_var( $wpdb->prepare("SHOW TABLES LIKE %s", $table_img)) === $table_img) {
+		    $date = strftime( '%Y-%m-%d %H:%M:%S', time() - 86400 );
+		    $sql  = "DELETE FROM $table_img where created<(\"$date\")";
+		    $wpdb->query( $sql );
+	    }
     }            
     
     /**
@@ -1041,8 +1044,6 @@ function lbwpsUpdateExifDateCheck(checkbox) {
      */
     function init()
     {
-        global $wpdb;
-
         load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
 
         $db_version = get_option('lightbox_photoswipe_db_version');
