@@ -193,8 +193,10 @@ jQuery(function($) {
             options.shareEl = false;
         }
 
-        if(lbwps_options.close_on_scroll == '1') options.closeOnScroll = false;
-        if(lbwps_options.close_on_drag == '1') options.closeOnVerticalDrag = false;
+        if(lbwps_options.wheelmode == 'close') options.closeOnScroll = true;else options.closeOnScroll = false;
+        if(lbwps_options.wheelmode == 'zoom') options.zoomOnScroll = true;else options.zoomOnScroll = false;
+        if(lbwps_options.wheelmode == 'switch') options.switchOnScroll = true;else options.switchOnScroll = false;
+        if(lbwps_options.close_on_drag == '1') options.closeOnVerticalDrag = true;else options.closeOnVerticalDrag = false;
         if(lbwps_options.history == '1') options.history = true;else options.history = false;
         if(lbwps_options.show_counter == '1') options.counterEl = true;else options.counterEl = false;
         if(lbwps_options.show_fullscreen == '1') options.fullscreenEl = true;else options.fullscreenEl = false;
