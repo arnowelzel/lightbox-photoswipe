@@ -420,7 +420,10 @@ class LightboxPhotoSwipe
      */
     function exifAddOutput(&$output, $detail, $cssclass)
     {
-        if ($output != '') {
+        if('' === $detail) {
+            return;
+        }
+        if ('' !== $output) {
             $output .= ', ';
         }
         $output .= sprintf('<span class="pswp__caption__exif_%s">%s</span>', $cssclass, $detail);
