@@ -239,9 +239,13 @@ a.pswp__share--pinterest:hover {
 a.pswp__share--pinterest:hover:before {
   border-bottom-color: #CCC; }
 
-a.pswp__share--download:hover {
+a.pswp__share--download:hover,
+a.pswp__share--copyurl:hover,
+a.pswp__share--custom:hover {
   background: #DDD; }
-a.pswp__share--download:hover:before {
+a.pswp__share--download:hover:before,
+a.pswp__share--copyurl:hover:before,
+a.pswp__share--custom:hover:before {
   border-bottom-color: #DDD; }
 /*
 

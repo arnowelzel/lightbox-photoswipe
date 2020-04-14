@@ -10,7 +10,7 @@ jQuery(function($) {
         e.preventDefault();
         openPhotoSwipe(false, 0, this, false, '');
     });
-    
+
     var parseThumbnailElements = function(link, id) {
         var elements,
             galleryItems = [],
@@ -189,6 +189,10 @@ jQuery(function($) {
             }
             if(lbwps_options.share_pinterest == '1') options.shareButtons.push({id:'pinterest', label:lbwps_options.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'});
             if(lbwps_options.share_download == '1') options.shareButtons.push({id:'download', label:lbwps_options.label_download, url:'{{raw_image_url}}', download:true});
+            if(lbwps_options.share_copyurl == '1') options.shareButtons.push({id:'copyurl', label:lbwps_options.label_copyurl, url:'{{raw_image_url}}', onclick:'window.lbwpsCopyToClipboard(\'{{raw_image_url}}\');return false;', download:false});
+            if(lbwps_options.share_custom_link !== '' && lbwps_options.share_custom_label !== '') {
+                options.shareButtons.push({id:'custom', label:lbwps_options.share_custom_label, url:lbwps_options.share_custom_link, download:false});
+            }
         } else {
             options.shareEl = false;
         }
@@ -238,6 +242,26 @@ jQuery(function($) {
         }
 
         gallery.init();
+    };
+
+    window.lbwpsCopyToClipboard = function(str) {
+        const el = document.createElement('textarea');
+        el.value = str;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        const selected =
+            document.getSelection().rangeCount > 0
+                ? document.getSelection().getRangeAt(0)
+                : false;
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        if (selected) {
+            document.getSelection().removeAllRanges();
+            document.getSelection().addRange(selected);
+        }
     };
 
     var hashData = photoswipeParseHash();

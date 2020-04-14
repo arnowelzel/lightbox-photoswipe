@@ -243,6 +243,15 @@ a.pswp__share--download:hover {
   background: #DDD; }
 a.pswp__share--download:hover:before {
   border-bottom-color: #DDD; }
+
+a.pswp__share--download:hover,
+a.pswp__share--copyurl:hover,
+a.pswp__share--custom:hover {
+  background: #DDD; }
+a.pswp__share--download:hover:before,
+a.pswp__share--copyurl:hover:before,
+a.pswp__share--custom:hover:before {
+  border-bottom-color: #DDD; }
 /*
 
 	3. Index indicator ("1 of X" counter)
