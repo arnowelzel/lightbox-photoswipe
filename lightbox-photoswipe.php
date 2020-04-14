@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.80
+Version: 2.81
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.80';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.81';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -381,10 +381,9 @@ class LightboxPhotoSwipe
 
         if (isset($exif['EXIF']['DateTimeOriginal'])) {
             $exifDate = $exif['EXIF']['DateTimeOriginal'];
-            $date = date_create_from_format('Y-m-d H-i-s',
-                substr(0, 4, $exifDate).'-'.substr(5, 2, $exifDate).'-'.substr(8, 2, $exifDate).
-                    ' '.substr(11, 2, $exifDate).':'.substr(14, 2, $exifDate).'.'.substr(17, 2, $exifDate));
-            $result = date_i18n(get_option('date_format'), $date);
+            $date = substr($exifDate, 0, 4).'-'.substr($exifDate, 5, 2 ).'-'.substr($exifDate, 8, 2).
+                    ' '.substr($exifDate, 11, 2).':'.substr($exifDate, 14, 2 ).':'.substr($exifDate, 17, 2);
+            return $date;
         }
 
         return $result;
@@ -509,8 +508,9 @@ class LightboxPhotoSwipe
             $exifFstop = '';
             $exifShutter = '';
             $exifIso = '';
+            $exifDateTime = '';
             $tableImg = $wpdb->prefix . 'lightbox_photoswipe_img';
-            $entry = $wpdb->get_row("SELECT width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso FROM $tableImg where imgkey='$imgkey'");
+            $entry = $wpdb->get_row("SELECT width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime FROM $tableImg where imgkey='$imgkey'");
             if (null != $entry) {
                 $imageSize[0] = $entry->width;
                 $imageSize[1] = $entry->height;
@@ -579,7 +579,11 @@ class LightboxPhotoSwipe
                     $this->exifAddOutput($exifOutput, $exifShutter, 'shutter');
                     $this->exifAddOutput($exifOutput, $exifIso, 'iso');
                     if ($this->show_exif_date) {
-	                    $this->exifAddOutput($exifOutput, $exifDateTime, 'datetime');
+                    	$exitDateTimeValue = date_create_from_format('Y-m-d H:i:s', $exifDateTime);
+                    	if (false !== $exitDateTimeValue) {
+		                    $exifDateTimeOutput = date_i18n( get_option( 'date_format' ), $exitDateTimeValue->getTimestamp());
+		                    $this->exifAddOutput( $exifOutput, $exifDateTimeOutput, 'datetime');
+	                    }
                     }
                     if ($exifCamera != '') {
                         $exifOutput = sprintf('%s (%s)', $exifCamera, $exifOutput);
@@ -913,7 +917,7 @@ function lbwpsUpdateExifDateCheck(checkbox) {
           exif_fstop varchar(255),
           exif_shutter varchar(255),
           exif_iso varchar(255),
-          exif_datetime varchr(255),
+          exif_datetime varchar(255),
           PRIMARY KEY (imgkey),
           INDEX idx_created (created)
         ) $charset_collate;";
@@ -1028,13 +1032,9 @@ function lbwpsUpdateExifDateCheck(checkbox) {
     {
         global $wpdb;
 
-
-        $table_img = $wpdb->prefix . 'lightbox_photoswipe_img';
-	    if ($wpdb->get_var( $wpdb->prepare("SHOW TABLES LIKE %s", $table_img)) === $table_img) {
-		    $date = strftime( '%Y-%m-%d %H:%M:%S', time() - 86400 );
-		    $sql  = "DELETE FROM $table_img where created<(\"$date\")";
-		    $wpdb->query( $sql );
-	    }
+		$date = strftime( '%Y-%m-%d %H:%M:%S', time() - 86400 );
+		$sql  = "DELETE FROM $table_img where created<(\"$date\")";
+		$wpdb->query( $sql );
     }            
     
     /**
@@ -1119,12 +1119,12 @@ function lbwpsUpdateExifDateCheck(checkbox) {
 	    if (intval($db_version) < 20) {
 		    update_option( 'lightbox_photoswipe_add_lazyloading', '0' );
 	    }
-	    if (intval($db_version) < 21) {
+	    if (intval($db_version) < 22) {
 		    $this->deleteTables();
 		    $this->createTables();
 	    }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 21);
+        update_option('lightbox_photoswipe_db_version', 22);
     }
 }
 
