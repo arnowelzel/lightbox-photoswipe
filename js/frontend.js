@@ -168,7 +168,9 @@ jQuery(function($) {
         if(lbwps_options.share_facebook == '1' ||
             lbwps_options.share_twitter == '1' ||
             lbwps_options.share_pinterest == '1' ||
-            lbwps_options.share_download == '1') {
+            lbwps_options.share_download == '1' ||
+            lbwps_options.share_copyurl == '1' ||
+            (lbwps_options.share_custom_link !== '' && lbwps_options.share_custom_label !== '')) {
             options.shareEl = true;
             options.shareButtons = [];
             if(lbwps_options.share_facebook == '1') {
