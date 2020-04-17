@@ -145,7 +145,7 @@ class LightboxPhotoSwipe
         wp_enqueue_script(
             'lbwps-frontend',
             plugin_dir_url(__FILE__) . 'js/frontend.min.js',
-            array('lbwps-lib', 'lbwps-ui-default', 'jquery'),
+            array('lbwps-lib', 'lbwps-ui-default'),
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
         $translation_array = array(

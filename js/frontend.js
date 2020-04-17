@@ -1,14 +1,18 @@
-jQuery(function($) {
+var lbwps_init = function() {
     var PhotoSwipe = window.PhotoSwipe,
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
-    $('body').on('click', 'a[data-width]:has(img)', function(e) {
-        if(!PhotoSwipe || !PhotoSwipeUI_Default) {
-            return;
-        }
 
-        e.preventDefault();
-        openPhotoSwipe(false, 0, this, false, '');
+    var links = document.querySelectorAll('a[data-width]');
+    links.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            if (!PhotoSwipe || !PhotoSwipeUI_Default) {
+                return;
+            }
+
+            event.preventDefault();
+            openPhotoSwipe(false, 0, this, false, '');
+        });
     });
 
     var parseThumbnailElements = function(link, id) {
@@ -17,84 +21,83 @@ jQuery(function($) {
             index;
 
         if (id == null || id == 1) {
-            elements = $('body').find('a[data-width]:not([data-gallery-id]):has(img)');
+            elements = document.querySelectorAll('a[data-width]:not([data-gallery-id])');
         } else {
-            elements = $('body').find('a[data-width][data-gallery-id="'+id+'"]:has(img)');
+            elements = document.querySelectorAll('a[data-width][data-gallery-id="'+id+'"]');
         }
 
-        elements.each(function(i) {
-            var element = $(this);
+        var number = 0;
+        elements.forEach(function(element) {
             var caption = null;
-
-            caption = element.attr('data-caption');
+            
+            caption = element.getAttribute('data-caption');
 
             if(caption == null) {
-                if(element.attr('data-caption-title') != null) {
-                    caption = '<div class="pswp__caption__title">'+element.attr('data-caption-title')+'</div>';
+                if(element.getAttribute('data-caption-title') != null) {
+                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-caption-title')+'</div>';
                 }
 
-                if(element.attr('data-caption-desc') != null) {
+                if(element.getAttribute('data-caption-desc') != null) {
                     if(caption == null) caption = '';
-                    caption = caption + '<div class="pswp__caption__desc">'+element.attr('data-caption-desc')+'</div>';
+                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-caption-desc')+'</div>';
                 }
             }
 
             if(caption == null) {
-                describedby = element.children().first().attr('aria-describedby');
-                if(describedby != null ) {
-                    description = $('#'+describedby);
-                    if(description != null) caption = description.text();
-                } else {
-                    describedby = element.children().first().attr('figcaption');
-                    if(describedby != null ) {
-                        caption = element.next().text();
+                var nextElement = element.nextElementSibling;
+                var parentElement = element.parentElement.nextElementSibling;
+                var parentElement2 = element.parentElement.parentElement.nextElementSibling;
+                var parentElement3 = element.parentElement.parentElement.parentElement.nextElementSibling;
+
+                if(nextElement != null) {
+                    if(nextElement.className === '.wp-caption-text') {
+                        caption = nextElement.textContent;
+                    } else if(nextElement && nextElement.nodeName === "FIGCAPTION") {
+                        caption = nextElement.textContent;
                     }
-                }
-            }
-
-            if(caption == null) {
-                if(element.next().is('.wp-caption-text')) {
-                    caption = element.next().text();
-                } else if(element.parent().next().is('.wp-caption-text')) {
-                    caption = element.parent().next().text();
-                } else if(element.parent().next().is('.gallery-caption')) {
-                    caption = element.parent().next().text();
-                } else if(element.next().is("figcaption")) {
-                    caption = element.next().text();
-                } else if(element.parent().parent().next().is("figcaption")) {
-                    caption = element.parent().parent().next().text();
-                } else if(element.parent().parent().parent().next().is("figcaption")) {
+                } else if(parentElement != null) {
+                    if(parentElement.className === '.wp-caption-text') {
+                        caption = parentElement.textContent;
+                    } else if(parentElement.className === '.gallery-caption') {
+                        caption = parentElement.textContent;
+                    }
+                } else if(parentElement2 && parentElement2.nodeName === "FIGCAPTION") {
+                    caption = parentElement2.textContent;
+                } else if(parentElement3 && parentElement3.nodeName === "FIGCAPTION") {
                     // This variant is used by Gutenberg gallery blocks
-                    caption = element.parent().parent().parent().next().text();
+                    caption = parentElement3.textContent;
                 }
             }
 
             if(caption == null) {
-                caption = element.attr('title');
+                caption = element.getAttribute('title');
             }
 
             if(caption == null && lbwps_options.use_alt == '1') {
-                caption = element.children().first().attr('alt');
+                caption = element.firstElementChild.getAttribute('alt');
             }
 
-            if(element.attr('data-description') != null) {
+            if(element.getAttribute('data-description') != null) {
                 if(caption == null) caption = '';
-                caption = caption + '<div class="pswp__description">'+element.attr('data-description')+'</div>';
+                caption = caption + '<div class="pswp__description">'+element.getAttribute('data-description')+'</div>';
             }
 
             galleryItems.push({
-                src: element.attr('href'),
-                w: element.attr('data-width'),
-                h: element.attr('data-height'),
+                src: element.getAttribute('href'),
+                w: element.getAttribute('data-width'),
+                h: element.getAttribute('data-height'),
                 title: caption,
-                exif: element.attr('data-exif'),
+                exif: element.getAttribute('data-exif'),
                 getThumbBoundsFn: false,
                 showHideOpacity: true,
                 el: element
             });
-            if(link === element.get(0)) {
-                index = i;
+
+            if(link === element) {
+                index = number;
             }
+
+            number++;
         });
         
         return [galleryItems, parseInt(index, 10)];
@@ -128,7 +131,7 @@ jQuery(function($) {
 
     var openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
         var id = 1,
-            pswpElement = $('.pswp').get(0),
+            pswpElement = document.querySelector('.pswp'),
             gallery,
             options,
             items,
@@ -274,4 +277,10 @@ jQuery(function($) {
         }
         openPhotoSwipe(hashData.pid, hashData.gid, null, true, returnUrl);
     }
-});
+};
+
+if (document.readyState === "complete" || (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+    lbwps_init();
+} else {
+    document.addEventListener("DOMContentLoaded", lbwps_init);
+}
