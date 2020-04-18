@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.90
+Version: 2.92
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.90';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.92';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -1070,8 +1070,9 @@ function lbwpsUpdateExifDateCheck(checkbox) {
     {
         global $wpdb;
 
+        $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
         $date = strftime( '%Y-%m-%d %H:%M:%S', time() - 86400 );
-        $sql  = "DELETE FROM $table_img where created<(\"$date\")";
+        $sql  = "DELETE FROM $table_name where created<(\"$date\")";
         $wpdb->query( $sql );
     }            
     
