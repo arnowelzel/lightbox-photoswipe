@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.93
+Version: 2.94
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.93';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.94';
     var $disabled_post_ids;
     var $share_facebook;
     var $share_pinterest;
@@ -55,7 +55,12 @@ class LightboxPhotoSwipe
      */
     public function __construct()
     {
-        $this->disabled_post_ids = explode(',', get_option('lightbox_photoswipe_disabled_post_ids'));
+        $disabled_post_ids = trim(get_option('lightbox_photoswipe_disabled_post_ids'));
+        if ('' !== $disabled_post_ids) {
+            $this->disabled_post_ids = explode( ',', $disabled_post_ids );
+        } else {
+            $this->disabled_post_ids = [];
+        }
         $this->share_facebook = get_option('lightbox_photoswipe_share_facebook');
         $this->share_pinterest = get_option('lightbox_photoswipe_share_pinterest');
         $this->share_twitter = get_option('lightbox_photoswipe_share_twitter');
@@ -108,6 +113,10 @@ class LightboxPhotoSwipe
         add_filter('wpmu_drop_tables', array($this, 'onDeleteBlog'));
         add_action('plugins_loaded', array($this, 'init'));
         add_action('admin_menu', array($this, 'adminMenu'));
+
+        // Metabox handling
+        add_action('add_meta_boxes', [$this, 'metaBox']);
+        add_action('save_post', [$this, 'metaBoxSave'] );
 
         register_activation_hook(__FILE__, array($this, 'onActivate'));
         register_deactivation_hook(__FILE__, array($this, 'onDeactivate'));
@@ -816,7 +825,7 @@ function lbwpsUpdateExifDateCheck(checkbox) {
         echo '<table class="form-table"><tr>
             <th scope="row"><label for="lightbox_photoswipe_disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
             <td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" />
-            <p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used.', 'lightbox-photoswipe').'</p></td>
+            <p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used. This can also be changed in the page/post itself.', 'lightbox-photoswipe').'</p></td>
             </tr>
             <tr>
             <th scope="row">'.__('Visible sharing options', 'lightbox-photoswipe').'</th>
@@ -931,6 +940,78 @@ function lbwpsUpdateExifDateCheck(checkbox) {
         echo '</div>';
         echo '<script>lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_usepostdata"));lbwpsUpdateExifDateCheck(document.getElementById("lightbox_photoswipe_showexif"))</script>';
 
+    }
+
+    /**
+     * Add metabox for post editor
+     *
+     * @return void
+     */
+    function metaBox()
+    {
+        $types = ['post', 'page'];
+        foreach ($types as $type) {
+            add_meta_box(
+                'lightbox-photoswipe',
+                __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'),
+                [$this, 'metaBoxHtml'],
+                $type,
+                'side'
+            );
+        }
+    }
+
+    /**
+     * Metabox HTML output
+     *
+     * @return void
+     */
+    function metaBoxHtml($post)
+    {
+        wp_nonce_field( basename( __FILE__ ), 'lbwps_nonce' );
+
+        $checked = '';
+        if (in_array($post->ID, $this->disabled_post_ids)) {
+            $checked = 'checked="checked" ';
+        }
+        echo '<label for="lbwps_disabled"><input type="checkbox" id="lbwps_disabled" name="lbwps_disabled" value="1"'.$checked.'/>';
+        echo __('Disable', 'lightbox-photoswipe').'</label>';
+    }
+
+    /**
+     * Save options from metabox
+     *
+     * @return void
+     */
+    function metaBoxSave($post_id)
+    {
+        // Only save options if this is not an autosave
+        $is_autosave = wp_is_post_autosave( $post_id );
+        $is_revision = wp_is_post_revision( $post_id );
+        $is_valid_nonce = (isset($_POST['lbwps_nonce']) && wp_verify_nonce($_POST['lbwps_nonce' ], basename(__FILE__)))?'true':'false';
+
+        if ($is_autosave || $is_revision || !$is_valid_nonce ) {
+            return;
+        }
+
+        // Save post specific options
+        $disabled_post_ids = [];
+        if(!isset($_POST['lbwps_disabled']) || $_POST['lbwps_disabled']!='1') {
+            if (in_array($post_id, $this->disabled_post_ids)) {
+                foreach ( $this->disabled_post_ids as $disabled_post_id ) {
+                    if ((int)$post_id !== (int)$disabled_post_id) {
+                        $disabled_post_ids[] = $disabled_post_id;
+                    }
+                }
+                $this->disabled_post_ids = $disabled_post_ids;
+                update_option( 'lightbox_photoswipe_disabled_post_ids', implode(',', $this->disabled_post_ids));
+            }
+        } else {
+            if (!in_array($post_id, $this->disabled_post_ids)) {
+                $this->disabled_post_ids[] = $post_id;
+                update_option('lightbox_photoswipe_disabled_post_ids', implode(',', $this->disabled_post_ids));
+            }
+        }
     }
 
     /**
