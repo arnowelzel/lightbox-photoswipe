@@ -178,7 +178,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 2.94 =
 
 * Removed jQuery again after some code refactoring.
-* Added editor meta box so you can disable the lightbox in pages/posts itself
+* Added editor meta box so you can disable the lightbox in pages/posts itself.
 
 = 2.92 =
 
@@ -187,7 +187,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 2.90 =
 
 * Added more options for using the mouse wheel in desktop view: zoom and switching images.
-* Added sharing options
+* Added sharing options.
 * Fixed captions when EXIF output is enabled and EXIF data is missing in an image.
 
 = 2.81 =
