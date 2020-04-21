@@ -184,10 +184,6 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 * Fix in database cleanup.
 
-= 2.91 =
-
-* Removed jQuery again and some code refacoring.
-
 = 2.90 =
 
 * Added more options for using the mouse wheel in desktop view: zoom and switching images.
