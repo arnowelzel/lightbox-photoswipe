@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.95
+Version: 2.96
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,7 +19,7 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.95';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.96';
 
     var $disabled_post_ids;
     var $metabox;
@@ -831,8 +831,8 @@ function lbwpsUpdateExifDateCheck(checkbox) {
         echo '<table class="form-table"><tr>
             <th scope="row"><label for="lightbox_photoswipe_disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
             <td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" />
-            <p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used. This can also be changed in the page/post itself.', 'lightbox-photoswipe').'<br />
-            <label for="lightbox_photoswipe_metabox"><input id="lightbox_photoswipe_metabox" type="checkbox" name="lightbox_photoswipe_metabox" value="1"'; if(get_option('lightbox_photoswipe_metabox')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show this setting as checkbox in page/post editor', 'lightbox-photoswipe').'</label><br /></p></td>
+            <p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used. This can also be changed in the page/post itself.', 'lightbox-photoswipe').'</p>
+            <p><label for="lightbox_photoswipe_metabox"><input id="lightbox_photoswipe_metabox" type="checkbox" name="lightbox_photoswipe_metabox" value="1"'; if(get_option('lightbox_photoswipe_metabox')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show this setting as checkbox in page/post editor', 'lightbox-photoswipe').'</label></p></td>
             </tr>
             <tr>
             <th scope="row">'.__('Visible sharing options', 'lightbox-photoswipe').'</th>
