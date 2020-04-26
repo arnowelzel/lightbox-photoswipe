@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 2.94
+Version: 2.95
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -19,9 +19,10 @@ require_once ABSPATH . '/wp-admin/includes/image.php';
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.94';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.95';
 
     var $disabled_post_ids;
+    var $metabox;
     var $share_facebook;
     var $share_pinterest;
     var $share_twitter;
@@ -62,6 +63,7 @@ class LightboxPhotoSwipe
         } else {
             $this->disabled_post_ids = [];
         }
+        $this->metabox = get_option('lightbox_photoswipe_metabox');
         $this->share_facebook = get_option('lightbox_photoswipe_share_facebook');
         $this->share_pinterest = get_option('lightbox_photoswipe_share_pinterest');
         $this->share_twitter = get_option('lightbox_photoswipe_share_twitter');
@@ -116,8 +118,10 @@ class LightboxPhotoSwipe
         add_action('admin_menu', array($this, 'adminMenu'));
 
         // Metabox handling
-        add_action('add_meta_boxes', [$this, 'metaBox']);
-        add_action('save_post', [$this, 'metaBoxSave'] );
+        if ('1' === $this->metabox) {
+            add_action( 'add_meta_boxes', [ $this, 'metaBox' ] );
+            add_action( 'save_post', [ $this, 'metaBoxSave' ] );
+        }
 
         register_activation_hook(__FILE__, array($this, 'onActivate'));
         register_deactivation_hook(__FILE__, array($this, 'onDeactivate'));
@@ -758,6 +762,7 @@ class LightboxPhotoSwipe
     function registerSettings()
     {
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_disabled_post_ids');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_metabox');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_facebook');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_twitter');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_pinterest');
@@ -826,7 +831,8 @@ function lbwpsUpdateExifDateCheck(checkbox) {
         echo '<table class="form-table"><tr>
             <th scope="row"><label for="lightbox_photoswipe_disabled_post_ids">'.__('Excluded pages/posts', 'lightbox-photoswipe').'</label></th>
             <td><input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="' . esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')) . '" />
-            <p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used. This can also be changed in the page/post itself.', 'lightbox-photoswipe').'</p></td>
+            <p class="description">'.__('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used. This can also be changed in the page/post itself.', 'lightbox-photoswipe').'<br />
+            <label for="lightbox_photoswipe_metabox"><input id="lightbox_photoswipe_metabox" type="checkbox" name="lightbox_photoswipe_metabox" value="1"'; if(get_option('lightbox_photoswipe_metabox')=='1') echo ' checked="checked"'; echo ' />&nbsp;'.__('Show this setting as checkbox in page/post editor', 'lightbox-photoswipe').'</label><br /></p></td>
             </tr>
             <tr>
             <th scope="row">'.__('Visible sharing options', 'lightbox-photoswipe').'</th>
@@ -1256,8 +1262,11 @@ function lbwpsUpdateExifDateCheck(checkbox) {
             update_option('lightbox_photoswipe_share_custom_label', '');
             update_option('lightbox_photoswipe_share_custom_link', '');
         }
+        if (intval($db_version) < 24) {
+            update_option('lightbox_photoswipe_metabox', '1');
+        }
         add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
-        update_option('lightbox_photoswipe_db_version', 23);
+        update_option('lightbox_photoswipe_db_version', 24);
     }
 }
 
