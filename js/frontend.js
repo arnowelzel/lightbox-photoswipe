@@ -84,6 +84,7 @@ var lbwps_init = function() {
 
             galleryItems.push({
                 src: element.getAttribute('href'),
+                msrc: element.getAttribute('href'),
                 w: element.getAttribute('data-width'),
                 h: element.getAttribute('data-height'),
                 title: caption,
