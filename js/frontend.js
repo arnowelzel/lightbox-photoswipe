@@ -3,7 +3,7 @@ var lbwps_init = function() {
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
 
-    var links = document.querySelectorAll('a[data-width]');
+    var links = document.querySelectorAll('a[data-lbwps-width]');
     links.forEach(function(link) {
         link.addEventListener('click', function(event) {
             if (!PhotoSwipe || !PhotoSwipeUI_Default) {
@@ -21,25 +21,25 @@ var lbwps_init = function() {
             index;
 
         if (id == null || id == 1) {
-            elements = document.querySelectorAll('a[data-width]:not([data-gallery-id])');
+            elements = document.querySelectorAll('a[data-lbwps-width]:not([data-lbwps-gid])');
         } else {
-            elements = document.querySelectorAll('a[data-width][data-gallery-id="'+id+'"]');
+            elements = document.querySelectorAll('a[data-lbwps-width][data-lbwps-gid="'+id+'"]');
         }
 
         var number = 0;
         elements.forEach(function(element) {
             var caption = null;
             
-            caption = element.getAttribute('data-caption');
+            caption = element.getAttribute('data-lbwps-caption');
 
             if(caption == null) {
-                if(element.getAttribute('data-caption-title') != null) {
-                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-caption-title')+'</div>';
+                if(element.getAttribute('data-lbwps-caption-title') != null) {
+                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-lbwps-caption-title')+'</div>';
                 }
 
-                if(element.getAttribute('data-caption-desc') != null) {
+                if(element.getAttribute('data-lbwps-caption-desc') != null) {
                     if(caption == null) caption = '';
-                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-caption-desc')+'</div>';
+                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-lbwps-caption-desc')+'</div>';
                 }
             }
 
@@ -77,17 +77,18 @@ var lbwps_init = function() {
                 caption = element.firstElementChild.getAttribute('alt');
             }
 
-            if(element.getAttribute('data-description') != null) {
+            if(element.getAttribute('data-lbwps-description') != null) {
                 if(caption == null) caption = '';
-                caption = caption + '<div class="pswp__description">'+element.getAttribute('data-description')+'</div>';
+                caption = caption + '<div class="pswp__description">'+element.getAttribute('data-lbwps-description')+'</div>';
             }
 
             galleryItems.push({
                 src: element.getAttribute('href'),
-                w: element.getAttribute('data-width'),
-                h: element.getAttribute('data-height'),
+                msrc: element.getAttribute('href'),
+                w: element.getAttribute('data-lbwps-width'),
+                h: element.getAttribute('data-lbwps-height'),
                 title: caption,
-                exif: element.getAttribute('data-exif'),
+                exif: element.getAttribute('data-lbwps-exif'),
                 getThumbBoundsFn: false,
                 showHideOpacity: true,
                 el: element
@@ -138,7 +139,7 @@ var lbwps_init = function() {
             index;
 
         if (element != null) {
-            id = element.getAttribute('data-gallery-id');
+            id = element.getAttribute('data-lbwps-gid');
         } else {
             id = group_index;
         }

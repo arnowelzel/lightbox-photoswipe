@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 2.96
+Stable tag: 2.97
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -38,11 +38,13 @@ All linked images in a post or page will be displayed using PhotoSwipe, regardle
 
 Make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
-If you want to display an image in it's own lightbox which does not display other images from the same post or page, you can add the attribute `data-gallery-id` to the link element with a unique value for this image. This value must not be a number since numbers are already used internally. For example you could the file name of the image like this:
+If you want to display an image in it's own lightbox which does not display other images from the same post or page, you can add the attribute `data-lbwps-gid` to the link element with a unique value for this image. This value must not be a number since numbers are already used internally. For example you could the file name of the image like this:
 
-`<a href="myimage.jpg" data-gallery-id="myimage.jpg"><img src="myimage-300x300.jpg" alt="My Image" /></a>`
+`<a href="myimage.jpg" data-lbwps-gid="myimage.jpg"><img src="myimage-300x300.jpg" alt="My Image" /></a>`
 
-You can also add the same `data-gallery-id` attribute to multiple single images to combine them in the same lightbox.
+You can also add the same `data-lbwps-gid` attribute to multiple single images to combine them in the same lightbox.
+
+Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in version 2.97 to avoid conflicts with existing themes or plugins!
 
 = Experimental feature: return to a specific URL when closing the lightbox =
 
@@ -174,6 +176,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 2. Example for the use in the frontend
 
 == Changelog ==
+
+= 2.97 =
+
+* Images will now show during the opening transition of the lightbox.
+* Renamed data attributes to avoid conflicts with existing themes or plugins.
 
 = 2.96 =
 
