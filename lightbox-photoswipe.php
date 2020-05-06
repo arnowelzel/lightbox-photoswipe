@@ -591,14 +591,14 @@ class LightboxPhotoSwipe
 
             $attr = '';
             if (0!=$imageSize[0] && 0!=$imageSize[1]) {
-                $attr = sprintf(' data-width="%s" data-height="%s"', $imageSize[0], $imageSize[1]);
+                $attr = sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $imageSize[0], $imageSize[1]);
             
                 if ($caption != '') {
-                    $attr .= sprintf(' data-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
+                    $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
                 }
 
                 if ($this->usedescription == '1' && $description != '') {
-                    $attr .= sprintf(' data-description="%s"', htmlspecialchars(nl2br(wptexturize($description))));
+                    $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($description))));
                 }
 
                 $exifOutput = '';
@@ -620,7 +620,7 @@ class LightboxPhotoSwipe
                     }
 
                     if ($exifOutput != '') {
-                        $attr .= sprintf(' data-exif="%s"', htmlspecialchars($exifOutput));
+                        $attr .= sprintf(' data-lbwps-exif="%s"', htmlspecialchars($exifOutput));
                     }
                 }
             }
@@ -658,7 +658,7 @@ class LightboxPhotoSwipe
      */
     function outputCallbackGalleryId($matches)
     {
-        $attr = sprintf(' data-gallery-id="%s"', $this->gallery_id);
+        $attr = sprintf(' data-lbwps-gid="%s"', $this->gallery_id);
         return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
     }
 
