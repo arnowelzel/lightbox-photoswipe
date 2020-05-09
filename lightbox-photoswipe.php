@@ -116,6 +116,7 @@ class LightboxPhotoSwipe
         add_filter('wpmu_drop_tables', array($this, 'onDeleteBlog'));
         add_action('plugins_loaded', array($this, 'init'));
         add_action('admin_menu', array($this, 'adminMenu'));
+        add_action('admin_init', array($this, 'adminInit'));
 
         // Metabox handling
         if ('1' === $this->metabox) {
@@ -750,16 +751,14 @@ class LightboxPhotoSwipe
             'lightbox-photoswipe',
             array($this, 'settingsPage')
         );
-
-        add_action('admin_init', array($this, 'registerSettings'));
     }
 
     /**
-     * Register settings
+     * Initialization: Register settings, create session
      * 
      * @return void
      */
-    function registerSettings()
+    function adminInit()
     {
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_disabled_post_ids');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_metabox');
@@ -804,10 +803,15 @@ class LightboxPhotoSwipe
      */
     function settingsPage()
     {
-        //Get the active tab from the $_GET param
-        $default_tab = null;
-        $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
 ?>
+<style>
+.lbwps_text {
+    font-size:14px;
+}
+.lbwps_text:first-child {
+    padding-top:15px;
+}
+</style>
 <div class="wrap"><h1><?php echo __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'); ?></h1>
 <form method="post" action="options.php">
 <?php settings_fields('lightbox-photoswipe-settings-group'); ?>
@@ -832,7 +836,7 @@ function lbwpsUpdateExifDateCheck(checkbox) {
 
 function lbwpsSwitchTab(tab) {
     let num=1;
-    while (num < 6) {
+    while (num < 7) {
         if (tab == num) {
             document.getElementById('lbwps-switch-'+num).classList.add('nav-tab-active');
             document.getElementById('lbwps-tab-'+num).style.display = 'block';
@@ -851,6 +855,7 @@ function lbwpsSwitchTab(tab) {
     <a href="#" id="lbwps-switch-3" class="nav-tab" onclick="lbwpsSwitchTab(3);return false;"><?php echo __('Sharing', 'lightbox-photoswipe'); ?></a>
     <a href="#" id="lbwps-switch-4" class="nav-tab" onclick="lbwpsSwitchTab(4);return false;"><?php echo __('Desktop', 'lightbox-photoswipe'); ?></a>
     <a href="#" id="lbwps-switch-5" class="nav-tab" onclick="lbwpsSwitchTab(5);return false;"><?php echo __('Mobile', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-6" class="nav-tab" onclick="lbwpsSwitchTab(6);return false;"><?php echo __('Info', 'lightbox-photoswipe'); ?></a>
 </nav>
 
 <table id="lbwps-tab-1" class="form-table">
@@ -892,6 +897,7 @@ function lbwpsSwitchTab(tab) {
         <td>
             <label><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"<?php if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"<?php if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Allow infinite loop', 'lightbox-photoswipe'); ?></label><br />
+            <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"'<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label>
         </td>
     </tr>
@@ -978,7 +984,6 @@ function lbwpsSwitchTab(tab) {
         <td>
             <label><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"<?php if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Full picture size in desktop view', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_desktop_slider" type="checkbox" name="lightbox_photoswipe_desktop_slider" value="1"<?php if(get_option('lightbox_photoswipe_desktop_slider')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Use slide animation when switching images in desktop view', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"'<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_close_on_click" type="checkbox" name="lightbox_photoswipe_close_on_click" value="1"<?php if(get_option('lightbox_photoswipe_close_on_click')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Close the lightbox by clicking outside the image', 'lightbox-photoswipe'); ?></label>
         </td>
     </tr>
@@ -1018,18 +1023,19 @@ function lbwpsSwitchTab(tab) {
     </tr>
 </table>
 
+<div id="lbwps-tab-6" style="display:none">
+    <p class="lbwps_text""><?php echo __('Plugin version', 'lightbox-photoswipe') ?>: <?php echo self::LIGHTBOX_PHOTOSWIPE_VERSION; ?></p>
+    <p class="lbwps_text"><?php echo __('For documentation about hooks, styling etc. please see FAQ', 'lightbox-photoswipe'); ?>: <a href="https://wordpress.org/plugins/lightbox-photoswipe/#faq" target="_blank">https://wordpress.org/plugins/lightbox-photoswipe/#faq</a>.</p>
+    <p class="lbwps_text"><b><?php echo __('If you like my WordPress plugins and want to support my work I would be very happy about a donation via PayPal.', 'lightbox-photoswipe'); ?></b></p>
+    <p class="lbwps_text"><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>
+    <p class="lbwps_text"><b><?php echo __('Thank you :-)', 'lightbox-photoswipe'); ?></b></p>
+</div>
 <?php submit_button(); ?>
 </form>
-<p><b><?php echo __('If you like my WordPress plugins and want to support my work you can send a donation via PayPal.', 'lightbox-photoswipe'); ?></b><p>
-<p><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>
-<p><b><?php echo __('Thank you :-)', 'lightbox-photoswipe'); ?></b><p>
 </div>
 <script>
 lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_usepostdata"));
 lbwpsUpdateExifDateCheck(document.getElementById("lightbox_photoswipe_showexif"));
-if (window.location.hash == '#design') {
-    lbwpsSwitchTab(2);
-}
 </script>
 <?php
     }
