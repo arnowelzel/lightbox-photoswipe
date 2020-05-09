@@ -103,31 +103,31 @@ class LightboxPhotoSwipe
         $this->ob_level = 0;
 
         if (!is_admin()) {
-            add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
-            add_action('wp_footer', array($this, 'footer'));
-            add_action('wp_head', array($this, 'bufferStart'), 2000);
+            add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
+            add_action('wp_footer', [$this, 'footer']);
+            add_action('wp_head', [$this, 'bufferStart'], 2000);
             if ($this->separate_galleries) {
                 remove_shortcode('gallery');
-                add_shortcode('gallery', array($this, 'shortcodeGallery'), 10, 1);
-                add_filter('render_block', array($this, 'gutenbergBlock'), 10, 2);
+                add_shortcode('gallery', [$this, 'shortcodeGallery'], 10, 1);
+                add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
             }
         }
-        add_action('wpmu_new_blog', array($this, 'onCreateBlog'), 10, 6);
-        add_filter('wpmu_drop_tables', array($this, 'onDeleteBlog'));
-        add_action('plugins_loaded', array($this, 'init'));
-        add_action('admin_menu', array($this, 'adminMenu'));
-        add_action('admin_init', array($this, 'adminInit'));
+        add_action('wpmu_new_blog', [$this, 'onCreateBlog'], 10, 6);
+        add_filter('wpmu_drop_tables', [$this, 'onDeleteBlog']);
+        add_action('plugins_loaded', [$this, 'init']);
+        add_action('admin_menu', [$this, 'adminMenu']);
+        add_action('admin_init', [$this, 'adminInit']);
 
         // Metabox handling
         if ('1' === $this->metabox) {
-            add_action( 'add_meta_boxes', [ $this, 'metaBox' ] );
-            add_action( 'save_post', [ $this, 'metaBoxSave' ] );
+            add_action( 'add_meta_boxes', [$this, 'metaBox'] );
+            add_action( 'save_post', [$this, 'metaBoxSave'] );
         }
 
-        register_activation_hook(__FILE__, array($this, 'onActivate'));
-        register_deactivation_hook(__FILE__, array($this, 'onDeactivate'));
+        register_activation_hook(__FILE__, [$this, 'onActivate']);
+        register_deactivation_hook(__FILE__, [$this, 'onDeactivate']);
     }
-    
+
     /**
      * Enqueue Scripts/CSS
      * 
@@ -147,29 +147,29 @@ class LightboxPhotoSwipe
         wp_enqueue_script(
             'lbwps-lib',
             plugin_dir_url(__FILE__) . 'lib/photoswipe.min.js',
-            array(),
+            [],
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
         wp_enqueue_script(
             'lbwps-ui-default',
             plugin_dir_url(__FILE__) . 'lib/photoswipe-ui-default.min.js',
-            array('lbwps-lib'),
+            ['lbwps-lib'],
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
 
         wp_enqueue_script(
             'lbwps-frontend',
             plugin_dir_url(__FILE__) . 'js/frontend.min.js',
-            array('lbwps-lib', 'lbwps-ui-default'),
+            ['lbwps-lib', 'lbwps-ui-default'],
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
-        $translation_array = array(
+        $translation_array = [
             'label_facebook' => __('Share on Facebook', 'lightbox-photoswipe'),
             'label_twitter' => __('Tweet', 'lightbox-photoswipe'),
             'label_pinterest' => __('Pin it', 'lightbox-photoswipe'),
             'label_download' => __('Download image', 'lightbox-photoswipe'),
             'label_copyurl' => __('Copy image URL', 'lightbox-photoswipe')
-        );
+        ];
         $translation_array['share_facebook'] = ($this->share_facebook == '1')?'1':'0';
         $translation_array['share_twitter'] = ($this->share_twitter == '1')?'1':'0';
         $translation_array['share_pinterest'] = ($this->share_pinterest == '1')?'1':'0';
@@ -485,7 +485,7 @@ class LightboxPhotoSwipe
         $description = '';
 
         // Only work on known image formats
-        if (in_array($type['ext'], array('jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'))) {
+        if (in_array($type['ext'], ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'])) {
             // If image is served by the website itself, try to get caption for local file
             if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https
                 || substr($file, 0, 7) !== 'http://' || substr($file, 0, 8) !== 'https://') {
@@ -592,7 +592,7 @@ class LightboxPhotoSwipe
 
             $attr = '';
             if (0!=$imageSize[0] && 0!=$imageSize[1]) {
-                $attr = sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $imageSize[0], $imageSize[1]);
+                $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $imageSize[0], $imageSize[1]);
             
                 if ($caption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
@@ -674,13 +674,13 @@ class LightboxPhotoSwipe
     {
         $content = preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-            array($this, 'outputCallbackProperties'),
+            [$this, 'outputCallbackProperties'],
             $content
         );
         if ('1' === $this->add_lazyloading) {
             $content = preg_replace_callback(
                 '/(<img.[^>]*src=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-                array($this, 'outputCallbackLazyLoading'),
+                [$this, 'outputCallbackLazyLoading'],
                 $content
             );
         }
@@ -698,7 +698,7 @@ class LightboxPhotoSwipe
             return;
         }
 
-        ob_start(array($this, 'filterOutput'));
+        ob_start([$this, 'filterOutput']);
         $this->ob_level = ob_get_level();
         $this->ob_active = true;
     }
@@ -709,7 +709,7 @@ class LightboxPhotoSwipe
         $content = gallery_shortcode($attr);
         return preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-            array($this, 'outputCallbackGalleryId'),
+            [$this, 'outputCallbackGalleryId'],
             $content
         );
         return $content;
@@ -730,7 +730,7 @@ class LightboxPhotoSwipe
             $this->gallery_id++;
             return preg_replace_callback(
                 '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-                array($this, 'outputCallbackGalleryId'),
+                [$this, 'outputCallbackGalleryId'],
                 $block_content
             );
         }
@@ -749,7 +749,7 @@ class LightboxPhotoSwipe
             __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'),
             'administrator',
             'lightbox-photoswipe',
-            array($this, 'settingsPage')
+            [$this, 'settingsPage']
         );
     }
 
@@ -1391,7 +1391,7 @@ window.addEventListener('popstate', (event) => {
         if (intval($db_version) < 24) {
             update_option('lightbox_photoswipe_metabox', '1');
         }
-        add_action('lbwps_cleanup', array($this, 'cleanupDatabase'));
+        add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
         update_option('lightbox_photoswipe_db_version', 24);
     }
 }
