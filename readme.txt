@@ -177,7 +177,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
-= 2.98 =
+= 2.99 =
 
 * Fix in caption handling for images with `data-caption-title` and `data-caption-desc` attributes.
 

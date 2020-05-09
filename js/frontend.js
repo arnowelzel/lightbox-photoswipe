@@ -34,12 +34,12 @@ var lbwps_init = function() {
 
             if(caption == null) {
                 if(element.getAttribute('data-caption-title') != null) {
-                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-lbwps-caption-title')+'</div>';
+                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-caption-title')+'</div>';
                 }
 
                 if(element.getAttribute('data-caption-desc') != null) {
                     if(caption == null) caption = '';
-                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-lbwps-caption-desc')+'</div>';
+                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-caption-desc')+'</div>';
                 }
             }
 
