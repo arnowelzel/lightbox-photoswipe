@@ -33,13 +33,14 @@ var lbwps_init = function() {
             caption = element.getAttribute('data-lbwps-caption');
 
             if(caption == null) {
+                // Some galleries add caption and description as attributes to the image link
                 if(element.getAttribute('data-caption-title') != null) {
-                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-lbwps-caption-title')+'</div>';
+                    caption = '<div class="pswp__caption__title">'+element.getAttribute('data-caption-title')+'</div>';
                 }
 
                 if(element.getAttribute('data-caption-desc') != null) {
                     if(caption == null) caption = '';
-                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-lbwps-caption-desc')+'</div>';
+                    caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-caption-desc')+'</div>';
                 }
             }
 

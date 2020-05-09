@@ -129,7 +129,7 @@ class LightboxPhotoSwipe
     }
     
     /**
-     * Scripts/CSS
+     * Enqueue Scripts/CSS
      * 
      * @return nothing
      */
@@ -137,12 +137,12 @@ class LightboxPhotoSwipe
     {
         $id = get_the_ID();
 
-        if (!is_404()) {
+        if (!is_home() && !is_404() && !is_archive() && !is_search()) {
             if (in_array($id, $this->disabled_post_ids)) $this->enabled = false;
-            $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
-
-            if (!$this->enabled) return;
         }
+        $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
+
+        if (!$this->enabled) return;
 
         wp_enqueue_script(
             'lbwps-lib',
@@ -816,7 +816,8 @@ class LightboxPhotoSwipe
 <form method="post" action="options.php">
 <?php settings_fields('lightbox-photoswipe-settings-group'); ?>
 <script>
-function lbwpsUpdateDescriptionCheck(checkbox) {
+function lbwpsUpdateDescriptionCheck(checkbox)
+{
     let useDescription = document.getElementById("lightbox_photoswipe_usedescription");
     if (checkbox.checked) {
         useDescription.disabled = false;
@@ -825,7 +826,8 @@ function lbwpsUpdateDescriptionCheck(checkbox) {
     }
 }
 
-function lbwpsUpdateExifDateCheck(checkbox) {
+function lbwpsUpdateExifDateCheck(checkbox)
+{
     let showExifDate = document.getElementById("lightbox_photoswipe_showexif_date");
     if (checkbox.checked) {
         showExifDate.disabled = false;
@@ -834,7 +836,8 @@ function lbwpsUpdateExifDateCheck(checkbox) {
     }
 }
 
-function lbwpsSwitchTab(tab) {
+function lbwpsSwitchTab(tab)
+{
     let num=1;
     while (num < 7) {
         if (tab == num) {
@@ -847,6 +850,29 @@ function lbwpsSwitchTab(tab) {
         num++;
     }
     document.getElementById('lbwps-switch-'+tab).blur();
+    if (tab == 1 && ("pushState" in history)) {
+        history.pushState("", document.title, window.location.pathname+window.location.search);
+    } else {
+        location.hash = 'tab-' + tab;
+    }
+    let referrer = document.getElementsByName('_wp_http_referer');
+    if (referrer[0]) {
+        let parts = referrer[0].value.split('#');
+        if (tab>1) {
+            referrer[0].value = parts[0] + '#tab-' + tab;
+        } else {
+            referrer[0].value = parts[0];
+        }
+    }
+}
+
+function lbwpsUpdateCurrentTab()
+{
+    let num=1;
+    while (num < 7) {
+        if(location.hash == '#tab-'+num) lbwpsSwitchTab(num);
+        num++;
+    }
 }
 </script>
 <nav class="nav-tab-wrapper" aria-label="<?php echo __('Secondary menu'); ?>">
@@ -1036,6 +1062,7 @@ function lbwpsSwitchTab(tab) {
 <script>
 lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_usepostdata"));
 lbwpsUpdateExifDateCheck(document.getElementById("lightbox_photoswipe_showexif"));
+lbwpsUpdateCurrentTab()
 </script>
 <?php
     }

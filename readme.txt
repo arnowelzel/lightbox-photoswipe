@@ -13,17 +13,11 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 == Description ==
 
-This plugin is a simple integration of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
+This plugin integrates an extended version of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
-More about PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
+More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
 The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
-
-If you like my WordPress plugins and want to support my work you can send a donation via PayPal.
-
-[https://paypal.me/ArnoWelzel](https://paypal.me/ArnoWelzel)
-
-Thank you :-)
 
 == Installation ==
 
@@ -164,7 +158,7 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
 
 13) Added option to add "onclick" handlers for sharing links
 
-14) Added option to add a custom url for sharing links
+14) Added option to add a custom URL for sharing links
 
 = Licensing =
 
@@ -180,6 +174,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 3.0 =
 
 * New backend interface with tabs.
+* The lightbox will no longer be disabled on the home page, archive pages or search results if it is disabled in one or more pages/posts.
+
+= 2.99 =
+
+* Fix in caption handling for images with `data-caption-title` and `data-caption-desc` attributes.
 
 = 2.97 =
 
