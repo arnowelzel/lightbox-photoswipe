@@ -33,11 +33,11 @@ var lbwps_init = function() {
             caption = element.getAttribute('data-lbwps-caption');
 
             if(caption == null) {
-                if(element.getAttribute('data-lbwps-caption-title') != null) {
+                if(element.getAttribute('data-caption-title') != null) {
                     caption = '<div class="pswp__caption__title">'+element.getAttribute('data-lbwps-caption-title')+'</div>';
                 }
 
-                if(element.getAttribute('data-lbwps-caption-desc') != null) {
+                if(element.getAttribute('data-caption-desc') != null) {
                     if(caption == null) caption = '';
                     caption = caption + '<div class="pswp__caption__desc">'+element.getAttribute('data-lbwps-caption-desc')+'</div>';
                 }
