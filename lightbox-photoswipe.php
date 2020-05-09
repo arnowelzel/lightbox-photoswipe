@@ -868,10 +868,14 @@ function lbwpsSwitchTab(tab)
 
 function lbwpsUpdateCurrentTab()
 {
-    let num=1;
-    while (num < 7) {
-        if(location.hash == '#tab-'+num) lbwpsSwitchTab(num);
-        num++;
+    if(location.hash == '') {
+        lbwpsSwitchTab(1);
+    } else {
+        let num = 1;
+        while (num < 7) {
+            if (location.hash == '#tab-' + num) lbwpsSwitchTab(num);
+            num++;
+        }
     }
 }
 </script>
@@ -1063,6 +1067,10 @@ function lbwpsUpdateCurrentTab()
 lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_usepostdata"));
 lbwpsUpdateExifDateCheck(document.getElementById("lightbox_photoswipe_showexif"));
 lbwpsUpdateCurrentTab()
+window.addEventListener('popstate', (event) => {
+    console.log(document.location);
+    lbwpsUpdateCurrentTab();
+});
 </script>
 <?php
     }
