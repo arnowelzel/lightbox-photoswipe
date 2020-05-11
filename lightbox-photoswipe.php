@@ -51,6 +51,7 @@ class LightboxPhotoSwipe
     var $gallery_id;
     var $ob_active;
     var $ob_level;
+    var $sitesync_ids;
 
     /**
      * Constructor
@@ -59,7 +60,7 @@ class LightboxPhotoSwipe
     {
         $disabled_post_ids = trim(get_option('lightbox_photoswipe_disabled_post_ids'));
         if ('' !== $disabled_post_ids) {
-            $this->disabled_post_ids = explode( ',', $disabled_post_ids );
+            $this->disabled_post_ids = explode(',', $disabled_post_ids);
         } else {
             $this->disabled_post_ids = [];
         }
@@ -889,23 +890,6 @@ function lbwpsUpdateCurrentTab()
 </nav>
 
 <table id="lbwps-tab-1" class="form-table">
-<!--
-<?php if (is_multisite()): ?>
-    <tr>
-        <th scope="row"><?php echo __('Sync settings to other sites', 'lightbox-photoswipe'); ?></th>
-        <td>
-            <?php
-            $sites = get_sites();
-            foreach ($sites as $site) {
-                if ($site->blog_id != get_current_blog_id()) {
-                    echo '<label><input type="checkbox" /> '.get_blog_details($site->blog_id)->blogname.'</label>';
-                }
-            }
-            ?>
-        </td>
-    </tr>
-<?php endif ?>
--->
     <tr>
         <th scope="row"><label for="lightbox_photoswipe_disabled_post_ids"><?php echo __('Excluded pages/posts', 'lightbox-photoswipe'); ?></label></th>
         <td>
@@ -1055,6 +1039,7 @@ function lbwpsUpdateCurrentTab()
 
 <div id="lbwps-tab-6" style="display:none">
     <p class="lbwps_text""><?php echo __('Plugin version', 'lightbox-photoswipe') ?>: <?php echo self::LIGHTBOX_PHOTOSWIPE_VERSION; ?></p>
+    <p class="lbwps_text"><?php echo __('This plugin shows all linked pictures in a lightbox based on an extended version of Photoswipe. If the lightbox does not open, make sure that images are linked to the media and not to the attachment page. Also make sure that no other lightox is in use (some themes or gallery plugins bring their own lightbox which needs to be disabled). ', 'lightbox-photoswipe'); ?></p>
     <p class="lbwps_text"><?php echo __('For documentation about hooks, styling etc. please see FAQ', 'lightbox-photoswipe'); ?>: <a href="https://wordpress.org/plugins/lightbox-photoswipe/#faq" target="_blank">https://wordpress.org/plugins/lightbox-photoswipe/#faq</a>.</p>
     <p class="lbwps_text"><b><?php echo __('If you like my WordPress plugins and want to support my work I would be very happy about a donation via PayPal.', 'lightbox-photoswipe'); ?></b></p>
     <p class="lbwps_text"><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>
