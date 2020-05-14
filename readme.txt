@@ -176,6 +176,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 * New backend interface with tabs.
 * The lightbox will no longer be disabled on the home page, archive pages or search results if it is disabled in one or more pages/posts.
 
+= 2.100 =
+
+* Fix in caption handling for images with captions referred using `aria-describedby` which was broken since 2.94.
+
 = 2.99 =
 
 * Fix in caption handling for images with `data-caption-title` and `data-caption-desc` attributes.

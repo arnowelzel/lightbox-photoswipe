@@ -32,8 +32,8 @@ var lbwps_init = function() {
             
             caption = element.getAttribute('data-lbwps-caption');
 
+            // Use attributes "data-caption-title" and "data-caption-desc" in the <a> element if available
             if(caption == null) {
-                // Some galleries add caption and description as attributes to the image link
                 if(element.getAttribute('data-caption-title') != null) {
                     caption = '<div class="pswp__caption__title">'+element.getAttribute('data-caption-title')+'</div>';
                 }
@@ -44,6 +44,16 @@ var lbwps_init = function() {
                 }
             }
 
+            // Attribute "aria-describedby" in the <a> element contains the ID of another element with the caption
+            if(caption == null) {
+                var describedby = element.firstElementChild.getAttribute('aria-describedby');
+                if (describedby != null) {
+                    var description = document.getElementById(describedby);
+                    if (description != null) caption = description.textContent;
+                }
+            }
+
+            // Other variations
             if(caption == null) {
                 var nextElement = element.nextElementSibling;
                 var parentElement = element.parentElement.nextElementSibling;

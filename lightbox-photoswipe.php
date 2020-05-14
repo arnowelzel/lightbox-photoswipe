@@ -10,8 +10,6 @@ Text Domain: lightbox-photoswipe
 */
 defined('ABSPATH') or die();
 
-require_once ABSPATH . '/wp-admin/includes/image.php';
-
 /**
  * Lightbox with PhotoSwipe
  * 
