@@ -2,7 +2,6 @@ var lbwps_init = function() {
     var PhotoSwipe = window.PhotoSwipe,
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
-
     var links = document.querySelectorAll('a[data-lbwps-width]');
     links.forEach(function(link) {
         link.addEventListener('click', function(event) {
@@ -29,9 +28,10 @@ var lbwps_init = function() {
         var number = 0;
         elements.forEach(function(element) {
             var caption = null;
-            
+
             caption = element.getAttribute('data-lbwps-caption');
 
+            // Use attributes "data-caption-title" and "data-caption-desc" in the <a> element if available
             if(caption == null) {
                 if(element.getAttribute('data-caption-title') != null) {
                     caption = '<div class="pswp__caption__title">'+element.getAttribute('data-caption-title')+'</div>';
@@ -43,6 +43,16 @@ var lbwps_init = function() {
                 }
             }
 
+            // Attribute "aria-describedby" in the <a> element contains the ID of another element with the caption
+            if(caption == null) {
+                var describedby = element.firstElementChild.getAttribute('aria-describedby');
+                if (describedby != null) {
+                    var description = document.getElementById(describedby);
+                    if (description != null) caption = description.textContent;
+                }
+            }
+
+            // Other variations
             if(caption == null) {
                 var nextElement = element.nextElementSibling;
                 var parentElement = element.parentElement.nextElementSibling;
@@ -100,7 +110,7 @@ var lbwps_init = function() {
 
             number++;
         });
-        
+
         return [galleryItems, parseInt(index, 10)];
     };
 
@@ -240,7 +250,7 @@ var lbwps_init = function() {
                 img.src = item.src;
             }
         });
-        
+
         if (returnToUrl != '') {
             gallery.listen('unbindEvents', function() {
                 document.location.href = returnToUrl;
