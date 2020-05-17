@@ -20,6 +20,7 @@ class LightboxPhotoSwipe
     const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0';
 
     var $disabled_post_ids;
+    var $disabled_post_types;
     var $metabox;
     var $share_facebook;
     var $share_pinterest;
@@ -49,7 +50,6 @@ class LightboxPhotoSwipe
     var $gallery_id;
     var $ob_active;
     var $ob_level;
-    var $sitesync_ids;
 
     /**
      * Constructor
@@ -61,6 +61,12 @@ class LightboxPhotoSwipe
             $this->disabled_post_ids = explode(',', $disabled_post_ids);
         } else {
             $this->disabled_post_ids = [];
+        }
+        $disabled_post_types = trim(get_option('lightbox_photoswipe_disabled_post_types'));
+        if ('' !== $disabled_post_types) {
+            $this->disabled_post_types = explode(',', $disabled_post_types);
+        } else {
+            $this->disabled_post_types = [];
         }
         $this->metabox = get_option('lightbox_photoswipe_metabox');
         $this->share_facebook = get_option('lightbox_photoswipe_share_facebook');
@@ -135,9 +141,9 @@ class LightboxPhotoSwipe
     function enqueueScripts()
     {
         $id = get_the_ID();
-
         if (!is_home() && !is_404() && !is_archive() && !is_search()) {
             if (in_array($id, $this->disabled_post_ids)) $this->enabled = false;
+            if (in_array(get_post_type(), $this->disabled_post_types)) $this->enabled = false;
         }
         $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
 
@@ -760,6 +766,7 @@ class LightboxPhotoSwipe
     function adminInit()
     {
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_disabled_post_ids');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_disabled_post_types');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_metabox');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_facebook');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_share_twitter');
@@ -838,7 +845,7 @@ function lbwpsUpdateExifDateCheck(checkbox)
 function lbwpsSwitchTab(tab)
 {
     let num=1;
-    while (num < 7) {
+    while (num < 8) {
         if (tab == num) {
             document.getElementById('lbwps-switch-'+num).classList.add('nav-tab-active');
             document.getElementById('lbwps-tab-'+num).style.display = 'block';
@@ -871,7 +878,7 @@ function lbwpsUpdateCurrentTab()
         lbwpsSwitchTab(1);
     } else {
         let num = 1;
-        while (num < 7) {
+        while (num < 8) {
             if (location.hash == '#tab-' + num) lbwpsSwitchTab(num);
             num++;
         }
@@ -880,11 +887,12 @@ function lbwpsUpdateCurrentTab()
 </script>
 <nav class="nav-tab-wrapper" aria-label="<?php echo __('Secondary menu'); ?>">
     <a href="#" id="lbwps-switch-1" class="nav-tab nav-tab-active" onclick="lbwpsSwitchTab(1);return false;"><?php echo __('General', 'lightbox-photoswipe'); ?></a>
-    <a href="#" id="lbwps-switch-2" class="nav-tab" onclick="lbwpsSwitchTab(2);return false;"><?php echo __('Captions', 'lightbox-photoswipe'); ?></a>
-    <a href="#" id="lbwps-switch-3" class="nav-tab" onclick="lbwpsSwitchTab(3);return false;"><?php echo __('Sharing', 'lightbox-photoswipe'); ?></a>
-    <a href="#" id="lbwps-switch-4" class="nav-tab" onclick="lbwpsSwitchTab(4);return false;"><?php echo __('Desktop', 'lightbox-photoswipe'); ?></a>
-    <a href="#" id="lbwps-switch-5" class="nav-tab" onclick="lbwpsSwitchTab(5);return false;"><?php echo __('Mobile', 'lightbox-photoswipe'); ?></a>
-    <a href="#" id="lbwps-switch-6" class="nav-tab" onclick="lbwpsSwitchTab(6);return false;"><?php echo __('Info', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-2" class="nav-tab" onclick="lbwpsSwitchTab(2);return false;"><?php echo __('Theme', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-3" class="nav-tab" onclick="lbwpsSwitchTab(3);return false;"><?php echo __('Captions', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-4" class="nav-tab" onclick="lbwpsSwitchTab(4);return false;"><?php echo __('Sharing', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-5" class="nav-tab" onclick="lbwpsSwitchTab(5);return false;"><?php echo __('Desktop', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-6" class="nav-tab" onclick="lbwpsSwitchTab(6);return false;"><?php echo __('Mobile', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-7" class="nav-tab" onclick="lbwpsSwitchTab(7);return false;"><?php echo __('Info', 'lightbox-photoswipe'); ?></a>
 </nav>
 
 <table id="lbwps-tab-1" class="form-table">
@@ -894,6 +902,22 @@ function lbwpsUpdateCurrentTab()
             <input id="lightbox_photoswipe_disabled_post_ids" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_ids" value="<?php echo esc_attr(get_option('lightbox_photoswipe_disabled_post_ids')); ?>" />
             <p class="description"><?php echo __('Enter a comma separated list with the numerical IDs of the pages/posts where the lightbox should not be used. This can also be changed in the page/post itself.', 'lightbox-photoswipe'); ?></p>
             <p><label for="lightbox_photoswipe_metabox"><input id="lightbox_photoswipe_metabox" type="checkbox" name="lightbox_photoswipe_metabox" value="1" <?php if(get_option('lightbox_photoswipe_metabox')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show this setting as checkbox in page/post editor', 'lightbox-photoswipe'); ?></label></p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="lightbox_photoswipe_disabled_post_types"><?php echo __('Excluded post types', 'lightbox-photoswipe'); ?></label></th>
+        <td>
+            <input id="lightbox_photoswipe_disabled_post_types" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_types" value="<?php echo esc_attr(get_option('lightbox_photoswipe_disabled_post_types')); ?>" />
+            <p class="description"><?php echo __('Enter a comma separated list of post types where the lightbox should not be used.', ''); ?><br />
+                <?php echo __('Available post types on this site', 'lightbox-photoswipe');
+                $sep = ': ';
+                $post_types = get_post_types();
+                foreach ($post_types as $post_type) {
+                    echo $sep.htmlspecialchars($post_type);
+                    $sep = ', ';
+                }
+                ?>
+            </p>
         </td>
     </tr>
     <tr>
@@ -913,20 +937,9 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label>
         </td>
     </tr>
-    <tr>
-        <th scope="row"><?php echo __('Spacing between pictures', 'lightbox-photoswipe'); ?></th>
-        <td>
-            <label><select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing"><?php
-                    for ($spacing = 0; $spacing < 13; $spacing++) {
-                        echo '<option value="'.$spacing.'"';
-                        if (get_option('lightbox_photoswipe_spacing')==$spacing) echo ' selected="selected"';
-                        echo '>'.$spacing.'%';
-                        if ($spacing == 12) echo ' ('.__('Default', 'lightbox-photoswipe').')';
-                        echo '</option>';
-                    } ?></select></label>
-            <p class="description"><?php echo __('Space between pictures relative to screenwidth.', 'lightbox-photoswipe'); ?></p>
-        </td>
-    </tr>
+</table>
+
+<table id="lbwps-tab-2" class="form-table" style="display:none;">
     <tr>
         <th scope="row"><?php echo __('Skin', 'lightbox-photoswipe'); ?></th>
         <td>
@@ -946,9 +959,23 @@ function lbwpsUpdateCurrentTab()
                     ?></select></label>
         </td>
     </tr>
+    <tr>
+        <th scope="row"><?php echo __('Spacing between pictures', 'lightbox-photoswipe'); ?></th>
+        <td>
+            <label><select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing"><?php
+                    for ($spacing = 0; $spacing < 13; $spacing++) {
+                        echo '<option value="'.$spacing.'"';
+                        if (get_option('lightbox_photoswipe_spacing')==$spacing) echo ' selected="selected"';
+                        echo '>'.$spacing.'%';
+                        if ($spacing == 12) echo ' ('.__('Default', 'lightbox-photoswipe').')';
+                        echo '</option>';
+                    } ?></select></label>
+            <p class="description"><?php echo __('Space between pictures relative to screenwidth.', 'lightbox-photoswipe'); ?></p>
+        </td>
+    </tr>
 </table>
 
-<table id="lbwps-tab-2" class="form-table" style="display:none;">
+<table id="lbwps-tab-3" class="form-table" style="display:none;">
     <tr>
         <th scope="row"><?php echo __('Captions', 'lightbox-photoswipe'); ?></th>
         <td>
@@ -967,7 +994,7 @@ function lbwpsUpdateCurrentTab()
     </tr>
 </table>
 
-<table id="lbwps-tab-3" class="form-table" style="display:none;">
+<table id="lbwps-tab-4" class="form-table" style="display:none;">
     <tr>
         <th scope="row"><?php echo __('Visible sharing options', 'lightbox-photoswipe'); ?></th>
         <td>
@@ -990,9 +1017,9 @@ function lbwpsUpdateCurrentTab()
     </tr>
 </table>
 
-<table id="lbwps-tab-4" class="form-table" style="display:none">
+<table id="lbwps-tab-5" class="form-table" style="display:none">
     <tr>
-        <th scope="row"><?php echo __('Other options', 'lightbox-photoswipe'); ?></th>
+        <th scope="row"><?php echo __('General', 'lightbox-photoswipe'); ?></th>
         <td>
             <label><input id="lightbox_photoswipe_fulldesktop" type="checkbox" name="lightbox_photoswipe_fulldesktop" value="1"<?php if(get_option('lightbox_photoswipe_fulldesktop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Full picture size in desktop view', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_desktop_slider" type="checkbox" name="lightbox_photoswipe_desktop_slider" value="1"<?php if(get_option('lightbox_photoswipe_desktop_slider')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Use slide animation when switching images in desktop view', 'lightbox-photoswipe'); ?></label><br />
@@ -1024,9 +1051,9 @@ function lbwpsUpdateCurrentTab()
     </tr>
 </table>
 
-<table id="lbwps-tab-5" class="form-table" style="display:none;">
+<table id="lbwps-tab-6" class="form-table" style="display:none;">
     <tr>
-        <th scope="row"><?php echo __('Other options', 'lightbox-photoswipe'); ?></th>
+        <th scope="row"><?php echo __('General', 'lightbox-photoswipe'); ?></th>
         <td>
             <label for="lightbox_photoswipe_close_on_drag"><input id="lightbox_photoswipe_close_on_drag" type="checkbox" name="lightbox_photoswipe_close_on_drag" value="1"<?php if(get_option('lightbox_photoswipe_close_on_drag')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Close with vertical drag in mobile view', 'lightbox-photoswipe'); ?></label><br />
             <label for="lightbox_photoswipe_pinchtoclose"><input id="lightbox_photoswipe_pinchtoclose" type="checkbox" name="lightbox_photoswipe_pinchtoclose" value="1"<?php if(get_option('lightbox_photoswipe_pinchtoclose')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Enable pinch to close gesture on mobile devices', 'lightbox-photoswipe'); ?></label><br />
@@ -1035,7 +1062,7 @@ function lbwpsUpdateCurrentTab()
     </tr>
 </table>
 
-<div id="lbwps-tab-6" style="display:none">
+<div id="lbwps-tab-7" style="display:none">
     <p class="lbwps_text""><?php echo __('Plugin version', 'lightbox-photoswipe') ?>: <?php echo self::LIGHTBOX_PHOTOSWIPE_VERSION; ?></p>
     <p class="lbwps_text"><?php echo __('This plugin shows all linked pictures in a lightbox based on an extended version of Photoswipe. If the lightbox does not open, make sure that images are linked to the media and not to the attachment page. Also make sure that no other lightox is in use (some themes or gallery plugins bring their own lightbox which needs to be disabled). ', 'lightbox-photoswipe'); ?></p>
     <p class="lbwps_text"><?php echo __('For documentation about hooks, styling etc. please see FAQ', 'lightbox-photoswipe'); ?>: <a href="https://wordpress.org/plugins/lightbox-photoswipe/#faq" target="_blank">https://wordpress.org/plugins/lightbox-photoswipe/#faq</a>.</p>
@@ -1289,7 +1316,7 @@ window.addEventListener('popstate', (event) => {
             $this->createTables();
         }
         if (intval($db_version) < 3) {
-            update_option('lightbox_photoswipe_disabled_post_ids', get_option('disabled_post_ids'));
+            update_option('lightbox_photoswipe_disabled_post_ids', '');
             delete_option('disabled_post_ids');
             update_option('lightbox_photoswipe_share_facebook', '1');
             update_option('lightbox_photoswipe_share_pinterest', '1');
@@ -1374,8 +1401,12 @@ window.addEventListener('popstate', (event) => {
         if (intval($db_version) < 24) {
             update_option('lightbox_photoswipe_metabox', '1');
         }
+        if (intval($db_version) < 25) {
+            update_option('lightbox_photoswipe_disabled_post_types', '');
+        }
+
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
-        update_option('lightbox_photoswipe_db_version', 24);
+        update_option('lightbox_photoswipe_db_version', 25);
     }
 }
 
