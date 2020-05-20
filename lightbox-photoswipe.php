@@ -943,20 +943,10 @@ function lbwpsUpdateCurrentTab()
     <tr>
         <th scope="row"><?php echo __('Skin', 'lightbox-photoswipe'); ?></th>
         <td>
-            <label><select id="lightbox_photoswipe_skin" name="lightbox_photoswipe_skin"><?php
-                    echo '<option value="1"';
-                    if (get_option('lightbox_photoswipe_skin')=='1') echo ' selected="selected"';
-                    echo '>'.__('Original', 'lightbox-photoswipe').'</option>';
-                    echo '<option value="2"';
-                    if (get_option('lightbox_photoswipe_skin')=='2') echo ' selected="selected"';
-                    echo '>'.__('Original with solid background', 'lightbox-photoswipe').'</option>';
-                    echo '<option value="3"';
-                    if (get_option('lightbox_photoswipe_skin')=='3') echo ' selected="selected"';
-                    echo '>'.__('New share symbol', 'lightbox-photoswipe').'</option>';
-                    echo '<option value="4"';
-                    if (get_option('lightbox_photoswipe_skin')=='4') echo ' selected="selected"';
-                    echo '>'.__('New share symbol with solid background', 'lightbox-photoswipe').'</option>';
-                    ?></select></label>
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="1"' <?php if (get_option('lightbox_photoswipe_skin')=='1') echo ' checked="checked"'; ?>><?php echo __('Original', 'lightbox-photoswipe')?></label><br />
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="2"' <?php if (get_option('lightbox_photoswipe_skin')=='2') echo ' checked="checked"'; ?>><?php echo __('Original with solid background', 'lightbox-photoswipe')?></label><br />
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="3"' <?php if (get_option('lightbox_photoswipe_skin')=='3') echo ' checked="checked"'; ?>><?php echo __('New share symbol', 'lightbox-photoswipe')?></label><br />
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="4"' <?php if (get_option('lightbox_photoswipe_skin')=='4') echo ' checked="checked"'; ?>><?php echo __('New share symbol with solid background', 'lightbox-photoswipe')?></label>
         </td>
     </tr>
     <tr>

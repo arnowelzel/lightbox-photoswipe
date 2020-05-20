@@ -71,6 +71,8 @@ var lbwps_init = function() {
                         caption = parentElement.textContent;
                     } else if(parentElement.className === '.gallery-caption') {
                         caption = parentElement.textContent;
+                    } else if(parentElement.nextElementSibling && parentElement.nextElementSibling.nodeName === "FIGCAPTION") {
+                        caption = parentElement.nextElementSibling.textContent;
                     }
                 } else if(parentElement2 && parentElement2.nodeName === "FIGCAPTION") {
                     caption = parentElement2.textContent;
