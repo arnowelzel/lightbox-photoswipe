@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.0
+Version: 3.0d
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '2.902';
 
     var $disabled_post_ids;
     var $disabled_post_types;
@@ -819,6 +819,7 @@ class LightboxPhotoSwipe
 }
 </style>
 <div class="wrap"><h1><?php echo __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'); ?></h1>
+    <h2>This is an inofficial BETA version for the upcoming release 3.0! Do not distribute!</h2>
 <form method="post" action="options.php">
 <?php settings_fields('lightbox-photoswipe-settings-group'); ?>
 <script>
@@ -998,11 +999,18 @@ function lbwpsUpdateCurrentTab()
         </td>
     </tr>
     <tr>
-        <th scope="row"><?php echo __('Custom link', 'lightbox-photoswipe'); ?></th>
+        <th scope="row"><?php echo __('Custom link, label', 'lightbox-photoswipe'); ?></th>
         <td>
             <input id="lightbox_photoswipe_share_custom_label" class="regular-text" type="text" name="lightbox_photoswipe_share_custom_label" placeholder="<?php echo __('Your label here', 'lightbox-photoswipe'); ?>" value="<?php echo htmlspecialchars(get_option('lightbox_photoswipe_share_custom_label')); ?>" />
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><?php echo __('Custom link, URL', 'lightbox-photoswipe'); ?></th>
+        <td>
             <input id="lightbox_photoswipe_share_custom_link" class="regular-text" type="text" name="lightbox_photoswipe_share_custom_link" placeholder="{{raw_image_url}}" value="<?php echo htmlspecialchars(get_option('lightbox_photoswipe_share_custom_link')); ?>" />
-            <p class="description"><?php echo __('Placeholders for the link: {{raw_url}}&nbsp;&ndash;&nbsp;URL of the lightbox, {{url}}&nbsp;&ndash;&nbsp;encoded URL of the lightbox, {{raw_image_url}}&nbsp;&ndash;&nbsp;URL of the image, {{image_url}}&nbsp;&ndash;&nbsp;encoded URL of the image, {{text}}&nbsp;&ndash;&nbsp;image caption.', 'lightbox-photoswipe'); ?></p>
+            <p class="description">
+                <?php echo __('Placeholders for the link:<br />{{raw_url}}&nbsp;&ndash;&nbsp;URL of the lightbox<br />{{url}}&nbsp;&ndash;&nbsp;encoded URL of the lightbox<br />{{raw_image_url}}&nbsp;&ndash;&nbsp;URL of the image<br />{{image_url}}&nbsp;&ndash;&nbsp;encoded URL of the image<br />{{text}}&nbsp;&ndash;&nbsp;image caption.', 'lightbox-photoswipe'); ?>
+            </p>
         </td>
     </tr>
 </table>

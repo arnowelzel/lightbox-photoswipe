@@ -174,7 +174,9 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 3.0 =
 
 * New backend interface with tabs.
+* Added option to exclude by post type.
 * The lightbox will no longer be disabled on the home page, archive pages or search results if it is disabled in one or more pages/posts.
+* Updated frontend code to improve compatibility with older browsers.
 
 = 2.100 =
 
