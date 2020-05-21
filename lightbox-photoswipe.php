@@ -819,7 +819,6 @@ class LightboxPhotoSwipe
 }
 </style>
 <div class="wrap"><h1><?php echo __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'); ?></h1>
-    <h2>This is an inofficial BETA version for the upcoming release 3.0! Do not distribute!</h2>
 <form method="post" action="options.php">
 <?php settings_fields('lightbox-photoswipe-settings-group'); ?>
 <script>
