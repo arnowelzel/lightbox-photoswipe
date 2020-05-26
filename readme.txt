@@ -177,6 +177,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 * Added option to exclude by post type.
 * The lightbox will no longer be disabled on the home page, archive pages or search results if it is disabled in one or more pages/posts.
 * Updated frontend code to improve compatibility with older browsers.
+* Fixed redundant database updates which might cause a performance issue.
 
 = 2.100 =
 
