@@ -3,16 +3,17 @@ var lbwps_init = function() {
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
     var links = document.querySelectorAll('a[data-lbwps-width]');
-    links.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            if (!PhotoSwipe || !PhotoSwipeUI_Default) {
-                return;
-            }
 
-            event.preventDefault();
-            openPhotoSwipe(false, 0, this, false, '');
-        });
-    });
+    for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', function (event) {
+                if (!PhotoSwipe || !PhotoSwipeUI_Default) {
+                    return;
+                }
+
+                event.preventDefault();
+                openPhotoSwipe(false, 0, this, false, '');
+            });
+    }
 
     var parseThumbnailElements = function(link, id) {
         var elements,
@@ -26,7 +27,8 @@ var lbwps_init = function() {
         }
 
         var number = 0;
-        elements.forEach(function(element) {
+        for (var i=0; i<elements.length; i++) {
+            var element = elements[i];
             var caption = null;
 
             caption = element.getAttribute('data-lbwps-caption');
@@ -70,6 +72,8 @@ var lbwps_init = function() {
                         caption = parentElement.textContent;
                     } else if(parentElement.className === '.gallery-caption') {
                         caption = parentElement.textContent;
+                    } else if(parentElement.nextElementSibling && parentElement.nextElementSibling.nodeName === "FIGCAPTION") {
+                        caption = parentElement.nextElementSibling.textContent;
                     }
                 } else if(parentElement2 && parentElement2.nodeName === "FIGCAPTION") {
                     caption = parentElement2.textContent;
@@ -109,7 +113,7 @@ var lbwps_init = function() {
             }
 
             number++;
-        });
+        };
 
         return [galleryItems, parseInt(index, 10)];
     };
@@ -122,7 +126,7 @@ var lbwps_init = function() {
         }
 
         var vars = hash.split('&');
-        for(var i = 0; i < vars.length; i++) {
+        for (var i = 0; i < vars.length; i++) {
             if(!vars[i]) {
                 continue;
             }
@@ -290,8 +294,4 @@ var lbwps_init = function() {
     }
 };
 
-if (document.readyState === "complete" || (document.readyState !== "loading" && !document.documentElement.doScroll)) {
-    lbwps_init();
-} else {
-    document.addEventListener("DOMContentLoaded", lbwps_init);
-}
+window.addEventListener('load', lbwps_init);
