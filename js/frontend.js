@@ -30,7 +30,7 @@ var lbwps_init = function() {
         for (var i=0; i<elements.length; i++) {
             var element = elements[i];
             var caption = null;
-            
+
             caption = element.getAttribute('data-lbwps-caption');
 
             // Use attributes "data-caption-title" and "data-caption-desc" in the <a> element if available
