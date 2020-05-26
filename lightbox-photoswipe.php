@@ -1061,7 +1061,7 @@ function lbwpsUpdateCurrentTab()
 
 <div id="lbwps-tab-7" style="display:none">
     <p class="lbwps_text""><?php echo __('Plugin version', 'lightbox-photoswipe') ?>: <?php echo self::LIGHTBOX_PHOTOSWIPE_VERSION; ?></p>
-    <p class="lbwps_text"><?php echo __('This plugin shows all linked pictures in a lightbox based on an extended version of Photoswipe. If the lightbox does not open, make sure that images are linked to the media and not to the attachment page. Also make sure that no other lightox is in use (some themes or gallery plugins bring their own lightbox which needs to be disabled). ', 'lightbox-photoswipe'); ?></p>
+    <p class="lbwps_text"><?php echo __('This plugin shows all linked pictures in a lightbox based on an extended version of Photoswipe. If the lightbox does not open, make sure that images are linked to the media and not to the attachment page. Also make sure that no other lightbox is in use (some themes or gallery plugins bring their own lightbox which needs to be disabled). ', 'lightbox-photoswipe'); ?></p>
     <p class="lbwps_text"><?php echo __('For documentation about hooks, styling etc. please see FAQ', 'lightbox-photoswipe'); ?>: <a href="https://wordpress.org/plugins/lightbox-photoswipe/#faq" target="_blank">https://wordpress.org/plugins/lightbox-photoswipe/#faq</a>.</p>
     <p class="lbwps_text"><b><?php echo __('If you like my WordPress plugins and want to support my work I would be very happy about a donation via PayPal.', 'lightbox-photoswipe'); ?></b></p>
     <p class="lbwps_text"><b><a href="https://paypal.me/ArnoWelzel">https://paypal.me/ArnoWelzel</a></b></p>
@@ -1081,7 +1081,6 @@ window.addEventListener('popstate', (event) => {
 </script>
 <?php
     }
-
     /**
      * Add metabox for post editor
      *
@@ -1403,7 +1402,10 @@ window.addEventListener('popstate', (event) => {
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
-        update_option('lightbox_photoswipe_db_version', 25);
+
+        if (intval($db_version) < 25) {
+            update_option('lightbox_photoswipe_db_version', 25);
+        }
     }
 }
 
