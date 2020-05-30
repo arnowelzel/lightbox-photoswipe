@@ -595,7 +595,7 @@ class LightboxPhotoSwipe
             }
 
             $attr = '';
-            if (0!=$imageSize[0] && 0!=$imageSize[1]) {
+            if (0 != $imageSize[0] && 0 != $imageSize[1]) {
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $imageSize[0], $imageSize[1]);
             
                 if ($caption != '') {
