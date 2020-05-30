@@ -3,7 +3,6 @@ var lbwps_init = function() {
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
     var links = document.querySelectorAll('a[data-lbwps-width]');
-
     for (var i = 0; i < links.length; i++) {
         links[i].addEventListener('click', function (event) {
                 if (!PhotoSwipe || !PhotoSwipeUI_Default) {
@@ -113,7 +112,7 @@ var lbwps_init = function() {
             }
 
             number++;
-        };
+        }
 
         return [galleryItems, parseInt(index, 10)];
     };
