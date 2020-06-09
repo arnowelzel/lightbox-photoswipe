@@ -45,7 +45,7 @@ var lbwps_init = function() {
             }
 
             // Attribute "aria-describedby" in the <a> element contains the ID of another element with the caption
-            if(caption == null) {
+            if(caption == null && element.firstElementChild) {
                 var describedby = element.firstElementChild.getAttribute('aria-describedby');
                 if (describedby != null) {
                     var description = document.getElementById(describedby);
@@ -86,7 +86,7 @@ var lbwps_init = function() {
                 caption = element.getAttribute('title');
             }
 
-            if(caption == null && lbwps_options.use_alt == '1') {
+            if(caption == null && lbwps_options.use_alt == '1' && element.firstElementChild) {
                 caption = element.firstElementChild.getAttribute('alt');
             }
 
