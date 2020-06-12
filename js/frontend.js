@@ -3,7 +3,6 @@ var lbwps_init = function() {
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
     var links = document.querySelectorAll('a[data-lbwps-width]');
-
     for (var i = 0; i < links.length; i++) {
         links[i].addEventListener('click', function (event) {
                 if (!PhotoSwipe || !PhotoSwipeUI_Default) {
@@ -46,7 +45,7 @@ var lbwps_init = function() {
             }
 
             // Attribute "aria-describedby" in the <a> element contains the ID of another element with the caption
-            if(caption == null) {
+            if(caption == null && element.firstElementChild) {
                 var describedby = element.firstElementChild.getAttribute('aria-describedby');
                 if (describedby != null) {
                     var description = document.getElementById(describedby);
@@ -87,7 +86,7 @@ var lbwps_init = function() {
                 caption = element.getAttribute('title');
             }
 
-            if(caption == null && lbwps_options.use_alt == '1') {
+            if(caption == null && lbwps_options.use_alt == '1' && element.firstElementChild) {
                 caption = element.firstElementChild.getAttribute('alt');
             }
 
@@ -113,7 +112,7 @@ var lbwps_init = function() {
             }
 
             number++;
-        };
+        }
 
         return [galleryItems, parseInt(index, 10)];
     };

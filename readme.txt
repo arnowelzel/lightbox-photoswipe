@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 3.0
+Stable tag: 3.0.3
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -175,6 +175,18 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.0.3 =
+
+* Fixed invalid HTML in the backend settings.
+
+= 3.0.2 =
+
+* Fixed a bug which caused the lightbox not to work when there are links to images without visible thumbnails inside.
+
+= 3.0.1 =
+
+* Fixed a PHP warning if the size of an image could not be determined.
 
 = 3.0 =
 
