@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.0.2
+Version: 3.0.3
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0.2';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0.3';
 
     var $disabled_post_ids;
     var $disabled_post_types;
@@ -924,7 +924,7 @@ function lbwpsUpdateCurrentTab()
         <td>
             <label><input id="lightbox_photoswipe_show_counter" type="checkbox" name="lightbox_photoswipe_show_counter" value="1"<?php if(get_option('lightbox_photoswipe_show_counter')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show picture counter', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_show_fullscreen" type="checkbox" name="lightbox_photoswipe_show_fullscreen" value="1"<?php if(get_option('lightbox_photoswipe_show_fullscreen')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show fullscreen button', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_show_zoom" type="checkbox" name="lightbox_photoswipe_show_zoom" value="1"'<?php if(get_option('lightbox_photoswipe_show_zoom')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show zoom button if available', 'lightbox-photoswipe'); ?></label><br />
+            <label><input id="lightbox_photoswipe_show_zoom" type="checkbox" name="lightbox_photoswipe_show_zoom" value="1"<?php if(get_option('lightbox_photoswipe_show_zoom')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show zoom button if available', 'lightbox-photoswipe'); ?></label><br />
         </td>
     </tr>
     <tr>
@@ -932,7 +932,7 @@ function lbwpsUpdateCurrentTab()
         <td>
             <label><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"<?php if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"<?php if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Allow infinite loop', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"'<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
+            <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label>
         </td>
     </tr>
@@ -942,10 +942,10 @@ function lbwpsUpdateCurrentTab()
     <tr>
         <th scope="row"><?php echo __('Skin', 'lightbox-photoswipe'); ?></th>
         <td>
-            <label><input type="radio" name="lightbox_photoswipe_skin" value="1"' <?php if (get_option('lightbox_photoswipe_skin')=='1') echo ' checked="checked"'; ?>><?php echo __('Original', 'lightbox-photoswipe')?></label><br />
-            <label><input type="radio" name="lightbox_photoswipe_skin" value="2"' <?php if (get_option('lightbox_photoswipe_skin')=='2') echo ' checked="checked"'; ?>><?php echo __('Original with solid background', 'lightbox-photoswipe')?></label><br />
-            <label><input type="radio" name="lightbox_photoswipe_skin" value="3"' <?php if (get_option('lightbox_photoswipe_skin')=='3') echo ' checked="checked"'; ?>><?php echo __('New share symbol', 'lightbox-photoswipe')?></label><br />
-            <label><input type="radio" name="lightbox_photoswipe_skin" value="4"' <?php if (get_option('lightbox_photoswipe_skin')=='4') echo ' checked="checked"'; ?>><?php echo __('New share symbol with solid background', 'lightbox-photoswipe')?></label>
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="1" <?php if (get_option('lightbox_photoswipe_skin')=='1') echo ' checked="checked"'; ?>><?php echo __('Original', 'lightbox-photoswipe')?></label><br />
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="2" <?php if (get_option('lightbox_photoswipe_skin')=='2') echo ' checked="checked"'; ?>><?php echo __('Original with solid background', 'lightbox-photoswipe')?></label><br />
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="3" <?php if (get_option('lightbox_photoswipe_skin')=='3') echo ' checked="checked"'; ?>><?php echo __('New share symbol', 'lightbox-photoswipe')?></label><br />
+            <label><input type="radio" name="lightbox_photoswipe_skin" value="4" <?php if (get_option('lightbox_photoswipe_skin')=='4') echo ' checked="checked"'; ?>><?php echo __('New share symbol with solid background', 'lightbox-photoswipe')?></label>
         </td>
     </tr>
     <tr>
@@ -969,7 +969,7 @@ function lbwpsUpdateCurrentTab()
         <th scope="row"><?php echo __('Captions', 'lightbox-photoswipe'); ?></th>
         <td>
             <label><input id="lightbox_photoswipe_show_caption" type="checkbox" name="lightbox_photoswipe_show_caption" value="1"<?php if(get_option('lightbox_photoswipe_show_caption')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show caption if available', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"'<?php if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; ?> onClick="lbwpsUpdateDescriptionCheck(this)" />&nbsp;<?php echo __('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe'); ?></label><br />
+            <label><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"<?php if(get_option('lightbox_photoswipe_usepostdata')=='1') echo ' checked="checked"'; ?> onClick="lbwpsUpdateDescriptionCheck(this)" />&nbsp;<?php echo __('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_usedescription" type="checkbox" name="lightbox_photoswipe_usedescription" value="1"<?php if(get_option('lightbox_photoswipe_usedescription')=='1') echo ' checked="checked"'; ?> />&nbsp;... <?php echo __('also use description if available', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_use_alt" type="checkbox" name="lightbox_photoswipe_use_alt" value="1"<?php if(get_option('lightbox_photoswipe_use_alt')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Use alternative text of images as captions if needed', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_showexif" type="checkbox" name="lightbox_photoswipe_showexif" value="1"<?php if(get_option('lightbox_photoswipe_showexif')=='1') echo ' checked="checked"'; ?> onClick="lbwpsUpdateExifDateCheck(this)" />&nbsp;<?php echo __('Show EXIF data if available', 'lightbox-photoswipe');
@@ -1059,7 +1059,7 @@ function lbwpsUpdateCurrentTab()
 </table>
 
 <div id="lbwps-tab-7" style="display:none">
-    <p class="lbwps_text""><?php echo __('Plugin version', 'lightbox-photoswipe') ?>: <?php echo self::LIGHTBOX_PHOTOSWIPE_VERSION; ?></p>
+    <p class="lbwps_text"><?php echo __('Plugin version', 'lightbox-photoswipe') ?>: <?php echo self::LIGHTBOX_PHOTOSWIPE_VERSION; ?></p>
     <p class="lbwps_text"><?php echo __('This plugin shows all linked pictures in a lightbox based on an extended version of Photoswipe. If the lightbox does not open, make sure that images are linked to the media and not to the attachment page. Also make sure that no other lightbox is in use (some themes or gallery plugins bring their own lightbox which needs to be disabled). ', 'lightbox-photoswipe'); ?></p>
     <p class="lbwps_text"><?php echo __('For documentation about hooks, styling etc. please see FAQ', 'lightbox-photoswipe'); ?>: <a href="https://wordpress.org/plugins/lightbox-photoswipe/#faq" target="_blank">https://wordpress.org/plugins/lightbox-photoswipe/#faq</a>.</p>
     <p class="lbwps_text"><b><?php echo __('If you like my WordPress plugins and want to support my work I would be very happy about a donation via PayPal.', 'lightbox-photoswipe'); ?></b></p>

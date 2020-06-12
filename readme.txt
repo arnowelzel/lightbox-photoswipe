@@ -176,6 +176,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 3.0.3 =
+
+* Fixed invalid HTML in the backend settings.
+
 = 3.0.2 =
 
 * Fixed a bug which caused the lightbox not to work when there are links to images without visible thumbnails inside.
