@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.0.3
+Version: 3.0.4
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0.3';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0.4';
 
     var $disabled_post_ids;
     var $disabled_post_types;
@@ -907,7 +907,7 @@ function lbwpsUpdateCurrentTab()
         <th scope="row"><label for="lightbox_photoswipe_disabled_post_types"><?php echo __('Excluded post types', 'lightbox-photoswipe'); ?></label></th>
         <td>
             <input id="lightbox_photoswipe_disabled_post_types" class="regular-text" type="text" name="lightbox_photoswipe_disabled_post_types" value="<?php echo esc_attr(get_option('lightbox_photoswipe_disabled_post_types')); ?>" />
-            <p class="description"><?php echo __('Enter a comma separated list of post types where the lightbox should not be used.', ''); ?><br />
+            <p class="description"><?php echo __('Enter a comma separated list of post types where the lightbox should not be used.', 'lightbox-photoswipe'); ?><br />
                 <?php echo __('Available post types on this site', 'lightbox-photoswipe');
                 $sep = ': ';
                 $post_types = get_post_types();
