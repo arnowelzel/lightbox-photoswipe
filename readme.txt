@@ -179,6 +179,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 3.0.4 =
 
 * Added missing translation.
+* Changed frontend initialization to be faster and more compatible.
 
 = 3.0.3 =
 
