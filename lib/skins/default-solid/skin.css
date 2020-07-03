@@ -15,11 +15,17 @@
 
  */
 /* <button> css reset */
+/*
+Note:
+
+Originally background was defined as "background: none", but this does not work with Twenty Twenty as
+this theme defines a global background color for button elements
+*/
 .pswp__button {
   width: 44px;
   height: 44px;
   position: relative;
-  background: none;
+  background-color: #00000000 !important;
   cursor: pointer;
   overflow: visible;
   -webkit-appearance: none;
@@ -69,10 +75,10 @@
     background: none; } }
 
 .pswp__button--close {
-  background-position: 0 -44px; }
+  background-position: 0 -44px !important; }
 
 .pswp__button--share {
-  background-position: -44px -44px; }
+  background-position: -44px -44px !important; }
 
 .pswp__button--fs {
   display: none; }
@@ -81,17 +87,17 @@
   display: block; }
 
 .pswp--fs .pswp__button--fs {
-  background-position: -44px 0; }
+  background-position: -44px 0 !important; }
 
 .pswp__button--zoom {
   display: none;
-  background-position: -88px 0; }
+  background-position: -88px 0 !important; }
 
 .pswp--zoom-allowed .pswp__button--zoom {
   display: block; }
 
 .pswp--zoomed-in .pswp__button--zoom {
-  background-position: -132px 0; }
+  background-position: -132px 0 !important; }
 
 /* no arrows on touch screens */
 .pswp--touch .pswp__button--arrow--left,
@@ -128,11 +134,11 @@
 
 .pswp__button--arrow--left:before {
   left: 6px;
-  background-position: -138px -44px; }
+  background-position: -138px -44px !important; }
 
 .pswp__button--arrow--right:before {
   right: 6px;
-  background-position: -94px -44px; }
+  background-position: -94px -44px !important; }
 
 /*
 
@@ -233,9 +239,13 @@ a.pswp__share--pinterest:hover {
 a.pswp__share--pinterest:hover:before {
   border-bottom-color: #CCC; }
 
-a.pswp__share--download:hover {
+a.pswp__share--download:hover,
+a.pswp__share--copyurl:hover,
+a.pswp__share--custom:hover {
   background: #DDD; }
-a.pswp__share--download:hover:before {
+a.pswp__share--download:hover:before,
+a.pswp__share--copyurl:hover:before,
+a.pswp__share--custom:hover:before {
   border-bottom-color: #DDD; }
 /*
 
@@ -447,7 +457,8 @@ a.pswp__share--download:hover:before {
   background-color: rgba(0, 0, 0, 1); }
 
 /* pswp__ui--idle class is added when mouse isn't moving for several seconds (JS option timeToIdle) */
-.pswp__ui--idle .pswp__top-bar {
+.pswp__ui--idle .pswp__top-bar,
+.pswp__caption.pswp__ui--idle {
   opacity: 0; }
 
 .pswp__ui--idle .pswp__button--arrow--left,
