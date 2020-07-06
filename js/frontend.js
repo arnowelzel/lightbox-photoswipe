@@ -49,7 +49,7 @@ var lbwps_init = function() {
                 var describedby = element.firstElementChild.getAttribute('aria-describedby');
                 if (describedby != null) {
                     var description = document.getElementById(describedby);
-                    if (description != null) caption = description.textContent;
+                    if (description != null) caption = description.innerHTML;
                 }
             }
 
@@ -62,23 +62,23 @@ var lbwps_init = function() {
 
                 if(nextElement != null) {
                     if(nextElement.className === '.wp-caption-text') {
-                        caption = nextElement.textContent;
+                        caption = nextElement.innerHTML;
                     } else if(nextElement && nextElement.nodeName === "FIGCAPTION") {
-                        caption = nextElement.textContent;
+                        caption = nextElement.innerHTML;
                     }
                 } else if(parentElement != null) {
                     if(parentElement.className === '.wp-caption-text') {
-                        caption = parentElement.textContent;
+                        caption = parentElement.innerHTML;
                     } else if(parentElement.className === '.gallery-caption') {
-                        caption = parentElement.textContent;
+                        caption = parentElement.innerHTML;
                     } else if(parentElement.nextElementSibling && parentElement.nextElementSibling.nodeName === "FIGCAPTION") {
-                        caption = parentElement.nextElementSibling.textContent;
+                        caption = parentElement.nextElementSibling.innerHTML;
                     }
                 } else if(parentElement2 && parentElement2.nodeName === "FIGCAPTION") {
-                    caption = parentElement2.textContent;
+                    caption = parentElement2.innerHTML;
                 } else if(parentElement3 && parentElement3.nodeName === "FIGCAPTION") {
                     // This variant is used by Gutenberg gallery blocks
-                    caption = parentElement3.textContent;
+                    caption = parentElement3.innerHTML;
                 }
             }
 
