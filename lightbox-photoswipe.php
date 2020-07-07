@@ -110,7 +110,7 @@ class LightboxPhotoSwipe
         if (!is_admin()) {
             add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
             add_action('wp_footer', [$this, 'footer']);
-            add_action('wp_head', [$this, 'bufferStart'], 2000);
+            add_action('wp_head', [$this, 'bufferStart'], 2050);
             if ($this->separate_galleries) {
                 remove_shortcode('gallery');
                 add_shortcode('gallery', [$this, 'shortcodeGallery'], 10, 1);
