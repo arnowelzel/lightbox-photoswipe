@@ -675,7 +675,7 @@ class LightboxPhotoSwipe
 
                 if ( $this->seo_friendly ) {
                     $meta .= sprintf( '<meta itemprop="width" content="%s">', $imageSize[0] );
-                    $meta .= sprintf( '<meta itemprop="height" content="300">', $imageSize[1] );
+                    $meta .= sprintf( '<meta itemprop="height" content="%s">', $imageSize[1] );
                 }
             }
         }
