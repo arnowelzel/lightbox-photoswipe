@@ -52,6 +52,7 @@ class LightboxPhotoSwipe
     var $ob_active;
     var $ob_level;
     var $use_cache;
+    var $seo_friendly;
 
     /**
      * Constructor
@@ -1291,7 +1292,7 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_idletime', '4000');
             update_option('lightbox_photoswipe_add_lazyloading', '1');
             update_option('lightbox_photoswipe_use_cache', '0');
-            update_option('lightbox_photoswipe_seo_friendly', '1');
+            update_option('lightbox_photoswipe_seo_friendly', '0');
             restore_current_blog();
         }
     }
@@ -1456,7 +1457,7 @@ window.addEventListener('popstate', (event) => {
         }
         if (intval($db_version) < 26) {
             update_option('lightbox_photoswipe_use_cache', '0');
-            update_option('lightbox_photoswipe_seo_friendly', '1');
+            update_option('lightbox_photoswipe_seo_friendly', '0');
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
