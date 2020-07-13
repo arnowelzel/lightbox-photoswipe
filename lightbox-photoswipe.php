@@ -119,6 +119,8 @@ class LightboxPhotoSwipe
                 add_shortcode('gallery', [$this, 'shortcodeGallery'], 10, 1);
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
             }
+        } else {
+            add_action( 'update_option_lightbox_photoswipe_use_cache', array( $this, 'update_option_use_cache' ), 10, 3 );
         }
         add_action('wpmu_new_blog', [$this, 'onCreateBlog'], 10, 6);
         add_filter('wpmu_drop_tables', [$this, 'onDeleteBlog']);
@@ -535,8 +537,14 @@ class LightboxPhotoSwipe
                 }
             }
 
+            $imgMtime = @filemtime( $file );
+            if ( false === $imgMtime ) {
+                $imgMtime = 0;
+            }
+            $imgkey = hash( 'md5', $file . $imgMtime );
+
             if ( $this->use_cache ) {
-                $cache_key = "img:$file";
+                $cache_key = "img:$imgkey";
 
                 if ( ! $imgDetails = wp_cache_get( $cache_key, 'lbwps' ) ) {
                     $imgDetails = array(
@@ -567,11 +575,6 @@ class LightboxPhotoSwipe
 
                 extract( $imgDetails );
             } else {
-                $imgdate = @filemtime($file);
-                if (false == $imgdate) {
-                    $imgdate = 0;
-                }
-                $imgkey = md5($file) . '-'. $imgdate;
                 $imageSize[0] = 0;
                 $imageSize[1] = 0;
                 $exifCamera = '';
@@ -845,6 +848,7 @@ class LightboxPhotoSwipe
      */
     function settingsPage()
     {
+        global $wpdb;
 ?>
 <style>
 .lbwps_text {
@@ -971,7 +975,7 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"<?php if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Allow infinite loop', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Use wp_cache_add/get instead database', 'lightbox-photoswipe'); ?></label>
+            <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php printf( esc_html__( 'Use wp_cache_add and wp_cache_get instead the database table %slightbox_photoswipe_img (use this option in case of caching plugins like "Redis Object Cache")', 'lightbox-photoswipe' ), $wpdb->prefix ); ?></label>
         </td>
     </tr>
 </table>
@@ -1446,6 +1450,16 @@ window.addEventListener('popstate', (event) => {
 
         if (intval($db_version) < 26) {
             update_option('lightbox_photoswipe_db_version', 26);
+        }
+    }
+
+    function update_option_use_cache( $old_value, $value, $option ) {
+    	if ( ! $old_value && $value === '1' ) {
+            $this->deleteTables();
+            $this->onDeactivate();
+    	} else if ( $old_value === '1' && ! $value ) {
+            $this->createTables();
+            $this->onActivate();
         }
     }
 }
