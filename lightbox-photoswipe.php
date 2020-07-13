@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.0.5
+Version: 3.0.6
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,8 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0.5';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.0.6';
+    const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
     var $disabled_post_types;
@@ -50,6 +51,7 @@ class LightboxPhotoSwipe
     var $gallery_id;
     var $ob_active;
     var $ob_level;
+    var $use_cache;
 
     /**
      * Constructor
@@ -101,6 +103,7 @@ class LightboxPhotoSwipe
         $this->desktop_slider = get_option('lightbox_photoswipe_desktop_slider');
         $this->idletime = get_option('lightbox_photoswipe_idletime');
         $this->add_lazyloading = get_option('lightbox_photoswipe_add_lazyloading');
+        $this->use_cache = get_option('lightbox_photoswipe_use_cache');
 
         $this->enabled = true;
         $this->gallery_id = 1;
@@ -532,65 +535,98 @@ class LightboxPhotoSwipe
                 }
             }
 
-            $imgdate = @filemtime($file);
-            if (false == $imgdate) {
-                $imgdate = 0;
-            }
-            $imgkey = md5($file) . '-'. $imgdate;
-            $imageSize[0] = 0;
-            $imageSize[1] = 0;
-            $exifCamera = '';
-            $exifFocal = '';
-            $exifFstop = '';
-            $exifShutter = '';
-            $exifIso = '';
-            $exifDateTime = '';
-            $tableImg = $wpdb->prefix . 'lightbox_photoswipe_img';
-            $entry = $wpdb->get_row("SELECT width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime FROM $tableImg where imgkey='$imgkey'");
-            if (null != $entry) {
-                $imageSize[0] = $entry->width;
-                $imageSize[1] = $entry->height;
-                $exifCamera = $entry->exif_camera;
-                $exifFocal = $entry->exif_focal;
-                $exifFstop  = $entry->exif_fstop;
-                $exifShutter = $entry->exif_shutter;
-                $exifIso = $entry->exif_iso;
-                $exifDateTime = $entry->exif_datetime;
-            } else {
-                if (function_exists('exif_read_data')) {
-                    $exif = @exif_read_data($file, 'EXIF', true);
-                    if (false !== $exif) {
-                        $exifCamera = $this->getExifCamera($exif);
-                        $exifFocal = $this->exifGetFocalLength($exif);
-                        $exifFstop = $this->exifGetFstop($exif);
-                        $exifShutter = $this->exifGetShutter($exif);
-                        $exifIso = $this->exifGetIso($exif);
-                        $exifDateTime = $this->exifGetDateTime($exif);
+            if ( $this->use_cache ) {
+                $cache_key = "img:$file";
+
+                if ( ! $imgDetails = wp_cache_get( $cache_key, 'lbwps' ) ) {
+                    $imgDetails = array(
+                        'imageSize'     => @getimagesize( $file ),
+                        'exifCamera'    => '',
+                        'exifFocal'     => '',
+                        'exifFstop'     => '',
+                        'exifShutter'   => '',
+                        'exifIso'       => '',
+                        'exifDateTime'  => '',
+                    );
+
+                    if ( $this->show_exif && function_exists( 'exif_read_data' ) ) {
+                        $exif = @exif_read_data( $file, 'EXIF', true );
+
+                        if ( false !== $exif ) {
+                            $imgDetails['exifCamera']   = $this->getExifCamera( $exif );
+                            $imgDetails['exifFocal']    = $this->exifGetFocalLength( $exif );
+                            $imgDetails['exifFstop']    = $this->exifGetFstop( $exif );
+                            $imgDetails['exifShutter']  = $this->exifGetShutter( $exif );
+                            $imgDetails['exifIso']      = $this->exifGetIso( $exif );
+                            $imgDetails['exifDateTime'] = $this->exifGetDateTime( $exif );
+                        }
                     }
+
+                    wp_cache_add( $cache_key, $imgDetails, 'lbwps', self::CACHE_EXPIRE_IMG_DETAILS );
                 }
 
-                $imageSize = @getimagesize($file);
-                if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1])) {
-                    $created = strftime('%Y-%m-%d %H:%M:%S');
-                    $sql = sprintf(
-                    'INSERT INTO %s (imgkey, created, width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime)'.
-                        ' VALUES ("%s", "%s", "%d", "%d", "%s", "%s", "%s", "%s", "%s", "%s")',
-                        $tableImg,
-                        $imgkey,
-                        $created,
-                        $imageSize[0],
-                        $imageSize[1],
-                        $exifCamera,
-                        $exifFocal,
-                        $exifFstop,
-                        $exifShutter,
-                        $exifIso,
-                        $exifDateTime
-                    );
-                    $wpdb->query($sql);
+                extract( $imgDetails );
+            } else {
+                $imgdate = @filemtime($file);
+                if (false == $imgdate) {
+                    $imgdate = 0;
+                }
+                $imgkey = md5($file) . '-'. $imgdate;
+                $imageSize[0] = 0;
+                $imageSize[1] = 0;
+                $exifCamera = '';
+                $exifFocal = '';
+                $exifFstop = '';
+                $exifShutter = '';
+                $exifIso = '';
+                $exifDateTime = '';
+                $tableImg = $wpdb->prefix . 'lightbox_photoswipe_img';
+                $entry = $wpdb->get_row("SELECT width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime FROM $tableImg where imgkey='$imgkey'");
+                if (null != $entry) {
+                    $imageSize[0] = $entry->width;
+                    $imageSize[1] = $entry->height;
+                    $exifCamera = $entry->exif_camera;
+                    $exifFocal = $entry->exif_focal;
+                    $exifFstop  = $entry->exif_fstop;
+                    $exifShutter = $entry->exif_shutter;
+                    $exifIso = $entry->exif_iso;
+                    $exifDateTime = $entry->exif_datetime;
                 } else {
-                    $imageSize[0] = 0;
-                    $imageSize[1] = 0;
+                    if (function_exists('exif_read_data')) {
+                        $exif = @exif_read_data($file, 'EXIF', true);
+                        if (false !== $exif) {
+                            $exifCamera = $this->getExifCamera($exif);
+                            $exifFocal = $this->exifGetFocalLength($exif);
+                            $exifFstop = $this->exifGetFstop($exif);
+                            $exifShutter = $this->exifGetShutter($exif);
+                            $exifIso = $this->exifGetIso($exif);
+                            $exifDateTime = $this->exifGetDateTime($exif);
+                        }
+                    }
+
+                    $imageSize = @getimagesize($file);
+                    if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1])) {
+                        $created = strftime('%Y-%m-%d %H:%M:%S');
+                        $sql = sprintf(
+                        'INSERT INTO %s (imgkey, created, width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime)'.
+                            ' VALUES ("%s", "%s", "%d", "%d", "%s", "%s", "%s", "%s", "%s", "%s")',
+                            $tableImg,
+                            $imgkey,
+                            $created,
+                            $imageSize[0],
+                            $imageSize[1],
+                            $exifCamera,
+                            $exifFocal,
+                            $exifFstop,
+                            $exifShutter,
+                            $exifIso,
+                            $exifDateTime
+                        );
+                        $wpdb->query($sql);
+                    } else {
+                        $imageSize[0] = 0;
+                        $imageSize[1] = 0;
+                    }
                 }
             }
 
@@ -799,6 +835,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_desktop_slider');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_idletime');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_add_lazyloading');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_cache');
     }
 
     /**
@@ -933,7 +970,8 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_history" type="checkbox" name="lightbox_photoswipe_history" value="1"<?php if(get_option('lightbox_photoswipe_history')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"<?php if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Allow infinite loop', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label>
+            <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label><br />
+            <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Use wp_cache_add/get instead database', 'lightbox-photoswipe'); ?></label>
         </td>
     </tr>
 </table>
@@ -1237,6 +1275,7 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_desktop_slider', '1');
             update_option('lightbox_photoswipe_idletime', '4000');
             update_option('lightbox_photoswipe_add_lazyloading', '1');
+            update_option('lightbox_photoswipe_use_cache', '0');
             restore_current_blog();
         }
     }
@@ -1399,11 +1438,14 @@ window.addEventListener('popstate', (event) => {
         if (intval($db_version) < 25) {
             update_option('lightbox_photoswipe_disabled_post_types', '');
         }
+        if (intval($db_version) < 26) {
+            update_option('lightbox_photoswipe_use_cache', '0');
+        }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
 
-        if (intval($db_version) < 25) {
-            update_option('lightbox_photoswipe_db_version', 25);
+        if (intval($db_version) < 26) {
+            update_option('lightbox_photoswipe_db_version', 26);
         }
     }
 }
