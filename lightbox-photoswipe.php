@@ -104,6 +104,7 @@ class LightboxPhotoSwipe
         $this->idletime = get_option('lightbox_photoswipe_idletime');
         $this->add_lazyloading = get_option('lightbox_photoswipe_add_lazyloading');
         $this->use_cache = get_option('lightbox_photoswipe_use_cache');
+        $this->seo_friendly = get_option('lightbox_photoswipe_seo_friendly');
 
         $this->enabled = true;
         $this->gallery_id = 1;
@@ -118,6 +119,9 @@ class LightboxPhotoSwipe
                 remove_shortcode('gallery');
                 add_shortcode('gallery', [$this, 'shortcodeGallery'], 10, 1);
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
+            }
+            if ($this->seo_friendly) {
+                add_filter( 'render_block', array( $this, 'render_block' ), 10, 2 );
             }
         } else {
             add_action( 'update_option_lightbox_photoswipe_use_cache', array( $this, 'update_option_use_cache' ), 10, 3 );
@@ -206,7 +210,7 @@ class LightboxPhotoSwipe
         $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
         $translation_array['idletime'] =intval($this->idletime);
         wp_localize_script('lbwps-frontend', 'lbwps_options', $translation_array);
-        
+
         wp_enqueue_style(
             'lbwps-lib',
             plugin_dir_url(__FILE__) . 'lib/photoswipe.css',
@@ -477,8 +481,9 @@ class LightboxPhotoSwipe
     function outputCallbackProperties($matches)
     {
         global $wpdb;
-        
+
         $attr = '';
+        $meta = '';
         $baseurl_http = get_site_url(null, null, 'http');
         $baseurl_https = get_site_url(null, null, 'https');
         $url = $matches[2];
@@ -524,7 +529,7 @@ class LightboxPhotoSwipe
                     $url_http = $file;
                     $url_https = $file;
                 }
-           
+   
                 if ('1' == $this->usepostdata && '1' == $this->show_caption) {
                     $imgid = $wpdb->get_col($wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE guid="%s" or guid="%s";', $url_http, $url_https)); 
                     if (isset($imgid[0])) {
@@ -633,10 +638,9 @@ class LightboxPhotoSwipe
                 }
             }
 
-            $attr = '';
             if (0 != $imageSize[0] && 0 != $imageSize[1]) {
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $imageSize[0], $imageSize[1]);
-            
+
                 if ($caption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
                 }
@@ -667,10 +671,15 @@ class LightboxPhotoSwipe
                         $attr .= sprintf(' data-lbwps-exif="%s"', htmlspecialchars($exifOutput));
                     }
                 }
+
+                if ( $this->seo_friendly ) {
+                    $meta .= sprintf( '<meta itemprop="width" content="%s">', $imageSize[0] );
+                    $meta .= sprintf( '<meta itemprop="height" content="300">', $imageSize[1] );
+                }
             }
         }
 
-        return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5];
+        return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5] . $matches[6] . $matches[7] . $meta;
     }
 
     /**
@@ -716,7 +725,7 @@ class LightboxPhotoSwipe
     function filterOutput($content)
     {
         $content = preg_replace_callback(
-            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
+            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)(.+)(<\/a>)/sU',
             [$this, 'outputCallbackProperties'],
             $content
         );
@@ -839,6 +848,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_idletime');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_add_lazyloading');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_cache');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_seo_friendly');
     }
 
     /**
@@ -975,7 +985,8 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"<?php if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Allow infinite loop', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php printf( esc_html__( 'Use wp_cache_add and wp_cache_get instead the database table %slightbox_photoswipe_img (use this option in case of caching plugins like "Redis Object Cache")', 'lightbox-photoswipe' ), $wpdb->prefix ); ?></label>
+            <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php printf( esc_html__( 'Use wp_cache_add and wp_cache_get instead the database table %slightbox_photoswipe_img (use this option in case of caching plugins like "Redis Object Cache")', 'lightbox-photoswipe' ), $wpdb->prefix ); ?></label><br />
+            <label><input id="lightbox_photoswipe_seo_friendly" type="checkbox" name="lightbox_photoswipe_seo_friendly" value="1"<?php if(get_option('lightbox_photoswipe_seo_friendly')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Outputs a SEO-friendly gallery block with schema data', 'lightbox-photoswipe' ); ?></label>
         </td>
     </tr>
 </table>
@@ -1202,7 +1213,7 @@ window.addEventListener('popstate', (event) => {
     function createTables()
     {
         global $wpdb;
-        
+
         $table_name = $wpdb->prefix . 'lightbox_photoswipe_img'; 
         $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE $table_name (
@@ -1231,7 +1242,7 @@ window.addEventListener('popstate', (event) => {
     function deleteTables()
     {
         global $wpdb;
-        
+
         $table_name = $wpdb->prefix . 'lightbox_photoswipe_img'; 
         $sql = "DROP TABLE IF EXISTS $table_name";
         $wpdb->query($sql);
@@ -1280,6 +1291,7 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_idletime', '4000');
             update_option('lightbox_photoswipe_add_lazyloading', '1');
             update_option('lightbox_photoswipe_use_cache', '0');
+            update_option('lightbox_photoswipe_seo_friendly', '1');
             restore_current_blog();
         }
     }
@@ -1294,9 +1306,9 @@ window.addEventListener('popstate', (event) => {
     function onDeleteBlog($tables)
     {
         global $wpdb;
-        
+
         $tables[] = $wpdb->prefix . 'lightbox_photoswipe_img';
-        
+
         return $tables;
     }
 
@@ -1320,7 +1332,7 @@ window.addEventListener('popstate', (event) => {
     function onDeactivate()
     {
         wp_clear_scheduled_hook('lbwps_cleanup');
-    }        
+    }
 
     /**
      * Scheduled job for database cleanup
@@ -1336,8 +1348,8 @@ window.addEventListener('popstate', (event) => {
         $date = strftime( '%Y-%m-%d %H:%M:%S', time() - 86400 );
         $sql  = "DELETE FROM $table_name where created<(\"$date\")";
         $wpdb->query( $sql );
-    }            
-    
+    }
+
     /**
      * Plugin initialization
      * 
@@ -1348,7 +1360,7 @@ window.addEventListener('popstate', (event) => {
         load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
 
         $db_version = get_option('lightbox_photoswipe_db_version');
-        
+
         if ($db_version == '' || intval($db_version) < 2) {
             $this->deleteTables();
             $this->createTables();
@@ -1444,6 +1456,7 @@ window.addEventListener('popstate', (event) => {
         }
         if (intval($db_version) < 26) {
             update_option('lightbox_photoswipe_use_cache', '0');
+            update_option('lightbox_photoswipe_seo_friendly', '1');
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
@@ -1454,13 +1467,47 @@ window.addEventListener('popstate', (event) => {
     }
 
     function update_option_use_cache( $old_value, $value, $option ) {
-    	if ( ! $old_value && $value === '1' ) {
+        if ( ! $old_value && $value === '1' ) {
             $this->deleteTables();
             $this->onDeactivate();
-    	} else if ( $old_value === '1' && ! $value ) {
+        } else if ( $old_value === '1' && ! $value ) {
             $this->createTables();
             $this->onActivate();
         }
+    }
+
+    function render_block( $block_content, $block ) {
+        if ( $block['blockName'] === 'core/gallery' ) {
+            // add itemprop associatedMedia and schema ImageObject
+            $block_content = str_replace(
+                '<figure>',
+                '<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">',
+                $block_content
+            );
+
+            // add itemprop contentUrl
+            $block_content = preg_replace( '/(<a)(.+)(>)/sU', '${1}${2} itemprop="contentUrl"${3}', $block_content );
+
+            // add itemprop thumbnail
+            $block_content = preg_replace( '/(<img)(.+)(\/>)/sU', '${1}${2} itemprop="thumbnail"${3}', $block_content );
+
+            // add itemprop caption description
+            $block_content = str_replace(
+                '<figcaption class="blocks-gallery-item__caption">',
+                '<figcaption class="blocks-gallery-item__caption" itemprop="caption description">',
+                $block_content
+            );
+
+            // add schema ImageGallery
+            $block_content = sprintf(
+                '%s%s%s',
+                '<div itemscope itemtype="https://schema.org/ImageGallery">',
+                $block_content,
+                '</div>'
+            );
+        }
+
+        return $block_content;
     }
 }
 
