@@ -122,7 +122,7 @@ class LightboxPhotoSwipe
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
             }
             if ($this->seo_friendly) {
-                add_filter( 'render_block', array( $this, 'render_block' ), 9999, 2 );
+                add_filter( 'render_block', array( $this, 'gutenbergBlockSEOFriendly' ), 9999, 2 );
             }
         } else {
             add_action( 'update_option_lightbox_photoswipe_use_cache', array( $this, 'update_option_use_cache' ), 10, 3 );
@@ -487,7 +487,7 @@ class LightboxPhotoSwipe
         $meta = '';
         $baseurl_http = get_site_url(null, null, 'http');
         $baseurl_https = get_site_url(null, null, 'https');
-        $url = $matches[2];
+        $url = $matches[3];
 
         // Workaround for pictures served by Jetpack Photon CDN
         $file = preg_replace('/(i[0-2]\.wp.com\/)/s', '', $url);
@@ -543,6 +543,9 @@ class LightboxPhotoSwipe
                 }
             }
 
+            $imageSize[0] = 0;
+            $imageSize[1] = 0;
+
             $imgMtime = @filemtime( $file );
             if ( false === $imgMtime ) {
                 $imgMtime = 0;
@@ -553,8 +556,9 @@ class LightboxPhotoSwipe
                 $cache_key = "img:$imgkey";
 
                 if ( ! $imgDetails = wp_cache_get( $cache_key, 'lbwps' ) ) {
+                    $imageSize = @getimagesize($file);
                     $imgDetails = array(
-                        'imageSize'     => @getimagesize( $file ),
+                        'imageSize'     => $imageSize,
                         'exifCamera'    => '',
                         'exifFocal'     => '',
                         'exifFstop'     => '',
@@ -581,8 +585,6 @@ class LightboxPhotoSwipe
 
                 extract( $imgDetails );
             } else {
-                $imageSize[0] = 0;
-                $imageSize[1] = 0;
                 $exifCamera = '';
                 $exifFocal = '';
                 $exifFstop = '';
@@ -680,7 +682,18 @@ class LightboxPhotoSwipe
             }
         }
 
-        return $matches[1] . $matches[2] . $matches[3] . $matches[4] . $attr . $matches[5] . $matches[6] . $matches[7] . $meta;
+        return
+            $matches[1] . // <figure[^>]*>
+            $matches[2] . // <a.[^>]*href=["\']
+            $matches[3] . // .+
+            $matches[4] . // ["\']
+            $attr .
+            $matches[5] . // [^>]*>
+            $matches[6] . // .+
+            $matches[7] . // <\/a>
+            $meta .
+            $matches[8] . // .*
+            $matches[9];  // <\/figure>
     }
 
     /**
@@ -726,7 +739,7 @@ class LightboxPhotoSwipe
     function filterOutput($content)
     {
         $content = preg_replace_callback(
-            '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)(.+)(<\/a>)/sU',
+            '/(<figure[^>]*>)(<a.[^>]*href=["\'])(.+)(["\'])([^>]*>)(.+)(<\/a>)(.*)(<\/figure>)/Usmi',
             [$this, 'outputCallbackProperties'],
             $content
         );
@@ -1477,7 +1490,7 @@ window.addEventListener('popstate', (event) => {
         }
     }
 
-    function render_block( $block_content, $block ) {
+    function gutenbergBlockSEOFriendly( $block_content, $block ) {
         if ( $block['blockName'] === 'core/gallery'
                 && ! preg_match( '/itemtype=["\']http[s]?:\/\/schema.org\/ImageGallery["\']/', $block_content ) ) {
             // add itemprop associatedMedia and schema ImageObject
