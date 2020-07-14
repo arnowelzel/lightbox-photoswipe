@@ -122,7 +122,7 @@ class LightboxPhotoSwipe
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
             }
             if ($this->seo_friendly) {
-                add_filter( 'render_block', array( $this, 'render_block' ), 10, 2 );
+                add_filter( 'render_block', array( $this, 'render_block' ), 9999, 2 );
             }
         } else {
             add_action( 'update_option_lightbox_photoswipe_use_cache', array( $this, 'update_option_use_cache' ), 10, 3 );
@@ -1478,7 +1478,8 @@ window.addEventListener('popstate', (event) => {
     }
 
     function render_block( $block_content, $block ) {
-        if ( $block['blockName'] === 'core/gallery' ) {
+        if ( $block['blockName'] === 'core/gallery'
+                && ! preg_match( '/itemtype=["\']http[s]?:\/\/schema.org\/ImageGallery["\']/', $block_content ) ) {
             // add itemprop associatedMedia and schema ImageObject
             $block_content = str_replace(
                 '<figure>',
@@ -1502,7 +1503,7 @@ window.addEventListener('popstate', (event) => {
             // add schema ImageGallery
             $block_content = sprintf(
                 '%s%s%s',
-                '<div itemscope itemtype="https://schema.org/ImageGallery">',
+                '<div class="lbwps-gallery" itemscope itemtype="https://schema.org/ImageGallery">',
                 $block_content,
                 '</div>'
             );
