@@ -179,6 +179,9 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 3.0.6 =
 
 * New option to use the WordPress caching instead of a custom database table (thanks to B-e-n-G)
+* New option to ignore links to images on external sites
+* New option to ignore links to images which contain a hash
+* New option to handle custom CDN URLs
 
 = 3.0.5 =
 

@@ -48,10 +48,13 @@ class LightboxPhotoSwipe
     var $desktop_slider;
     var $idletime;
     var $add_lazyloading;
+    var $use_cache;
+    var $ignore_external;
+    var $ignore_hash;
+    var $cdn_url;
     var $gallery_id;
     var $ob_active;
     var $ob_level;
-    var $use_cache;
 
     /**
      * Constructor
@@ -104,6 +107,9 @@ class LightboxPhotoSwipe
         $this->idletime = get_option('lightbox_photoswipe_idletime');
         $this->add_lazyloading = get_option('lightbox_photoswipe_add_lazyloading');
         $this->use_cache = get_option('lightbox_photoswipe_use_cache');
+        $this->ignore_external = get_option('lightbox_photoswipe_ignore_external');
+        $this->ignore_hash = get_option('lightbox_photoswipe_ignore_hash');
+        $this->cdn_url = get_option('lightbox_photoswipe_cdn_url');
 
         $this->enabled = true;
         $this->gallery_id = 1;
@@ -477,28 +483,56 @@ class LightboxPhotoSwipe
     function outputCallbackProperties($matches)
     {
         global $wpdb;
-        
+
+        $use = true;
         $attr = '';
         $baseurl_http = get_site_url(null, null, 'http');
         $baseurl_https = get_site_url(null, null, 'https');
         $url = $matches[2];
 
-        // Workaround for pictures served by Jetpack Photon CDN
-        $file = preg_replace('/(i[0-2]\.wp.com\/)/s', '', $url);
-
         // Remove parameters if any
-        $fileparts = explode('?', $file);
-        $file = $fileparts[0];
+        $urlparts = explode('?', $url);
+        $file = $urlparts[0];
 
         $type = wp_check_filetype($file);
+
         $caption = '';
         $description = '';
 
-        // Only work on known image formats
-        if (in_array($type['ext'], ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'])) {
+        if (!in_array($type['ext'], ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'])) {
+            // Ignore unknown image formats
+            $use = false;
+        } else {
+            // Workaround for pictures served by Jetpack Photon CDN
+            $file = preg_replace('/(i[0-2]\.wp.com\/)/s', '', $file);
+
+            // Remove additional CDN URLs if defined
+            $cdn_urls = explode(',', $this->cdn_url);
+            foreach ($cdn_urls as $cdn_url) {
+                $length = strlen($cdn_url);
+                if ($length>0 && substr($file, 0, $length) == $cdn_url) {
+                    $file = 'http://'.substr($file, $length);
+                }
+            }
+
+            if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https) {
+                $is_local = true;
+            } else {
+                $is_local = false;
+            }
+
+            if (!$is_local && $this->ignore_external == '1') {
+                // Ignore URL if it is an external URL and the respective option to ignore that is set
+                $use = false;
+            } else if (strpos($file, '#') !== false && $this->ignore_hash == '1') {
+                // Ignore URL if it contains a hash the respective option to ignore that is set
+                $use = false;
+            }
+        }
+
+        if ($use) {
             // If image is served by the website itself, try to get caption for local file
-            if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https
-                || substr($file, 0, 7) !== 'http://' || substr($file, 0, 8) !== 'https://') {
+            if ($is_local) {
                 // Remove domain part
                 $file = str_replace($baseurl_http.'/', '', $file);
                 $file = str_replace($baseurl_https.'/', '', $file);
@@ -537,18 +571,18 @@ class LightboxPhotoSwipe
                 }
             }
 
-            $imgMtime = @filemtime( $file );
-            if ( false === $imgMtime ) {
+            $imgMtime = @filemtime($file);
+            if (false === $imgMtime) {
                 $imgMtime = 0;
             }
-            $imgkey = hash( 'md5', $file . $imgMtime );
+            $imgkey = hash('md5', $file . $imgMtime);
 
-            if ( $this->use_cache ) {
+            if ($this->use_cache) {
                 $cache_key = "img:$imgkey";
 
-                if ( ! $imgDetails = wp_cache_get( $cache_key, 'lbwps' ) ) {
+                if (!$imgDetails = wp_cache_get($cache_key, 'lbwps')) {
                     $imgDetails = array(
-                        'imageSize'     => @getimagesize( $file ),
+                        'imageSize'     => @getimagesize($file),
                         'exifCamera'    => '',
                         'exifFocal'     => '',
                         'exifFstop'     => '',
@@ -557,23 +591,23 @@ class LightboxPhotoSwipe
                         'exifDateTime'  => '',
                     );
 
-                    if ( $this->show_exif && function_exists( 'exif_read_data' ) ) {
+                    if ($this->show_exif && function_exists('exif_read_data')) {
                         $exif = @exif_read_data( $file, 'EXIF', true );
 
-                        if ( false !== $exif ) {
-                            $imgDetails['exifCamera']   = $this->getExifCamera( $exif );
-                            $imgDetails['exifFocal']    = $this->exifGetFocalLength( $exif );
-                            $imgDetails['exifFstop']    = $this->exifGetFstop( $exif );
-                            $imgDetails['exifShutter']  = $this->exifGetShutter( $exif );
-                            $imgDetails['exifIso']      = $this->exifGetIso( $exif );
-                            $imgDetails['exifDateTime'] = $this->exifGetDateTime( $exif );
+                        if (false !== $exif) {
+                            $imgDetails['exifCamera']   = $this->getExifCamera($exif);
+                            $imgDetails['exifFocal']    = $this->exifGetFocalLength($exif);
+                            $imgDetails['exifFstop']    = $this->exifGetFstop($exif);
+                            $imgDetails['exifShutter']  = $this->exifGetShutter($exif);
+                            $imgDetails['exifIso']      = $this->exifGetIso($exif);
+                            $imgDetails['exifDateTime'] = $this->exifGetDateTime($exif);
                         }
                     }
 
-                    wp_cache_add( $cache_key, $imgDetails, 'lbwps', self::CACHE_EXPIRE_IMG_DETAILS );
+                    wp_cache_add($cache_key, $imgDetails, 'lbwps', self::CACHE_EXPIRE_IMG_DETAILS);
                 }
 
-                extract( $imgDetails );
+                extract($imgDetails);
             } else {
                 $imageSize[0] = 0;
                 $imageSize[1] = 0;
@@ -839,6 +873,9 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_idletime');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_add_lazyloading');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_cache');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_external');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_hash');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_url');
     }
 
     /**
@@ -975,7 +1012,18 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_loop" type="checkbox" name="lightbox_photoswipe_loop" value="1"<?php if(get_option('lightbox_photoswipe_loop')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Allow infinite loop', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_separate_galleries" type="checkbox" name="lightbox_photoswipe_separate_galleries" value="1"<?php if(get_option('lightbox_photoswipe_separate_galleries')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label><br />
-            <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php printf( esc_html__( 'Use wp_cache_add and wp_cache_get instead the database table %slightbox_photoswipe_img (use this option in case of caching plugins like "Redis Object Cache")', 'lightbox-photoswipe' ), $wpdb->prefix ); ?></label>
+            <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php printf( esc_html__( 'Use WordPress cache instead of the database table %slightbox_photoswipe_img (use this option if you use caching plugins like "Redis Object Cache")', 'lightbox-photoswipe' ), $wpdb->prefix ); ?></label><br />
+            <label><input id="lightbox_photoswipe_ignore_external" type="checkbox" name="lightbox_photoswipe_ignore_external" value="1"<?php if(get_option('lightbox_photoswipe_ignore_external')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images on other sites', 'lightbox-photoswipe' ); ?></label><br />
+            <label><input id="lightbox_photoswipe_ignore_hash" type="checkbox" name="lightbox_photoswipe_ignore_hash" value="1"<?php if(get_option('lightbox_photoswipe_ignore_hash')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images which contain a hash (#)', 'lightbox-photoswipe' ); ?></label>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="lightbox_photoswipe_disabled_post_ids"><?php echo __('CDN URL prefix', 'lightbox-photoswipe'); ?></label></th>
+        <td>
+            <input id="lightbox_photoswipe_cdn_url" class="regular-text" type="text" name="lightbox_photoswipe_cdn_url" value="<?php echo esc_attr(get_option('lightbox_photoswipe_cdn_url')); ?>" />
+            <p class="description"><?php echo __('If you use the JetPack CDN you can leave this setting empty – JetPack is already supported!', 'lightbox-photoswipe'); ?><br />
+                <?php echo __('If you use a CDN plugin which adds an URL prefix in front of the image link, you can add this prefix (including "http://" or "https://") here. You can enter multiple prefixes separated by comma. The image meta data can then be retrieved from the local file and without loading the image from the CDN. You also need this if you want to use image captions from the WordPress database but serve images using a CDN.', 'lightbox-photoswipe'); ?><br />
+            </p>
         </td>
     </tr>
 </table>
@@ -1280,6 +1328,8 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_idletime', '4000');
             update_option('lightbox_photoswipe_add_lazyloading', '1');
             update_option('lightbox_photoswipe_use_cache', '0');
+            update_option('lightbox_photoswipe_ignore_external', '0');
+            update_option('lightbox_photoswipe_ignore_hash', '0');
             restore_current_blog();
         }
     }
@@ -1332,10 +1382,12 @@ window.addEventListener('popstate', (event) => {
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
-        $date = strftime( '%Y-%m-%d %H:%M:%S', time() - 86400 );
-        $sql  = "DELETE FROM $table_name where created<(\"$date\")";
-        $wpdb->query( $sql );
+        if (get_option('lightbox_photoswipe_use_cache') != '1') {
+            $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
+            $date = strftime('%Y-%m-%d %H:%M:%S', time() - 86400);
+            $sql = "DELETE FROM $table_name where created<(\"$date\")";
+            $wpdb->query($sql);
+        }
     }            
     
     /**
@@ -1444,6 +1496,9 @@ window.addEventListener('popstate', (event) => {
         }
         if (intval($db_version) < 26) {
             update_option('lightbox_photoswipe_use_cache', '0');
+            update_option('lightbox_photoswipe_ignore_external', '0');
+            update_option('lightbox_photoswipe_ignore_hash', '0');
+
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
@@ -1456,10 +1511,8 @@ window.addEventListener('popstate', (event) => {
     function update_option_use_cache( $old_value, $value, $option ) {
     	if ( ! $old_value && $value === '1' ) {
             $this->deleteTables();
-            $this->onDeactivate();
     	} else if ( $old_value === '1' && ! $value ) {
             $this->createTables();
-            $this->onActivate();
         }
     }
 }
