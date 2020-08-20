@@ -104,6 +104,12 @@ A "quick & dirty" example to add additional stuff in the header with the control
 
 add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
+= How to use the PhotoSwipe API =
+
+The [PhotoSwipe API](https://photoswipe.com/documentation/api.html) provides an interface to interact with the gallery using JavaScript. This allows you to customize your gallery with additional functionality and access its properties.
+
+If you want to interact with the API, you may access the currently active PhotoSwipe-Instance using JavaScript by accessing `window.PhotoSwipe_Instance`.
+
 = How to style the caption below the images =
 
 If you want to style the caption below the images, you need to create custom styles for the following CSS classes:
@@ -175,6 +181,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.0.7 =
+
+* Added support for the PhotoSwipe API
 
 = 3.0.6 =
 

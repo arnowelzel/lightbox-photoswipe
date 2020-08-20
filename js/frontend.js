@@ -261,6 +261,9 @@ var lbwps_init = function() {
         }
 
         gallery.init();
+
+        // Allow global variable access for use with Photoswipe API
+        window.PhotoSwipe_GalleryInstance = gallery;
     };
 
     window.lbwpsCopyToClipboard = function(str) {
