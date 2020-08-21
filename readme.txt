@@ -108,7 +108,7 @@ add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
 The [PhotoSwipe API](https://photoswipe.com/documentation/api.html) provides an interface to interact with the gallery using JavaScript. This allows you to customize your gallery with additional functionality and access its properties.
 
-If you want to interact with the API, you may access the currently active PhotoSwipe-Instance using JavaScript by accessing `window.PhotoSwipe_Instance`.
+If you want to interact with the API, you may access the currently active PhotoSwipe-Instance using JavaScript by accessing `window.lbwpsPhotoSwipe`.
 
 = How to style the caption below the images =
 
