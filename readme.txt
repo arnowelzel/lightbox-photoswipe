@@ -179,7 +179,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 3.0.7 =
 
 * Refactored naming of functions and variables
-* Made PhotoSwipe gallery instance available globally as `windows.lbwpsPhotoSwipe` for other plugins
+* Made PhotoSwipe gallery instance available globally as `window.lbwpsPhotoSwipe` for other plugins (thanks to Thomas Biering for the suggestion)
 
 = 3.0.6 =
 
