@@ -3,7 +3,7 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
-Tested up to: 5.5
+Tested up to: 5.4
 Stable tag: 3.0.7
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
@@ -175,6 +175,11 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.0.7 =
+
+* Refactored naming of functions and variables
+* Made PhotoSwipe gallery instance available globally as `windows.lbwpsPhotoSwipe` for other plugins
 
 = 3.0.6 =
 

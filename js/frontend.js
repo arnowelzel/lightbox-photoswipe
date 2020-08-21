@@ -1,4 +1,4 @@
-var lbwps_init = function() {
+var lbwpsInit = function() {
     var PhotoSwipe = window.PhotoSwipe,
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
@@ -86,7 +86,7 @@ var lbwps_init = function() {
                 caption = element.getAttribute('title');
             }
 
-            if(caption == null && lbwps_options.use_alt == '1' && element.firstElementChild) {
+            if(caption == null && lbwpsOptions.use_alt == '1' && element.firstElementChild) {
                 caption = element.firstElementChild.getAttribute('alt');
             }
 
@@ -178,66 +178,66 @@ var lbwps_init = function() {
             options.galleryUID = id;
         }
 
-        if(lbwps_options.close_on_click == '0') {
+        if(lbwpsOptions.close_on_click == '0') {
             options.closeElClasses = ['pspw__button--close'];
         }
 
-        if(lbwps_options.share_facebook == '1' ||
-            lbwps_options.share_twitter == '1' ||
-            lbwps_options.share_pinterest == '1' ||
-            lbwps_options.share_download == '1' ||
-            lbwps_options.share_copyurl == '1' ||
-            (lbwps_options.share_custom_link !== '' && lbwps_options.share_custom_label !== '')) {
+        if(lbwpsOptions.share_facebook == '1' ||
+            lbwpsOptions.share_twitter == '1' ||
+            lbwpsOptions.share_pinterest == '1' ||
+            lbwpsOptions.share_download == '1' ||
+            lbwpsOptions.share_copyurl == '1' ||
+            (lbwpsOptions.share_custom_link !== '' && lbwpsOptions.share_custom_label !== '')) {
             options.shareEl = true;
             options.shareButtons = [];
-            if(lbwps_options.share_facebook == '1') {
-                if(lbwps_options.share_direct == '1') {
+            if(lbwpsOptions.share_facebook == '1') {
+                if(lbwpsOptions.share_direct == '1') {
                     url = 'https://www.facebook.com/sharer/sharer.php?u={{image_url}}';
                 } else {
                     url = 'https://www.facebook.com/sharer/sharer.php?u={{url}}';
                 }
-                options.shareButtons.push({id:'facebook', label:lbwps_options.label_facebook, url:url});
+                options.shareButtons.push({id:'facebook', label:lbwpsOptions.label_facebook, url:url});
             }
-            if(lbwps_options.share_twitter == '1') {
-                if(lbwps_options.share_direct == '1') {
+            if(lbwpsOptions.share_twitter == '1') {
+                if(lbwpsOptions.share_direct == '1') {
                     url = 'https://twitter.com/intent/tweet?text={{text}}&url={{image_url}}';
                 } else {
                     url = 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}';
                 }
-                options.shareButtons.push({id:'twitter', label:lbwps_options.label_twitter, url:url});
+                options.shareButtons.push({id:'twitter', label:lbwpsOptions.label_twitter, url:url});
             }
-            if(lbwps_options.share_pinterest == '1') options.shareButtons.push({id:'pinterest', label:lbwps_options.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'});
-            if(lbwps_options.share_download == '1') options.shareButtons.push({id:'download', label:lbwps_options.label_download, url:'{{raw_image_url}}', download:true});
-            if(lbwps_options.share_copyurl == '1') options.shareButtons.push({id:'copyurl', label:lbwps_options.label_copyurl, url:'{{raw_image_url}}', onclick:'window.lbwpsCopyToClipboard(\'{{raw_image_url}}\');return false;', download:false});
-            if(lbwps_options.share_custom_link !== '' && lbwps_options.share_custom_label !== '') {
-                options.shareButtons.push({id:'custom', label:lbwps_options.share_custom_label, url:lbwps_options.share_custom_link, download:false});
+            if(lbwpsOptions.share_pinterest == '1') options.shareButtons.push({id:'pinterest', label:lbwpsOptions.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'});
+            if(lbwpsOptions.share_download == '1') options.shareButtons.push({id:'download', label:lbwpsOptions.label_download, url:'{{raw_image_url}}', download:true});
+            if(lbwpsOptions.share_copyurl == '1') options.shareButtons.push({id:'copyurl', label:lbwpsOptions.label_copyurl, url:'{{raw_image_url}}', onclick:'window.lbwpsCopyToClipboard(\'{{raw_image_url}}\');return false;', download:false});
+            if(lbwpsOptions.share_custom_link !== '' && lbwpsOptions.share_custom_label !== '') {
+                options.shareButtons.push({id:'custom', label:lbwpsOptions.share_custom_label, url:lbwpsOptions.share_custom_link, download:false});
             }
         } else {
             options.shareEl = false;
         }
 
-        if(lbwps_options.wheelmode == 'close') options.closeOnScroll = true;else options.closeOnScroll = false;
-        if(lbwps_options.wheelmode == 'zoom') options.zoomOnScroll = true;else options.zoomOnScroll = false;
-        if(lbwps_options.wheelmode == 'switch') options.switchOnScroll = true;else options.switchOnScroll = false;
-        if(lbwps_options.close_on_drag == '1') options.closeOnVerticalDrag = true;else options.closeOnVerticalDrag = false;
-        if(lbwps_options.history == '1') options.history = true;else options.history = false;
-        if(lbwps_options.show_counter == '1') options.counterEl = true;else options.counterEl = false;
-        if(lbwps_options.show_fullscreen == '1') options.fullscreenEl = true;else options.fullscreenEl = false;
-        if(lbwps_options.show_zoom == '1') options.zoomEl = true;else options.zoomEl = false;
-        if(lbwps_options.show_caption == '1') options.captionEl = true;else options.captionEl = false;
-        if(lbwps_options.loop == '1') options.loop = true;else options.loop = false;
-        if(lbwps_options.pinchtoclose == '1') options.pinchToClose = true;else options.pinchToClose = false;
-        if(lbwps_options.taptotoggle == '1') options.tapToToggleControls = true; else options.tapToToggleControls = false;
-        if(lbwps_options.desktop_slider == '1') options.desktopSlider = true; else options.desktopSlider = false;
-        options.spacing = lbwps_options.spacing/100;
+        if(lbwpsOptions.wheelmode == 'close') options.closeOnScroll = true;else options.closeOnScroll = false;
+        if(lbwpsOptions.wheelmode == 'zoom') options.zoomOnScroll = true;else options.zoomOnScroll = false;
+        if(lbwpsOptions.wheelmode == 'switch') options.switchOnScroll = true;else options.switchOnScroll = false;
+        if(lbwpsOptions.close_on_drag == '1') options.closeOnVerticalDrag = true;else options.closeOnVerticalDrag = false;
+        if(lbwpsOptions.history == '1') options.history = true;else options.history = false;
+        if(lbwpsOptions.show_counter == '1') options.counterEl = true;else options.counterEl = false;
+        if(lbwpsOptions.show_fullscreen == '1') options.fullscreenEl = true;else options.fullscreenEl = false;
+        if(lbwpsOptions.show_zoom == '1') options.zoomEl = true;else options.zoomEl = false;
+        if(lbwpsOptions.show_caption == '1') options.captionEl = true;else options.captionEl = false;
+        if(lbwpsOptions.loop == '1') options.loop = true;else options.loop = false;
+        if(lbwpsOptions.pinchtoclose == '1') options.pinchToClose = true;else options.pinchToClose = false;
+        if(lbwpsOptions.taptotoggle == '1') options.tapToToggleControls = true; else options.tapToToggleControls = false;
+        if(lbwpsOptions.desktop_slider == '1') options.desktopSlider = true; else options.desktopSlider = false;
+        options.spacing = lbwpsOptions.spacing/100;
 
-        options.timeToIdle = lbwps_options.idletime;
+        options.timeToIdle = lbwpsOptions.idletime;
 
         if(fromURL == true) {
             options.index = parseInt(index, 10) - 1;
         }
 
-        if(lbwps_options.fulldesktop == '1') {
+        if(lbwpsOptions.fulldesktop == '1') {
             options.barsSize = {top: 0, bottom: 0};
         }
 
@@ -261,6 +261,8 @@ var lbwps_init = function() {
         }
 
         gallery.init();
+
+        window.lbwpsPhotoSwipe = gallery;
     };
 
     window.lbwpsCopyToClipboard = function(str) {
@@ -294,22 +296,22 @@ var lbwps_init = function() {
 };
 
 // Universal ready handler
-var lbwps_ready = (function () {
-    var ready_event_fired = false;
-    var ready_event_listener = function (fn) {
+var lbwpsReady = (function () {
+    var readyEventFired = false;
+    var readyEventListener = function (fn) {
 
         // Create an idempotent version of the 'fn' function
-        var idempotent_fn = function () {
-            if (ready_event_fired) {
+        var idempotentFn = function () {
+            if (readyEventFired) {
                 return;
             }
-            ready_event_fired = true;
+            readyEventFired = true;
             return fn();
         }
 
         // The DOM ready check for Internet Explorer
-        var do_scroll_check = function () {
-            if (ready_event_fired) {
+        var doScrollCheck = function () {
+            if (readyEventFired) {
                 return;
             }
 
@@ -318,36 +320,36 @@ var lbwps_ready = (function () {
             try {
                 document.documentElement.doScroll('left');
             } catch(e) {
-                setTimeout(do_scroll_check, 1);
+                setTimeout(doScrollCheck, 1);
                 return;
             }
 
             // Execute any waiting functions
-            return idempotent_fn();
+            return idempotentFn();
         }
 
         // If the browser ready event has already occured
         if (document.readyState === "complete") {
-            return idempotent_fn()
+            return idempotentFn()
         }
 
         // Mozilla, Opera and webkit nightlies currently support this event
         if (document.addEventListener) {
 
             // Use the handy event callback
-            document.addEventListener("DOMContentLoaded", idempotent_fn, false);
+            document.addEventListener("DOMContentLoaded", idempotentFn, false);
 
             // A fallback to window.onload, that will always work
-            window.addEventListener("load", idempotent_fn, false);
+            window.addEventListener("load", idempotentFn, false);
 
             // If IE event model is used
         } else if (document.attachEvent) {
 
             // ensure firing before onload; maybe late but safe also for iframes
-            document.attachEvent("onreadystatechange", idempotent_fn);
+            document.attachEvent("onreadystatechange", idempotentFn);
 
             // A fallback to window.onload, that will always work
-            window.attachEvent("onload", idempotent_fn);
+            window.attachEvent("onload", idempotentFn);
 
             // If IE and not a frame: continually check to see if the document is ready
             var toplevel = false;
@@ -357,13 +359,14 @@ var lbwps_ready = (function () {
             } catch (e) {}
 
             if (document.documentElement.doScroll && toplevel) {
-                return do_scroll_check();
+                return doScrollCheck();
             }
         }
     };
-    return ready_event_listener;
+    return readyEventListener;
 })();
 
-lbwps_ready(function() {
-    lbwps_init();
+lbwpsReady(function() {
+    window.lbwpsPhotoSwipe = null;
+    lbwpsInit();
 });

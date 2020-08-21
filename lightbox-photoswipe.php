@@ -211,7 +211,7 @@ class LightboxPhotoSwipe
         $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
         $translation_array['idletime'] =intval($this->idletime);
-        wp_localize_script('lbwps-frontend', 'lbwps_options', $translation_array);
+        wp_localize_script('lbwps-frontend', 'lbwpsOptions', $translation_array);
         
         wp_enqueue_style(
             'lbwps-lib',
