@@ -128,6 +128,10 @@ PhotoSwipe has the option to create a zoom animation from the thumbnail to the f
 
 Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. However when you use the "Advanced Gutenberg" plugin it brings its own lightbox script which can cause conflicts. To avoid any problems, you should disable the Advanced Gutenberg lightbox in the settings. Disable the option "Open galleries in lightbox" in the backend configuration of Advanced Gutenberg.
 
+= How to use the PhotoSwipe API =
+
+The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. This can be used to build your own extensions using the PhotoSwipe API. Also see https://photoswipe.com/documentation/api.html how to use the API.
+
 = Local changes in PhotoSwipe =
 
 The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
