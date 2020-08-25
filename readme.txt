@@ -184,6 +184,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 * Refactored naming of functions and variables
 * Made PhotoSwipe gallery instance available globally as `window.lbwpsPhotoSwipe` for other plugins (thanks to Thomas Biering for the suggestion)
+* Added support for relative image URLs
 
 = 3.0.6 =
 
