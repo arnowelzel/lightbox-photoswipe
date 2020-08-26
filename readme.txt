@@ -128,9 +128,13 @@ PhotoSwipe has the option to create a zoom animation from the thumbnail to the f
 
 Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. However when you use the "Advanced Gutenberg" plugin it brings its own lightbox script which can cause conflicts. To avoid any problems, you should disable the Advanced Gutenberg lightbox in the settings. Disable the option "Open galleries in lightbox" in the backend configuration of Advanced Gutenberg.
 
-= How to use the PhotoSwipe API =
+= How to use the PhotoSwipe API? =
 
 The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. This can be used to build your own extensions using the PhotoSwipe API. Also see https://photoswipe.com/documentation/api.html how to use the API.
+
+= How to change the order of the images in the lightbox? =
+
+If you want to display the images not in the order in which they are in the source code you can use the attribute `tabindex` in the image links. Also see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex on how to use this attribute.
 
 = Local changes in PhotoSwipe =
 
@@ -185,6 +189,9 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 * Refactored naming of functions and variables
 * Made PhotoSwipe gallery instance available globally as `window.lbwpsPhotoSwipe` for other plugins (thanks to Thomas Biering for the suggestion)
 * Added support for relative image URLs
+* Added support for `tabindex` attribute in image links
+* Multiple links to the same image created by some "lazy loading" solutions will be ignored
+* Native lazy loading will only be added to an image if the attribute is not set already
 
 = 3.0.6 =
 

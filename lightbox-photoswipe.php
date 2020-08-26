@@ -722,8 +722,9 @@ class LightboxPhotoSwipe
     function outputCallbackLazyLoading($matches)
     {
         $replacement = $matches[4];
-        if(false === strpos($replacement, 'loading="')) {
-            if('/' === substr($replacement, -1)) {
+        if(false === strpos($replacement, 'loading="lazy"') && false === strpos($replacement, "loading='lazy'")
+            && false === strpos($matches[0], 'loading="lazy"') && false === strpos($matches[0], "loading='lazy'")) {
+            if ('/' === substr($replacement, -1)) {
                 $replacement = substr($replacement, 0, strlen($replacement) - 1) . ' loading="lazy" /';
             } else {
                 $replacement .= ' loading="lazy"';
@@ -1513,10 +1514,10 @@ window.addEventListener('popstate', (event) => {
         }
     }
 
-    function update_option_use_cache( $old_value, $value, $option ) {
-    	if ( ! $old_value && $value === '1' ) {
+    function update_option_use_cache($old_value, $value, $option) {
+        if (!$old_value && $value === '1' ) {
             $this->deleteTables();
-    	} else if ( $old_value === '1' && ! $value ) {
+    	} else if ($old_value === '1' && !$value) {
             $this->createTables();
         }
     }
