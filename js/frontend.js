@@ -127,10 +127,12 @@ var lbwpsInit = function() {
 
         // Sort items by tabindex
         galleryItems.sort(function(a, b) {
-            if(a.tabindex > b.tabindex) {
+            var indexa = parseInt(a.tabindex);
+            var indexb = parseInt(b.tabindex);
+            if(indexa > indexb) {
                 return 1;
             }
-            if(a.tabindex < b.tabindex) {
+            if(indexa < indexb) {
                 return -1;
             }
             return 0;
