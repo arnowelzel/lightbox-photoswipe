@@ -130,11 +130,11 @@ Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. Howev
 
 = How to use the PhotoSwipe API? =
 
-The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. This can be used to build your own extensions using the PhotoSwipe API. Also see https://photoswipe.com/documentation/api.html how to use the API.
+The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. This can be used to build your own extensions using the PhotoSwipe API. Also see [https://photoswipe.com/documentation/api.html](https://photoswipe.com/documentation/api.html) how to use the API.
 
 = How to change the order of the images in the lightbox? =
 
-If you want to display the images not in the order in which they are in the source code you can use the attribute `tabindex` in the image links. Also see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex on how to use this attribute.
+If you want to display the images not in the order in which they are in the source code you can use the attribute `tabindex` in the image links. Also see [https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) on how to use this attribute.
 
 = Local changes in PhotoSwipe =
 
