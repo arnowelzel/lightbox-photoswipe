@@ -496,7 +496,7 @@ class LightboxPhotoSwipe
 
         // If URL is relative then add site URL
         if (substr($file, 0,  7) !== 'http://' && substr($file, 0, 8) !== 'https://') {
-            $file = get_site_url() . $file;
+            $file = get_home_url() . $file;
         }
 
         $type = wp_check_filetype($file);
