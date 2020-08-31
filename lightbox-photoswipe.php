@@ -486,8 +486,8 @@ class LightboxPhotoSwipe
 
         $use = true;
         $attr = '';
-        $baseurl_http = get_site_url(null, null, 'http');
-        $baseurl_https = get_site_url(null, null, 'https');
+        $baseurl_http = get_home_url(null, null, 'http');
+        $baseurl_https = get_home_url(null, null, 'https');
         $url = $matches[2];
 
         // Remove parameters if any
