@@ -1,17 +1,20 @@
-var lbwpsInit = function() {
+var lbwpsInit = function(domUpdate) {
     var PhotoSwipe = window.PhotoSwipe,
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
     var links = document.querySelectorAll('a[data-lbwps-width]');
+
     for (var i = 0; i < links.length; i++) {
-        links[i].addEventListener('click', function (event) {
+        if (links[i].getAttribute('data-lbwps-handler') != '1') {
+            links[i].setAttribute('data-lbwps-handler', '1');
+            links[i].addEventListener('click', function (event) {
                 if (!PhotoSwipe || !PhotoSwipeUI_Default) {
                     return;
                 }
-
                 event.preventDefault();
                 openPhotoSwipe(false, 0, this, false, '');
             });
+        }
     }
 
     var parseThumbnailElements = function(link, id) {
@@ -287,13 +290,17 @@ var lbwpsInit = function() {
 
         if (returnToUrl != '') {
             gallery.listen('unbindEvents', function() {
+                window.lbwpsPhotoSwipe = null;
                 document.location.href = returnToUrl;
+            });
+        } else {
+            gallery.listen('unbindEvents', function() {
+                window.lbwpsPhotoSwipe = null;
             });
         }
 
-        gallery.init();
-
         window.lbwpsPhotoSwipe = gallery;
+        gallery.init();
     };
 
     window.lbwpsCopyToClipboard = function(str) {
@@ -316,13 +323,15 @@ var lbwpsInit = function() {
         }
     };
 
-    var hashData = photoswipeParseHash();
-    if(hashData.pid && hashData.gid) {
-        var returnUrl = '';
-        if (typeof(hashData.returnurl) !== 'undefined') {
-            returnUrl = hashData.returnurl;
+    if(true !== domUpdate) {
+        var hashData = photoswipeParseHash();
+        if (hashData.pid && hashData.gid) {
+            var returnUrl = '';
+            if (typeof (hashData.returnurl) !== 'undefined') {
+                returnUrl = hashData.returnurl;
+            }
+            openPhotoSwipe(hashData.pid, hashData.gid, null, true, returnUrl);
         }
-        openPhotoSwipe(hashData.pid, hashData.gid, null, true, returnUrl);
     }
 };
 
@@ -399,5 +408,23 @@ var lbwpsReady = (function () {
 
 lbwpsReady(function() {
     window.lbwpsPhotoSwipe = null;
-    lbwpsInit();
+    lbwpsInit(false);
+
+    var mutationObserver = null;
+    if (typeof MutationObserver !== 'undefined') {
+        var mutationObserver = new MutationObserver(function (mutations) {
+            if (window.lbwpsPhotoSwipe === null) {
+                var nodesAdded = false;
+                for (var i = 0; i < mutations.length; i++) {
+                    if ('childList' === mutations[i].type) {
+                        nodesAdded = true;
+                    }
+                };
+                if (nodesAdded) {
+                    lbwpsInit(true);
+                }
+            }
+        });
+        mutationObserver.observe(document.querySelector('body'), {childList: true, subtree: true, attributes: false});
+    }
 });
