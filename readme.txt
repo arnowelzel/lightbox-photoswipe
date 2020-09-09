@@ -44,7 +44,7 @@ Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in ve
 
 Note: this was changed with version 2.0. The previous parameter `return` is no longer supported.
 
-When you activate the setting for "Activate browser history" you can link directly to an image inside a page or post:
+When you activate the setting for "Update browser history" in the general settings you can link directly to an image inside a page or post:
 
 `http://domain.example/example-page#gid=1&pid=1`
 
