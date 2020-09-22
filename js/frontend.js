@@ -301,6 +301,12 @@ var lbwpsInit = function(domUpdate) {
 
         window.lbwpsPhotoSwipe = gallery;
         gallery.init();
+        // Full screen mode is only allowed as a result of user interaction and not when loading the document
+        if (lbwpsOptions.open_fullscreen == '1' && element_index == false) {
+            window.setTimeout(function() {
+                gallery.fullscreen();
+            }, 500);
+        }
     };
 
     window.lbwpsCopyToClipboard = function(str) {

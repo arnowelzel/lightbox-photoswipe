@@ -52,6 +52,7 @@ class LightboxPhotoSwipe
     var $ignore_external;
     var $ignore_hash;
     var $cdn_url;
+    var $open_fullscreen;
     var $gallery_id;
     var $ob_active;
     var $ob_level;
@@ -110,6 +111,7 @@ class LightboxPhotoSwipe
         $this->ignore_external = get_option('lightbox_photoswipe_ignore_external');
         $this->ignore_hash = get_option('lightbox_photoswipe_ignore_hash');
         $this->cdn_url = get_option('lightbox_photoswipe_cdn_url');
+        $this->open_fullscreen = get_option('lightbox_photoswipe_open_fullscreen');
 
         $this->enabled = true;
         $this->gallery_id = 1;
@@ -211,6 +213,7 @@ class LightboxPhotoSwipe
         $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
         $translation_array['idletime'] =intval($this->idletime);
+        $translation_array['open_fullscreen'] = ($this->open_fullscreen == '1')?'1':'0';
         wp_localize_script('lbwps-frontend', 'lbwpsOptions', $translation_array);
         
         wp_enqueue_style(
@@ -886,6 +889,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_external');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_hash');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_url');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_open_fullscreen');
     }
 
     /**
@@ -1024,7 +1028,8 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_add_lazyloading" type="checkbox" name="lightbox_photoswipe_add_lazyloading" value="1"<?php if(get_option('lightbox_photoswipe_add_lazyloading')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Add native lazy loading to images', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php printf( esc_html__( 'Use WordPress cache instead of the database table %slightbox_photoswipe_img (use this option if you use caching plugins like "Redis Object Cache")', 'lightbox-photoswipe' ), $wpdb->prefix ); ?></label><br />
             <label><input id="lightbox_photoswipe_ignore_external" type="checkbox" name="lightbox_photoswipe_ignore_external" value="1"<?php if(get_option('lightbox_photoswipe_ignore_external')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images on other sites', 'lightbox-photoswipe' ); ?></label><br />
-            <label><input id="lightbox_photoswipe_ignore_hash" type="checkbox" name="lightbox_photoswipe_ignore_hash" value="1"<?php if(get_option('lightbox_photoswipe_ignore_hash')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images which contain a hash (#)', 'lightbox-photoswipe' ); ?></label>
+            <label><input id="lightbox_photoswipe_ignore_hash" type="checkbox" name="lightbox_photoswipe_ignore_hash" value="1"<?php if(get_option('lightbox_photoswipe_ignore_hash')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images which contain a hash (#)', 'lightbox-photoswipe' ); ?></label><br />
+            <label><input id="lightbox_photoswipe_open_fullscreen" type="checkbox" name="lightbox_photoswipe_open_fullscreen" value="1"<?php if(get_option('lightbox_photoswipe_open_fullscreen')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Open lightbox in fullscreen mode', 'lightbox-photoswipe' ); ?></label>
         </td>
     </tr>
     <tr>
@@ -1508,13 +1513,15 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_use_cache', '0');
             update_option('lightbox_photoswipe_ignore_external', '0');
             update_option('lightbox_photoswipe_ignore_hash', '0');
-
+        }
+        if (intval($db_version) < 27) {
+            update_option('lightbox_photoswipe_open_fullscreen', '0');
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
 
-        if (intval($db_version) < 26) {
-            update_option('lightbox_photoswipe_db_version', 26);
+        if (intval($db_version) < 27) {
+            update_option('lightbox_photoswipe_db_version', 27);
         }
     }
 
