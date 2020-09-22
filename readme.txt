@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.5
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -44,7 +44,7 @@ Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in ve
 
 Note: this was changed with version 2.0. The previous parameter `return` is no longer supported.
 
-When you activate the setting for "Update browser history" in the general settings you can link directly to an image inside a page or post:
+When you activate the setting for "Activate browser history" you can link directly to an image inside a page or post:
 
 `http://domain.example/example-page#gid=1&pid=1`
 
@@ -183,6 +183,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.1.3 =
+
+* Fixed missing captions for images which got scaled or rotated with the WordPress image editor (thanks to Emmanuel Liron for the fix).
 
 = 3.1.2 =
 
