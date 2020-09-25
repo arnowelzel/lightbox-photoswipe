@@ -159,23 +159,25 @@ class LightboxPhotoSwipe
         $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
 
         if (!$this->enabled) return;
+        
+        $suffix = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
 
         wp_enqueue_script(
             'lbwps-lib',
-            plugin_dir_url(__FILE__) . 'lib/photoswipe.min.js',
+            plugin_dir_url(__FILE__) . 'lib/photoswipe'.$suffix.'.js',
             [],
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
         wp_enqueue_script(
             'lbwps-ui-default',
-            plugin_dir_url(__FILE__) . 'lib/photoswipe-ui-default.min.js',
+            plugin_dir_url(__FILE__) . 'lib/photoswipe-ui-default'.$suffix.'.js',
             ['lbwps-lib'],
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
 
         wp_enqueue_script(
             'lbwps-frontend',
-            plugin_dir_url(__FILE__) . 'js/frontend.min.js',
+            plugin_dir_url(__FILE__) . 'js/frontend'.$suffix.'.js',
             ['lbwps-lib', 'lbwps-ui-default'],
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
