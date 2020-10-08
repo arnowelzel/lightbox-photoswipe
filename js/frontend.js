@@ -4,6 +4,9 @@ var lbwpsInit = function(domUpdate) {
 
     var links = document.querySelectorAll('a[data-lbwps-width]');
 
+    var originalBodyPaddingRight = '';
+    var originalBodyOverflow = '';
+
     for (var i = 0; i < links.length; i++) {
         if (links[i].getAttribute('data-lbwps-handler') != '1') {
             links[i].setAttribute('data-lbwps-handler', '1');
@@ -15,6 +18,19 @@ var lbwpsInit = function(domUpdate) {
                 openPhotoSwipe(false, 0, this, false, '');
             });
         }
+    }
+
+    var hideScrollbar =  function() {
+        const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
+        originalBodyPaddingRight = document.body.style.paddingRight;
+        originalBodyOverflow = document.body.style.overflow;
+        document.body.style.paddingRight = scrollbarWidth + 'px';
+        document.body.style.overflow = 'hidden';
+    }
+
+    var showScrollbar = function() {
+        document.body.style.paddingRight = originalBodyPaddingRight;
+        document.body.style.overflow = originalBodyOverflow;
     }
 
     var parseThumbnailElements = function(link, id) {
@@ -291,15 +307,18 @@ var lbwpsInit = function(domUpdate) {
         if (returnToUrl != '') {
             gallery.listen('unbindEvents', function() {
                 window.lbwpsPhotoSwipe = null;
+                showScrollbar();
                 document.location.href = returnToUrl;
             });
         } else {
             gallery.listen('unbindEvents', function() {
+                showScrollbar();
                 window.lbwpsPhotoSwipe = null;
             });
         }
 
         window.lbwpsPhotoSwipe = gallery;
+        hideScrollbar();
         gallery.init();
     };
 
