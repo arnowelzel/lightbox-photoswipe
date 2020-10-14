@@ -306,16 +306,14 @@ var lbwpsInit = function(domUpdate) {
 
         if (returnToUrl != '') {
             gallery.listen('unbindEvents', function() {
-                window.lbwpsPhotoSwipe = null;
-                showScrollbar();
                 document.location.href = returnToUrl;
             });
-        } else {
-            gallery.listen('unbindEvents', function() {
-                showScrollbar();
-                window.lbwpsPhotoSwipe = null;
-            });
         }
+
+        gallery.listen('destroy', function() {
+            showScrollbar();
+            window.lbwpsPhotoSwipe = null;
+        })
 
         window.lbwpsPhotoSwipe = gallery;
         hideScrollbar();
