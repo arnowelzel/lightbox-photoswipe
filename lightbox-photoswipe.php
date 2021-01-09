@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.1.3
+Version: 3.1.4
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.3';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.4';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -161,23 +161,11 @@ class LightboxPhotoSwipe
         if (!$this->enabled) return;
 
         wp_enqueue_script(
-            'lbwps-lib',
-            plugin_dir_url(__FILE__) . 'lib/photoswipe.min.js',
+            'lbwps',
+            plugin_dir_url(__FILE__) . 'assets/scripts.js',
             [],
-            self::LIGHTBOX_PHOTOSWIPE_VERSION
-        );
-        wp_enqueue_script(
-            'lbwps-ui-default',
-            plugin_dir_url(__FILE__) . 'lib/photoswipe-ui-default.min.js',
-            ['lbwps-lib'],
-            self::LIGHTBOX_PHOTOSWIPE_VERSION
-        );
-
-        wp_enqueue_script(
-            'lbwps-frontend',
-            plugin_dir_url(__FILE__) . 'js/frontend.min.js',
-            ['lbwps-lib', 'lbwps-ui-default'],
-            self::LIGHTBOX_PHOTOSWIPE_VERSION
+            self::LIGHTBOX_PHOTOSWIPE_VERSION,
+            true
         );
         $translation_array = [
             'label_facebook' => __('Share on Facebook', 'lightbox-photoswipe'),
@@ -211,15 +199,8 @@ class LightboxPhotoSwipe
         $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
         $translation_array['idletime'] =intval($this->idletime);
-        wp_localize_script('lbwps-frontend', 'lbwpsOptions', $translation_array);
+        wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
         
-        wp_enqueue_style(
-            'lbwps-lib',
-            plugin_dir_url(__FILE__) . 'lib/photoswipe.css',
-            false,
-            self::LIGHTBOX_PHOTOSWIPE_VERSION
-        );
-
         switch($this->skin) {
         case '2':
             $skin = 'classic-solid';
@@ -235,8 +216,8 @@ class LightboxPhotoSwipe
             break;
         }
         wp_enqueue_style(
-            'photoswipe-skin',
-            plugin_dir_url(__FILE__) . 'lib/skins/' . $skin . '/skin.css',
+            'lbwps-styles',
+            plugin_dir_url(__FILE__) . 'assets/styles/' . $skin . '.css',
             false,
             self::LIGHTBOX_PHOTOSWIPE_VERSION
         );
