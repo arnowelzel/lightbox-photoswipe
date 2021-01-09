@@ -159,6 +159,8 @@ class LightboxPhotoSwipe
         $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
 
         if (!$this->enabled) return;
+        
+        $suffix = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
 
         wp_enqueue_script(
             'lbwps',
