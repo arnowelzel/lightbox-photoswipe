@@ -186,8 +186,9 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 3.1.4 =
 
-* Optimized frontend scripts to be only one file and in the footer
-* Optimzed stylesheets to be minimized and only one file
+* Added support for SCRIPT_DEBUG (thanks to Hristo Hristov for the suggestion)
+* Optimized frontend scripts to be only one minimized file and in the footer in production mode
+* Optimzed stylesheets to be minimized and only one file in production mode
 
 = 3.1.3 =
 
