@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.1.5
+Version: 3.1.6
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.5';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.6';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -569,23 +569,19 @@ class LightboxPhotoSwipe
                 // Remove leading slash
                 $file = ltrim($file, '/');
 
-                $url_http = '';
-                $url_https = '';
-
                 // Add local path only if the file is not an external URL
                 if (substr($file, 0, 6) != 'ftp://' &&
                     substr($file, 0, 7) != 'http://' &&
                     substr($file, 0, 8) != 'https://') {
 
-                    // Normalized URLs to retrieve the image caption
-                    $url_http = $baseurl_http.'/'.$file;
-                    $url_https = $baseurl_https.'/'.$file;
+                    $upload_dir = wp_upload_dir(null, false)['basedir'];
+                    $file = $this->str_replaceoverlap($upload_dir, $file);
 
-                    $file = ABSPATH . $file;
-                } else {
-                    // The image is an external URL, then use this
-                    $url_http = $file;
-                    $url_https = $file;
+                    // Note This should be avoided, since ABSPATH may not represent the real path to the
+                    // upload folder, for example on FlyWheel hosts which use symbolic links
+                    // Also see <https://github.com/arnowelzel/lightbox-photoswipe/issues/33>
+                    //
+                    // $file = ABSPATH . $file;
                 }
            
                 if ('1' == $this->usepostdata && '1' == $this->show_caption) {
@@ -1551,6 +1547,43 @@ window.addEventListener('popstate', (event) => {
             $this->createTables();
         }
     }
-}
+
+    function str_findoverlap($str1, $str2){
+        $return = array();
+        $sl1 = strlen($str1);
+        $sl2 = strlen($str2);
+        $max = $sl1>$sl2?$sl2:$sl1;
+        $i=1;
+        while($i<=$max){
+            $s1 = substr($str1, -$i);
+            $s2 = substr($str2, 0, $i);
+            if($s1 == $s2){
+                $return[] = $s1;
+            }
+            $i++;
+        }
+        if(!empty($return)){
+            return $return;
+        }
+        return false;
+    }
+
+    function str_replaceoverlap($str1, $str2, $length = "long"){
+        if($overlap = $this->str_findoverlap($str1, $str2)){
+            switch($length){
+                case "short":
+                    $overlap = $overlap[0];
+                    break;
+                case "long":
+                default:
+                    $overlap = $overlap[count($overlap)-1];
+                    break;
+            }
+            $str1 = substr($str1, 0, -strlen($overlap));
+            $str2 = substr($str2, strlen($overlap));
+            return $str1.$overlap.$str2;
+        }
+        return false;
+    }}
 
 $lightbox_photoswipe = new LightboxPhotoSwipe();
