@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2020-07-28 16:04+0000\n"
+"PO-Revision-Date: 2021-01-12 17:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -14,101 +14,103 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.4.0; wp-5.4.2"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:183
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1080
-msgid "Share on Facebook"
-msgstr "Condividi su Facebook"
+#: lightbox-photoswipe.php:1103
+msgid ""
+"<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\">"
+"the PHP EXIF extension</a> is missing on this server!"
+msgstr ""
+"<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\"> "
+"l'estensione PHP EXIF </a> non è presente su questo server!"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:184
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1081
-msgid "Tweet"
-msgstr "Tweet"
+#: lightbox-photoswipe.php:1048
+msgid "Add native lazy loading to images"
+msgstr "Aggiungi \"lazy loading\" nativo alle immagini"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:185
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1083
-msgid "Pin it"
-msgstr "Ricorda su Pinterest"
+#: lightbox-photoswipe.php:1046
+msgid "Allow infinite loop"
+msgstr "Consenti loop infinito"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:186
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1084
-msgid "Download image"
-msgstr "Scarica l'immagine"
+#: lightbox-photoswipe.php:1098
+msgid "also use description if available"
+msgstr "usa anche la descrizione se disponibile"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:187
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1085
-msgid "Copy image URL"
-msgstr "Copia l'URL dell'immagine"
+#. Author of the plugin
+msgid "Arno Welzel"
+msgstr "Arno Welzel"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:266
-msgid "Close (Esc)"
-msgstr "Chiudi (Esc)"
+#: lightbox-photoswipe.php:1023
+msgid "Available post types on this site"
+msgstr "Tipi di post disponibili su questo sito"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:267
-msgid "Share"
-msgstr "Condividere"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:268
-msgid "Toggle fullscreen"
-msgstr "Attiva/disattiva schermo intero"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:269
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1120
-msgid "Zoom in/out"
-msgstr "Ingrandire/ridurre"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:282
-msgid "Previous (arrow left)"
-msgstr "Precedente (freccia a sinistra)"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:283
-msgid "Next (arrow right)"
-msgstr "Successivo (freccia a destra)"
-
-#. Name of the plugin
-#. Description of the plugin
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:825
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:826
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:898
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1184
-msgid "Lightbox with PhotoSwipe"
-msgstr "Lightbox with PhotoSwipe"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:966
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1108
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1142
-msgid "General"
-msgstr "Generalmente"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:967
-msgid "Theme"
-msgstr "Tema"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:968
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1059
+#: lightbox-photoswipe.php:1002 lightbox-photoswipe.php:1094
 msgid "Captions"
 msgstr "Didascalie"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:969
-msgid "Sharing"
-msgstr "Condivisione"
+#: lightbox-photoswipe.php:1056
+msgid "CDN URL prefix"
+msgstr "Prefisso URL CDN"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:970
+#: lightbox-photoswipe.php:289
+msgid "Close (Esc)"
+msgstr "Chiudi (Esc)"
+
+#: lightbox-photoswipe.php:1147
+msgid "Close the lightbox by clicking outside the image"
+msgstr "Chiudi la lightbox facendo clic all'esterno dell'immagine"
+
+#: lightbox-photoswipe.php:1179
+msgid "Close with vertical drag in mobile view"
+msgstr "Chiudi con trascinamento verticale nella visualizzazione mobile"
+
+#: lightbox-photoswipe.php:201 lightbox-photoswipe.php:1120
+msgid "Copy image URL"
+msgstr "Copia l'URL dell'immagine"
+
+#: lightbox-photoswipe.php:1121
+msgid "Custom link"
+msgstr "Collegamento personalizzato"
+
+#: lightbox-photoswipe.php:1125
+msgid "Custom link, label"
+msgstr "Collegamento personalizzato, etichetta"
+
+#: lightbox-photoswipe.php:1131
+msgid "Custom link, URL"
+msgstr "Collegamento personalizzato, URL"
+
+#: lightbox-photoswipe.php:1084 lightbox-photoswipe.php:1167
+msgid "Default"
+msgstr "Predefinito"
+
+#: lightbox-photoswipe.php:1004
 msgid "Desktop"
 msgstr "Desktop"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:971
-msgid "Mobile"
-msgstr "Mobile"
+#: lightbox-photoswipe.php:1241
+msgid "Disable"
+msgstr "Disattivare"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:972
-msgid "Info"
-msgstr "Info"
+#: lightbox-photoswipe.php:200 lightbox-photoswipe.php:1119
+msgid "Download image"
+msgstr "Scarica l'immagine"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:977
-msgid "Excluded pages/posts"
-msgstr "Pagine/post esclusi"
+#: lightbox-photoswipe.php:1180
+msgid "Enable pinch to close gesture on mobile devices"
+msgstr "Abilita il gesto \"pinch to close\" sui dispositivi mobili"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:980
+#: lightbox-photoswipe.php:1181
+msgid "Enable tap to toggle controls on mobile devices"
+msgstr "Abilita \"top to togllee controls\" sui dispositivi mobili"
+
+#: lightbox-photoswipe.php:1022
+msgid ""
+"Enter a comma separated list of post types where the lightbox should not be "
+"used."
+msgstr ""
+"Un elenco separato da virgole di tipi di post in cui il lightbox non deve "
+"essere utilizzato."
+
+#: lightbox-photoswipe.php:1014
 msgid ""
 "Enter a comma separated list with the numerical IDs of the pages/posts where "
 "the lightbox should not be used. This can also be changed in the page/post "
@@ -118,99 +120,63 @@ msgstr ""
 "cui la lightbox non deve essere utilizzata. Questo può anche essere "
 "modificato nella pagina o nel post stesso."
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:981
-msgid "Show this setting as checkbox in page/post editor"
-msgstr "Mostra questa impostazione come opzione nell'editor per pagine o post"
+#: lightbox-photoswipe.php:1011
+msgid "Excluded pages/posts"
+msgstr "Pagine/post esclusi"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:985
+#: lightbox-photoswipe.php:1019
 msgid "Excluded post types"
 msgstr "Tipi di post esclusi"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:988
+#: lightbox-photoswipe.php:1189
+msgid "For documentation about hooks, styling etc. please see FAQ"
+msgstr "Per la documentazione su ganci, styling ecc. consultare le FAQ"
+
+#: lightbox-photoswipe.php:1145
+msgid "Full picture size in desktop view"
+msgstr "Dimensione totale dell'immagine nella visualizzazione desktop"
+
+#: lightbox-photoswipe.php:1000 lightbox-photoswipe.php:1143
+#: lightbox-photoswipe.php:1177
+msgid "General"
+msgstr "Generalmente"
+
+#: lightbox-photoswipe.php:1097
 msgid ""
-"Enter a comma separated list of post types where the lightbox should not be "
-"used."
+"Get the image captions from the database (this may cause delays on slower "
+"servers)"
 msgstr ""
-"Un elenco separato da virgole di tipi di post in cui il lightbox non deve "
-"essere utilizzato."
+"Ottieni i sottotitoli di immagini dal database (ciò potrebbe causare ritardi "
+"nei server più lenti)"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:989
-msgid "Available post types on this site"
-msgstr "Tipi di post disponibili su questo sito"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1001
-msgid "Visible elements"
-msgstr "Elementi visibili"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1003
-msgid "Show picture counter"
-msgstr "Mostra contatore immagini"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1004
-msgid "Show fullscreen button"
-msgstr "Mostra il pulsante a schermo intero"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1005
-msgid "Show zoom button if available"
-msgstr "Mostra il pulsante dello zoom se disponibile"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1009
-msgid "Other options"
-msgstr "Altre opzioni"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1011
+#: lightbox-photoswipe.php:1052
 msgid ""
-"Update browser history (going back in the browser will first close the "
-"lightbox)"
+"Hide scrollbars when opening the lightbox (this may not work with your theme)"
 msgstr ""
-"Aggiorna cronologia browser (se torni nel browser, la lightbox viene chiusa "
-"per prima)"
+"Prova a nascondere le barre di scorrimento quando la lightbox è aperta "
+"(potrebbe non funzionare con il tuo tema)"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1012
-msgid "Allow infinite loop"
-msgstr "Consenti loop infinito"
+#. Author URI of the plugin
+msgid "http://arnowelzel.de"
+msgstr "http://arnowelzel.de"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1013
+#. URI of the plugin
+msgid "https://wordpress.org/plugins/lightbox-photoswipe/"
+msgstr "https://wordpress.org/plugins/lightbox-photoswipe/"
+
+#: lightbox-photoswipe.php:1160
+msgid "Idle time for controls"
+msgstr "Tempo di attesa per la navigazione"
+
+#: lightbox-photoswipe.php:1190
 msgid ""
-"Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes"
+"If you like my WordPress plugins and want to support my work I would be very "
+"happy about a donation via PayPal."
 msgstr ""
-"Mostra gallerie WordPress e blocchi galleria Gutenberg come lightbox separati"
+"Se ti piacciono i miei plugin WordPress e vuoi supportare il mio lavoro, "
+"sarei molto felice di ricevere una donazione tramite PayPal."
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1014
-msgid "Add native lazy loading to images"
-msgstr "Aggiungi \"lazy loading\" nativo alle immagini"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1015
-#, php-format
-msgid ""
-"Use WordPress cache instead of the database table %slightbox_photoswipe_img "
-"(use this option if you use caching plugins like \"Redis Object Cache\")"
-msgstr ""
-"Usa la cache di WordPress invece della tabella del database "
-"%slightbox_photoswipe_img (usa questa opzione se usi plugin di cache come "
-"\"Redis Object Cache\")"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1016
-msgid "Ignore links to images on other sites"
-msgstr "Ignora i collegamenti alle immagini su altri siti Web"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1017
-msgid "Ignore links to images which contain a hash (#)"
-msgstr "Ignora i collegamenti alle immagini che contengono un hash (#)"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1021
-msgid "CDN URL prefix"
-msgstr "Prefisso URL CDN"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1024
-msgid ""
-"If you use the JetPack CDN you can leave this setting empty – JetPack is "
-"already supported!"
-msgstr ""
-"Se si utilizza la CDN JetPack è possibile lasciare vuota questa impostazione "
-"– JetPack è già supportato!"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1025
+#: lightbox-photoswipe.php:1060
 msgid ""
 "If you use a CDN plugin which adds an URL prefix in front of the image link, "
 "you can add this prefix (including \"http://\" or \"https://\") here. You "
@@ -227,100 +193,70 @@ msgstr ""
 "anche se si desidera utilizzare i sottotitoli di immagini dal database "
 "WordPress, ma consegnare le immagini tramite una rete CDN."
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1033
-msgid "Skin"
-msgstr "Rappresentazione"
+#: lightbox-photoswipe.php:1059
+msgid ""
+"If you use the JetPack CDN you can leave this setting empty – JetPack is "
+"already supported!"
+msgstr ""
+"Se si utilizza la CDN JetPack è possibile lasciare vuota questa impostazione "
+"– JetPack è già supportato!"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1035
-msgid "Original"
-msgstr "Originale"
+#: lightbox-photoswipe.php:1050
+msgid "Ignore links to images on other sites"
+msgstr "Ignora i collegamenti alle immagini su altri siti Web"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1036
-msgid "Original with solid background"
-msgstr "Originale con sfondo uniforme"
+#: lightbox-photoswipe.php:1051
+msgid "Ignore links to images which contain a hash (#)"
+msgstr "Ignora i collegamenti alle immagini che contengono un hash (#)"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1037
+#: lightbox-photoswipe.php:1006
+msgid "Info"
+msgstr "Info"
+
+#. Name of the plugin
+#. Description of the plugin
+#: lightbox-photoswipe.php:858 lightbox-photoswipe.php:859
+#: lightbox-photoswipe.php:932 lightbox-photoswipe.php:1219
+msgid "Lightbox with PhotoSwipe"
+msgstr "Lightbox with PhotoSwipe"
+
+#: lightbox-photoswipe.php:1005
+msgid "Mobile"
+msgstr "Mobile"
+
+#: lightbox-photoswipe.php:1151
+msgid "Mouse wheel function"
+msgstr "Funzione rotellina del mouse"
+
+#: lightbox-photoswipe.php:1072
 msgid "New share symbol"
 msgstr "Nuovo simbolo di condivisione"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1038
+#: lightbox-photoswipe.php:1073
 msgid "New share symbol with solid background"
 msgstr "Nuovo simbolo di condivisione con sfondo uniforme"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1042
-msgid "Spacing between pictures"
-msgstr "Spaziatura tra le immagini"
+#: lightbox-photoswipe.php:306
+msgid "Next (arrow right)"
+msgstr "Successivo (freccia a destra)"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1049
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1132
-msgid "Default"
-msgstr "Predefinito"
+#: lightbox-photoswipe.php:1070
+msgid "Original"
+msgstr "Originale"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1052
-msgid "Space between pictures relative to screenwidth."
-msgstr "Spazio tra le immagini rispetto alla larghezza dello schermo."
+#: lightbox-photoswipe.php:1071
+msgid "Original with solid background"
+msgstr "Originale con sfondo uniforme"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1061
-msgid "Show caption if available"
-msgstr "Mostra didascalia se disponibile"
+#: lightbox-photoswipe.php:1043
+msgid "Other options"
+msgstr "Altre opzioni"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1062
-msgid ""
-"Get the image captions from the database (this may cause delays on slower "
-"servers)"
-msgstr ""
-"Ottieni i sottotitoli di immagini dal database (ciò potrebbe causare ritardi "
-"nei server più lenti)"
+#: lightbox-photoswipe.php:199 lightbox-photoswipe.php:1118
+msgid "Pin it"
+msgstr "Ricorda su Pinterest"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1063
-msgid "also use description if available"
-msgstr "usa anche la descrizione se disponibile"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1064
-msgid "Use alternative text of images as captions if needed"
-msgstr "Usa testo alternativo delle immagini come didascalie, se necessario"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1065
-msgid "Show EXIF data if available"
-msgstr "Mostra i dati EXIF se disponibili"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1068
-msgid ""
-"<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\">"
-"the PHP EXIF extension</a> is missing on this server!"
-msgstr ""
-"<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\"> "
-"l'estensione PHP EXIF </a> non è presente su questo server!"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1071
-msgid "Show date in EXIF data if available"
-msgstr "Mostra la data nei dati EXIF, se disponibili"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1078
-msgid "Visible sharing options"
-msgstr "Opzioni di condivisione visibili"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1082
-msgid "Use URL of images instead of lightbox on Facebook and Twitter"
-msgstr "Usa URL di immagini invece di lightbox su Facebook e Twitter"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1086
-msgid "Custom link"
-msgstr "Collegamento personalizzato"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1090
-msgid "Custom link, label"
-msgstr "Collegamento personalizzato, etichetta"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1092
-msgid "Your label here"
-msgstr "La tua etichetta qui"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1096
-msgid "Custom link, URL"
-msgstr "Collegamento personalizzato, URL"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1100
+#: lightbox-photoswipe.php:1135
 msgid ""
 "Placeholders for the link:<br />{{raw_url}}&nbsp;&ndash;&nbsp;URL of the "
 "lightbox<br />{{url}}&nbsp;&ndash;&nbsp;encoded URL of the lightbox<br />"
@@ -334,69 +270,99 @@ msgstr ""
 "&nbsp;&ndash;&nbsp;URL codificato dall'immagine<br />{{text}}&nbsp;&ndash;"
 "&nbsp;didascalia."
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1110
-msgid "Full picture size in desktop view"
-msgstr "Dimensione totale dell'immagine nella visualizzazione desktop"
+#: lightbox-photoswipe.php:1187
+msgid "Plugin version"
+msgstr "Versione plug-in"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1111
-msgid "Use slide animation when switching images in desktop view"
-msgstr "Animazione quando si cambiano le immagini nella vista desktop"
+#: lightbox-photoswipe.php:305
+msgid "Previous (arrow left)"
+msgstr "Precedente (freccia a sinistra)"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1112
-msgid "Close the lightbox by clicking outside the image"
-msgstr "Chiudi la lightbox facendo clic all'esterno dell'immagine"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1116
-msgid "Mouse wheel function"
-msgstr "Funzione rotellina del mouse"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1118
-msgid "Scroll zoomed image otherwise do nothing"
-msgstr "Scorri verso l'alto l'immagine ingrandita, nient'altro"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1119
+#: lightbox-photoswipe.php:1154
 msgid "Scroll zoomed image or close lightbox if not zoomed"
 msgstr "Scorri l'immagine ingrandita o chiudi la lightbox se non ingrandita"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1121
-msgid "Switch to next/previous picture"
-msgstr "Vai all'immagine successiva / precedente"
+#: lightbox-photoswipe.php:1153
+msgid "Scroll zoomed image otherwise do nothing"
+msgstr "Scorri verso l'alto l'immagine ingrandita, nient'altro"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1125
-msgid "Idle time for controls"
-msgstr "Tempo di attesa per la navigazione"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1131
+#: lightbox-photoswipe.php:1166
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "secondo"
 msgstr[1] "secondi"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1135
+#: lightbox-photoswipe.php:290
+msgid "Share"
+msgstr "Condividere"
+
+#: lightbox-photoswipe.php:197 lightbox-photoswipe.php:1115
+msgid "Share on Facebook"
+msgstr "Condividi su Facebook"
+
+#: lightbox-photoswipe.php:1003
+msgid "Sharing"
+msgstr "Condivisione"
+
+#: lightbox-photoswipe.php:1096
+msgid "Show caption if available"
+msgstr "Mostra didascalia se disponibile"
+
+#: lightbox-photoswipe.php:1106
+msgid "Show date in EXIF data if available"
+msgstr "Mostra la data nei dati EXIF, se disponibili"
+
+#: lightbox-photoswipe.php:1100
+msgid "Show EXIF data if available"
+msgstr "Mostra i dati EXIF se disponibili"
+
+#: lightbox-photoswipe.php:1038
+msgid "Show fullscreen button"
+msgstr "Mostra il pulsante a schermo intero"
+
+#: lightbox-photoswipe.php:1037
+msgid "Show picture counter"
+msgstr "Mostra contatore immagini"
+
+#: lightbox-photoswipe.php:1015
+msgid "Show this setting as checkbox in page/post editor"
+msgstr "Mostra questa impostazione come opzione nell'editor per pagine o post"
+
+#: lightbox-photoswipe.php:1047
 msgid ""
-"Time until the on screen controls will disappear automatically in desktop "
-"view."
+"Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes"
 msgstr ""
-"Tempo fino a quando i controlli su schermo scompaiono automaticamente nella "
-"vista desktop."
+"Mostra gallerie WordPress e blocchi galleria Gutenberg come lightbox separati"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1144
-msgid "Close with vertical drag in mobile view"
-msgstr "Chiudi con trascinamento verticale nella visualizzazione mobile"
+#: lightbox-photoswipe.php:1039
+msgid "Show zoom button if available"
+msgstr "Mostra il pulsante dello zoom se disponibile"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1145
-msgid "Enable pinch to close gesture on mobile devices"
-msgstr "Abilita il gesto \"pinch to close\" sui dispositivi mobili"
+#: lightbox-photoswipe.php:1068
+msgid "Skin"
+msgstr "Rappresentazione"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1146
-msgid "Enable tap to toggle controls on mobile devices"
-msgstr "Abilita \"top to togllee controls\" sui dispositivi mobili"
+#: lightbox-photoswipe.php:1087
+msgid "Space between pictures relative to screenwidth."
+msgstr "Spazio tra le immagini rispetto alla larghezza dello schermo."
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1152
-msgid "Plugin version"
-msgstr "Versione plug-in"
+#: lightbox-photoswipe.php:1077
+msgid "Spacing between pictures"
+msgstr "Spaziatura tra le immagini"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1153
+#: lightbox-photoswipe.php:1156
+msgid "Switch to next/previous picture"
+msgstr "Vai all'immagine successiva / precedente"
+
+#: lightbox-photoswipe.php:1192
+msgid "Thank you :-)"
+msgstr "Mille Grazie :-)"
+
+#: lightbox-photoswipe.php:1001
+msgid "Theme"
+msgstr "Tema"
+
+#: lightbox-photoswipe.php:1188
 msgid ""
 "This plugin shows all linked pictures in a lightbox based on an extended "
 "version of Photoswipe. If the lightbox does not open, make sure that images "
@@ -411,34 +377,64 @@ msgstr ""
 "lightbox (alcuni temi o plug-in della galleria dispongono di un proprio "
 "lightbox, che deve essere spento)."
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1154
-msgid "For documentation about hooks, styling etc. please see FAQ"
-msgstr "Per la documentazione su ganci, styling ecc. consultare le FAQ"
-
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1155
+#: lightbox-photoswipe.php:1170
 msgid ""
-"If you like my WordPress plugins and want to support my work I would be very "
-"happy about a donation via PayPal."
+"Time until the on screen controls will disappear automatically in desktop "
+"view."
 msgstr ""
-"Se ti piacciono i miei plugin WordPress e vuoi supportare il mio lavoro, "
-"sarei molto felice di ricevere una donazione tramite PayPal."
+"Tempo fino a quando i controlli su schermo scompaiono automaticamente nella "
+"vista desktop."
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1157
-msgid "Thank you :-)"
-msgstr "Mille Grazie :-)"
+#: lightbox-photoswipe.php:291
+msgid "Toggle fullscreen"
+msgstr "Attiva/disattiva schermo intero"
 
-#: D:/work/project/WordPress/lightbox-photoswipe/git/lightbox-photoswipe.php:1206
-msgid "Disable"
-msgstr "Disattivare"
+#: lightbox-photoswipe.php:198 lightbox-photoswipe.php:1116
+msgid "Tweet"
+msgstr "Tweet"
 
-#. URI of the plugin
-msgid "https://wordpress.org/plugins/lightbox-photoswipe/"
-msgstr "https://wordpress.org/plugins/lightbox-photoswipe/"
+#: lightbox-photoswipe.php:1045
+msgid ""
+"Update browser history (going back in the browser will first close the "
+"lightbox)"
+msgstr ""
+"Aggiorna cronologia browser (se torni nel browser, la lightbox viene chiusa "
+"per prima)"
 
-#. Author of the plugin
-msgid "Arno Welzel"
-msgstr "Arno Welzel"
+#: lightbox-photoswipe.php:1099
+msgid "Use alternative text of images as captions if needed"
+msgstr "Usa testo alternativo delle immagini come didascalie, se necessario"
 
-#. Author URI of the plugin
-msgid "http://arnowelzel.de"
-msgstr "http://arnowelzel.de"
+#: lightbox-photoswipe.php:1146
+msgid "Use slide animation when switching images in desktop view"
+msgstr "Animazione quando si cambiano le immagini nella vista desktop"
+
+#: lightbox-photoswipe.php:1117
+msgid "Use URL of images instead of lightbox on Facebook and Twitter"
+msgstr "Usa URL di immagini invece di lightbox su Facebook e Twitter"
+
+#: lightbox-photoswipe.php:1049
+#, php-format
+msgid ""
+"Use WordPress cache instead of the database table %slightbox_photoswipe_img "
+"(use this option if you use caching plugins like \"Redis Object Cache\")"
+msgstr ""
+"Usa la cache di WordPress invece della tabella del database "
+"%slightbox_photoswipe_img (usa questa opzione se usi plugin di cache come "
+"\"Redis Object Cache\")"
+
+#: lightbox-photoswipe.php:1035
+msgid "Visible elements"
+msgstr "Elementi visibili"
+
+#: lightbox-photoswipe.php:1113
+msgid "Visible sharing options"
+msgstr "Opzioni di condivisione visibili"
+
+#: lightbox-photoswipe.php:1127
+msgid "Your label here"
+msgstr "La tua etichetta qui"
+
+#: lightbox-photoswipe.php:292 lightbox-photoswipe.php:1155
+msgid "Zoom in/out"
+msgstr "Ingrandire/ridurre"
