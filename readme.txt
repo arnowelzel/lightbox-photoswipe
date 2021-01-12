@@ -3,8 +3,8 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
-Tested up to: 5.6
-Stable tag: 3.1.4
+Tested up to: 5.5
+Stable tag: 3.1.5
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -184,11 +184,15 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 3.1.5 =
+
+* Hiding of scrollbars can now be turned off in case it does not work properly with theme of the site
+
 = 3.1.4 =
 
 * Added support for SCRIPT_DEBUG (thanks to Hristo Hristov for the suggestion)
 * Optimized frontend scripts to be only one minimized file and in the footer in production mode
-* Optimzed stylesheets to be minimized and only one file in production mode
+* Optimized stylesheets to be minimized and only one file in production mode
 
 = 3.1.3 =
 

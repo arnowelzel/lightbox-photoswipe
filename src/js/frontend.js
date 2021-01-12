@@ -311,12 +311,16 @@ var lbwpsInit = function(domUpdate) {
         }
 
         gallery.listen('destroy', function() {
-            showScrollbar();
+            if (lbwpsOptions.hide_scrollbars == '1') {
+                showScrollbar();
+            }
             window.lbwpsPhotoSwipe = null;
         })
 
         window.lbwpsPhotoSwipe = gallery;
-        hideScrollbar();
+        if (lbwpsOptions.hide_scrollbars == '1') {
+            hideScrollbar();
+        }
         gallery.init();
     };
 

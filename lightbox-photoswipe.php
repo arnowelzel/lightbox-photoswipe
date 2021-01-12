@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.1.4
+Version: 3.1.5
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.4';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.5';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -52,6 +52,7 @@ class LightboxPhotoSwipe
     var $ignore_external;
     var $ignore_hash;
     var $cdn_url;
+    var $hide_scrollbars;
     var $gallery_id;
     var $ob_active;
     var $ob_level;
@@ -110,6 +111,7 @@ class LightboxPhotoSwipe
         $this->ignore_external = get_option('lightbox_photoswipe_ignore_external');
         $this->ignore_hash = get_option('lightbox_photoswipe_ignore_hash');
         $this->cdn_url = get_option('lightbox_photoswipe_cdn_url');
+        $this->hide_scrollbars = get_option('lightbox_photoswipe_hide_scrollbars');
 
         $this->enabled = true;
         $this->gallery_id = 1;
@@ -222,7 +224,8 @@ class LightboxPhotoSwipe
         $translation_array['fulldesktop'] = ($this->fulldesktop == '1')?'1':'0';
         $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
         $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
-        $translation_array['idletime'] =intval($this->idletime);
+        $translation_array['idletime'] = intval($this->idletime);
+        $translation_array['hide_scrollbars'] = intval($this->hide_scrollbars);
         wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
         
         switch($this->skin) {
@@ -906,6 +909,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_external');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_hash');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_url');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_hide_scrollbars');
     }
 
     /**
@@ -1045,6 +1049,7 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_use_cache" type="checkbox" name="lightbox_photoswipe_use_cache" value="1"<?php if(get_option('lightbox_photoswipe_use_cache')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php printf( esc_html__( 'Use WordPress cache instead of the database table %slightbox_photoswipe_img (use this option if you use caching plugins like "Redis Object Cache")', 'lightbox-photoswipe' ), $wpdb->prefix ); ?></label><br />
             <label><input id="lightbox_photoswipe_ignore_external" type="checkbox" name="lightbox_photoswipe_ignore_external" value="1"<?php if(get_option('lightbox_photoswipe_ignore_external')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images on other sites', 'lightbox-photoswipe' ); ?></label><br />
             <label><input id="lightbox_photoswipe_ignore_hash" type="checkbox" name="lightbox_photoswipe_ignore_hash" value="1"<?php if(get_option('lightbox_photoswipe_ignore_hash')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images which contain a hash (#)', 'lightbox-photoswipe' ); ?></label><br />
+            <label><input id="lightbox_photoswipe_hide_scrollbars" type="checkbox" name="lightbox_photoswipe_hide_scrollbars" value="1"<?php if(get_option('lightbox_photoswipe_hide_scrollbars')=='1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Hide scrollbars when opening the lightbox (this may not work with your theme)', 'lightbox-photoswipe' ); ?></label><br />
         </td>
     </tr>
     <tr>
@@ -1360,6 +1365,8 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_use_cache', '0');
             update_option('lightbox_photoswipe_ignore_external', '0');
             update_option('lightbox_photoswipe_ignore_hash', '0');
+            update_option('lightbox_photoswipe_cdn_url', '');
+            update_option('lightbox_photoswipe_hide_scrollbars', 1);
             restore_current_blog();
         }
     }
@@ -1529,12 +1536,12 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_ignore_external', '0');
             update_option('lightbox_photoswipe_ignore_hash', '0');
         }
+        if (intval($db_version) < 27) {
+            update_option('lightbox_photoswipe_hide_scrollbars', '1');
+            update_option('lightbox_photoswipe_db_version', 27);
+        }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
-
-        if (intval($db_version) < 26) {
-            update_option('lightbox_photoswipe_db_version', 26);
-        }
     }
 
     function update_option_use_cache($old_value, $value, $option) {
