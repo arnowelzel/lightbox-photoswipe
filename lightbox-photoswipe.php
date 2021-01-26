@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.1.6
+Version: 3.1.7
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.6';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.7';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -574,15 +574,20 @@ class LightboxPhotoSwipe
                 if (substr($file, 0, 6) != 'ftp://' &&
                     substr($file, 0, 7) != 'http://' &&
                     substr($file, 0, 8) != 'https://') {
-
                     $upload_dir = wp_upload_dir(null, false)['basedir'];
-                    $file = $this->str_replaceoverlap($upload_dir, $file);
+                    $realFile = $this->str_replaceoverlap($upload_dir, $file);
 
-                    // Note This should be avoided, since ABSPATH may not represent the real path to the
-                    // upload folder, for example on FlyWheel hosts which use symbolic links
-                    // Also see <https://github.com/arnowelzel/lightbox-photoswipe/issues/33>
+                    // Using ABSPATH is not recommended, also see
+                    // <https://github.com/arnowelzel/lightbox-photoswipe/issues/33>.
                     //
-                    // $file = ABSPATH . $file;
+                    // However, there may be case where the image is not in the upload dir.
+                    // So check if the file can be read and fall back to use ABSPATH if needed.
+
+                    if ('' === $realFile || !is_readable($realFile)) {
+                        $realFile = ABSPATH . $file;
+                    }
+
+                    $file = $realFile;
                 }
            
                 if ('1' == $this->usepostdata && '1' == $this->show_caption) {
