@@ -160,24 +160,24 @@ class LightboxPhotoSwipe
         }
         $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
         if (!$this->enabled) {
-			return;
-		}
+            return;
+        }
 
         if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
-			wp_enqueue_script(
-				'lbwps-photoswipe',
-				plugin_dir_url(__FILE__) . 'src/lib/photoswipe.js',
-				[],
-				self::LIGHTBOX_PHOTOSWIPE_VERSION,
-				true
-			);
-			wp_enqueue_script(
-				'lbwps-photoswipe-ui',
-				plugin_dir_url(__FILE__) . 'src/lib/photoswipe-ui-default.js',
-				[],
-				self::LIGHTBOX_PHOTOSWIPE_VERSION,
-				true
-			);
+            wp_enqueue_script(
+                'lbwps-photoswipe',
+                plugin_dir_url(__FILE__) . 'src/lib/photoswipe.js',
+                [],
+                self::LIGHTBOX_PHOTOSWIPE_VERSION,
+                true
+            );
+            wp_enqueue_script(
+                'lbwps-photoswipe-ui',
+                plugin_dir_url(__FILE__) . 'src/lib/photoswipe-ui-default.js',
+                [],
+                self::LIGHTBOX_PHOTOSWIPE_VERSION,
+                true
+            );
             wp_enqueue_script(
                 'lbwps',
                 plugin_dir_url(__FILE__) . 'src/js/frontend.js',
@@ -185,15 +185,15 @@ class LightboxPhotoSwipe
                 self::LIGHTBOX_PHOTOSWIPE_VERSION,
                 true
             );
-		} else {
-			wp_enqueue_script(
-				'lbwps',
-				plugin_dir_url(__FILE__) . 'assets/scripts.js',
-				[],
-				self::LIGHTBOX_PHOTOSWIPE_VERSION,
-				true
-			);
-		}
+        } else {
+            wp_enqueue_script(
+                'lbwps',
+                plugin_dir_url(__FILE__) . 'assets/scripts.js',
+                [],
+                self::LIGHTBOX_PHOTOSWIPE_VERSION,
+                true
+            );
+        }
         $translation_array = [
             'label_facebook' => __('Share on Facebook', 'lightbox-photoswipe'),
             'label_twitter' => __('Tweet', 'lightbox-photoswipe'),
@@ -273,9 +273,9 @@ class LightboxPhotoSwipe
      */
     function footer()
     {
-		if (!$this->enabled) {
-			return;
-		}
+        if (!$this->enabled) {
+            return;
+        }
 
         $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
@@ -1544,7 +1544,7 @@ window.addEventListener('popstate', (event) => {
     function update_option_use_cache($old_value, $value, $option) {
         if (!$old_value && $value === '1' ) {
             $this->deleteTables();
-    	} else if ($old_value === '1' && !$value) {
+        } else if ($old_value === '1' && !$value) {
             $this->createTables();
         }
     }
