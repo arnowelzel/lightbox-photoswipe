@@ -159,8 +159,9 @@ class LightboxPhotoSwipe
             if (in_array(get_post_type(), $this->disabled_post_types)) $this->enabled = false;
         }
         $this->enabled = apply_filters('lbwps_enabled', $this->enabled, $id);
-
-        if (!$this->enabled) return;
+        if (!$this->enabled) {
+			return;
+		}
 
         if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
 			wp_enqueue_script(
@@ -272,10 +273,11 @@ class LightboxPhotoSwipe
      */
     function footer()
     {
-        if (!$this->enabled) return;
+		if (!$this->enabled) {
+			return;
+		}
 
-        if (is_404() || !in_array(get_the_ID(), $this->disabled_post_ids)) {
-            $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
     <div class="pswp__scroll-wrap">
         <div class="pswp__container">
@@ -310,9 +312,8 @@ class LightboxPhotoSwipe
         </div>
     </div>
 </div>';
-            $footer = apply_filters('lbwps_markup', $footer);
-            echo $footer;
-        }
+        $footer = apply_filters('lbwps_markup', $footer);
+        echo $footer;
 
         if ($this->ob_active) {
             $this->ob_active = false;
