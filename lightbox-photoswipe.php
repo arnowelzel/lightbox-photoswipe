@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.1.7
+Version: 3.1.8
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -529,7 +529,7 @@ class LightboxPhotoSwipe
         $caption = '';
         $description = '';
 
-        if (!in_array($type['ext'], ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'])) {
+        if (!in_array(strtolower($type['ext']), ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp'])) {
             // Ignore unknown image formats
             $use = false;
         } else {
