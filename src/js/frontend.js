@@ -159,7 +159,7 @@ var lbwpsInit = function(domUpdate) {
 
         // Determine current selected item
         for (var i=0; i<galleryItems.length; i++) {
-            if(galleryItems[i].el == link) {
+            if(galleryItems[i].el.getAttribute('href') == link.getAttribute('href')) {
                 index = i;
             }
         }
