@@ -1,4 +1,4 @@
-/*! PhotoSwipe - v4.1.8.aw - 2020-01-14
+/*! PhotoSwipe - v4.1.9.aw - 2021-03-27
 * http://photoswipe.com
 * Copyright (c) 2017 Dmitry Semenov;
 * with modifications by Arno Welzel */
