@@ -164,9 +164,11 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
 
 12) Added options to use the mouse wheel for zooming or switching images in desktop view.
 
-13) Added option to add "onclick" handlers for sharing links
+13) Added option to add "onclick" handlers for sharing links.
 
-14) Added option to add a custom URL for sharing links
+14) Added option to add a custom URL for sharing links.
+
+15) Fullscreen mode hides navigation buttons on mobile devices if possible.
 
 = Licensing =
 
