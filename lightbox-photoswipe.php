@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.1.11
+Version: 3.1.12
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -12,12 +12,12 @@ defined('ABSPATH') or die();
 
 /**
  * Lightbox with PhotoSwipe
- * 
+ *
  * @package LightboxPhotoSwipe
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.11';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.1.12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -148,7 +148,7 @@ class LightboxPhotoSwipe
 
     /**
      * Enqueue Scripts/CSS
-     * 
+     *
      * @return nothing
      */
     function enqueueScripts()
@@ -228,7 +228,7 @@ class LightboxPhotoSwipe
         $translation_array['idletime'] = intval($this->idletime);
         $translation_array['hide_scrollbars'] = intval($this->hide_scrollbars);
         wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
-        
+
         switch($this->skin) {
         case '2':
             $skin = 'classic-solid';
@@ -268,7 +268,7 @@ class LightboxPhotoSwipe
 
     /**
      * Footer in frontend with PhotoSwipe UI
-     * 
+     *
      * @return void
      */
     function footer()
@@ -500,9 +500,9 @@ class LightboxPhotoSwipe
 
     /**
      * Callback to handle a single image link
-     * 
+     *
      * @param string $matches existing matches
-     * 
+     *
      * @return string modified HTML content
      */
     function outputCallbackProperties($matches)
@@ -589,7 +589,7 @@ class LightboxPhotoSwipe
 
                     $file = $realFile;
                 }
-           
+
                 if ('1' == $this->usepostdata && '1' == $this->show_caption) {
                     // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
                     $basedir = wp_upload_dir()['basedir'];
@@ -702,9 +702,9 @@ class LightboxPhotoSwipe
             }
 
             $attr = '';
-            if (0 != $imageSize[0] && 0 != $imageSize[1]) {
+            if (is_array($imageSize) && isset($imageSize[0]) && isset($imageSize[1]) && 0 != $imageSize[0] && 0 != $imageSize[1]) {
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $imageSize[0], $imageSize[1]);
-            
+
                 if ($caption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
                 }
@@ -851,7 +851,7 @@ class LightboxPhotoSwipe
 
     /**
      * Add admin menu in the backend
-     * 
+     *
      * @return void
      */
     function adminMenu()
@@ -867,7 +867,7 @@ class LightboxPhotoSwipe
 
     /**
      * Initialization: Register settings, create session
-     * 
+     *
      * @return void
      */
     function adminInit()
@@ -916,7 +916,7 @@ class LightboxPhotoSwipe
 
     /**
      * Output settings page in backend
-     * 
+     *
      * @return void
      */
     function settingsPage()
@@ -1281,14 +1281,14 @@ window.addEventListener('popstate', (event) => {
 
     /**
      * Create custom database tables
-     * 
+     *
      * @return void
      */
     function createTables()
     {
         global $wpdb;
-        
-        $table_name = $wpdb->prefix . 'lightbox_photoswipe_img'; 
+
+        $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
         $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE $table_name (
           imgkey char(64) DEFAULT '' NOT NULL,
@@ -1310,21 +1310,21 @@ window.addEventListener('popstate', (event) => {
 
     /**
      * Delete custom database tables
-     * 
+     *
      * @return void
      */
     function deleteTables()
     {
         global $wpdb;
-        
-        $table_name = $wpdb->prefix . 'lightbox_photoswipe_img'; 
+
+        $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
         $sql = "DROP TABLE IF EXISTS $table_name";
         $wpdb->query($sql);
     }
 
     /**
      * Handler for creating a new blog
-     * 
+     *
      * @param mixed $blog_id ID of the blog
      * @param mixed $user_id ID of the user
      * @param mixed $domain  Domain of the blog
@@ -1375,17 +1375,17 @@ window.addEventListener('popstate', (event) => {
 
     /**
      * Filter for deleting a blog
-     * 
+     *
      * @param array[] $tables list of tables to be deleted
-     * 
+     *
      * @return array[] list of tables to be deleted
      */
     function onDeleteBlog($tables)
     {
         global $wpdb;
-        
+
         $tables[] = $wpdb->prefix . 'lightbox_photoswipe_img';
-        
+
         return $tables;
     }
 
@@ -1409,7 +1409,7 @@ window.addEventListener('popstate', (event) => {
     function onDeactivate()
     {
         wp_clear_scheduled_hook('lbwps_cleanup');
-    }        
+    }
 
     /**
      * Scheduled job for database cleanup
@@ -1427,11 +1427,11 @@ window.addEventListener('popstate', (event) => {
             $sql = "DELETE FROM $table_name where created<(\"$date\")";
             $wpdb->query($sql);
         }
-    }            
-    
+    }
+
     /**
      * Plugin initialization
-     * 
+     *
      * @return void
      */
     function init()
@@ -1439,7 +1439,7 @@ window.addEventListener('popstate', (event) => {
         load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
 
         $db_version = get_option('lightbox_photoswipe_db_version');
-        
+
         if ($db_version == '' || intval($db_version) < 2) {
             $this->deleteTables();
             $this->createTables();
