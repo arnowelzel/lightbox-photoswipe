@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.7
-Stable tag: 3.1.12
+Stable tag: 3.1.14
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -39,6 +39,8 @@ If you want to display an image in it's own lightbox which does not display othe
 You can also add the same `data-lbwps-gid` attribute to multiple single images to combine them in the same lightbox.
 
 Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in version 2.97 to avoid conflicts with existing themes or plugins!
+
+Starting with release 3.1.14 this is also supported for Elementor image widgets and Elementor image carousel widgets.
 
 = Experimental feature: return to a specific URL when closing the lightbox =
 
@@ -185,6 +187,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.1.14 =
+
+* Added support to use the `data-lbwps-gid` attribute in Elementor image widgets and image carousel widgets to put images in their own lightbox.
 
 = 3.1.12 =
 

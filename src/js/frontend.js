@@ -19,7 +19,78 @@ var lbwpsInit = function(domUpdate) {
             });
         }
     }
+	
+	// Use group IDs of elementor image carousels for the image links inside
+	// 
+	// We assume the following structure:
+	// 
+	// <div class="elementor-widget-image-carousel ...">
+	//   <div class="elementor-widget-container ...">
+	//     <div class="elementor-image-carousel swiper-wrapper ...">
+	//       <div class="swiper-slide ...">
+	//         <a href="image-url">...</a>
+	//       </div>
+	//       <div class="swiper-slide ...">
+	//         <a href="image-url">...</a>
+	//       </div>
+	//       <div class="swiper-slide ...">
+	//         <a href="image-url">...</a>
+	//       </div>
+	//       ...
+	//     </div>
+	//   </div>
+	// </div>
+	// 
+	// Each carousel also contains one "swiper-slide-duplicate" div which is ignored as
+	// this is only used to repeat the first image at the end
+	
+	var elementorCarouselWidgetList = document.querySelectorAll('div[class*="elementor-widget-image-carousel"]');
+	for (var i = 0; i < elementorCarouselWidgetList.length; i++) {
+		var widgetId = elementorCarouselWidgetList[i].getAttribute('data-lbwps-gid');
+		if (widgetId != null) {
+			if (elementorCarouselWidgetList[i].firstElementChild != null &&
+				elementorCarouselWidgetList[i].firstElementChild.firstElementChild != null &&
+				elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild != null &&
+				elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild != null) {
+				var imageBlock = elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild;
+				console.log(imageBlock);
+				while(imageBlock != null) {
+					if (imageBlock != null && imageBlock.classList.contains('swiper-slide') && !imageBlock.classList.contains('swiper-slide-duplicate')) {
+						var imageLink = imageBlock.firstElementChild;
+						if (imageLink != null && imageLink.nodeName == 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
+							imageLink.setAttribute('data-lbwps-gid', widgetId);
+						}
+					}
+					imageBlock = imageBlock.nextElementSibling;
+				}
+			}
+		}
+	}
 
+	// Use group IDs of elementor image widgets for the image links inside
+	// 
+	// We assume the following structure:
+	// 
+	// <div class="elementor-widget-image ..." data-lbwbs-gid="...">
+	//   <div class="elementor-widget-container">
+	//     <a href="image-url">...</a>
+	//   </div>
+	// </div>
+
+	var elementorImageWidgetList = document.querySelectorAll('div[class*="elementor-widget-image"]');
+	for (var i = 0; i < elementorImageWidgetList.length; i++) {
+		var widgetId = elementorImageWidgetList[i].getAttribute('data-lbwps-gid');
+		if (widgetId != null) {
+			if (elementorImageWidgetList[i].firstElementChild != null &&
+				elementorImageWidgetList[i].firstElementChild.firstElementChild != null) {
+				var imageLink = elementorImageWidgetList[i].firstElementChild.firstElementChild;
+				if (imageLink != null && imageLink.nodeName == 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
+					imageLink.setAttribute('data-lbwps-gid', widgetId);
+				}
+			}
+		}
+	}
+	
     var hideScrollbar =  function() {
         const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
         originalBodyPaddingRight = document.body.style.paddingRight;
