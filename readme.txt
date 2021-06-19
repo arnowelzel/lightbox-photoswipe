@@ -190,7 +190,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 3.1.14 =
 
-* Added support to use the `data-lbwps-gid` attribute in Elementor image widgets and image carousel widgets to put images in their own lightbox.
+* Added support to use the `data-lbwps-gid` attribute in Elementor image widgets and image carousel widgets to put images in their own lightbox (development sponsored by [https://oestreich-design.de](https://oestreich-design.de))
 
 = 3.1.12 =
 
