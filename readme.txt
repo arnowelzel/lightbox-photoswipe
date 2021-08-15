@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.7
-Stable tag: 3.1.16
+Stable tag: 3.2.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -138,6 +138,14 @@ The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe`
 
 If you want to display the images not in the order in which they are in the source code you can use the attribute `tabindex` in the image links. Also see [https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) on how to use this attribute.
 
+= Why are my SVG images not displayed properly in the lightbox or not displayed at all? =
+
+SVG is a vector based format and SVG images can be displayed at any size. However PhotoSwipe needs to know the size of an image to be able to display it in the lightbox.
+
+Lightbox with PhotoSwipe tries to determine the size based on the width/height attribute of the root element in the SVG structure. If these attributes are not available, the viewbox is used. If none of these values are present, the SVG can not be displayed in the lightbox. Reading SVG files also requires the SimpleXML extension for PHP to be available.
+
+ must be a size attribute in the SVG image which describes the default size when there is no width/height attribute used for the image.
+
 = Local changes in PhotoSwipe =
 
 The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
@@ -187,6 +195,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.2.0 =
+
+* Add support for SVG images.
 
 = 3.1.16 =
 
