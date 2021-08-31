@@ -443,59 +443,16 @@ var lbwpsReady = (function () {
             return fn();
         }
 
-        // The DOM ready check for Internet Explorer
-        var doScrollCheck = function () {
-            if (readyEventFired) {
-                return;
-            }
-
-            // If IE is used, use the trick by Diego Perini
-            // http://javascript.nwbox.com/IEContentLoaded/
-            try {
-                document.documentElement.doScroll('left');
-            } catch(e) {
-                setTimeout(doScrollCheck, 1);
-                return;
-            }
-
-            // Execute any waiting functions
-            return idempotentFn();
-        }
-
         // If the browser ready event has already occured
         if (document.readyState === "complete") {
             return idempotentFn()
         }
 
-        // Mozilla, Opera and webkit nightlies currently support this event
-        if (document.addEventListener) {
+		// Use the event callback
+		document.addEventListener("DOMContentLoaded", idempotentFn, false);
 
-            // Use the handy event callback
-            document.addEventListener("DOMContentLoaded", idempotentFn, false);
-
-            // A fallback to window.onload, that will always work
-            window.addEventListener("load", idempotentFn, false);
-
-            // If IE event model is used
-        } else if (document.attachEvent) {
-
-            // ensure firing before onload; maybe late but safe also for iframes
-            document.attachEvent("onreadystatechange", idempotentFn);
-
-            // A fallback to window.onload, that will always work
-            window.attachEvent("onload", idempotentFn);
-
-            // If IE and not a frame: continually check to see if the document is ready
-            var toplevel = false;
-
-            try {
-                toplevel = window.frameElement == null;
-            } catch (e) {}
-
-            if (document.documentElement.doScroll && toplevel) {
-                return doScrollCheck();
-            }
-        }
+		// A fallback to window.onload, that will always work
+		window.addEventListener("load", idempotentFn, false);
     };
     return readyEventListener;
 })();
