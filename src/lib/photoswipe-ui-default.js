@@ -1,4 +1,4 @@
-/*! PhotoSwipe Default UI - v4.1.9.aw - 2021-03-27
+/*! PhotoSwipe Default UI - v4.1.10.aw - 2021-10-22
  * http://photoswipe.com
  * Copyright (c) 2017 Dmitry Semenov;
  * with modifications by Arno Welzel */
@@ -9,9 +9,7 @@
  *
  */
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(factory);
-    } else if (typeof exports === 'object') {
+    if (typeof exports === 'object') {
         module.exports = factory();
     } else {
         root.PhotoSwipeUI_Default = factory();
