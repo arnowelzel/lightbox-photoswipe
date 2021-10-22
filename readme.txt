@@ -144,8 +144,6 @@ SVG is a vector based format and SVG images can be displayed at any size. Howeve
 
 Lightbox with PhotoSwipe tries to determine the size based on the width/height attribute of the root element in the SVG structure. If these attributes are not available, the viewbox is used. If none of these values are present, the SVG can not be displayed in the lightbox. Reading SVG files also requires the SimpleXML extension for PHP to be available.
 
- must be a size attribute in the SVG image which describes the default size when there is no width/height attribute used for the image.
-
 = Local changes in PhotoSwipe =
 
 The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
