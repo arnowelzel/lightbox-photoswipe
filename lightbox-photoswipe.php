@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.2.3
+Version: 3.2.4
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.3';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.4';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -52,6 +52,7 @@ class LightboxPhotoSwipe
     var $ignore_external;
     var $ignore_hash;
     var $cdn_url;
+	var $cdn_mode;
     var $hide_scrollbars;
     var $gallery_id;
     var $ob_active;
@@ -111,6 +112,7 @@ class LightboxPhotoSwipe
         $this->ignore_external = get_option('lightbox_photoswipe_ignore_external');
         $this->ignore_hash = get_option('lightbox_photoswipe_ignore_hash');
         $this->cdn_url = get_option('lightbox_photoswipe_cdn_url');
+		$this->cdn_mode = get_option('lightbox_photoswipe_cdn_mode');
         $this->hide_scrollbars = get_option('lightbox_photoswipe_hide_scrollbars');
         $this->svg_scaling = get_option('lightbox_photoswipe_svg_scaling');
 
@@ -538,13 +540,26 @@ class LightboxPhotoSwipe
 
             // Remove additional CDN URLs if defined
             $cdn_urls = explode(',', $this->cdn_url);
-            foreach ($cdn_urls as $cdn_url) {
-                $length = strlen($cdn_url);
-                if ($length>0 && substr($file, 0, $length) == $cdn_url) {
-                    $file = 'http://'.substr($file, $length);
-                }
-            }
-
+			if ($this->cdn_mode == 'prefix') {
+				// Prefix mode: http://<cdn-url>/<website-url>
+				
+				foreach ($cdn_urls as $cdn_url) {
+					$length = strlen($cdn_url);
+					if ($length>0 && substr($file, 0, $length) == $cdn_url) {
+						$file = 'http://'.substr($file, $length);
+					}
+				}
+			} else {
+				// Pull mode: http://<cdn-url>/<query path without domain>
+				
+				foreach ($cdn_urls as $cdn_url) {
+					$length = strlen($cdn_url);
+					if ($length>0 && substr($file, 0, $length) == $cdn_url) {
+						$file = $baseurl_http.'/'.ltrim(substr($file, $length),'/');
+					}
+				}
+			}
+			
             if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https) {
                 $is_local = true;
             } else {
@@ -926,6 +941,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_external');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_hash');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_url');
+		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_mode');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_hide_scrollbars');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_svg_scaling');
     }
@@ -1096,6 +1112,13 @@ function lbwpsUpdateCurrentTab()
             <p class="description"><?php echo __('If you use the JetPack CDN you can leave this setting empty – JetPack is already supported!', 'lightbox-photoswipe'); ?><br />
                 <?php echo __('If you use a CDN plugin which adds an URL prefix in front of the image link, you can add this prefix (including "http://" or "https://") here. You can enter multiple prefixes separated by comma. The image meta data can then be retrieved from the local file and without loading the image from the CDN. You also need this if you want to use image captions from the WordPress database but serve images using a CDN.', 'lightbox-photoswipe'); ?><br />
             </p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="lightbox_photoswipe_cdn_mode"><?php echo __('CDN mode', 'lightbox-photoswipe'); ?></label></th>
+        <td>
+            <label style="margin-right:0.5em"><input type="radio" name="lightbox_photoswipe_cdn_mode" value="prefix" <?php if ($this->cdn_mode === 'prefix') echo ' checked="checked"'; ?>><?php echo __('Prefix', 'lightbox-photoswipe')?></label> <label><input type="radio" name="lightbox_photoswipe_cdn_mode" value="pull" <?php if ($this->cdn_mode === 'pull') echo ' checked="checked"'; ?>><?php echo __('Pull', 'lightbox-photoswipe')?></label>
+            <p class="description"><?php echo __('CDNs usually use "prefix mode" which adds the CDN domain in front of the whole URL. Some CDNs like ExactDN use "pull mode" which means only the domain of the website is replaced by the CDN domain. If images don\'t show up with the CDN active try another mode.', 'lightbox-photoswipe'); ?></p>
         </td>
     </tr>
 </table>
@@ -1403,6 +1426,7 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_ignore_external', '0');
             update_option('lightbox_photoswipe_ignore_hash', '0');
             update_option('lightbox_photoswipe_cdn_url', '');
+			update_option('lightbox_photoswipe_cdn_mode', 'prefix');
             update_option('lightbox_photoswipe_hide_scrollbars', 1);
             update_option('lightbox_photoswipe_svg_scaling', 2);
             restore_current_blog();
@@ -1579,8 +1603,11 @@ window.addEventListener('popstate', (event) => {
         }
         if (intval($db_version) < 28) {
             update_option('lightbox_photoswipe_svg_scaling', 200);
-            update_option('lightbox_photoswipe_db_version', 28);
         }
+		if (intval($db_version) < 29) {
+			update_option('lightbox_photoswipe_cdn_mode', 'prefix');
+            update_option('lightbox_photoswipe_db_version', 29);
+		}
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
     }

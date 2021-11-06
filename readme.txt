@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.2.3
+Stable tag: 3.2.4
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -144,6 +144,8 @@ SVG is a vector based format and SVG images can be displayed at any size. Howeve
 
 Lightbox with PhotoSwipe tries to determine the size based on the width/height attribute of the root element in the SVG structure. If these attributes are not available, the viewbox is used. If none of these values are present, the SVG can not be displayed in the lightbox. Reading SVG files also requires the SimpleXML extension for PHP to be available.
 
+ must be a size attribute in the SVG image which describes the default size when there is no width/height attribute used for the image.
+
 = Local changes in PhotoSwipe =
 
 The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
@@ -193,6 +195,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.2.4 =
+
+* Added support for CDNs which use "pull mode" like ExactDN.
 
 = 3.2.3 =
 
