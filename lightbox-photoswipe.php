@@ -540,7 +540,7 @@ class LightboxPhotoSwipe
 
             // Remove additional CDN URLs if defined
             $cdn_urls = explode(',', $this->cdn_url);
-			if ('prefix === '$this->cdn_mode) {
+			if ('prefix' === $this->cdn_mode) {
 				// Prefix mode: http://<cdn-url>/<website-url>
 				
 				foreach ($cdn_urls as $cdn_url) {
