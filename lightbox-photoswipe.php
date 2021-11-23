@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.2.4
+Version: 3.2.5
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.4';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.5';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -333,7 +333,7 @@ class LightboxPhotoSwipe
      *
      * @return string  The camera model as readable text
      */
-    function getExifCamera(&$exif)
+    function exifGetCamera(&$exif)
     {
         $make = '';
         if (isset($exif['IFD0']['Make'])) {
@@ -648,11 +648,11 @@ class LightboxPhotoSwipe
                             'exifDateTime'  => '',
                         );
 
-                        if ($this->show_exif && function_exists('exif_read_data')) {
+                        if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
                             $exif = @exif_read_data( $file, 'EXIF', true );
 
                             if (false !== $exif) {
-                                $imgDetails['exifCamera']   = $this->getExifCamera($exif);
+                                $imgDetails['exifCamera']   = $this->exifGetCamera($exif);
                                 $imgDetails['exifFocal']    = $this->exifGetFocalLength($exif);
                                 $imgDetails['exifFstop']    = $this->exifGetFstop($exif);
                                 $imgDetails['exifShutter']  = $this->exifGetShutter($exif);
@@ -687,20 +687,20 @@ class LightboxPhotoSwipe
                     $exifIso = $entry->exif_iso;
                     $exifDateTime = $entry->exif_datetime;
                 } else {
-                    if (function_exists('exif_read_data')) {
-                        $exif = @exif_read_data($file, 'EXIF', true);
-                        if (false !== $exif) {
-                            $exifCamera = $this->getExifCamera($exif);
-                            $exifFocal = $this->exifGetFocalLength($exif);
-                            $exifFstop = $this->exifGetFstop($exif);
-                            $exifShutter = $this->exifGetShutter($exif);
-                            $exifIso = $this->exifGetIso($exif);
-                            $exifDateTime = $this->exifGetDateTime($exif);
-                        }
-                    }
-
                     $imageSize = $this->get_image_size($file, $extension);
                     if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
+						if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
+							$exif = @exif_read_data($file, 'EXIF', true);
+							if (false !== $exif) {
+								$exifCamera = $this->exifGetCamera($exif);
+								$exifFocal = $this->exifGetFocalLength($exif);
+								$exifFstop = $this->exifGetFstop($exif);
+								$exifShutter = $this->exifGetShutter($exif);
+								$exifIso = $this->exifGetIso($exif);
+								$exifDateTime = $this->exifGetDateTime($exif);
+							}
+						}
+
                         $created = strftime('%Y-%m-%d %H:%M:%S');
                         $sql = sprintf(
                         'INSERT INTO %s (imgkey, created, width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime)'.
