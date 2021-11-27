@@ -52,7 +52,7 @@ class LightboxPhotoSwipe
     var $ignore_external;
     var $ignore_hash;
     var $cdn_url;
-	var $cdn_mode;
+    var $cdn_mode;
     var $hide_scrollbars;
     var $gallery_id;
     var $ob_active;
@@ -112,7 +112,7 @@ class LightboxPhotoSwipe
         $this->ignore_external = get_option('lightbox_photoswipe_ignore_external');
         $this->ignore_hash = get_option('lightbox_photoswipe_ignore_hash');
         $this->cdn_url = get_option('lightbox_photoswipe_cdn_url');
-		$this->cdn_mode = get_option('lightbox_photoswipe_cdn_mode');
+        $this->cdn_mode = get_option('lightbox_photoswipe_cdn_mode');
         $this->hide_scrollbars = get_option('lightbox_photoswipe_hide_scrollbars');
         $this->svg_scaling = get_option('lightbox_photoswipe_svg_scaling');
 
@@ -540,26 +540,26 @@ class LightboxPhotoSwipe
 
             // Remove additional CDN URLs if defined
             $cdn_urls = explode(',', $this->cdn_url);
-			if ('prefix' === $this->cdn_mode) {
-				// Prefix mode: http://<cdn-url>/<website-url>
-				
-				foreach ($cdn_urls as $cdn_url) {
-					$length = strlen($cdn_url);
-					if ($length>0 && substr($file, 0, $length) == $cdn_url) {
-						$file = 'http://'.substr($file, $length);
-					}
-				}
-			} else {
-				// Pull mode: http://<cdn-url>/<query path without domain>
-				
-				foreach ($cdn_urls as $cdn_url) {
-					$length = strlen($cdn_url);
-					if ($length>0 && substr($file, 0, $length) == $cdn_url) {
-						$file = $baseurl_http.'/'.ltrim(substr($file, $length),'/');
-					}
-				}
-			}
-			
+            if ('prefix' === $this->cdn_mode) {
+                // Prefix mode: http://<cdn-url>/<website-url>
+
+                foreach ($cdn_urls as $cdn_url) {
+                    $length = strlen($cdn_url);
+                    if ($length>0 && substr($file, 0, $length) == $cdn_url) {
+                        $file = 'http://'.substr($file, $length);
+                    }
+                }
+            } else {
+                // Pull mode: http://<cdn-url>/<query path without domain>
+
+                foreach ($cdn_urls as $cdn_url) {
+                    $length = strlen($cdn_url);
+                    if ($length>0 && substr($file, 0, $length) == $cdn_url) {
+                        $file = $baseurl_http.'/'.ltrim(substr($file, $length),'/');
+                    }
+                }
+            }
+
             if (substr($file, 0, strlen($baseurl_http)) == $baseurl_http || substr($file, 0, strlen($baseurl_https)) == $baseurl_https) {
                 $is_local = true;
             } else {
@@ -619,15 +619,15 @@ class LightboxPhotoSwipe
                     }
                 }
 
-				$imgMtime = @filemtime($file);
-				if (false === $imgMtime) {
-					$imgMtime = 0;
-				}
+                $imgMtime = @filemtime($file);
+                if (false === $imgMtime) {
+                    $imgMtime = 0;
+                }
             } else {
-				// For external files we don't try to get the modification time
-				// as this can cause PHP warning messages in server logs
-				$imgMtime = 0;
-			}
+                // For external files we don't try to get the modification time
+                // as this can cause PHP warning messages in server logs
+                $imgMtime = 0;
+            }
 
             $imgkey = hash('md5', $file . $imgMtime);
 
@@ -689,17 +689,17 @@ class LightboxPhotoSwipe
                 } else {
                     $imageSize = $this->get_image_size($file, $extension);
                     if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
-						if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
-							$exif = @exif_read_data($file, 'EXIF', true);
-							if (false !== $exif) {
-								$exifCamera = $this->exifGetCamera($exif);
-								$exifFocal = $this->exifGetFocalLength($exif);
-								$exifFstop = $this->exifGetFstop($exif);
-								$exifShutter = $this->exifGetShutter($exif);
-								$exifIso = $this->exifGetIso($exif);
-								$exifDateTime = $this->exifGetDateTime($exif);
-							}
-						}
+                        if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
+                            $exif = @exif_read_data($file, 'EXIF', true);
+                            if (false !== $exif) {
+                                $exifCamera = $this->exifGetCamera($exif);
+                                $exifFocal = $this->exifGetFocalLength($exif);
+                                $exifFstop = $this->exifGetFstop($exif);
+                                $exifShutter = $this->exifGetShutter($exif);
+                                $exifIso = $this->exifGetIso($exif);
+                                $exifDateTime = $this->exifGetDateTime($exif);
+                            }
+                        }
 
                         $created = strftime('%Y-%m-%d %H:%M:%S');
                         $sql = sprintf(
@@ -941,7 +941,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_external');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_ignore_hash');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_url');
-		register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_mode');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_mode');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_hide_scrollbars');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_svg_scaling');
     }
@@ -1426,7 +1426,7 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_ignore_external', '0');
             update_option('lightbox_photoswipe_ignore_hash', '0');
             update_option('lightbox_photoswipe_cdn_url', '');
-			update_option('lightbox_photoswipe_cdn_mode', 'prefix');
+            update_option('lightbox_photoswipe_cdn_mode', 'prefix');
             update_option('lightbox_photoswipe_hide_scrollbars', 1);
             update_option('lightbox_photoswipe_svg_scaling', 2);
             restore_current_blog();
@@ -1604,10 +1604,10 @@ window.addEventListener('popstate', (event) => {
         if (intval($db_version) < 28) {
             update_option('lightbox_photoswipe_svg_scaling', 200);
         }
-		if (intval($db_version) < 29) {
-			update_option('lightbox_photoswipe_cdn_mode', 'prefix');
+        if (intval($db_version) < 29) {
+            update_option('lightbox_photoswipe_cdn_mode', 'prefix');
             update_option('lightbox_photoswipe_db_version', 29);
-		}
+        }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
     }
