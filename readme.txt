@@ -142,9 +142,9 @@ If you want to display the images not in the order in which they are in the sour
 
 SVG is a vector based format and SVG images can be displayed at any size. However PhotoSwipe needs to know the size of an image to be able to display it in the lightbox.
 
-Lightbox with PhotoSwipe tries to determine the size based on the width/height attribute of the root element in the SVG structure. If these attributes are not available, the viewbox is used. If none of these values are present, the SVG can not be displayed in the lightbox. Reading SVG files also requires the SimpleXML extension for PHP to be available.
+Lightbox with PhotoSwipe tries to determine the size based on the width/height attribute of the root element in the SVG structure. If these attributes are not available, the viewbox is used. If none of these values are present, the SVG can not be displayed in the lightbox.
 
- must be a size attribute in the SVG image which describes the default size when there is no width/height attribute used for the image.
+Reading SVG files also requires the SimpleXML extension for PHP to be available. Without this extension SVG files can not be displayed at all.
 
 = Local changes in PhotoSwipe =
 
