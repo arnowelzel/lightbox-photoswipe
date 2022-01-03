@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.2.6
+Version: 3.2.7
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.6';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.7';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -610,6 +610,13 @@ class LightboxPhotoSwipe
                     $basedir = wp_upload_dir()['basedir'];
                     $shortfilename = str_replace ($basedir . '/', '', $file);
                     $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
+                    // If we did not get any data, this may be caused by a link to a scaled image.
+                    // For example: "image-1024x768.jpg" instead of "image.jpg".
+                    // In this case filter the size "-1024x768" from the name and try it again
+                    if (!isset($imgid[0])) {
+                        $shortfilename = preg_filter('/(-[0-9]+x[0-9]+)(\.)/', '.', $shortfilename);
+                        $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
+                    }
                     if (isset($imgid[0])) {
                         $imgpost = get_post($imgid[0]);
                         $caption = $imgpost->post_excerpt;
