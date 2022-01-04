@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.2.7
+Version: 3.2.8
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.7';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.8';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -54,6 +54,7 @@ class LightboxPhotoSwipe
     var $cdn_url;
     var $cdn_mode;
     var $hide_scrollbars;
+    var $fix_links;
     var $gallery_id;
     var $ob_active;
     var $ob_level;
@@ -115,6 +116,7 @@ class LightboxPhotoSwipe
         $this->cdn_mode = get_option('lightbox_photoswipe_cdn_mode');
         $this->hide_scrollbars = get_option('lightbox_photoswipe_hide_scrollbars');
         $this->svg_scaling = get_option('lightbox_photoswipe_svg_scaling');
+        $this->fix_links = get_option('lightbox_photoswipe_fix_links');
 
         $this->enabled = true;
         $this->gallery_id = 1;
@@ -610,11 +612,19 @@ class LightboxPhotoSwipe
                     $basedir = wp_upload_dir()['basedir'];
                     $shortfilename = str_replace ($basedir . '/', '', $file);
                     $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
-                    // If we did not get any data, this may be caused by a link to a scaled image.
-                    // For example: "image-1024x768.jpg" instead of "image.jpg".
-                    // In this case filter the size "-1024x768" from the name and try it again
-                    if (!isset($imgid[0])) {
-                        $shortfilename = preg_filter('/(-[0-9]+x[0-9]+)(\.)/', '.', $shortfilename);
+
+                    // If the "fix image links" option is set, try to remove size parameters from the image link.
+                    // For example: "image-1024x768.jpg" will become "image.jpg"
+                    if ('1' === $this->fix_links && !isset($imgid[0])) {
+                        // This expression matches for the last "-NxN" pattern but will also match the extension.
+                        // So we need to check if regex filter did change anything and if yes, use the fixed name
+                        // and add the extension again.
+                        $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.))+$/';
+                        $shortfilenameFixed = preg_filter($sizeMatcher, '.', $shortfilename);
+                        if ($shortfilenameFixed !== $shortfilename) {
+                            $shortfilename = $shortfilenameFixed . $extension;
+                            $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
+                        }
                         $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
                     }
                     if (isset($imgid[0])) {
@@ -951,6 +961,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_cdn_mode');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_hide_scrollbars');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_svg_scaling');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fix_links');
     }
 
     /**
@@ -1091,6 +1102,7 @@ function lbwpsUpdateCurrentTab()
             <label><input id="lightbox_photoswipe_ignore_external" type="checkbox" name="lightbox_photoswipe_ignore_external" value="1"<?php if($this->ignore_external === '1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images on other sites', 'lightbox-photoswipe' ); ?></label><br />
             <label><input id="lightbox_photoswipe_ignore_hash" type="checkbox" name="lightbox_photoswipe_ignore_hash" value="1"<?php if($this->ignore_hash === '1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Ignore links to images which contain a hash (#)', 'lightbox-photoswipe' ); ?></label><br />
             <label><input id="lightbox_photoswipe_hide_scrollbars" type="checkbox" name="lightbox_photoswipe_hide_scrollbars" value="1"<?php if($this->hide_scrollbars === '1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Hide scrollbars when opening the lightbox (this may not work with your theme)', 'lightbox-photoswipe' ); ?></label><br />
+            <label><input id="lightbox_photoswipe_fix_links" type="checkbox" name="lightbox_photoswipe_fix_links" value="1"<?php if($this->fix_links === '1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __( 'Try to fix links to images which include image sizes (e.g. "image-1024x768.jpg" instead of "image.jpg")', 'lightbox-photoswipe' ); ?></label><br />
         </td>
     </tr>
     <tr>
@@ -1434,8 +1446,9 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_ignore_hash', '0');
             update_option('lightbox_photoswipe_cdn_url', '');
             update_option('lightbox_photoswipe_cdn_mode', 'prefix');
-            update_option('lightbox_photoswipe_hide_scrollbars', 1);
-            update_option('lightbox_photoswipe_svg_scaling', 2);
+            update_option('lightbox_photoswipe_hide_scrollbars', '1');
+            update_option('lightbox_photoswipe_fix_links', '1');
+            update_option('lightbox_photoswipe_svg_scaling', '200');
             restore_current_blog();
         }
     }
@@ -1609,11 +1622,15 @@ window.addEventListener('popstate', (event) => {
             update_option('lightbox_photoswipe_hide_scrollbars', '1');
         }
         if (intval($db_version) < 28) {
-            update_option('lightbox_photoswipe_svg_scaling', 200);
+            update_option('lightbox_photoswipe_svg_scaling', '200');
         }
         if (intval($db_version) < 29) {
             update_option('lightbox_photoswipe_cdn_mode', 'prefix');
             update_option('lightbox_photoswipe_db_version', 29);
+        }
+        if (intval($db_version) < 30) {
+            update_option('lightbox_photoswipe_fix_links', '1');
+            update_option('lightbox_photoswipe_db_version', 30);
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);

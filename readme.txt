@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.2.7
+Stable tag: 3.2.8
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -196,9 +196,9 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
-= 3.2.7 =
+= 3.2.8 =
 
-* Workaround to make sure captions can be read from the database if an image is linked to a scaled version and not the original size.
+* Add option to fix image links which contains size parameters. This can happen in Jetpack tiled gallery blocks.
 
 = 3.2.6 =
 
