@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.2.8
+Version: 3.2.9
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.8';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.9';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -611,22 +611,21 @@ class LightboxPhotoSwipe
                     // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
                     $basedir = wp_upload_dir()['basedir'];
                     $shortfilename = str_replace ($basedir . '/', '', $file);
-                    $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
 
                     // If the "fix image links" option is set, try to remove size parameters from the image link.
                     // For example: "image-1024x768.jpg" will become "image.jpg"
-                    if ('1' === $this->fix_links && !isset($imgid[0])) {
+                    if ('1' === $this->fix_links) {
                         // This expression matches for the last "-NxN" pattern but will also match the extension.
                         // So we need to check if regex filter did change anything and if yes, use the fixed name
                         // and add the extension again.
                         $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.))+$/';
                         $shortfilenameFixed = preg_filter($sizeMatcher, '.', $shortfilename);
-                        if ($shortfilenameFixed !== $shortfilename) {
+                        if ($shortfilenameFixed !== null && $shortfilenameFixed !== $shortfilename) {
                             $shortfilename = $shortfilenameFixed . $extension;
                             $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
                         }
-                        $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
                     }
+                    $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
                     if (isset($imgid[0])) {
                         $imgpost = get_post($imgid[0]);
                         $caption = $imgpost->post_excerpt;
