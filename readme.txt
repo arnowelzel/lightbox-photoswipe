@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.2.9
+Stable tag: 3.2.10
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -195,6 +195,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.2.10 =
+
+* Use correct size of the original image when "fix image link" option is enabled and image links got fixed.
 
 = 3.2.9 =
 
