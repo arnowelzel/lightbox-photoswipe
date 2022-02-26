@@ -778,7 +778,11 @@ class LightboxPhotoSwipe
                         }
                     }
                     if ($exifCamera != '') {
-                        $exifOutput = sprintf('%s (%s)', $exifCamera, $exifOutput);
+                        if ($exifOutput != '') {
+                            $exifOutput = sprintf('%s (%s)', $exifCamera, $exifOutput);
+                        } else {
+                            $exifOutput = $exifCamera;
+                        }
                     }
 
                     if ($exifOutput != '') {
