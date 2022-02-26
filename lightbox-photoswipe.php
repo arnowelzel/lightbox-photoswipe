@@ -3,7 +3,7 @@
 Plugin Name: Lightbox with PhotoSwipe
 Plugin URI: https://wordpress.org/plugins/lightbox-photoswipe/
 Description: Lightbox with PhotoSwipe
-Version: 3.2.10
+Version: 3.2.11
 Author: Arno Welzel
 Author URI: http://arnowelzel.de
 Text Domain: lightbox-photoswipe
@@ -17,7 +17,7 @@ defined('ABSPATH') or die();
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.10';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '3.2.11';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
 
     var $disabled_post_ids;
@@ -39,6 +39,7 @@ class LightboxPhotoSwipe
     var $skin;
     var $usepostdata;
     var $usedescription;
+    var $usetitle;
     var $enabled;
     var $close_on_click;
     var $fulldesktop;
@@ -100,6 +101,7 @@ class LightboxPhotoSwipe
         $this->skin = get_option('lightbox_photoswipe_skin');
         $this->usepostdata = get_option('lightbox_photoswipe_usepostdata');
         $this->usedescription = get_option('lightbox_photoswipe_usedescription');
+        $this->usetitle = get_option('lightbox_photoswipe_usetitle');
         $this->close_on_click = get_option('lightbox_photoswipe_close_on_click');
         $this->fulldesktop = get_option('lightbox_photoswipe_fulldesktop');
         $this->use_alt = get_option('lightbox_photoswipe_use_alt');
@@ -630,9 +632,10 @@ class LightboxPhotoSwipe
                     if (isset($imgid[0])) {
                         $imgpost = get_post($imgid[0]);
                         $caption = $imgpost->post_excerpt;
+                        if ('' === $caption && '1' === $this->usetitle) {
+                            $caption = $imgpost->post_title;
+                        }
                         $description = $imgpost->post_content;
-                    } else {
-                        $caption = '';
                     }
                 }
 
@@ -756,7 +759,7 @@ class LightboxPhotoSwipe
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($caption))));
                 }
 
-                if ($this->usedescription == '1' && $description != '') {
+                if ('1' === $this->usedescription && '' !== $description) {
                     $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($description))));
                 }
 
@@ -945,6 +948,7 @@ class LightboxPhotoSwipe
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_spacing');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usepostdata');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usedescription');
+        register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_usetitle');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_close_on_click');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_fulldesktop');
         register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_use_alt');
@@ -1173,6 +1177,7 @@ function lbwpsUpdateCurrentTab()
         <th scope="row"><?php echo __('Captions', 'lightbox-photoswipe'); ?></th>
         <td>
             <label><input id="lightbox_photoswipe_show_caption" type="checkbox" name="lightbox_photoswipe_show_caption" value="1"<?php if($this->show_caption === '1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Show caption if available', 'lightbox-photoswipe'); ?></label><br />
+            <label><input id="lightbox_photoswipe_usetitle" type="checkbox" name="lightbox_photoswipe_usetitle" value="1"<?php if($this->usetitle === '1') echo ' checked="checked"'; ?> /> <?php echo __('Use title if caption is empty', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_usepostdata" type="checkbox" name="lightbox_photoswipe_usepostdata" value="1"<?php if($this->usepostdata === '1') echo ' checked="checked"'; ?> onClick="lbwpsUpdateDescriptionCheck(this)" />&nbsp;<?php echo __('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_usedescription" type="checkbox" name="lightbox_photoswipe_usedescription" value="1"<?php if($this->usedescription === '1') echo ' checked="checked"'; ?> />&nbsp;... <?php echo __('also use description if available', 'lightbox-photoswipe'); ?></label><br />
             <label><input id="lightbox_photoswipe_use_alt" type="checkbox" name="lightbox_photoswipe_use_alt" value="1"<?php if($this->use_alt === '1') echo ' checked="checked"'; ?> />&nbsp;<?php echo __('Use alternative text of images as captions if needed', 'lightbox-photoswipe'); ?></label><br />
@@ -1631,6 +1636,10 @@ window.addEventListener('popstate', (event) => {
         if (intval($db_version) < 30) {
             update_option('lightbox_photoswipe_fix_links', '1');
             update_option('lightbox_photoswipe_db_version', 30);
+        }
+        if (intval($db_version) < 31) {
+            update_option('lightbox_photoswipe_usetitle', '0');
+            update_option('lightbox_photoswipe_db_version', 31);
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
