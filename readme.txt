@@ -199,6 +199,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 3.2.11 =
 
 * Add using image title as caption.
+* Remove empty brackets in EXIF information where only the camera model but no other information is available.
 
 = 3.2.10 =
 
