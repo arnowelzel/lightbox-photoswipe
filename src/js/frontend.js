@@ -138,18 +138,6 @@ var lbwpsInit = function(domUpdate) {
 
                 caption = element.getAttribute('data-lbwps-caption');
 
-                // Use attributes "data-caption-title" and "data-caption-desc" in the <a> element if available
-                if (caption == null) {
-                    if (element.getAttribute('data-caption-title') != null) {
-                        caption = '<div class="pswp__caption__title">' + element.getAttribute('data-caption-title') + '</div>';
-                    }
-
-                    if (element.getAttribute('data-caption-desc') != null) {
-                        if (caption == null) caption = '';
-                        caption = caption + '<div class="pswp__caption__desc">' + element.getAttribute('data-caption-desc') + '</div>';
-                    }
-                }
-
                 // Attribute "aria-describedby" in the <a> element contains the ID of another element with the caption
                 if (caption == null && element.firstElementChild) {
                     var describedby = element.firstElementChild.getAttribute('aria-describedby');
@@ -196,19 +184,19 @@ var lbwpsInit = function(domUpdate) {
                 title = '';
 
                 if (element.getAttribute('data-lbwps-title') != null) {
-                    title = title + '<div class="pswp__title">' + element.getAttribute('data-lbwps-title') + '</div>';
+                    title = title + '<div class="pswp__caption__title">' + element.getAttribute('data-lbwps-title') + '</div>';
                 }
 
                 if (lbwpsOptions.use_caption == '1' && caption != null) {
-                    title = title + '<div class="pswp__text">' + caption + '</div>';
+                    title = title + '<div class="pswp__caption__text">' + caption + '</div>';
                 }
 
                 if (lbwpsOptions.use_alt == '1' && element.firstElementChild && element.firstElementChild.getAttribute('alt')) {
-                    title = title + '<div class="pswp__alt">' + element.firstElementChild.getAttribute('alt') + '</div>';
+                    title = title + '<div class="pswp__caption__alt">' + element.firstElementChild.getAttribute('alt') + '</div>';
                 }
 
                 if (element.getAttribute('data-lbwps-description') != null) {
-                    title = title + '<div class="pswp__description">' + element.getAttribute('data-lbwps-description') + '</div>';
+                    title = title + '<div class="pswp__caption__desc">' + element.getAttribute('data-lbwps-description') + '</div>';
                 }
 
                 galleryItems.push({

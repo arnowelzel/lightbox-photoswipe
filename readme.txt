@@ -3,8 +3,8 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
-Tested up to: 5.8
-Stable tag: 3.2.11
+Tested up to: 5.9
+Stable tag: 3.3.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -114,9 +114,13 @@ pswp__caption - this class is used for the whole caption area.
 
 pswp__caption__center - this class is used for the caption itself.
 
-pswp__caption__title and pswp__caption__desc - these classes are used, if the caption is divided into a title an description (based on the data-caption-title and data-caption-desc attributes in the image link).
+pswp__caption__title - this class is the "title" element inside the caption.
 
-pswp__description - this class is used for the description if this is displayed in addition to the regular caption.
+pswp__caption__text - this class is the "text" element inside the caption (below "title").
+
+pswp__caption__alt - this class is the "alternative text" element inside the caption (below "text").
+
+pswp__caption__desc - this class is the "description" element inside the caption (below "text").
 
 pswp__caption__exif - this class is used for the EXIF data DIV element.
 
@@ -195,6 +199,13 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.3.0 =
+
+* Refactored backend code.
+* Updated handling of captions to make it easier to understand what exactly is used for the caption.
+* Increased caption width to 960px.
+* Updated EXIF display styles.
 
 = 3.2.11 =
 
