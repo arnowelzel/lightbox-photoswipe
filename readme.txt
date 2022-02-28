@@ -3,7 +3,7 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
-Tested up to: 5.9
+Tested up to: 5.8
 Stable tag: 3.2.11
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2

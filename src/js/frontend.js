@@ -129,6 +129,7 @@ var lbwpsInit = function(domUpdate) {
 
             if (useImage) {
                 var caption = null;
+                var title = null;
                 var tabindex = element.getAttribute('tabindex');
 
                 if (tabindex == null) {
@@ -191,13 +192,23 @@ var lbwpsInit = function(domUpdate) {
                     caption = element.getAttribute('title');
                 }
 
-                if (caption == null && lbwpsOptions.use_alt == '1' && element.firstElementChild) {
-                    caption = element.firstElementChild.getAttribute('alt');
+                // Build complete caption based on selected elements
+                title = '';
+
+                if (element.getAttribute('data-lbwps-title') != null) {
+                    title = title + '<div class="pswp__title">' + element.getAttribute('data-lbwps-title') + '</div>';
+                }
+
+                if (lbwpsOptions.use_caption == '1' && caption != null) {
+                    title = title + '<div class="pswp__text">' + caption + '</div>';
+                }
+
+                if (lbwpsOptions.use_alt == '1' && element.firstElementChild && element.firstElementChild.getAttribute('alt')) {
+                    title = title + '<div class="pswp__alt">' + element.firstElementChild.getAttribute('alt') + '</div>';
                 }
 
                 if (element.getAttribute('data-lbwps-description') != null) {
-                    if (caption == null) caption = '';
-                    caption = caption + '<div class="pswp__description">' + element.getAttribute('data-lbwps-description') + '</div>';
+                    title = title + '<div class="pswp__description">' + element.getAttribute('data-lbwps-description') + '</div>';
                 }
 
                 galleryItems.push({
@@ -205,7 +216,7 @@ var lbwpsInit = function(domUpdate) {
                     msrc: element.getAttribute('href'),
                     w: element.getAttribute('data-lbwps-width'),
                     h: element.getAttribute('data-lbwps-height'),
-                    title: caption,
+                    title: title,
                     exif: element.getAttribute('data-lbwps-exif'),
                     getThumbBoundsFn: false,
                     showHideOpacity: true,
