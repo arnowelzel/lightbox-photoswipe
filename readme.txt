@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.9
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -200,7 +200,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
-= 3.3.1 =
+= 3.3.1, 3.3.2 =
 
 * Remove variable types in backend code to avoid problems on hosts with very old PHP version (older than PHP 7.3).
 

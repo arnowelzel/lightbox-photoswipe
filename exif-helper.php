@@ -3,7 +3,7 @@ namespace LightboxPhotoSwipe;
 
 class ExifHelper
 {
-    private array $exifData;
+    private $exifData;
 
     /**
      * @param array $exifData
