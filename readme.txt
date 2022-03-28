@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 4.0
 Tested up to: 5.9
-Stable tag: 3.3.2
+Stable tag: 3.4.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -199,6 +199,10 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 3.4.0 =
+
+* Updated frontend avoid problems with galleries like Meow which trigger DOM updates and remove event handlers on image links.
 
 = 3.3.1, 3.3.2 =
 

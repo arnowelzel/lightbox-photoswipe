@@ -1,25 +1,41 @@
-var lbwpsInit = function(domUpdate) {
-    var PhotoSwipe = window.PhotoSwipe,
-        PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
+let lbwpsInit = function(domUpdate) {
+    function lbwpsClick(event) {
+        // Backwards compatible solution for older browsers
+        if (event.target.parentNode.getAttribute('data-lbwps-width')) {
+            event.preventDefault();
+            openPhotoSwipe(false, 0, event.target, false, '');
+            return;
+        }
 
-    var links = document.querySelectorAll('a[data-lbwps-width]');
-
-    var originalBodyPaddingRight = '';
-    var originalBodyOverflow = '';
-
-    for (var i = 0; i < links.length; i++) {
-        if (links[i].getAttribute('data-lbwps-handler') != '1') {
-            links[i].setAttribute('data-lbwps-handler', '1');
-            links[i].addEventListener('click', function (event) {
-                if (!PhotoSwipe || !PhotoSwipeUI_Default) {
-                    return;
-                }
+        // In case above did not work, try analyzing the path for the event
+        let path = event.path || (event.composedPath && event.composedPath());
+        if (!path) {
+            return;
+        }
+        let num = 0;
+        while (num < path.length)
+        {
+            if (typeof path[num].getAttribute === 'function' && path[num].getAttribute('data-lbwps-width')) {
                 event.preventDefault();
-                openPhotoSwipe(false, 0, this, false, '');
-            });
+                openPhotoSwipe(false, 0, path[num], false, '');
+                return;
+            }
+            num++;
         }
     }
-	
+
+    if (!domUpdate) {
+        document.addEventListener('click', lbwpsClick);
+    }
+
+    let PhotoSwipe = window.PhotoSwipe,
+        PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
+
+    let links = document.querySelectorAll('a[data-lbwps-width]');
+
+    let originalBodyPaddingRight = '';
+    let originalBodyOverflow = '';
+
 	// Use group IDs of elementor image carousels for the image links inside
 	// 
 	// We assume the following structure:
@@ -43,20 +59,19 @@ var lbwpsInit = function(domUpdate) {
 	// 
 	// Each carousel also contains one "swiper-slide-duplicate" div which is ignored as
 	// this is only used to repeat the first image at the end
-	
-	var elementorCarouselWidgetList = document.querySelectorAll('div[class*="elementor-widget-image-carousel"]');
-	for (var i = 0; i < elementorCarouselWidgetList.length; i++) {
-		var widgetId = elementorCarouselWidgetList[i].getAttribute('data-lbwps-gid');
+
+    let elementorCarouselWidgetList = document.querySelectorAll('div[class*="elementor-widget-image-carousel"]');
+	for (let i = 0; i < elementorCarouselWidgetList.length; i++) {
+        let widgetId = elementorCarouselWidgetList[i].getAttribute('data-lbwps-gid');
 		if (widgetId != null) {
 			if (elementorCarouselWidgetList[i].firstElementChild != null &&
 				elementorCarouselWidgetList[i].firstElementChild.firstElementChild != null &&
 				elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild != null &&
 				elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild != null) {
-				var imageBlock = elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild;
-				console.log(imageBlock);
+                let imageBlock = elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild;
 				while(imageBlock != null) {
 					if (imageBlock != null && imageBlock.classList.contains('swiper-slide') && !imageBlock.classList.contains('swiper-slide-duplicate')) {
-						var imageLink = imageBlock.firstElementChild;
+                        let imageLink = imageBlock.firstElementChild;
 						if (imageLink != null && imageLink.nodeName == 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
 							imageLink.setAttribute('data-lbwps-gid', widgetId);
 						}
@@ -77,60 +92,60 @@ var lbwpsInit = function(domUpdate) {
 	//   </div>
 	// </div>
 
-	var elementorImageWidgetList = document.querySelectorAll('div[class*="elementor-widget-image"]');
-	for (var i = 0; i < elementorImageWidgetList.length; i++) {
-		var widgetId = elementorImageWidgetList[i].getAttribute('data-lbwps-gid');
+    let elementorImageWidgetList = document.querySelectorAll('div[class*="elementor-widget-image"]');
+	for (let i = 0; i < elementorImageWidgetList.length; i++) {
+        let widgetId = elementorImageWidgetList[i].getAttribute('data-lbwps-gid');
 		if (widgetId != null) {
 			if (elementorImageWidgetList[i].firstElementChild != null &&
 				elementorImageWidgetList[i].firstElementChild.firstElementChild != null) {
-				var imageLink = elementorImageWidgetList[i].firstElementChild.firstElementChild;
+                let imageLink = elementorImageWidgetList[i].firstElementChild.firstElementChild;
 				if (imageLink != null && imageLink.nodeName == 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
 					imageLink.setAttribute('data-lbwps-gid', widgetId);
 				}
 			}
 		}
 	}
-	
-    var hideScrollbar =  function() {
+
+    let hideScrollbar = function () {
         const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
         originalBodyPaddingRight = document.body.style.paddingRight;
         originalBodyOverflow = document.body.style.overflow;
         document.body.style.paddingRight = scrollbarWidth + 'px';
         document.body.style.overflow = 'hidden';
-    }
+    };
 
-    var showScrollbar = function() {
+    let showScrollbar = function () {
         document.body.style.paddingRight = originalBodyPaddingRight;
         document.body.style.overflow = originalBodyOverflow;
-    }
+    };
 
-    var parseThumbnailElements = function(link, id) {
-        var elements,
+    let parseThumbnailElements = function (link, id) {
+        let elements,
             galleryItems = [],
             index;
 
         if (id == null || id == 1) {
             elements = document.querySelectorAll('a[data-lbwps-width]:not([data-lbwps-gid])');
         } else {
-            elements = document.querySelectorAll('a[data-lbwps-width][data-lbwps-gid="'+id+'"]');
+            elements = document.querySelectorAll('a[data-lbwps-width][data-lbwps-gid="' + id + '"]');
         }
 
-        for (var i=0; i<elements.length; i++) {
-            var element = elements[i];
+        for (let i = 0; i < elements.length; i++) {
+            let element = elements[i];
 
             // Only use image if it was not added already
-            var useImage = true;
-            var linkHref = element.getAttribute('href');
-            for (var j=0; j<galleryItems.length; j++) {
+            let useImage = true;
+            let linkHref = element.getAttribute('href');
+            for (let j = 0; j < galleryItems.length; j++) {
                 if (galleryItems[j].src == linkHref) {
                     useImage = false;
                 }
             }
 
             if (useImage) {
-                var caption = null;
-                var title = null;
-                var tabindex = element.getAttribute('tabindex');
+                let caption = null;
+                let title = null;
+                let tabindex = element.getAttribute('tabindex');
 
                 if (tabindex == null) {
                     tabindex = 0;
@@ -140,19 +155,19 @@ var lbwpsInit = function(domUpdate) {
 
                 // Attribute "aria-describedby" in the <a> element contains the ID of another element with the caption
                 if (caption == null && element.firstElementChild) {
-                    var describedby = element.firstElementChild.getAttribute('aria-describedby');
+                    let describedby = element.firstElementChild.getAttribute('aria-describedby');
                     if (describedby != null) {
-                        var description = document.getElementById(describedby);
+                        let description = document.getElementById(describedby);
                         if (description != null) caption = description.innerHTML;
                     }
                 }
 
                 // Other variations
                 if (caption == null) {
-                    var nextElement = element.nextElementSibling;
-                    var parentElement = element.parentElement.nextElementSibling;
-                    var parentElement2 = element.parentElement.parentElement.nextElementSibling;
-                    var parentElement3 = element.parentElement.parentElement.parentElement.nextElementSibling;
+                    let nextElement = element.nextElementSibling;
+                    let parentElement = element.parentElement.nextElementSibling;
+                    let parentElement2 = element.parentElement.parentElement.nextElementSibling;
+                    let parentElement3 = element.parentElement.parentElement.parentElement.nextElementSibling;
 
                     if (nextElement != null) {
                         if (nextElement.className === '.wp-caption-text') {
@@ -215,13 +230,13 @@ var lbwpsInit = function(domUpdate) {
         }
 
         // Sort items by tabindex
-        galleryItems.sort(function(a, b) {
-            var indexa = parseInt(a.tabindex);
-            var indexb = parseInt(b.tabindex);
-            if(indexa > indexb) {
+        galleryItems.sort(function (a, b) {
+            let indexa = parseInt(a.tabindex);
+            let indexb = parseInt(b.tabindex);
+            if (indexa > indexb) {
                 return 1;
             }
-            if(indexa < indexb) {
+            if (indexa < indexb) {
                 return -1;
             }
             return 0;
@@ -229,7 +244,7 @@ var lbwpsInit = function(domUpdate) {
 
         // Determine current selected item
         if (link != null) {
-            for (var i = 0; i < galleryItems.length; i++) {
+            for (let i = 0; i < galleryItems.length; i++) {
                 if (galleryItems[i].el.getAttribute('href') == link.getAttribute('href')) {
                     index = i;
                 }
@@ -239,19 +254,19 @@ var lbwpsInit = function(domUpdate) {
         return [galleryItems, parseInt(index, 10)];
     };
 
-    var photoswipeParseHash = function() {
-        var hash = window.location.hash.substring(1), params = {};
+    let photoswipeParseHash = function() {
+        let hash = window.location.hash.substring(1), params = {};
 
         if(hash.length < 5) {
             return params;
         }
 
-        var vars = hash.split('&');
-        for (var i = 0; i < vars.length; i++) {
+        let vars = hash.split('&');
+        for (let i = 0; i < vars.length; i++) {
             if(!vars[i]) {
                 continue;
             }
-            var pair = vars[i].split('=');
+            let pair = vars[i].split('=');
             if(pair.length < 2) {
                 continue;
             }
@@ -265,8 +280,8 @@ var lbwpsInit = function(domUpdate) {
         return params;
     };
 
-    var openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
-        var id = 1,
+    let openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
+        let id = 1,
             pswpElement = document.querySelector('.pswp'),
             gallery,
             options,
@@ -366,7 +381,7 @@ var lbwpsInit = function(domUpdate) {
         gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
         gallery.listen('gettingData', function (index, item) {
             if (item.w < 1 || item.h < 1) {
-                var img = new Image();
+                let img = new Image();
                 img.onload = function () {
                     item.w = this.width;
                     item.h = this.height;
@@ -417,9 +432,9 @@ var lbwpsInit = function(domUpdate) {
     };
 
     if(true !== domUpdate) {
-        var hashData = photoswipeParseHash();
+        let hashData = photoswipeParseHash();
         if (hashData.pid && hashData.gid) {
-            var returnUrl = '';
+            let returnUrl = '';
             if (typeof (hashData.returnurl) !== 'undefined') {
                 returnUrl = hashData.returnurl;
             }
@@ -429,12 +444,12 @@ var lbwpsInit = function(domUpdate) {
 };
 
 // Universal ready handler
-var lbwpsReady = (function () {
-    var readyEventFired = false;
-    var readyEventListener = function (fn) {
+let lbwpsReady = (function () {
+    let readyEventFired = false;
+    let readyEventListener = function (fn) {
 
         // Create an idempotent version of the 'fn' function
-        var idempotentFn = function () {
+        let idempotentFn = function () {
             if (readyEventFired) {
                 return;
             }
@@ -460,12 +475,12 @@ lbwpsReady(function() {
     window.lbwpsPhotoSwipe = null;
     lbwpsInit(false);
 
-    var mutationObserver = null;
+    let mutationObserver = null;
     if (typeof MutationObserver !== 'undefined') {
-        var mutationObserver = new MutationObserver(function (mutations) {
+        let mutationObserver = new MutationObserver(function (mutations) {
             if (window.lbwpsPhotoSwipe === null) {
-                var nodesAdded = false;
-                for (var i = 0; i < mutations.length; i++) {
+                let nodesAdded = false;
+                for (let i = 0; i < mutations.length; i++) {
                     if ('childList' === mutations[i].type) {
                         nodesAdded = true;
                     }
