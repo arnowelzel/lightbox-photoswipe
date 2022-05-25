@@ -9,7 +9,7 @@ let lbwpsInit = function(domUpdate) {
         }
 
         // In case above did not work, try analyzing the path for the event
-        let path = event.path || (event.composedPath && event.composedPath());
+        let path = event.composedPath && event.composedPath();
         if (!path) {
             return;
         }
