@@ -2,9 +2,9 @@
 
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
-Requires at least: 4.0
+Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 3.4.3
+Stable tag: 4.0.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,6 +18,8 @@ This plugin integrates an extended version of PhotoSwipe to WordPress. All linke
 More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
 The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
+
+As of version 4.0.0 this plugin requires at least WordPress 5.0 and PHP 7.4. Issues caused by using outdated PHP versions will not be solved. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also needs at least PHP 7.4 - see https://wordpress.org/about/requirements/.
 
 == Installation ==
 
@@ -200,9 +202,14 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 == Changelog ==
 
+= 4.0.0 =
+
+* Changed requirements to at least WordPress 5.0 and PHP 7.4.
+* Use Composer and Twig for backend.
+
 = 3.4.3 =
 
-* Updated compatibility for WordPress 6.0
+* Updated compatibility for WordPress 6.0.
 
 = 3.4.2 =
 
@@ -336,28 +343,28 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 = 3.1.0 =
 
-* Added detection for DOM changes so also galleries added via JavaScript should work
+* Added detection for DOM changes so also galleries added via JavaScript should work.
 * Changed handling with relative URLs to avoid problems with Bedrock (thanks to Smeedijzer Internet for pointing this out).
 
 = 3.0.8 =
 
-* Fixed a bug which caused wrong sort order for links with `tabindex` (1, 2, 3, 10, 11 and not 1, 10, 11, 2, 3 etc.)
+* Fixed a bug which caused wrong sort order for links with `tabindex` (1, 2, 3, 10, 11 and not 1, 10, 11, 2, 3 etc.).
 
 = 3.0.7 =
 
-* Refactored naming of functions and variables
-* Made PhotoSwipe gallery instance available globally as `window.lbwpsPhotoSwipe` for other plugins (thanks to Thomas Biering for the suggestion)
-* Added support for relative image URLs
-* Added support for `tabindex` attribute in image links
-* Multiple links to the same image created by some "lazy loading" solutions will be ignored
-* Native lazy loading will only be added to an image if the attribute is not set already
+* Refactored naming of functions and variables.
+* Made PhotoSwipe gallery instance available globally as `window.lbwpsPhotoSwipe` for other plugins (thanks to Thomas Biering for the suggestion).
+* Added support for relative image URLs.
+* Added support for `tabindex` attribute in image links.
+* Multiple links to the same image created by some "lazy loading" solutions will be ignored.
+* Native lazy loading will only be added to an image if the attribute is not set already.
 
 = 3.0.6 =
 
-* New option to use the WordPress caching instead of a custom database table (thanks to B-e-n-G)
-* New option to ignore links to images on external sites
-* New option to ignore links to images which contain a hash
-* New option to handle custom CDN URLs
+* New option to use the WordPress caching instead of a custom database table (thanks to B-e-n-G).
+* New option to ignore links to images on external sites.
+* New option to ignore links to images which contain a hash.
+* New option to handle custom CDN URLs.
 
 = 3.0.5 =
 
@@ -408,7 +415,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 2.94 =
 
 * Removed jQuery again after some code refactoring.
-* Added editor meta box so you can disable the lightbox in pages/posts itself.
+* Added editor meta box, so you can disable the lightbox in pages/posts itself.
 
 = 2.92 =
 
@@ -662,7 +669,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 = 1.63 =
 
 * Fixed missing captions in lightbox for "Cleaner Gallery".
-* Added documentation about the local changes in PhotoSwipe
+* Added documentation about the local changes in PhotoSwipe.
 
 = 1.61 =
 

@@ -1,0 +1,49 @@
+<table id="lbwps-tab-5" class="form-table" style="display:none">
+    <tr>
+        <th scope="row">
+            {{ 'General'|wptrans }}
+        </th>
+        <td>
+            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_fulldesktop', optionsManager.fulldesktop) }} {{ 'Full picture size in desktop view'|wptrans }}</label><br />
+            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_desktop_slider', optionsManager.desktop_slider) }} {{ 'Use slide animation when switching images in desktop view'|wptrans }}</label><br />
+            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_close_on_click', optionsManager.close_on_click) }} {{ 'Close the lightbox by clicking outside the image'|wptrans }}</label>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            {{ 'Mouse wheel function'|wptrans }}
+        </th>
+        <td>
+            {{ wpcontrolradio(
+                'lightbox_photoswipe_wheelmode',
+                optionsManager.wheelmode,
+                [
+                    'scroll',
+                    'close',
+                    'zoom',
+                    'switch'
+                ],
+                [
+                    'Scroll zoomed image otherwise do nothing'|wptrans,
+                    'Scroll zoomed image or close lightbox if not zoomed'|wptrans,
+                    'Zoom in/out'|wptrans,
+                    'Switch to next/previous picture'|wptrans,
+                ],
+                '<br>'
+            ) }}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            {{ 'Idle time for controls'|wptrans }}
+        </th>
+        <td>
+            <select id="lightbox_photoswipe_idletime" name="lightbox_photoswipe_idletime">
+                {% for idletime in range(1000, 10000, 1000) %}
+                <option value="{{ idletime }}"{% if optionsManager.idletime == idletime %} selected{% endif %}>{{ idletime/1000 }} {{ wptransmulti('second', 'seconds', idletime/1000) }}{% if idletime == 4000 %} ({{ 'Default'|wptrans }}){% endif %}</option>
+                {% endfor %}
+            </select>
+            <p class="description">{{ 'Time until the on screen controls will disappear automatically in desktop view.'|wptrans }}</p>
+        </td>
+    </tr>
+</table>
