@@ -6,8 +6,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LightboxPhotoSwipe\\": "src/LightboxPhotoSwipe/",
-            "Twig\\": "src/Twig/"
+            "LightboxPhotoSwipe\\": "src/LightboxPhotoSwipe/"
         }
     }
 }

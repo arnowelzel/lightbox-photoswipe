@@ -30,8 +30,7 @@ class ComposerStaticInitc4099415952d7e7dbff811dd3e7cf5a3
     public static $prefixDirsPsr4 = array (
         'Twig\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/Twig',
-            1 => __DIR__ . '/..' . '/twig/twig/src',
+            0 => __DIR__ . '/..' . '/twig/twig/src',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
