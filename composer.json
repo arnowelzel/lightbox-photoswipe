@@ -1,5 +1,5 @@
 {
-    "name": "pickerei/pickerei-raumgestalter",
+    "name": "arnowelzel/lightbox-photoswipe",
     "type": "project",
     "require": {
         "twig/twig": "^3.0"
