@@ -20,4 +20,4 @@ require(__DIR__ . '/vendor/autoload.php');
 
 // Initialize plugin
 
-$lightbox_photoswipe = new LightboxPhotoSwipe();
+$lightbox_photoswipe = new LightboxPhotoSwipe(__FILE__);

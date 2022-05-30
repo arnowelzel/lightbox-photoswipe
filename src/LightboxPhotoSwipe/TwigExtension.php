@@ -77,7 +77,7 @@ class TwigExtension extends AbstractExtension
 
     public function wpTranslate(string $text): string
     {
-        return __($text, LightboxPhotoSwipe::NAME);
+        return __($text, LightboxPhotoSwipe::SLUG);
     }
 
     public function wpSettingsField(): string
@@ -101,6 +101,6 @@ class TwigExtension extends AbstractExtension
 
     public function wpTranslateMulti(string $singular, string $plural, int $value): string
     {
-        return _n($singular, $plural, $value, LightboxPhotoSwipe::NAME);
+        return _n($singular, $plural, $value, LightboxPhotoSwipe::SLUG);
     }
 }

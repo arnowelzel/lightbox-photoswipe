@@ -206,6 +206,7 @@ To avoid any confusion: this plugin was published with the agreement of Dmitry S
 
 * Changed requirements to at least WordPress 5.0 and PHP 7.4.
 * Use Composer and Twig for backend.
+* Fixed a bug which could prevent the cache cleanup job to be scheduled.
 
 = 3.4.3 =
 

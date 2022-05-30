@@ -223,11 +223,11 @@ class OptionsManager
     public function enqueueFrontendOptions()
     {
         $translation_array = [
-            'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::NAME),
-            'label_twitter' => __('Tweet', LightboxPhotoSwipe::NAME),
-            'label_pinterest' => __('Pin it', LightboxPhotoSwipe::NAME),
-            'label_download' => __('Download image', LightboxPhotoSwipe::NAME),
-            'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::NAME)
+            'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
+            'label_twitter' => __('Tweet', LightboxPhotoSwipe::SLUG),
+            'label_pinterest' => __('Pin it', LightboxPhotoSwipe::SLUG),
+            'label_download' => __('Download image', LightboxPhotoSwipe::SLUG),
+            'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::SLUG)
         ];
         $translation_array['share_facebook'] = ($this->share_facebook == '1')?'1':'0';
         $translation_array['share_twitter'] = ($this->share_twitter == '1')?'1':'0';

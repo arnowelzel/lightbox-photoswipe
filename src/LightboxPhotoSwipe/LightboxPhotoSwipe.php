@@ -11,26 +11,51 @@ use Twig\Loader\FilesystemLoader;
 class LightboxPhotoSwipe
 {
     const LIGHTBOX_PHOTOSWIPE_VERSION = '4.0.0';
-    const NAME = 'lightbox-photoswipe';
+    const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
+
+    private string $pluginFile;
+    private OptionsManager $optionsManager;
+    private ExifHelper $exifHelper;
+    private Environment $twig;
 
     private bool $enabled;
     private $gallery_id;
     private bool $ob_active;
     private int $ob_level;
 
-    private OptionsManager $optionsManager;
-    private ExifHelper $exifHelper;
-    private Environment $twig;
-
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($pluginFile)
     {
-        $this->twig = new Environment(new FilesystemLoader(WP_PLUGIN_DIR.'/'.LightboxPhotoSwipe::NAME.'/templates'));
+        $this->pluginFile = $pluginFile;
+
+        // If possible, create a cache folder for Twig
+        $twigOptions = [];
+        $wpCacheFolder = WP_CONTENT_DIR.'/cache';
+        $twigCacheFolder = $wpCacheFolder.'/'.self::SLUG.'/twig/';
+        if (is_writable(WP_CONTENT_DIR)) {
+            if (!file_exists($wpCacheFolder)) {
+                mkdir($wpCacheFolder);
+            }
+        }
+        if (is_writable($wpCacheFolder)) {
+            if (!file_exists($twigCacheFolder)) {
+                mkdir($twigCacheFolder, 0777, true);
+            }
+        }
+        if (is_writable($twigCacheFolder)) {
+            $twigOptions['cache'] = $twigCacheFolder;
+        }
+        // Initialize Twig and extensions
+        $this->twig = new Environment(
+            new FilesystemLoader(WP_PLUGIN_DIR.'/'.self::SLUG.'/templates'),
+            $twigOptions
+        );
         $this->twig->addExtension(new TwigExtension());
 
+        // Initialize plugin
         $this->optionsManager = new OptionsManager($this->twig);
         $this->exifHelper = new ExifHelper();
 
@@ -57,24 +82,24 @@ class LightboxPhotoSwipe
         add_action('admin_menu', [$this, 'adminMenu']);
         add_action('admin_init', [$this, 'adminInit']);
 
-        // Metabox handling
+        // Metabox handling only if enabled in the settings
         if ('1' === $this->optionsManager->metabox) {
             add_action( 'add_meta_boxes', [$this, 'metaBox'] );
             add_action( 'save_post', [$this, 'metaBoxSave'] );
         }
 
-        register_activation_hook(__FILE__, [$this, 'onActivate']);
-        register_deactivation_hook(__FILE__, [$this, 'onDeactivate']);
+        register_activation_hook($pluginFile, [$this, 'onActivate']);
+        register_deactivation_hook($pluginFile, [$this, 'onDeactivate']);
     }
-    
+
     /**
      * Helper to get the plugin URL 
      */
     function getPluginUrl(): string
     {
-        return plugin_dir_url(WP_PLUGIN_DIR.'/').self::NAME.'/';
+        return plugin_dir_url(WP_PLUGIN_DIR.'/').self::SLUG.'/';
     }
-    
+
     /**
      * Enqueue Scripts/CSS
      *
@@ -811,9 +836,7 @@ class LightboxPhotoSwipe
      */
     function onActivate()
     {
-        if (!wp_next_scheduled('lbwps_cleanup')) {
-            wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
-        }
+        $this->addCleanupJob();
     }
 
     /**
@@ -823,7 +846,37 @@ class LightboxPhotoSwipe
      */
     function onDeactivate()
     {
+        // Remove scheduled clean up job
         wp_clear_scheduled_hook('lbwps_cleanup');
+
+        // Clean up Twig cache if needed
+        $cacheFolder = WP_CONTENT_DIR.'/cache/'.self::SLUG;
+        if (is_writable($cacheFolder)) {
+            $path = $cacheFolder;
+            $it = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
+            $files = new \RecursiveIteratorIterator($it,
+                \RecursiveIteratorIterator::CHILD_FIRST);
+            foreach($files as $file) {
+                if ($file->isDir()){
+                    rmdir($file->getRealPath());
+                } else {
+                    unlink($file->getRealPath());
+                }
+            }
+            rmdir($path);
+        }
+    }
+
+    /**
+     * Add cleanup job if needed
+     *
+     * @return void
+     */
+    function addCleanupJob()
+    {
+        if (!wp_next_scheduled('lbwps_cleanup')) {
+            wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
+        }
     }
 
     /**
@@ -971,6 +1024,16 @@ class LightboxPhotoSwipe
         if (intval($db_version) < 32) {
             update_option('lightbox_photoswipe_usecaption', '1');
             update_option('lightbox_photoswipe_db_version', 32);
+        }
+        if (intval($db_version) < 33) {
+            // After changing the plugin to a class structure, the
+            // hooks for activation and deactivation did not get called
+            // any longer :-(
+            //
+            // Therefore we need to make sure, that the clean up job
+            // is activated which usually is done for activation only.
+            $this->addCleanupJob();
+            update_option('lightbox_photoswipe_db_version', 33);
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
