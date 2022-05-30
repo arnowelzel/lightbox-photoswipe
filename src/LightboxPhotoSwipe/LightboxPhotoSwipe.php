@@ -93,7 +93,7 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Helper to get the plugin URL 
+     * Helper to get the plugin URL
      */
     function getPluginUrl(): string
     {
@@ -102,10 +102,8 @@ class LightboxPhotoSwipe
 
     /**
      * Enqueue Scripts/CSS
-     *
-     * @return nothing
      */
-    function enqueueScripts()
+    function enqueueScripts(): void
     {
         $id = get_the_ID();
         if (!is_home() && !is_404() && !is_archive() && !is_search()) {
@@ -187,51 +185,15 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Footer in frontend with PhotoSwipe UI
-     *
-     * @return void
+     * Output footer in frontend with PhotoSwipe UI
      */
-    function outputFooter()
+    function outputFooter(): void
     {
         if (!$this->enabled) {
             return;
         }
 
-        $footer = '<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="pswp__bg"></div>
-    <div class="pswp__scroll-wrap">
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close wp-dark-mode-ignore" title="' . __('Close (Esc)', 'lightbox-photoswipe') . '"></button>
-                <button class="pswp__button pswp__button--share wp-dark-mode-ignore" title="' . __('Share', 'lightbox-photoswipe') . '"></button>
-                <button class="pswp__button pswp__button--fs wp-dark-mode-ignore" title="' . __('Toggle fullscreen', 'lightbox-photoswipe') . '"></button>
-                <button class="pswp__button pswp__button--zoom wp-dark-mode-ignore" title="' . __('Zoom in/out', 'lightbox-photoswipe') . '"></button>
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip">
-                </div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left wp-dark-mode-ignore" title="' . __('Previous (arrow left)', 'lightbox-photoswipe') . '"></button>
-            <button class="pswp__button pswp__button--arrow--right wp-dark-mode-ignore" title="' . __('Next (arrow right)', 'lightbox-photoswipe') . '"></button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>';
+        $footer = $this->twig->render('footer.html.twig');
         $footer = apply_filters('lbwps_markup', $footer);
         echo $footer;
 
@@ -245,12 +207,8 @@ class LightboxPhotoSwipe
 
     /**
      * Callback to handle a single image link
-     *
-     * @param string $matches existing matches
-     *
-     * @return string modified HTML content
      */
-    function callbackProperties($matches)
+    function callbackProperties(array $matches): string
     {
         global $wpdb;
 
@@ -332,7 +290,7 @@ class LightboxPhotoSwipe
                     substr($file, 0, 7) != 'http://' &&
                     substr($file, 0, 8) != 'https://') {
                     $upload_dir = wp_upload_dir(null, false)['basedir'];
-                    $realFile = $this->str_replaceoverlap($upload_dir, $file);
+                    $realFile = $this->strReplaceOverlap($upload_dir, $file);
 
                     // Using ABSPATH is not recommended, also see
                     // <https://github.com/arnowelzel/lightbox-photoswipe/issues/33>.
@@ -391,7 +349,7 @@ class LightboxPhotoSwipe
                 $cache_key = "image:$imgkey";
 
                 if (!$imgDetails = wp_cache_get($cache_key, 'lbwps')) {
-                    $imageSize = $this->get_image_size($file, $extension);
+                    $imageSize = $this->getImageSize($file, $extension);
 
                     if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                         $imgDetails = [
@@ -445,7 +403,7 @@ class LightboxPhotoSwipe
                     $exifIso = $entry->exif_iso;
                     $exifDateTime = $entry->exif_datetime;
                 } else {
-                    $imageSize = $this->get_image_size($file, $extension);
+                    $imageSize = $this->getImageSize($file, $extension);
                     if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                         if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
                             $exif = @exif_read_data($file, 'EXIF', true);
@@ -528,12 +486,8 @@ class LightboxPhotoSwipe
 
     /**
      * Callback to add the "lazy loading" attribute to an image
-     *
-     * @param string $matches existing matches
-     *
-     * @return string modified HTML content
      */
-    function callbackLazyLoading($matches)
+    function callbackLazyLoading(array $matches): string
     {
         $replacement = $matches[4];
         if(false === strpos($replacement, 'loading="lazy"') && false === strpos($replacement, "loading='lazy'")
@@ -549,12 +503,8 @@ class LightboxPhotoSwipe
 
     /**
      * Callback to add current gallery id to a single image
-     *
-     * @param string $matches existing matches
-     *
-     * @return string modified HTML content
      */
-    function callbackGalleryId($matches)
+    function callbackGalleryId(array $matches): string
     {
         $attr = sprintf(' data-lbwps-gid="%s"', $this->gallery_id);
         return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
@@ -562,12 +512,8 @@ class LightboxPhotoSwipe
 
     /**
      * Output filter for post content
-     *
-     * @param string $content current HTML content
-     *
-     * @return void modified HTML content
      */
-    function filterOutput($content)
+    function filterOutput(string $content): string
     {
         $content = preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
@@ -586,10 +532,8 @@ class LightboxPhotoSwipe
 
     /**
      * Output filter for post content
-     *
-     * @return void
      */
-    function bufferStart()
+    function bufferStart(): void
     {
         if (!$this->enabled) {
             return;
@@ -602,12 +546,8 @@ class LightboxPhotoSwipe
 
     /**
      * Handler for gallery shortcode to add the gallery ID to the output
-     *
-     * @param array $attr Attributes passed to the shortcode
-     *
-     * @return array|string|string[]|null
      */
-    function shortcodeGallery($attr)
+    function shortcodeGallery(array $attr): string
     {
         $this->gallery_id++;
         $content = gallery_shortcode($attr);
@@ -621,13 +561,8 @@ class LightboxPhotoSwipe
 
     /**
      * Filter for Gutenberg blocks to add gallery ID to images
-     *
-     * @param string $block_content current HTML content
-     * @param array $block block information
-     *
-     * @return string modified HTML content
      */
-    function gutenbergBlock($block_content, $block)
+    function gutenbergBlock(string $block_content, array $block): string
     {
         if ($block['blockName'] == 'core/gallery') {
             $this->gallery_id++;
@@ -642,10 +577,8 @@ class LightboxPhotoSwipe
 
     /**
      * Add admin menu in the backend
-     *
-     * @return void
      */
-    function adminMenu()
+    function adminMenu(): void
     {
         add_options_page(
             __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'),
@@ -658,30 +591,24 @@ class LightboxPhotoSwipe
 
     /**
      * Initialization: Register settings
-     *
-     * @return void
      */
-    function adminInit()
+    function adminInit(): void
     {
         $this->optionsManager->registerOptions();
     }
 
     /**
      * Output settings page in backend
-     *
-     * @return void
      */
-    function settingsPage()
+    function settingsPage(): void
     {
         $this->optionsManager->outputAdminSettingsPage();
     }
 
     /**
      * Add metabox for post editor
-     *
-     * @return void
      */
-    function metaBox()
+    function metaBox(): void
     {
         $types = ['post', 'page'];
         foreach ($types as $type) {
@@ -697,10 +624,8 @@ class LightboxPhotoSwipe
 
     /**
      * Metabox HTML output
-     *
-     * @return void
      */
-    function metaBoxOutputHtml($post)
+    function metaBoxOutputHtml($post): void
     {
         wp_nonce_field( basename( __FILE__ ), 'lbwps_nonce' );
 
@@ -714,14 +639,12 @@ class LightboxPhotoSwipe
 
     /**
      * Save options from metabox
-     *
-     * @return void
      */
-    function metaBoxSave($post_id)
+    function metaBoxSave($post_id): void
     {
         // Only save options if this is not an autosave
-        $is_autosave = wp_is_post_autosave( $post_id );
-        $is_revision = wp_is_post_revision( $post_id );
+        $is_autosave = wp_is_post_autosave($post_id);
+        $is_revision = wp_is_post_revision($post_id);
         $is_valid_nonce = (isset($_POST['lbwps_nonce']) && wp_verify_nonce($_POST['lbwps_nonce' ], basename(__FILE__)))?'true':'false';
 
         if ($is_autosave || $is_revision || !$is_valid_nonce ) {
@@ -750,10 +673,8 @@ class LightboxPhotoSwipe
 
     /**
      * Create custom database tables
-     *
-     * @return void
      */
-    function createTables()
+    function createTables(): void
     {
         global $wpdb;
 
@@ -779,10 +700,8 @@ class LightboxPhotoSwipe
 
     /**
      * Delete custom database tables
-     *
-     * @return void
      */
-    function deleteTables()
+    function deleteTables(): void
     {
         global $wpdb;
 
@@ -793,17 +712,8 @@ class LightboxPhotoSwipe
 
     /**
      * Handler for creating a new blog
-     *
-     * @param mixed $blog_id ID of the blog
-     * @param mixed $user_id ID of the user
-     * @param mixed $domain  Domain of the blog
-     * @param mixed $path    Path inside the domain
-     * @param mixed $site_id ID of the site
-     * @param mixed $meta    Metadata
-     *
-     * @return void
      */
-    function onCreateBlog($blog_id, $user_id, $domain, $path, $site_id, $meta)
+    function onCreateBlog($blog_id, $user_id, $domain, $path, $site_id, $meta): void
     {
         if (is_plugin_active_for_network('lightbox-photoswipe/lightbox-photoswipe.php')) {
             switch_to_blog($blog_id);
@@ -815,12 +725,8 @@ class LightboxPhotoSwipe
 
     /**
      * Filter for deleting a blog
-     *
-     * @param array[] $tables list of tables to be deleted
-     *
-     * @return array[] list of tables to be deleted
      */
-    function onDeleteBlog($tables)
+    function onDeleteBlog($tables): array
     {
         global $wpdb;
 
@@ -831,20 +737,16 @@ class LightboxPhotoSwipe
 
     /**
      * Hook for plugin activation
-     *
-     * @return void
      */
-    function onActivate()
+    function onActivate(): void
     {
         $this->addCleanupJob();
     }
 
     /**
      * Hook for plugin deactivation
-     *
-     * @return void
      */
-    function onDeactivate()
+    function onDeactivate(): void
     {
         // Remove scheduled clean up job
         wp_clear_scheduled_hook('lbwps_cleanup');
@@ -872,7 +774,7 @@ class LightboxPhotoSwipe
      *
      * @return void
      */
-    function addCleanupJob()
+    function addCleanupJob(): void
     {
         if (!wp_next_scheduled('lbwps_cleanup')) {
             wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
@@ -882,10 +784,8 @@ class LightboxPhotoSwipe
     /**
      * Scheduled job for database cleanup
      * This will remove cached image data which is older than 24 hours
-     *
-     * @return void
      */
-    function cleanupDatabase()
+    function cleanupDatabase(): void
     {
         global $wpdb;
 
@@ -898,11 +798,9 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Plugin initialization
-     *
-     * @return void
+     * Plugin initialization, will be called after all plugins have been loaded
      */
-    function init()
+    function init(): void
     {
         load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
 
@@ -1041,13 +939,9 @@ class LightboxPhotoSwipe
 
     /**
      * Helper to handle "use cache" option which deletes the cache tables if required.
-     *
-     * @param $old_value
-     * @param $value
-     * @param $option
-     * @return void
      */
-    function update_option_use_cache($old_value, $value, $option) {
+    function update_option_use_cache($old_value, $value, $option): void
+    {
         if (!$old_value && $value === '1' ) {
             $this->deleteTables();
         } else if ($old_value === '1' && !$value) {
@@ -1057,13 +951,9 @@ class LightboxPhotoSwipe
 
     /**
      * Helper to find strings overlapping
-     *
-     * @param $str1
-     * @param $str2
-     *
-     * @return array|false
      */
-    function str_findoverlap($str1, $str2){
+    function strFindOverlap(string $str1, string $str2)
+    {
         $return = array();
         $sl1 = strlen($str1);
         $sl2 = strlen($str2);
@@ -1085,15 +975,10 @@ class LightboxPhotoSwipe
 
     /**
      * Helper to replace strings overlapping
-     *
-     * @param $str1
-     * @param $str2
-     * @param $length
-     *
-     * @return false|string
      */
-    function str_replaceoverlap($str1, $str2, $length = "long"){
-        if($overlap = $this->str_findoverlap($str1, $str2)){
+    function strReplaceOverlap(string $str1, string $str2, string $length = "long")
+    {
+        if($overlap = $this->strFindOverlap($str1, $str2)){
             switch($length){
                 case "short":
                     $overlap = $overlap[0];
@@ -1112,13 +997,9 @@ class LightboxPhotoSwipe
 
     /**
      * Helper to determine the size of an image
-     *
-     * @param $file
-     * @param $extension
-     *
-     * @return array|false|int[]
      */
-    function get_image_size($file, $extension) {
+    function getImageSize($file, $extension)
+    {
         $imageSize = [0, 0];
         if ($extension !== 'svg') {
             $imageSize = @getimagesize($file);
