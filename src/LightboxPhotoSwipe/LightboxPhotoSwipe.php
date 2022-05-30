@@ -66,7 +66,15 @@ class LightboxPhotoSwipe
         register_activation_hook(__FILE__, [$this, 'onActivate']);
         register_deactivation_hook(__FILE__, [$this, 'onDeactivate']);
     }
-
+    
+    /**
+     * Helper to get the plugin URL 
+     */
+    function getPluginUrl(): string
+    {
+        return plugin_dir_url(WP_PLUGIN_DIR.'/').self::NAME.'/';
+    }
+    
     /**
      * Enqueue Scripts/CSS
      *
@@ -87,21 +95,21 @@ class LightboxPhotoSwipe
         if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
             wp_enqueue_script(
                 'lbwps-photoswipe',
-                plugin_dir_url(__FILE__) . 'src/lib/photoswipe.js',
+                $this->getPluginUrl().'src/lib/photoswipe.js',
                 [],
                 self::LIGHTBOX_PHOTOSWIPE_VERSION,
                 true
             );
             wp_enqueue_script(
                 'lbwps-photoswipe-ui',
-                plugin_dir_url(__FILE__) . 'src/lib/photoswipe-ui-default.js',
+                $this->getPluginUrl().'src/lib/photoswipe-ui-default.js',
                 [],
                 self::LIGHTBOX_PHOTOSWIPE_VERSION,
                 true
             );
             wp_enqueue_script(
                 'lbwps',
-                plugin_dir_url(__FILE__) . 'src/js/frontend.js',
+                $this->getPluginUrl().'src/js/frontend.js',
                 [],
                 self::LIGHTBOX_PHOTOSWIPE_VERSION,
                 true
@@ -109,7 +117,7 @@ class LightboxPhotoSwipe
         } else {
             wp_enqueue_script(
                 'lbwps',
-                plugin_dir_url(__FILE__) . 'assets/scripts.js',
+                $this->getPluginUrl().'assets/scripts.js',
                 [],
                 self::LIGHTBOX_PHOTOSWIPE_VERSION,
                 true
@@ -133,20 +141,20 @@ class LightboxPhotoSwipe
         if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
             wp_enqueue_style(
                 'lbwps-styles-photoswipe',
-                plugin_dir_url(__FILE__) . 'src/lib/photoswipe.css',
+                $this->getPluginUrl().'src/lib/photoswipe.css',
                 false,
                 self::LIGHTBOX_PHOTOSWIPE_VERSION
             );
             wp_enqueue_style(
                 'lbwps-styles',
-                plugin_dir_url(__FILE__) . 'src/lib/skins/' . $skin . '/skin.css',
+                $this->getPluginUrl().'src/lib/skins/' . $skin . '/skin.css',
                 false,
                 self::LIGHTBOX_PHOTOSWIPE_VERSION
             );
         } else {
             wp_enqueue_style(
                 'lbwps-styles',
-                plugin_dir_url(__FILE__) . 'assets/styles/' . $skin . '.css',
+                $this->getPluginUrl().'assets/styles/' . $skin . '.css',
                 false,
                 self::LIGHTBOX_PHOTOSWIPE_VERSION
             );
