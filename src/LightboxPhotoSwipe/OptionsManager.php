@@ -167,31 +167,36 @@ class OptionsManager
             'label_download' => __('Download image', LightboxPhotoSwipe::SLUG),
             'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::SLUG)
         ];
-        $translation_array['share_facebook'] = ($this->share_facebook == '1')?'1':'0';
-        $translation_array['share_twitter'] = ($this->share_twitter == '1')?'1':'0';
-        $translation_array['share_pinterest'] = ($this->share_pinterest == '1')?'1':'0';
-        $translation_array['share_download'] = ($this->share_download == '1')?'1':'0';
-        $translation_array['share_direct'] = ($this->share_direct == '1')?'1':'0';
-        $translation_array['share_copyurl'] = ($this->share_copyurl == '1')?'1':'0';
-        $customlink = ('' === $this->share_custom_link)?'{{raw_image_url}}':$this->share_custom_link;
+        $boolOptions = [
+            'share_facebook',
+            'share_twitter',
+            'share_pinterest',
+            'share_download',
+            'share_direct',
+            'share_copyurl',
+            'close_on_drag',
+            'history',
+            'show_counter',
+            'show_fullscreen',
+            'show_zoom',
+            'show_caption',
+            'loop',
+            'pinchtoclose',
+            'taptotoggle',
+            'close_on_click',
+            'fulldesktop',
+            'use_alt',
+            'usecaption',
+            'desktop_slider',
+        ];
+        foreach($boolOptions as $boolOption) {
+            $translation_array[$boolOption] = $this->$boolOption;
+        }
+        $customLink = ('' === $this->share_custom_link)?'{{raw_image_url}}':$this->share_custom_link;
         $translation_array['share_custom_label'] = ($this->share_custom == '1')?htmlspecialchars($this->share_custom_label):'';
-        $translation_array['share_custom_link'] = ($this->share_custom == '1')?htmlspecialchars($customlink):'';
+        $translation_array['share_custom_link'] = ($this->share_custom == '1')?htmlspecialchars($customLink):'';
         $translation_array['wheelmode'] = htmlspecialchars($this->wheelmode);
-        $translation_array['close_on_drag'] = ($this->close_on_drag == '1')?'1':'0';
-        $translation_array['history'] = ($this->history == '1')?'1':'0';
-        $translation_array['show_counter'] = ($this->show_counter == '1')?'1':'0';
-        $translation_array['show_fullscreen'] = ($this->show_fullscreen == '1')?'1':'0';
-        $translation_array['show_zoom'] = ($this->show_zoom == '1')?'1':'0';
-        $translation_array['show_caption'] = ($this->show_caption == '1')?'1':'0';
-        $translation_array['loop'] = ($this->loop == '1')?'1':'0';
-        $translation_array['pinchtoclose'] = ($this->pinchtoclose == '1')?'1':'0';
-        $translation_array['taptotoggle'] = ($this->taptotoggle == '1')?'1':'0';
         $translation_array['spacing'] = intval($this->spacing);
-        $translation_array['close_on_click'] = ($this->close_on_click == '1')?'1':'0';
-        $translation_array['fulldesktop'] = ($this->fulldesktop == '1')?'1':'0';
-        $translation_array['use_alt'] = ($this->use_alt == '1')?'1':'0';
-        $translation_array['use_caption'] = ($this->usecaption == '1')?'1':'0';
-        $translation_array['desktop_slider'] = ($this->desktop_slider == '1')?'1':'0';
         $translation_array['idletime'] = intval($this->idletime);
         $translation_array['hide_scrollbars'] = intval($this->hide_scrollbars);
         wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
@@ -199,14 +204,8 @@ class OptionsManager
 
     /**
      * Output page for backend settings
-     *
-     * @return string
-     *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
-    public function outputAdminSettingsPage()
+    public function outputAdminSettingsPage(): void
     {
         global $wpdb;
 

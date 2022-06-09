@@ -203,7 +203,7 @@ let lbwpsInit = function(domUpdate) {
                     title = title + '<div class="pswp__caption__title">' + element.getAttribute('data-lbwps-title') + '</div>';
                 }
 
-                if (lbwpsOptions.use_caption == '1' && caption != null) {
+                if (lbwpsOptions.usecaption == '1' && caption != null) {
                     title = title + '<div class="pswp__caption__text">' + caption + '</div>';
                 }
 
