@@ -135,8 +135,9 @@ class TwigExtension extends AbstractExtension
         $num = 0;
         while ($num < count($optionValues)) {
             $output .= sprintf(
-                '<label style="margin-right:0.5em"><input id="%1$s" type="radio" name="%1$s"%2$s/>%3$s</label>%4$s',
+                '<label style="margin-right:0.5em"><input id="%1$s" type="radio" name="%1$s" value="%2$s"%3$s/>%4$s</label>%5$s',
                 esc_attr($name),
+                $optionValues[$num],
                 $value === $optionValues[$num] ? ' checked' : '',
                 $optionLabels[$num] ?? '',
                 $separator

@@ -95,7 +95,7 @@ class LightboxPhotoSwipe
     /**
      * Helper to get the plugin URL
      */
-    function getPluginUrl(): string
+    public function getPluginUrl(): string
     {
         return plugin_dir_url(WP_PLUGIN_DIR.'/').self::SLUG.'/';
     }
@@ -103,7 +103,7 @@ class LightboxPhotoSwipe
     /**
      * Enqueue Scripts/CSS
      */
-    function enqueueScripts(): void
+    public function enqueueScripts(): void
     {
         $id = get_the_ID();
         if (!is_home() && !is_404() && !is_archive() && !is_search()) {
@@ -187,7 +187,7 @@ class LightboxPhotoSwipe
     /**
      * Output footer in frontend with PhotoSwipe UI
      */
-    function outputFooter(): void
+    public function outputFooter(): void
     {
         if (!$this->enabled) {
             return;
@@ -208,7 +208,7 @@ class LightboxPhotoSwipe
     /**
      * Callback to handle a single image link
      */
-    function callbackProperties(array $matches): string
+    public function callbackProperties(array $matches): string
     {
         global $wpdb;
 
@@ -305,7 +305,7 @@ class LightboxPhotoSwipe
                     $file = $realFile;
                 }
 
-                if ('1' == $this->optionsManager->use_postdata && '1' == $this->optionsManager->show_caption) {
+                if ('1' == $this->optionsManager->usepostdata && '1' == $this->optionsManager->show_caption) {
                     // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
                     $basedir = wp_upload_dir()['basedir'];
 
@@ -452,19 +452,19 @@ class LightboxPhotoSwipe
                 }
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $width, $height);
 
-                if ('1' === $this->optionsManager->use_caption && $captionCaption != '') {
+                if ('1' === $this->optionsManager->usecaption && $captionCaption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($captionCaption))));
                 }
 
-                if ('1' === $this->optionsManager->use_title && '' !== $captionTitle) {
+                if ('1' === $this->optionsManager->usetitle && '' !== $captionTitle) {
                     $attr .= sprintf(' data-lbwps-title="%s"', htmlspecialchars(nl2br(wptexturize($captionTitle))));
                 }
 
-                if ('1' === $this->optionsManager->use_description && '' !== $captionDescription) {
+                if ('1' === $this->optionsManager->usedescription && '' !== $captionDescription) {
                     $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($captionDescription))));
                 }
 
-                if ('1' === $this->optionsManager->show_exif) {
+                if ('1' === $this->optionsManager->showexif) {
                     $exifCaption = $this->exifHelper->buildCaptionString(
                         $exifFocal,
                         $exifFstop,
@@ -472,7 +472,7 @@ class LightboxPhotoSwipe
                         $exifIso,
                         $exifDateTime,
                         $exifCamera,
-                        '1' === $this->optionsManager->show_exif_date
+                        '1' === $this->optionsManager->showexif_date
                     );
                     if ($exifCaption != '') {
                         $attr .= sprintf(' data-lbwps-exif="%s"', htmlspecialchars($exifCaption));
@@ -487,7 +487,7 @@ class LightboxPhotoSwipe
     /**
      * Callback to add the "lazy loading" attribute to an image
      */
-    function callbackLazyLoading(array $matches): string
+    public function callbackLazyLoading(array $matches): string
     {
         $replacement = $matches[4];
         if(false === strpos($replacement, 'loading="lazy"') && false === strpos($replacement, "loading='lazy'")
@@ -504,7 +504,7 @@ class LightboxPhotoSwipe
     /**
      * Callback to add current gallery id to a single image
      */
-    function callbackGalleryId(array $matches): string
+    public function callbackGalleryId(array $matches): string
     {
         $attr = sprintf(' data-lbwps-gid="%s"', $this->gallery_id);
         return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
@@ -533,7 +533,7 @@ class LightboxPhotoSwipe
     /**
      * Output filter for post content
      */
-    function bufferStart(): void
+    public function bufferStart(): void
     {
         if (!$this->enabled) {
             return;
@@ -547,7 +547,7 @@ class LightboxPhotoSwipe
     /**
      * Handler for gallery shortcode to add the gallery ID to the output
      */
-    function shortcodeGallery(array $attr): string
+    public function shortcodeGallery(array $attr): string
     {
         $this->gallery_id++;
         $content = gallery_shortcode($attr);
@@ -562,7 +562,7 @@ class LightboxPhotoSwipe
     /**
      * Filter for Gutenberg blocks to add gallery ID to images
      */
-    function gutenbergBlock(string $block_content, array $block): string
+    public function gutenbergBlock(string $block_content, array $block): string
     {
         if ($block['blockName'] == 'core/gallery') {
             $this->gallery_id++;
@@ -578,7 +578,7 @@ class LightboxPhotoSwipe
     /**
      * Add admin menu in the backend
      */
-    function adminMenu(): void
+    public function adminMenu(): void
     {
         add_options_page(
             __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'),
@@ -592,7 +592,7 @@ class LightboxPhotoSwipe
     /**
      * Initialization: Register settings
      */
-    function adminInit(): void
+    public function adminInit(): void
     {
         $this->optionsManager->registerOptions();
     }
@@ -600,7 +600,7 @@ class LightboxPhotoSwipe
     /**
      * Output settings page in backend
      */
-    function settingsPage(): void
+    public function settingsPage(): void
     {
         $this->optionsManager->outputAdminSettingsPage();
     }
@@ -608,7 +608,7 @@ class LightboxPhotoSwipe
     /**
      * Add metabox for post editor
      */
-    function metaBox(): void
+    public function metaBox(): void
     {
         $types = ['post', 'page'];
         foreach ($types as $type) {
@@ -625,7 +625,7 @@ class LightboxPhotoSwipe
     /**
      * Metabox HTML output
      */
-    function metaBoxOutputHtml($post): void
+    public function metaBoxOutputHtml($post): void
     {
         wp_nonce_field( basename( __FILE__ ), 'lbwps_nonce' );
 
@@ -640,7 +640,7 @@ class LightboxPhotoSwipe
     /**
      * Save options from metabox
      */
-    function metaBoxSave($post_id): void
+    public function metaBoxSave($post_id): void
     {
         // Only save options if this is not an autosave
         $is_autosave = wp_is_post_autosave($post_id);
@@ -672,9 +672,111 @@ class LightboxPhotoSwipe
     }
 
     /**
+     * Handler for creating a new blog
+     */
+    public function onCreateBlog($blog_id, $user_id, $domain, $path, $site_id, $meta): void
+    {
+        if (is_plugin_active_for_network('lightbox-photoswipe/lightbox-photoswipe.php')) {
+            switch_to_blog($blog_id);
+            $this->createTables();
+            restore_current_blog();
+        }
+    }
+
+    /**
+     * Filter for deleting a blog
+     */
+    public function onDeleteBlog($tables): array
+    {
+        global $wpdb;
+
+        $tables[] = $wpdb->prefix . 'lightbox_photoswipe_img';
+
+        return $tables;
+    }
+
+    /**
+     * Hook for plugin activation
+     */
+    public function onActivate(): void
+    {
+        $this->addCleanupJob();
+    }
+
+    /**
+     * Hook for plugin deactivation
+     */
+    public function onDeactivate(): void
+    {
+        // Remove scheduled clean up job
+        wp_clear_scheduled_hook('lbwps_cleanup');
+    }
+
+    /**
+     * Scheduled job for database cleanup
+     * This will remove cached image data which is older than 24 hours
+     */
+    public function cleanupDatabase(): void
+    {
+        global $wpdb;
+
+        if (get_option('lightbox_photoswipe_use_cache') != '1') {
+            $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
+            $date = strftime('%Y-%m-%d %H:%M:%S', time() - 86400);
+            $sql = "DELETE FROM $table_name where created<(\"$date\")";
+            $wpdb->query($sql);
+        }
+    }
+
+    /**
+     * Plugin initialization, will be called after all plugins have been loaded
+     */
+    public function init(): void
+    {
+        load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
+
+        $db_version = get_option('lightbox_photoswipe_db_version');
+
+        if (intval($db_version) < 3) {
+            delete_option('disabled_post_ids');
+        }
+        if (intval($db_version) < 10) {
+            $this->onActivate();
+        }
+        if (intval($db_version) < 22) {
+            $this->deleteTables();
+            $this->createTables();
+        }
+        if (intval($db_version) < 33) {
+            // After changing the plugin to a class structure, the
+            // hooks for activation and deactivation did not get called
+            // any longer :-(
+            //
+            // Therefore we need to make sure, that the clean up job
+            // is activated which usually is done for activation only.
+            $this->addCleanupJob();
+            update_option('lightbox_photoswipe_db_version', 33);
+        }
+
+        add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
+    }
+
+    /**
+     * Helper to handle "use cache" option which deletes the cache tables if required.
+     */
+    public function update_option_use_cache($old_value, $value, $option): void
+    {
+        if (!$old_value && $value === '1' ) {
+            $this->deleteTables();
+        } else if ($old_value === '1' && !$value) {
+            $this->createTables();
+        }
+    }
+
+    /**
      * Create custom database tables
      */
-    function createTables(): void
+    protected function createTables(): void
     {
         global $wpdb;
 
@@ -701,7 +803,7 @@ class LightboxPhotoSwipe
     /**
      * Delete custom database tables
      */
-    function deleteTables(): void
+    protected function deleteTables(): void
     {
         global $wpdb;
 
@@ -711,70 +813,11 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Handler for creating a new blog
-     */
-    function onCreateBlog($blog_id, $user_id, $domain, $path, $site_id, $meta): void
-    {
-        if (is_plugin_active_for_network('lightbox-photoswipe/lightbox-photoswipe.php')) {
-            switch_to_blog($blog_id);
-            $this->createTables();
-            $this->optionsManager->setDefaultOptions();
-            restore_current_blog();
-        }
-    }
-
-    /**
-     * Filter for deleting a blog
-     */
-    function onDeleteBlog($tables): array
-    {
-        global $wpdb;
-
-        $tables[] = $wpdb->prefix . 'lightbox_photoswipe_img';
-
-        return $tables;
-    }
-
-    /**
-     * Hook for plugin activation
-     */
-    function onActivate(): void
-    {
-        $this->addCleanupJob();
-    }
-
-    /**
-     * Hook for plugin deactivation
-     */
-    function onDeactivate(): void
-    {
-        // Remove scheduled clean up job
-        wp_clear_scheduled_hook('lbwps_cleanup');
-
-        // Clean up Twig cache if needed
-        $cacheFolder = WP_CONTENT_DIR.'/cache/'.self::SLUG;
-        if (is_writable($cacheFolder)) {
-            $path = $cacheFolder;
-            $it = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
-            $files = new \RecursiveIteratorIterator($it,
-                \RecursiveIteratorIterator::CHILD_FIRST);
-            foreach($files as $file) {
-                if ($file->isDir()){
-                    rmdir($file->getRealPath());
-                } else {
-                    unlink($file->getRealPath());
-                }
-            }
-            rmdir($path);
-        }
-    }
-
-    /**
      * Add cleanup job if needed
      *
      * @return void
      */
-    function addCleanupJob(): void
+    protected function addCleanupJob(): void
     {
         if (!wp_next_scheduled('lbwps_cleanup')) {
             wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
@@ -782,177 +825,9 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Scheduled job for database cleanup
-     * This will remove cached image data which is older than 24 hours
-     */
-    function cleanupDatabase(): void
-    {
-        global $wpdb;
-
-        if (get_option('lightbox_photoswipe_use_cache') != '1') {
-            $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
-            $date = strftime('%Y-%m-%d %H:%M:%S', time() - 86400);
-            $sql = "DELETE FROM $table_name where created<(\"$date\")";
-            $wpdb->query($sql);
-        }
-    }
-
-    /**
-     * Plugin initialization, will be called after all plugins have been loaded
-     */
-    function init(): void
-    {
-        load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
-
-        $db_version = get_option('lightbox_photoswipe_db_version');
-
-        if ($db_version == '' || intval($db_version) < 2) {
-            $this->deleteTables();
-            $this->createTables();
-        }
-        if (intval($db_version) < 3) {
-            update_option('lightbox_photoswipe_disabled_post_ids', '');
-            delete_option('disabled_post_ids');
-            update_option('lightbox_photoswipe_share_facebook', '1');
-            update_option('lightbox_photoswipe_share_pinterest', '1');
-            update_option('lightbox_photoswipe_share_twitter', '1');
-            update_option('lightbox_photoswipe_share_download', '1');
-        }
-        if (intval($db_version) < 4) {
-            update_option('lightbox_photoswipe_close_on_scroll', '1');
-            update_option('lightbox_photoswipe_close_on_drag', '1');
-            update_option('lightbox_photoswipe_show_counter', '1');
-        }
-        if (intval($db_version) < 5) {
-            update_option('lightbox_photoswipe_skin', '3');
-        }
-        if (intval($db_version) < 6) {
-            update_option('lightbox_photoswipe_show_zoom', '1');
-            update_option('lightbox_photoswipe_show_caption', '1');
-            update_option('lightbox_photoswipe_spacing', '12');
-        }
-        if (intval($db_version) < 7) {
-            update_option('lightbox_photoswipe_loop', '1');
-            update_option('lightbox_photoswipe_pinchtoclose', '1');
-            update_option('lightbox_photoswipe_usepostdata', '1');
-        }
-        if (intval($db_version) < 9) {
-            update_option('lightbox_photoswipe_show_fullscreen', '1');
-        }
-        if (intval($db_version) < 10) {
-            $this->onActivate();
-        }
-        if (intval($db_version) < 11) {
-            update_option('lightbox_photoswipe_taptotoggle', '1');
-        }
-        if (intval($db_version) < 12) {
-            update_option('lightbox_photoswipe_share_direct', '0');
-        }
-        if (intval($db_version) < 13) {
-            update_option('lightbox_photoswipe_close_on_click', '1');
-        }
-        if (intval($db_version) < 14) {
-            update_option('lightbox_photoswipe_fulldesktop', '0');
-        }
-        if (intval($db_version) < 15) {
-            update_option('lightbox_photoswipe_use_alt', '0');
-        }
-        if (intval($db_version) < 16) {
-            update_option('lightbox_photoswipe_showexif', '0');
-            $this->deleteTables();
-            $this->createTables();
-        }
-        if (intval($db_version) < 17) {
-            update_option('lightbox_photoswipe_history', '1');
-            update_option('lightbox_photoswipe_separate_galleries', '0');
-        }
-        if (intval($db_version) < 18) {
-            update_option( 'lightbox_photoswipe_desktop_slider', '1' );
-        }
-        if (intval($db_version) < 19) {
-            update_option( 'lightbox_photoswipe_idletime', '4000' );
-            update_option( 'lightbox_photoswipe_add_lazyloading', '1' );
-            update_option( 'lightbox_photoswipe_usedescription', '0' );
-        }
-        if (intval($db_version) < 20) {
-            update_option( 'lightbox_photoswipe_add_lazyloading', '0' );
-        }
-        if (intval($db_version) < 22) {
-            $this->deleteTables();
-            $this->createTables();
-        }
-        if (intval($db_version) < 23) {
-            $wheelmode = 'zoom';
-            if (get_option('lightbox_photoswipe_close_on_scroll') == '1') {
-                $wheelmode = 'close';
-            }
-            update_option('lightbox_photoswipe_wheelmode', $wheelmode);
-            delete_option('lightbox_photoswipe_close_on_scroll');
-            update_option('lightbox_photoswipe_share_copyurl', '0');
-            update_option('lightbox_photoswipe_share_custom', '0');
-            update_option('lightbox_photoswipe_share_custom_label', '');
-            update_option('lightbox_photoswipe_share_custom_link', '');
-        }
-        if (intval($db_version) < 24) {
-            update_option('lightbox_photoswipe_metabox', '1');
-        }
-        if (intval($db_version) < 25) {
-            update_option('lightbox_photoswipe_disabled_post_types', '');
-        }
-        if (intval($db_version) < 26) {
-            update_option('lightbox_photoswipe_use_cache', '0');
-            update_option('lightbox_photoswipe_ignore_external', '0');
-            update_option('lightbox_photoswipe_ignore_hash', '0');
-        }
-        if (intval($db_version) < 27) {
-            update_option('lightbox_photoswipe_hide_scrollbars', '1');
-        }
-        if (intval($db_version) < 28) {
-            update_option('lightbox_photoswipe_svg_scaling', '200');
-        }
-        if (intval($db_version) < 29) {
-            update_option('lightbox_photoswipe_cdn_mode', 'prefix');
-        }
-        if (intval($db_version) < 30) {
-            update_option('lightbox_photoswipe_fix_links', '1');
-        }
-        if (intval($db_version) < 31) {
-            update_option('lightbox_photoswipe_usetitle', '0');
-        }
-        if (intval($db_version) < 32) {
-            update_option('lightbox_photoswipe_usecaption', '1');
-            update_option('lightbox_photoswipe_db_version', 32);
-        }
-        if (intval($db_version) < 33) {
-            // After changing the plugin to a class structure, the
-            // hooks for activation and deactivation did not get called
-            // any longer :-(
-            //
-            // Therefore we need to make sure, that the clean up job
-            // is activated which usually is done for activation only.
-            $this->addCleanupJob();
-            update_option('lightbox_photoswipe_db_version', 33);
-        }
-
-        add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
-    }
-
-    /**
-     * Helper to handle "use cache" option which deletes the cache tables if required.
-     */
-    function update_option_use_cache($old_value, $value, $option): void
-    {
-        if (!$old_value && $value === '1' ) {
-            $this->deleteTables();
-        } else if ($old_value === '1' && !$value) {
-            $this->createTables();
-        }
-    }
-
-    /**
      * Helper to find strings overlapping
      */
-    function strFindOverlap(string $str1, string $str2)
+    protected function strFindOverlap(string $str1, string $str2)
     {
         $return = array();
         $sl1 = strlen($str1);
@@ -976,7 +851,7 @@ class LightboxPhotoSwipe
     /**
      * Helper to replace strings overlapping
      */
-    function strReplaceOverlap(string $str1, string $str2, string $length = "long")
+    protected function strReplaceOverlap(string $str1, string $str2, string $length = "long")
     {
         if($overlap = $this->strFindOverlap($str1, $str2)){
             switch($length){
@@ -998,7 +873,7 @@ class LightboxPhotoSwipe
     /**
      * Helper to determine the size of an image
      */
-    function getImageSize($file, $extension)
+    protected function getImageSize($file, $extension)
     {
         $imageSize = [0, 0];
         if ($extension !== 'svg') {
@@ -1028,5 +903,25 @@ class LightboxPhotoSwipe
         }
 
         return $imageSize;
+    }
+
+    protected function cleanupTwigCache()
+    {
+        // Clean up Twig cache if needed
+        $cacheFolder = WP_CONTENT_DIR.'/cache/'.self::SLUG;
+        if (is_writable($cacheFolder)) {
+            $path = $cacheFolder;
+            $it = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
+            $files = new \RecursiveIteratorIterator($it,
+                \RecursiveIteratorIterator::CHILD_FIRST);
+            foreach($files as $file) {
+                if ($file->isDir()){
+                    rmdir($file->getRealPath());
+                } else {
+                    unlink($file->getRealPath());
+                }
+            }
+            rmdir($path);
+        }
     }
 }

@@ -50,7 +50,7 @@
         <td>
             <select id="lightbox_photoswipe_svg_scaling" name="lightbox_photoswipe_svg_scaling">
                 {% for scaling in range(100, 550, 50) %}
-                    <option value="{{ scaling }}"{% if scaling == optionsManager.scaling %} selected{% endif %}>
+                    <option value="{{ scaling }}"{% if scaling == optionsManager.svg_scaling %} selected{% endif %}>
                         {{ scaling }}{% if scaling == 200 %} ({{ 'Default'|wptrans }}){% endif %}
                     </option>
                 {% endfor %}
