@@ -46,18 +46,20 @@ class LightboxPhotoSwipe
             }
         }
         if (is_writable($twigCacheFolder)) {
-            $twigOptions['cache'] = $twigCacheFolder;
+            if (!defined('SCRIPT_DEBUG') || !SCRIPT_DEBUG) {
+                $twigOptions['cache'] = $twigCacheFolder;
+            }
         }
+        // Initialize plugin
+        $this->optionsManager = new OptionsManager();
+        $this->exifHelper = new ExifHelper();
+
         // Initialize Twig and extensions
         $this->twig = new Environment(
             new FilesystemLoader(sprintf('%s/%s/templates', WP_PLUGIN_DIR, self::SLUG)),
             $twigOptions
         );
-        $this->twig->addExtension(new TwigExtension());
-
-        // Initialize plugin
-        $this->optionsManager = new OptionsManager($this->twig);
-        $this->exifHelper = new ExifHelper();
+        $this->twig->addExtension(new TwigExtension($this->optionsManager));
 
         $this->enabled = true;
         $this->galleryId = 1;
@@ -68,7 +70,7 @@ class LightboxPhotoSwipe
             add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
             add_action('wp_footer', [$this, 'outputFooter']);
             add_action('wp_head', [$this, 'bufferStart'], 2050);
-            if ($this->optionsManager->separate_galleries) {
+            if ($this->optionsManager->getOption('separate_galleries')) {
                 remove_shortcode('gallery');
                 add_shortcode('gallery', [$this, 'shortcodeGallery'], 10, 1);
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
@@ -83,7 +85,7 @@ class LightboxPhotoSwipe
         add_action('admin_init', [$this, 'adminInit']);
 
         // Metabox handling only if enabled in the settings
-        if ('1' === $this->optionsManager->metabox) {
+        if ('1' === $this->optionsManager->getOption('metabox')) {
             add_action( 'add_meta_boxes', [$this, 'metaBox'] );
             add_action( 'save_post', [$this, 'metaBoxSave'] );
         }
@@ -107,10 +109,10 @@ class LightboxPhotoSwipe
     {
         $id = get_the_ID();
         if (!is_home() && !is_404() && !is_archive() && !is_search()) {
-            if (in_array($id, $this->optionsManager->disabled_post_ids)) {
+            if (in_array($id, $this->optionsManager->getOption('disabled_post_ids'))) {
                 $this->enabled = false;
             }
-            if (in_array(get_post_type(), $this->optionsManager->disabled_post_types)) {
+            if (in_array(get_post_type(), $this->optionsManager->getOption('disabled_post_types'))) {
                 $this->enabled = false;
             }
         }
@@ -150,8 +152,8 @@ class LightboxPhotoSwipe
                 true
             );
         }
-        $this->optionsManager->enqueueFrontendOptions();
-        switch ($this->optionsManager->skin) {
+        $this->enqueueFrontendOptions();
+        switch ($this->optionsManager->getOption('skin')) {
             case '2':
                 $skin = 'classic-solid';
                 break;
@@ -243,8 +245,8 @@ class LightboxPhotoSwipe
             $file = preg_replace('/(i[0-2]\.wp.com\/)/s', '', $file);
 
             // Remove additional CDN URLs if defined
-            $cdnUrls = explode(',', $this->optionsManager->cdn_url);
-            if ('prefix' === $this->optionsManager->cdn_mode) {
+            $cdnUrls = explode(',', $this->optionsManager->getOption('cdn_url'));
+            if ('prefix' === $this->optionsManager->getOption('cdn_mode')) {
                 // Prefix mode: http://<cdn-url>/<website-url>
 
                 foreach ($cdnUrls as $cdnUrl) {
@@ -270,10 +272,10 @@ class LightboxPhotoSwipe
                 $isLocal = false;
             }
 
-            if (!$isLocal && '1' === $this->optionsManager->ignore_external) {
+            if (!$isLocal && '1' === $this->optionsManager->getOption('ignore_external')) {
                 // Ignore URL if it is an external URL and the respective option to ignore that is set
                 $use = false;
-            } else if (strpos($file, '#') !== false && '1' === $this->optionsManager->ignore_hash) {
+            } else if (strpos($file, '#') !== false && '1' === $this->optionsManager->getOption('ignore_hash')) {
                 // Ignore URL if it contains a hash the respective option to ignore that is set
                 $use = false;
             }
@@ -309,14 +311,14 @@ class LightboxPhotoSwipe
                     $file = $realFile;
                 }
 
-                if ('1' === $this->optionsManager->usepostdata && '1' === $this->optionsManager->show_caption) {
+                if ('1' === $this->optionsManager->getOption('usepostdata') && '1' === $this->optionsManager->getOption('show_caption')) {
                     // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
                     $basedir = wp_upload_dir()['basedir'];
 
                     // If the "fix image links" option is set, try to remove size parameters from the image link.
                     // For example: "image-1024x768.jpg" will become "image.jpg"
                     $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.))+$/';
-                    if ('1' === $this->optionsManager->fix_links) {
+                    if ('1' === $this->optionsManager->getOption('fix_links')) {
                         $fileFixed = preg_filter(
                             $sizeMatcher,
                             '.',
@@ -349,7 +351,7 @@ class LightboxPhotoSwipe
 
             $imgkey = hash('md5', $file . $imgMtime);
 
-            if ($this->optionsManager->use_cache) {
+            if ($this->optionsManager->getOption('use_cache')) {
                 $cacheKey = "image:$imgkey";
 
                 if (!$imgDetails = wp_cache_get($cacheKey, 'lbwps')) {
@@ -451,24 +453,24 @@ class LightboxPhotoSwipe
                 $width = $imageSize[0];
                 $height = $imageSize[1];
                 if ('svg' === $extension) {
-                    $width = $width * $this->optionsManager->svg_scaling / 100;
-                    $height = $height * $this->optionsManager->svg_scaling / 100;
+                    $width = $width * $this->optionsManager->getOption('svg_scaling') / 100;
+                    $height = $height * $this->optionsManager->getOption('svg_scaling') / 100;
                 }
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $width, $height);
 
-                if ('1' === $this->optionsManager->usecaption && $captionCaption != '') {
+                if ('1' === $this->optionsManager->getOption('usecaption') && $captionCaption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($captionCaption))));
                 }
 
-                if ('1' === $this->optionsManager->usetitle && '' !== $captionTitle) {
+                if ('1' === $this->optionsManager->getOption('usetitle') && '' !== $captionTitle) {
                     $attr .= sprintf(' data-lbwps-title="%s"', htmlspecialchars(nl2br(wptexturize($captionTitle))));
                 }
 
-                if ('1' === $this->optionsManager->usedescription && '' !== $captionDescription) {
+                if ('1' === $this->optionsManager->getOption('usedescription') && '' !== $captionDescription) {
                     $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($captionDescription))));
                 }
 
-                if ('1' === $this->optionsManager->showexif) {
+                if ('1' === $this->optionsManager->getOption('showexif')) {
                     $exifCaption = $this->exifHelper->buildCaptionString(
                         $exifFocal,
                         $exifFstop,
@@ -476,7 +478,7 @@ class LightboxPhotoSwipe
                         $exifIso,
                         $exifDateTime,
                         $exifCamera,
-                        '1' === $this->optionsManager->showexif_date
+                        '1' === $this->optionsManager->getOption('showexif_date')
                     );
                     if ($exifCaption != '') {
                         $attr .= sprintf(' data-lbwps-exif="%s"', htmlspecialchars($exifCaption));
@@ -524,7 +526,7 @@ class LightboxPhotoSwipe
             [$this, 'callbackProperties'],
             $content
         );
-        if ('1' === $this->optionsManager->add_lazyloading) {
+        if ('1' === $this->optionsManager->getOption('add_lazyloading')) {
             $content = preg_replace_callback(
                 '/(<img.[^>]*src=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
                 [$this, 'callbackLazyLoading'],
@@ -606,7 +608,14 @@ class LightboxPhotoSwipe
      */
     public function settingsPage(): void
     {
-        $this->optionsManager->outputAdminSettingsPage();
+        global $wpdb;
+
+        echo $this->twig->render('options.html.twig', [
+            'optionsManager' => $this,
+            'wpdb' => $wpdb,
+            'hasSimpleXML' => function_exists('simplexml_load_file'),
+            'hasExif' => function_exists('exif_read_data'),
+        ]);
     }
 
     /**
@@ -634,7 +643,7 @@ class LightboxPhotoSwipe
         wp_nonce_field( basename( __FILE__ ), 'lbwps_nonce' );
 
         $checked = '';
-        if (in_array($post->ID, $this->optionsManager->disabled_post_ids)) {
+        if (in_array($post->ID, $this->optionsManager->getOption('disabled_post_ids'))) {
             $checked = 'checked="checked" ';
         }
         echo '<label for="lbwps_disabled"><input type="checkbox" id="lbwps_disabled" name="lbwps_disabled" value="1"'.$checked.'/>';
@@ -644,11 +653,11 @@ class LightboxPhotoSwipe
     /**
      * Save options from metabox
      */
-    public function metaBoxSave($post_id): void
+    public function metaBoxSave($postId): void
     {
         // Only save options if this is not an autosave
-        $is_autosave = wp_is_post_autosave($post_id);
-        $is_revision = wp_is_post_revision($post_id);
+        $is_autosave = wp_is_post_autosave($postId);
+        $is_revision = wp_is_post_revision($postId);
         $is_valid_nonce = (isset($_POST['lbwps_nonce']) && wp_verify_nonce($_POST['lbwps_nonce' ], basename(__FILE__)))?'true':'false';
 
         if ($is_autosave || $is_revision || !$is_valid_nonce ) {
@@ -656,21 +665,21 @@ class LightboxPhotoSwipe
         }
 
         // Save post specific options
-        $disabled_post_ids = [];
+        $disabledPostIdsCurrent = $this->optionsManager->getOption('disabled_post_ids');
         if (!isset($_POST['lbwps_disabled']) || $_POST['lbwps_disabled']!='1') {
-            if (in_array($post_id, $this->optionsManager->disabled_post_ids)) {
-                foreach ( $this->optionsManager->disabled_post_ids as $disabled_post_id ) {
-                    if ((int)$post_id !== (int)$disabled_post_id) {
-                        $disabled_post_ids[] = $disabled_post_id;
+            $disabledPostIdsNew = [];
+            if (in_array($postId, $disabledPostIdsCurrent)) {
+                foreach ( $disabledPostIdsCurrent as $disabledPostIdCurrent ) {
+                    if ((int)$postId !== (int)$disabledPostIdCurrent) {
+                        $disabledPostIdsNew[] = $disabledPostIdCurrent;
                     }
                 }
-                $this->optionsManager->disabled_post_ids = $disabled_post_ids;
-                update_option( 'lightbox_photoswipe_disabled_post_ids', implode(',', $this->optionsManager->disabled_post_ids));
+                $this->optionsManager->setOption('disabled_post_ids', $disabledPostIdsNew, true);
             }
         } else {
-            if (!in_array($post_id, $this->optionsManager->disabled_post_ids)) {
-                $this->optionsManager->disabled_post_ids[] = $post_id;
-                update_option('lightbox_photoswipe_disabled_post_ids', implode(',', $this->optionsManager->disabled_post_ids));
+            if (!in_array($postId, $disabledPostIdsCurrent)) {
+                $disabledPostIdsCurrent[] = $postId;
+                $this->optionsManager->setOption('disabled_post_ids', $disabledPostIdsCurrent, true);
             }
         }
     }
@@ -775,6 +784,53 @@ class LightboxPhotoSwipe
         } else if ($old_value === '1' && !$value) {
             $this->createTables();
         }
+    }
+
+    /**
+     * Enqueue options for frontend script
+     */
+    protected function enqueueFrontendOptions(): void
+    {
+        $translation_array = [
+            'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
+            'label_twitter' => __('Tweet', LightboxPhotoSwipe::SLUG),
+            'label_pinterest' => __('Pin it', LightboxPhotoSwipe::SLUG),
+            'label_download' => __('Download image', LightboxPhotoSwipe::SLUG),
+            'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::SLUG)
+        ];
+        $boolOptions = [
+            'share_facebook',
+            'share_twitter',
+            'share_pinterest',
+            'share_download',
+            'share_direct',
+            'share_copyurl',
+            'close_on_drag',
+            'history',
+            'show_counter',
+            'show_fullscreen',
+            'show_zoom',
+            'show_caption',
+            'loop',
+            'pinchtoclose',
+            'taptotoggle',
+            'close_on_click',
+            'fulldesktop',
+            'use_alt',
+            'usecaption',
+            'desktop_slider',
+        ];
+        foreach($boolOptions as $boolOption) {
+            $translation_array[$boolOption] = $this->optionsManager->getOption($boolOption) === '1' ? '1' : '0';
+        }
+        $customLink = ('' === $this->optionsManager->getOption('share_custom_link'))?'{{raw_image_url}}':$this->optionsManager->getOption('share_custom_link');
+        $translation_array['share_custom_label'] = ($this->optionsManager->getOption('share_custom') == '1')?htmlspecialchars($this->optionsManager->getOption('share_custom_label')):'';
+        $translation_array['share_custom_link'] = ($this->optionsManager->getOption('share_custom') == '1')?htmlspecialchars($customLink):'';
+        $translation_array['wheelmode'] = htmlspecialchars($this->optionsManager->getOption('wheelmode'));
+        $translation_array['spacing'] = intval($this->optionsManager->getOption('spacing'));
+        $translation_array['idletime'] = intval($this->optionsManager->getOption('idletime'));
+        $translation_array['hide_scrollbars'] = intval($this->optionsManager->getOption('hide_scrollbars'));
+        wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
     }
 
     /**

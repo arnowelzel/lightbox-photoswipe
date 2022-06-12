@@ -4,13 +4,13 @@
             {{ 'Visible sharing options'|wptrans }}
         </th>
         <td>
-            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_share_facebook', optionsManager.share_facebook) }} {{ 'Share on Facebook'|wptrans }}</label><br>
-            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_share_twitter', optionsManager.share_twitter) }} {{ 'Tweet'|wptrans }}</label><br>
-            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_share_direct', optionsManager.share_direct) }} {{ 'Use URL of images instead of lightbox on Facebook and Twitter'|wptrans }}</label><br>
-            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_share_pinterest', optionsManager.share_pinterest) }} {{ 'Pin it'|wptrans }}</label><br>
-            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_share_download', optionsManager.share_download) }} {{ 'Download image'|wptrans }}</label><br>
-            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_share_copyurl', optionsManager.share_copyurl) }} {{ 'Copy image URL'|wptrans }}</label><br>
-            <label>{{ wpcontrolcheckbox('lightbox_photoswipe_share_custom', optionsManager.share_custom) }} {{ 'Custom link'|wptrans }}</label>
+            <label>{{ wpcontrolcheckbox('share_facebook') }} {{ 'Share on Facebook'|wptrans }}</label><br>
+            <label>{{ wpcontrolcheckbox('share_twitter') }} {{ 'Tweet'|wptrans }}</label><br>
+            <label>{{ wpcontrolcheckbox('share_direct') }} {{ 'Use URL of images instead of lightbox on Facebook and Twitter'|wptrans }}</label><br>
+            <label>{{ wpcontrolcheckbox('share_pinterest') }} {{ 'Pin it'|wptrans }}</label><br>
+            <label>{{ wpcontrolcheckbox('share_download') }} {{ 'Download image'|wptrans }}</label><br>
+            <label>{{ wpcontrolcheckbox('share_copyurl') }} {{ 'Copy image URL'|wptrans }}</label><br>
+            <label>{{ wpcontrolcheckbox('share_custom') }} {{ 'Custom link'|wptrans }}</label>
         </td>
     </tr>
     <tr>
@@ -18,7 +18,7 @@
             {{ 'Custom link, label'|wptrans }}
         </th>
         <td>
-            {{ wpcontroltext('lightbox_photoswipe_share_custom_label', optionsManager.share_custom_label, 'Your label here'|wptrans) }}
+            {{ wpcontroltext('share_custom_label', 'Your label here'|wptrans) }}
         </td>
     </tr>
     <tr>
@@ -26,7 +26,7 @@
             {{ 'Custom link, URL'|wptrans }}
         </th>
         <td>
-            {{ wpcontroltext('lightbox_photoswipe_share_custom_link', optionsManager.share_custom_link, '{{raw_image_url}}') }}
+            {{ wpcontroltext('share_custom_link', '{{raw_image_url}}') }}
             <p class="description">{{ 'Placeholders for the link:<br />{{raw_url}}&nbsp;&ndash;&nbsp;URL of the lightbox<br />{{url}}&nbsp;&ndash;&nbsp;encoded URL of the lightbox<br />{{raw_image_url}}&nbsp;&ndash;&nbsp;URL of the image<br />{{image_url}}&nbsp;&ndash;&nbsp;encoded URL of the image<br />{{text}}&nbsp;&ndash;&nbsp;image caption.'|wptrans }}</p>
         </td>
     </tr>

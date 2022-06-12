@@ -2,115 +2,66 @@
 
 namespace LightboxPhotoSwipe;
 
-use Twig\Environment;
-
 /**
  * Options manager
  */
 class OptionsManager
 {
-    public ?string $cdn_url;
-    public array $disabled_post_ids = [];
-    public ?string $share_facebook;
-    public ?string $share_twitter;
-    public ?string $share_pinterest;
-    public ?string $share_download;
-    public ?string $close_on_drag;
-    public ?string $show_counter;
-    public ?string $skin;
-    public ?string $spacing;
-    public ?string $show_zoom;
-    public ?string $show_caption;
-    public ?string $usepostdata;
-    public ?string $loop;
-    public ?string $pinchtoclose;
-    public ?string $show_fullscreen;
-    public ?string $taptotoggle;
-    public ?string $share_direct;
-    public ?string $close_on_click;
-    public ?string $fulldesktop;
-    public ?string $use_alt;
-    public ?string $showexif;
-    public ?string $showexif_date;
-    public ?string $history;
-    public ?string $separate_galleries;
-    public ?string $desktop_slider;
-    public ?string $idletime;
-    public ?string $usedescription;
-    public ?string $add_lazyloading;
-    public ?string $wheelmode;
-    public ?string $share_copyurl;
-    public ?string $share_custom;
-    public ?string $share_custom_label;
-    public ?string $share_custom_link;
-    public ?string $metabox;
-    public array $disabled_post_types = [];
-    public ?string $use_cache;
-    public ?string $ignore_external;
-    public ?string $ignore_hash;
-    public ?string $hide_scrollbars;
-    public ?string $svg_scaling;
-    public ?string $cdn_mode;
-    public ?string $fix_links;
-    public ?string $usetitle;
-    public ?string $usecaption;
-
     const OPTIONS = [
-        [ 'name' => 'cdn_url', 'default' => '' ],
-        [ 'name' => 'disabled_post_ids', 'default' => '', 'type' => 'list' ],
-        [ 'name' => 'share_facebook', 'default' => '1' ],
-        [ 'name' => 'share_twitter', 'default' => '1' ],
-        [ 'name' => 'share_pinterest', 'default' => '1' ],
-        [ 'name' => 'share_download', 'default' => '1' ],
-        [ 'name' => 'close_on_drag', 'default' => '1' ],
-        [ 'name' => 'show_counter', 'default' => '1' ],
-        [ 'name' => 'skin', 'default' => '3' ],
-        [ 'name' => 'spacing', 'default' => '12' ],
-        [ 'name' => 'show_zoom', 'default' => '1' ],
-        [ 'name' => 'show_caption', 'default' => '1' ],
-        [ 'name' => 'usepostdata', 'default' => '0' ],
-        [ 'name' => 'loop', 'default' => '1' ],
-        [ 'name' => 'pinchtoclose', 'default' => '1' ],
-        [ 'name' => 'show_fullscreen', 'default' => '1' ],
-        [ 'name' => 'taptotoggle', 'default' => '1' ],
-        [ 'name' => 'share_direct', 'default' => '0' ],
-        [ 'name' => 'close_on_click', 'default' => '1' ],
-        [ 'name' => 'fulldesktop', 'default' => '0' ],
-        [ 'name' => 'use_alt', 'default' => '0' ],
-        [ 'name' => 'showexif', 'default' => '0' ],
-        [ 'name' => 'showexif_date', 'default' => '0' ],
-        [ 'name' => 'history', 'default' => '1' ],
-        [ 'name' => 'separate_galleries', 'default' => '0' ],
-        [ 'name' => 'desktop_slider', 'default' => '1' ],
-        [ 'name' => 'idletime', 'default' => '4000' ],
-        [ 'name' => 'usedescription', 'default' => '0' ],
-        [ 'name' => 'add_lazyloading', 'default' => '0' ],
-        [ 'name' => 'wheelmode', 'default' => 'zoom' ],
-        [ 'name' => 'share_copyurl', 'default' => '0' ],
-        [ 'name' => 'share_custom', 'default' => '' ],
-        [ 'name' => 'share_custom_label', 'default' => '' ],
-        [ 'name' => 'share_custom_link', 'default' => '' ],
-        [ 'name' => 'metabox', 'default' => '1' ],
-        [ 'name' => 'disabled_post_types', 'default' => '', 'type' => 'list' ],
-        [ 'name' => 'use_cache', 'default' => '0' ],
-        [ 'name' => 'ignore_external', 'default' => '0' ],
-        [ 'name' => 'ignore_hash', 'default' => '0' ],
-        [ 'name' => 'hide_scrollbars', 'default' => '1' ],
-        [ 'name' => 'svg_scaling', 'default' => '200' ],
-        [ 'name' => 'cdn_mode', 'default' => 'prefix' ],
-        [ 'name' => 'fix_links', 'default' => '1' ],
-        [ 'name' => 'usetitle', 'default' => '0' ],
-        [ 'name' => 'usecaption', 'default' => '1' ],
+        'cdn_url' => [ 'default' => '' ],
+        'disabled_post_ids' => [ 'default' => '', 'type' => 'list' ],
+        'share_facebook' => [ 'default' => '1' ],
+        'share_twitter' => [ 'default' => '1' ],
+        'share_pinterest' => [ 'default' => '1' ],
+        'share_download' => [ 'default' => '1' ],
+        'close_on_drag' => [ 'default' => '1' ],
+        'show_counter' => [ 'default' => '1' ],
+        'skin' => [ 'default' => '3' ],
+        'spacing' => [ 'default' => '12' ],
+        'show_zoom' => [ 'default' => '1' ],
+        'show_caption' => [ 'default' => '1' ],
+        'usepostdata' => [ 'default' => '0' ],
+        'loop' => [ 'default' => '1' ],
+        'pinchtoclose' => [ 'default' => '1' ],
+        'show_fullscreen' => [ 'default' => '1' ],
+        'taptotoggle' => [ 'default' => '1' ],
+        'share_direct' => [ 'default' => '0' ],
+        'close_on_click' => [ 'default' => '1' ],
+        'fulldesktop' => [ 'default' => '0' ],
+        'use_alt' => [ 'default' => '0' ],
+        'showexif' => [ 'default' => '0' ],
+        'showexif_date' => [ 'default' => '0' ],
+        'history' => [ 'default' => '1' ],
+        'separate_galleries' => [ 'default' => '0' ],
+        'desktop_slider' => [ 'default' => '1' ],
+        'idletime' => [ 'default' => '4000' ],
+        'usedescription' => [ 'default' => '0' ],
+        'add_lazyloading' => [ 'default' => '0' ],
+        'wheelmode' => [ 'default' => 'zoom' ],
+        'share_copyurl' => [ 'default' => '0' ],
+        'share_custom' => [ 'default' => '' ],
+        'share_custom_label' => [ 'default' => '' ],
+        'share_custom_link' => [ 'default' => '' ],
+        'metabox' => [ 'default' => '1' ],
+        'disabled_post_types' => [ 'default' => '', 'type' => 'list' ],
+        'use_cache' => [ 'default' => '0' ],
+        'ignore_external' => [ 'default' => '0' ],
+        'ignore_hash' => [ 'default' => '0' ],
+        'hide_scrollbars' => [ 'default' => '1' ],
+        'svg_scaling' => [ 'default' => '200' ],
+        'cdn_mode' => [ 'default' => 'prefix' ],
+        'fix_links' => [ 'default' => '1' ],
+        'usetitle' => [ 'default' => '0' ],
+        'usecaption' => [ 'default' => '1' ],
     ];
-    
-    protected Environment $twig;
+
+    public array $options;
 
     /**
      * Constructor
      */
-    public function __construct(Environment $twig)
+    public function __construct()
     {
-        $this->twig = $twig;
         $this->loadOptions();
     }
 
@@ -119,9 +70,57 @@ class OptionsManager
      */
     public function registerOptions(): void
     {
-        foreach (self::OPTIONS as $option) {
-            register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_'.$option['name']);
+        foreach (self::OPTIONS as $optionName => $option) {
+            register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_'.$optionName);
         }
+    }
+
+    /**
+     * Set option
+     */
+    public function setOption(string $name, $value, bool $save = false): void
+    {
+        $this->options[$name] = $value;
+        if ($save) {
+            switch($this->getOptionType($name)) {
+                case 'list':
+                    update_option($name, implode(',', $value));
+                    break;
+                default:
+                    update_option($name, $value);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Get option
+     */
+    public function getOption(string $name)
+    {
+        if (isset($this->options[$name])) {
+            return $this->options[$name];
+        }
+
+        switch ($this->getOptionType($name)) {
+            case 'list':
+                return [];
+            default:
+                return '';
+        }
+    }
+
+    /**
+     * Get option type
+     */
+    public function getOptionType($name): string
+    {
+        $option =  self::OPTIONS[$name];
+        if (isset(self::OPTIONS[$name]['type'])) {
+            return self::OPTIONS[$name]['type'];
+        }
+
+        return 'string';
     }
 
     /**
@@ -129,91 +128,24 @@ class OptionsManager
      */
     public function loadOptions(): void
     {
-        foreach (self::OPTIONS as $option) {
-            $nameValue = $option['name'];
+        foreach (self::OPTIONS as $nameValue => $option) {
             $nameOption = 'lightbox_photoswipe_'.$nameValue;
             $default = $option['default'];
-            if (isset($option['type'])) {
-                $type = $option['type'];
-            } else {
-                $type = 'string';
-            }
-            switch ($type) {
+
+            switch ($this->getOptionType($nameValue)) {
                 case 'list':
                     $value = trim(get_option($nameOption, $default));
                     if ('' === $value) {
-                        $this->$nameValue = [];
+                        $this->setOption($nameValue, []);
                     } else {
-                        $this->$nameValue = explode(',', $value);
+                        $this->setOption($nameValue, explode(',', $value));
                     }
                     break;
                 default:
                     $value = get_option($nameOption, $default);
-                    $this->$nameValue = $value;
+                    $this->setOption($nameValue, $value);
                     break;
             }
         }
-    }
-
-    /**
-     * Enqueue options for frontend script
-     */
-    public function enqueueFrontendOptions(): void
-    {
-        $translation_array = [
-            'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
-            'label_twitter' => __('Tweet', LightboxPhotoSwipe::SLUG),
-            'label_pinterest' => __('Pin it', LightboxPhotoSwipe::SLUG),
-            'label_download' => __('Download image', LightboxPhotoSwipe::SLUG),
-            'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::SLUG)
-        ];
-        $boolOptions = [
-            'share_facebook',
-            'share_twitter',
-            'share_pinterest',
-            'share_download',
-            'share_direct',
-            'share_copyurl',
-            'close_on_drag',
-            'history',
-            'show_counter',
-            'show_fullscreen',
-            'show_zoom',
-            'show_caption',
-            'loop',
-            'pinchtoclose',
-            'taptotoggle',
-            'close_on_click',
-            'fulldesktop',
-            'use_alt',
-            'usecaption',
-            'desktop_slider',
-        ];
-        foreach($boolOptions as $boolOption) {
-            $translation_array[$boolOption] = $this->$boolOption;
-        }
-        $customLink = ('' === $this->share_custom_link)?'{{raw_image_url}}':$this->share_custom_link;
-        $translation_array['share_custom_label'] = ($this->share_custom == '1')?htmlspecialchars($this->share_custom_label):'';
-        $translation_array['share_custom_link'] = ($this->share_custom == '1')?htmlspecialchars($customLink):'';
-        $translation_array['wheelmode'] = htmlspecialchars($this->wheelmode);
-        $translation_array['spacing'] = intval($this->spacing);
-        $translation_array['idletime'] = intval($this->idletime);
-        $translation_array['hide_scrollbars'] = intval($this->hide_scrollbars);
-        wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
-    }
-
-    /**
-     * Output page for backend settings
-     */
-    public function outputAdminSettingsPage(): void
-    {
-        global $wpdb;
-
-        echo $this->twig->render('options.html.twig', [
-            'optionsManager' => $this,
-            'wpdb' => $wpdb,
-            'hasSimpleXML' => function_exists('simplexml_load_file'),
-            'hasExif' => function_exists('exif_read_data'),
-        ]);
     }
 }

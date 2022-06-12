@@ -5,8 +5,7 @@
         </th>
         <td>
             {{ wpcontrolradio(
-                'lightbox_photoswipe_skin',
-                optionsManager.skin,
+                'skin',
                 [
                     '1',
                     '2',
@@ -29,7 +28,7 @@
         <td>
             <select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">
                 {% for spacing in 0..13 %}
-                    <option value="{{ spacing }}"{% if optionsManager.spacing == spacing %} selected{% endif %}>{{ spacing }}%{% if spacing == 12 %} ({{ 'Default'|wptrans }}){% endif %}</option>
+                    <option value="{{ spacing }}"{% if spacing == wpoption('spacing') %} selected{% endif %}>{{ spacing }}%{% if spacing == 12 %} ({{ 'Default'|wptrans }}){% endif %}</option>
                 {% endfor %}
             </select>
             <p class="description">{{ 'Space between pictures relative to screenwidth.'|wptrans }}</p>

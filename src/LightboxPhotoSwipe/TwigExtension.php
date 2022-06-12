@@ -10,10 +10,18 @@ use Twig\TwigFunction;
  */
 class TwigExtension extends AbstractExtension
 {
+    private OptionsManager $optionsManager;
+
+    /**
+     * Constructor
+     */
+    public function __construct(OptionsManager $optionsManager)
+    {
+        $this->optionsManager = $optionsManager;
+    }
+
     /**
      * Get supported filters
-     *
-     * @return TwigFilter[]
      */
     public function getFilters(): array
     {
@@ -24,14 +32,13 @@ class TwigExtension extends AbstractExtension
 
     /**
      * Get supported functions
-     *
-     * @return array
      */
     public function getFunctions(): array
     {
         return [
             new TwigFunction('wpsettingsfield', [$this, 'wpSettingsField'], ['is_safe' => ['html']]),
             new TwigFunction('wpsubmitbutton', [$this, 'wpSubmitButton'], ['is_safe' => ['html']]),
+            new TwigFunction('wpoption', [$this, 'wpOption', ['is_safe' => ['html']]]),
             new TwigFunction('wpcontroltext', [$this, 'wpControlText'], ['is_safe' => ['html']]),
             new TwigFunction('wpcontrolcheckbox', [$this, 'wpControlCheckbox'], ['is_safe' => ['html']]),
             new TwigFunction('wpcontrolradio', [$this, 'wpControlRadio'], ['is_safe' => ['html']]),
@@ -42,9 +49,6 @@ class TwigExtension extends AbstractExtension
 
     /**
      * Filter to translate text in the frontend
-     *
-     * @param string $text
-     * @return string
      */
     public function wpTranslate(string $text): string
     {
@@ -53,8 +57,6 @@ class TwigExtension extends AbstractExtension
 
     /**
      * Function to create the hidden settings fields required to submit the admin form
-     *
-     * @return string
      */
     public function wpSettingsField(): string
     {
@@ -67,8 +69,6 @@ class TwigExtension extends AbstractExtension
 
     /**
      * Function to create the submit button in the admin form
-     *
-     * @return string
      */
     public function wpSubmitButton(): string
     {
@@ -76,29 +76,44 @@ class TwigExtension extends AbstractExtension
     }
 
     /**
-     * Function to create a text control with an optional placeholder in the admin page
-     *
-     * @param string $name
-     * @param string $value
-     * @param string|null $placeholder
-     *
-     * @return string
+     * Get an option value
      */
-    public function wpControlText(string $name, string $value, ?string $placeholder = null): string
+    public function wpOption(string $name): string
     {
-        if ($placeholder) {
-            return sprintf(
-                '<input id="%1$s" class="regular-text" type="text" name="%1$s" value="%2$s" placeholder="%3$s" />',
-                esc_attr($name),
-                esc_attr($value),
-                esc_attr($placeholder)
-            );
+        switch ($this->optionsManager->getOptionType($name))
+        {
+            case 'list':
+                $value = implode(',', $this->optionsManager->getOption($name));
+                break;
+
+            default:
+                $value = $this->optionsManager->getOption($name);
+                break;
+        }
+
+        return htmlspecialchars($value);
+    }
+
+    /**
+     * Function to create a text control with an optional placeholder in the admin page
+     */
+    public function wpControlText(string $name, string $placeholder = ''): string
+    {
+        switch ($this->optionsManager->getOptionType($name)) {
+            case 'list':
+                $value = implode(',', $this->optionsManager->getOption($name));
+                break;
+
+            default:
+                $value = $this->optionsManager->getOption($name);
+                break;
         }
 
         return sprintf(
-            '<input id="%1$s" class="regular-text" type="text" name="%1$s" value="%2$s" />',
-            esc_attr($name),
-            esc_attr($value)
+            '<input id="%1$s" class="regular-text" type="text" name="%1$s" value="%2$s" placeholder="%3$s" />',
+            esc_attr('lightbox_photoswipe_'.$name),
+            esc_attr($value),
+            esc_attr($placeholder)
         );
     }
 
@@ -106,37 +121,29 @@ class TwigExtension extends AbstractExtension
      * Function to create a checkbox control in the admin page
      *
      * @param string $name
-     * @param string $value
      * @return string
      */
-    public function wpControlCheckbox(string $name, string $value): string
+    public function wpControlCheckbox(string $name): string
     {
         return sprintf(
             '<input id="%1$s" type="checkbox" name="%1$s" value="1"%2$s/>',
-            esc_attr($name),
-            1 === (int)$value ? ' checked' : ''
+            esc_attr('lightbox_photoswipe_'.$name),
+            1 === (int)$this->optionsManager->getOption($name) ? ' checked' : ''
         );
     }
 
     /**
      * Function to create a group of radio controls with custom separator in the admin page
-     *
-     * @param string $name
-     * @param string $value
-     * @param array $optionValues
-     * @param array $optionLabels
-     * @param string $separator
-     *
-     * @return string
      */
-    public function wpControlRadio(string $name, string $value, array $optionValues, array $optionLabels, string $separator): string
+    public function wpControlRadio(string $name, array $optionValues, array $optionLabels, string $separator): string
     {
+        $value = $this->optionsManager->getOption($name);
         $output = '';
         $num = 0;
         while ($num < count($optionValues)) {
             $output .= sprintf(
                 '<label style="margin-right:0.5em"><input id="%1$s" type="radio" name="%1$s" value="%2$s"%3$s/>%4$s</label>%5$s',
-                esc_attr($name),
+                esc_attr('lightbox_photoswipe_'.$name),
                 $optionValues[$num],
                 $value === $optionValues[$num] ? ' checked' : '',
                 $optionLabels[$num] ?? '',
