@@ -91,7 +91,7 @@ class TwigExtension extends AbstractExtension
                 break;
         }
 
-        return htmlspecialchars($value);
+        return _wp_specialchars($value);
     }
 
     /**
