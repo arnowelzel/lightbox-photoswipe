@@ -640,7 +640,7 @@ class LightboxPhotoSwipe
      */
     public function metaBoxOutputHtml($post): void
     {
-        wp_nonce_field( basename( __FILE__ ), 'lbwps_nonce' );
+        wp_nonce_field(basename( __FILE__ ), 'lbwps_nonce');
 
         $checked = '';
         if (in_array($post->ID, $this->optionsManager->getOption('disabled_post_ids'))) {
