@@ -84,12 +84,13 @@ class OptionsManager
         if ($save) {
             switch($this->getOptionType($name)) {
                 case 'list':
-                    update_option('lightbox_photoswipe_'.$name, implode(',', $value));
+                    $option = implode(',', $value);
                     break;
                 default:
-                    update_option('lightbox_photoswipe_'.$name, $value);
+                    $option = $value;
                     break;
             }
+            update_option('lightbox_photoswipe_'.$name, $option);
         }
     }
 
