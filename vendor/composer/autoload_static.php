@@ -21,6 +21,11 @@ class ComposerStaticInitc4099415952d7e7dbff811dd3e7cf5a3
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
+        'M' => 
+        array (
+            'MatthiasMullie\\PathConverter\\' => 29,
+            'MatthiasMullie\\Minify\\' => 22,
+        ),
         'L' => 
         array (
             'LightboxPhotoSwipe\\' => 19,
@@ -39,6 +44,14 @@ class ComposerStaticInitc4099415952d7e7dbff811dd3e7cf5a3
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'MatthiasMullie\\PathConverter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matthiasmullie/path-converter/src',
+        ),
+        'MatthiasMullie\\Minify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matthiasmullie/minify/src',
         ),
         'LightboxPhotoSwipe\\' => 
         array (

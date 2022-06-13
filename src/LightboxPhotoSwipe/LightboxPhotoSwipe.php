@@ -13,6 +13,7 @@ class LightboxPhotoSwipe
     const LIGHTBOX_PHOTOSWIPE_VERSION = '4.0.0';
     const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
+    const DB_VERSION = 33;
 
     private string $pluginFile;
     private OptionsManager $optionsManager;
@@ -768,7 +769,11 @@ class LightboxPhotoSwipe
             // Therefore we need to make sure, that the clean up job
             // is activated which usually is done for activation only.
             $this->addCleanupJob();
-            update_option('lightbox_photoswipe_db_version', 33);
+        }
+
+        if ((int)$dbVersion !== self::DB_VERSION) {
+            $this->cleanupTwigCache();
+            $this->optionsManager->setOption('db_version', self::DB_VERSION, true);
         }
 
         add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);

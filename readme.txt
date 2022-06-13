@@ -190,6 +190,12 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
 
 To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
 
+= Notes for developers =
+
+If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib` you need to execute `build.php` once to generate new frontend assets.
+
+If you change any of the templates in the `templates` folder, you need to empty the Twig cache which is usually located in `wp-content/cache/lightbox-photoswipe/twig`.
+
 == Screenshots ==
 
 1. General options in the backend

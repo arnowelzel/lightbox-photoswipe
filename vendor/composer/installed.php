@@ -1,24 +1,42 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
-    'name' => 'pickerei/pickerei-raumgestalter',
+    'reference' => 'd2c42f02f49f34bc432d2d1c109d043857879f2a',
+    'name' => 'arnowelzel/lightbox-photoswipe',
   ),
   'versions' => 
   array (
-    'pickerei/pickerei-raumgestalter' => 
+    'arnowelzel/lightbox-photoswipe' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'd2c42f02f49f34bc432d2d1c109d043857879f2a',
+    ),
+    'matthiasmullie/minify' => 
+    array (
+      'pretty_version' => '1.3.68',
+      'version' => '1.3.68.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c00fb02f71b2ef0a5f53fe18c5a8b9aa30f48297',
+    ),
+    'matthiasmullie/path-converter' => 
+    array (
+      'pretty_version' => '1.1.3',
+      'version' => '1.1.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e7d13b2c7e2f2268e1424aaed02085518afa02d9',
     ),
     'symfony/polyfill-ctype' => 
     array (
