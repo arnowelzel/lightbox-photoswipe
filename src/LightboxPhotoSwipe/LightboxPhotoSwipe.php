@@ -682,7 +682,6 @@ class LightboxPhotoSwipe
         }
         if (intval($dbVersion) < 22) {
             $this->deleteDatabaseTables();
-            $this->createTables();
         }
         if (intval($dbVersion) < 34) {
             // We don't use table based caching and don't need a cleanup job any longer
