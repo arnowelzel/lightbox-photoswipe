@@ -211,7 +211,7 @@ If you change any of the templates in the `templates` folder, you need to empty 
 = 4.0.0 =
 
 * Changed requirements to at least WordPress 5.0 and PHP 7.4.
-* Use Composer and Twig for backend.
+* Added Composer and Twig for backend and optimized backend code.
 * Fixed a bug which could prevent the cache cleanup job to be scheduled.
 
 = 3.4.3 =
