@@ -8,6 +8,7 @@ namespace LightboxPhotoSwipe;
 class OptionsManager
 {
     const OPTIONS = [
+        'db_version' => [ 'default' => '0' ],
         'cdn_url' => [ 'default' => '' ],
         'disabled_post_ids' => [ 'default' => '', 'type' => 'list' ],
         'share_facebook' => [ 'default' => '1' ],

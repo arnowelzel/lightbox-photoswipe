@@ -199,7 +199,7 @@ class LightboxPhotoSwipe
             return;
         }
 
-        $footer = $this->twig->render('footer.html.twig');
+        $footer = $this->twig->render('frontend.html.twig');
         $footer = apply_filters('lbwps_markup', $footer);
         echo $footer;
 
@@ -733,7 +733,7 @@ class LightboxPhotoSwipe
     {
         global $wpdb;
 
-        if (get_option('lightbox_photoswipe_use_cache') != '1') {
+        if ($this->optionsManager->getOption('use_cache') != '1') {
             $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
             $date = strftime('%Y-%m-%d %H:%M:%S', time() - 86400);
             $sql = "DELETE FROM $table_name where created<(\"$date\")";
@@ -748,7 +748,7 @@ class LightboxPhotoSwipe
     {
         load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
 
-        $dbVersion = get_option('lightbox_photoswipe_db_version');
+        $dbVersion = $this->optionsManager->getOption('db_version');
 
         if (intval($dbVersion) < 3) {
             delete_option('disabled_post_ids');

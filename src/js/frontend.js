@@ -37,75 +37,75 @@ let lbwpsInit = function(domUpdate) {
     let originalBodyPaddingRight = '';
     let originalBodyOverflow = '';
 
-	// Use group IDs of elementor image carousels for the image links inside
-	// 
-	// We assume the following structure:
-	// 
-	// <div class="elementor-widget-image-carousel ...">
-	//   <div class="elementor-widget-container ...">
-	//     <div class="elementor-image-carousel swiper-wrapper ...">
-	//       <div class="swiper-slide ...">
-	//         <a href="image-url">...</a>
-	//       </div>
-	//       <div class="swiper-slide ...">
-	//         <a href="image-url">...</a>
-	//       </div>
-	//       <div class="swiper-slide ...">
-	//         <a href="image-url">...</a>
-	//       </div>
-	//       ...
-	//     </div>
-	//   </div>
-	// </div>
-	// 
-	// Each carousel also contains one "swiper-slide-duplicate" div which is ignored as
-	// this is only used to repeat the first image at the end
+    // Use group IDs of elementor image carousels for the image links inside
+    // 
+    // We assume the following structure:
+    // 
+    // <div class="elementor-widget-image-carousel ...">
+    //   <div class="elementor-widget-container ...">
+    //     <div class="elementor-image-carousel swiper-wrapper ...">
+    //       <div class="swiper-slide ...">
+    //         <a href="image-url">...</a>
+    //       </div>
+    //       <div class="swiper-slide ...">
+    //         <a href="image-url">...</a>
+    //       </div>
+    //       <div class="swiper-slide ...">
+    //         <a href="image-url">...</a>
+    //       </div>
+    //       ...
+    //     </div>
+    //   </div>
+    // </div>
+    // 
+    // Each carousel also contains one "swiper-slide-duplicate" div which is ignored as
+    // this is only used to repeat the first image at the end
 
     let elementorCarouselWidgetList = document.querySelectorAll('div[class*="elementor-widget-image-carousel"]');
-	for (let i = 0; i < elementorCarouselWidgetList.length; i++) {
+    for (let i = 0; i < elementorCarouselWidgetList.length; i++) {
         let widgetId = elementorCarouselWidgetList[i].getAttribute('data-lbwps-gid');
-		if (widgetId != null) {
-			if (elementorCarouselWidgetList[i].firstElementChild != null &&
-				elementorCarouselWidgetList[i].firstElementChild.firstElementChild != null &&
-				elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild != null &&
-				elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild != null) {
+        if (widgetId != null) {
+            if (elementorCarouselWidgetList[i].firstElementChild != null &&
+                elementorCarouselWidgetList[i].firstElementChild.firstElementChild != null &&
+                elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild != null &&
+                elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild != null) {
                 let imageBlock = elementorCarouselWidgetList[i].firstElementChild.firstElementChild.firstElementChild.firstElementChild;
-				while(imageBlock != null) {
-					if (imageBlock != null && imageBlock.classList.contains('swiper-slide') && !imageBlock.classList.contains('swiper-slide-duplicate')) {
+                while(imageBlock != null) {
+                    if (imageBlock.classList.contains('swiper-slide') && !imageBlock.classList.contains('swiper-slide-duplicate')) {
                         let imageLink = imageBlock.firstElementChild;
-						if (imageLink != null && imageLink.nodeName == 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
-							imageLink.setAttribute('data-lbwps-gid', widgetId);
-						}
-					}
-					imageBlock = imageBlock.nextElementSibling;
-				}
-			}
-		}
-	}
+                        if (imageLink != null && imageLink.nodeName === 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
+                            imageLink.setAttribute('data-lbwps-gid', widgetId);
+                        }
+                    }
+                    imageBlock = imageBlock.nextElementSibling;
+                }
+            }
+        }
+    }
 
-	// Use group IDs of elementor image widgets for the image links inside
-	// 
-	// We assume the following structure:
-	// 
-	// <div class="elementor-widget-image ..." data-lbwbs-gid="...">
-	//   <div class="elementor-widget-container">
-	//     <a href="image-url">...</a>
-	//   </div>
-	// </div>
+    // Use group IDs of elementor image widgets for the image links inside
+    // 
+    // We assume the following structure:
+    // 
+    // <div class="elementor-widget-image ..." data-lbwbs-gid="...">
+    //   <div class="elementor-widget-container">
+    //     <a href="image-url">...</a>
+    //   </div>
+    // </div>
 
     let elementorImageWidgetList = document.querySelectorAll('div[class*="elementor-widget-image"]');
-	for (let i = 0; i < elementorImageWidgetList.length; i++) {
+    for (let i = 0; i < elementorImageWidgetList.length; i++) {
         let widgetId = elementorImageWidgetList[i].getAttribute('data-lbwps-gid');
-		if (widgetId != null) {
-			if (elementorImageWidgetList[i].firstElementChild != null &&
-				elementorImageWidgetList[i].firstElementChild.firstElementChild != null) {
+        if (widgetId != null) {
+            if (elementorImageWidgetList[i].firstElementChild != null &&
+                elementorImageWidgetList[i].firstElementChild.firstElementChild != null) {
                 let imageLink = elementorImageWidgetList[i].firstElementChild.firstElementChild;
-				if (imageLink != null && imageLink.nodeName == 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
-					imageLink.setAttribute('data-lbwps-gid', widgetId);
-				}
-			}
-		}
-	}
+                if (imageLink != null && imageLink.nodeName == 'A' && imageLink.getAttribute('data-lbwps-gid') == null) {
+                    imageLink.setAttribute('data-lbwps-gid', widgetId);
+                }
+            }
+        }
+    }
 
     let hideScrollbar = function () {
         const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
@@ -203,11 +203,11 @@ let lbwpsInit = function(domUpdate) {
                     title = title + '<div class="pswp__caption__title">' + element.getAttribute('data-lbwps-title') + '</div>';
                 }
 
-                if (lbwpsOptions.usecaption == '1' && caption != null) {
+                if (lbwpsOptions.usecaption === '1' && caption != null) {
                     title = title + '<div class="pswp__caption__text">' + caption + '</div>';
                 }
 
-                if (lbwpsOptions.use_alt == '1' && element.firstElementChild && element.firstElementChild.getAttribute('alt')) {
+                if (lbwpsOptions.use_alt === '1' && element.firstElementChild && element.firstElementChild.getAttribute('alt')) {
                     title = title + '<div class="pswp__caption__alt">' + element.firstElementChild.getAttribute('alt') + '</div>';
                 }
 
@@ -246,7 +246,7 @@ let lbwpsInit = function(domUpdate) {
         // Determine current selected item
         if (link != null) {
             for (let i = 0; i < galleryItems.length; i++) {
-                if (galleryItems[i].el.getAttribute('href') == link.getAttribute('href')) {
+                if (galleryItems[i].el.getAttribute('href') === link.getAttribute('href')) {
                     index = i;
                 }
             }
@@ -296,7 +296,7 @@ let lbwpsInit = function(domUpdate) {
         }
 
         items = parseThumbnailElements(element, id);
-        if(element_index == false) {
+        if(element_index === false) {
             index = items[1];
         } else {
             index = element_index;
@@ -316,37 +316,37 @@ let lbwpsInit = function(domUpdate) {
             options.galleryUID = id;
         }
 
-        if(lbwpsOptions.close_on_click == '0') {
+        if(lbwpsOptions.close_on_click === '0') {
             options.closeElClasses = ['pspw__button--close'];
         }
 
-        if(lbwpsOptions.share_facebook == '1' ||
-            lbwpsOptions.share_twitter == '1' ||
-            lbwpsOptions.share_pinterest == '1' ||
-            lbwpsOptions.share_download == '1' ||
-            lbwpsOptions.share_copyurl == '1' ||
+        if(lbwpsOptions.share_facebook === '1' ||
+            lbwpsOptions.share_twitter === '1' ||
+            lbwpsOptions.share_pinterest === '1' ||
+            lbwpsOptions.share_download === '1' ||
+            lbwpsOptions.share_copyurl === '1' ||
             (lbwpsOptions.share_custom_link !== '' && lbwpsOptions.share_custom_label !== '')) {
             options.shareEl = true;
             options.shareButtons = [];
-            if(lbwpsOptions.share_facebook == '1') {
-                if(lbwpsOptions.share_direct == '1') {
+            if(lbwpsOptions.share_facebook === '1') {
+                if(lbwpsOptions.share_direct === '1') {
                     url = 'https://www.facebook.com/sharer/sharer.php?u={{image_url}}';
                 } else {
                     url = 'https://www.facebook.com/sharer/sharer.php?u={{url}}';
                 }
                 options.shareButtons.push({id:'facebook', label:lbwpsOptions.label_facebook, url:url});
             }
-            if(lbwpsOptions.share_twitter == '1') {
-                if(lbwpsOptions.share_direct == '1') {
+            if(lbwpsOptions.share_twitter === '1') {
+                if(lbwpsOptions.share_direct === '1') {
                     url = 'https://twitter.com/intent/tweet?text={{text}}&url={{image_url}}';
                 } else {
                     url = 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}';
                 }
                 options.shareButtons.push({id:'twitter', label:lbwpsOptions.label_twitter, url:url});
             }
-            if(lbwpsOptions.share_pinterest == '1') options.shareButtons.push({id:'pinterest', label:lbwpsOptions.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'});
-            if(lbwpsOptions.share_download == '1') options.shareButtons.push({id:'download', label:lbwpsOptions.label_download, url:'{{raw_image_url}}', download:true});
-            if(lbwpsOptions.share_copyurl == '1') options.shareButtons.push({id:'copyurl', label:lbwpsOptions.label_copyurl, url:'{{raw_image_url}}', onclick:'window.lbwpsCopyToClipboard(\'{{raw_image_url}}\');return false;', download:false});
+            if(lbwpsOptions.share_pinterest === '1') options.shareButtons.push({id:'pinterest', label:lbwpsOptions.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'});
+            if(lbwpsOptions.share_download === '1') options.shareButtons.push({id:'download', label:lbwpsOptions.label_download, url:'{{raw_image_url}}', download:true});
+            if(lbwpsOptions.share_copyurl === '1') options.shareButtons.push({id:'copyurl', label:lbwpsOptions.label_copyurl, url:'{{raw_image_url}}', onclick:'window.lbwpsCopyToClipboard(\'{{raw_image_url}}\');return false;', download:false});
             if(lbwpsOptions.share_custom_link !== '' && lbwpsOptions.share_custom_label !== '') {
                 options.shareButtons.push({id:'custom', label:lbwpsOptions.share_custom_label, url:lbwpsOptions.share_custom_link, download:false});
             }
@@ -354,28 +354,27 @@ let lbwpsInit = function(domUpdate) {
             options.shareEl = false;
         }
 
-        if(lbwpsOptions.wheelmode == 'close') options.closeOnScroll = true;else options.closeOnScroll = false;
-        if(lbwpsOptions.wheelmode == 'zoom') options.zoomOnScroll = true;else options.zoomOnScroll = false;
-        if(lbwpsOptions.wheelmode == 'switch') options.switchOnScroll = true;else options.switchOnScroll = false;
-        if(lbwpsOptions.close_on_drag == '1') options.closeOnVerticalDrag = true;else options.closeOnVerticalDrag = false;
-        if(lbwpsOptions.history == '1') options.history = true;else options.history = false;
-        if(lbwpsOptions.show_counter == '1') options.counterEl = true;else options.counterEl = false;
-        if(lbwpsOptions.show_fullscreen == '1') options.fullscreenEl = true;else options.fullscreenEl = false;
-        if(lbwpsOptions.show_zoom == '1') options.zoomEl = true;else options.zoomEl = false;
-        if(lbwpsOptions.show_caption == '1') options.captionEl = true;else options.captionEl = false;
-        if(lbwpsOptions.loop == '1') options.loop = true;else options.loop = false;
-        if(lbwpsOptions.pinchtoclose == '1') options.pinchToClose = true;else options.pinchToClose = false;
-        if(lbwpsOptions.taptotoggle == '1') options.tapToToggleControls = true; else options.tapToToggleControls = false;
-        if(lbwpsOptions.desktop_slider == '1') options.desktopSlider = true; else options.desktopSlider = false;
+        options.closeOnScroll = lbwpsOptions.wheelmode === 'close';
+        options.zoomOnScroll = lbwpsOptions.wheelmode === 'zoom';
+        options.switchOnScroll = lbwpsOptions.wheelmode === 'switch';
+        options.closeOnVerticalDrag = lbwpsOptions.close_on_drag === '1';
+        options.history = lbwpsOptions.history === '1';
+        options.counterEl = lbwpsOptions.show_counter === '1';
+        options.fullscreenEl = lbwpsOptions.show_fullscreen === '1';
+        options.zoomEl = lbwpsOptions.show_zoom === '1';
+        options.captionEl = lbwpsOptions.show_caption === '1';
+        options.loop = lbwpsOptions.loop === '1';
+        options.pinchToClose = lbwpsOptions.pinchtoclose === '1';
+        options.tapToToggleControls = lbwpsOptions.taptotoggle === '1';
+        options.desktopSlider = lbwpsOptions.desktop_slider === '1';
         options.spacing = lbwpsOptions.spacing/100;
-
         options.timeToIdle = lbwpsOptions.idletime;
 
-        if(fromURL == true) {
+        if(fromURL === true) {
             options.index = parseInt(index, 10) - 1;
         }
 
-        if(lbwpsOptions.fulldesktop == '1') {
+        if(lbwpsOptions.fulldesktop === '1') {
             options.barsSize = {top: 0, bottom: 0};
         }
 
@@ -392,21 +391,21 @@ let lbwpsInit = function(domUpdate) {
             }
         });
 
-        if (returnToUrl != '') {
+        if (returnToUrl !== '') {
             gallery.listen('unbindEvents', function() {
                 document.location.href = returnToUrl;
             });
         }
 
         gallery.listen('destroy', function() {
-            if (lbwpsOptions.hide_scrollbars == '1') {
+            if (lbwpsOptions.hide_scrollbars === '1') {
                 showScrollbar();
             }
             window.lbwpsPhotoSwipe = null;
         })
 
         window.lbwpsPhotoSwipe = gallery;
-        if (lbwpsOptions.hide_scrollbars == '1') {
+        if (lbwpsOptions.hide_scrollbars === '1') {
             hideScrollbar();
         }
         gallery.init();
@@ -447,8 +446,7 @@ let lbwpsInit = function(domUpdate) {
 // Universal ready handler
 let lbwpsReady = (function () {
     let readyEventFired = false;
-    let readyEventListener = function (fn) {
-
+    return function (fn) {
         // Create an idempotent version of the 'fn' function
         let idempotentFn = function () {
             if (readyEventFired) {
@@ -463,13 +461,12 @@ let lbwpsReady = (function () {
             return idempotentFn()
         }
 
-		// Use the event callback
-		document.addEventListener("DOMContentLoaded", idempotentFn, false);
+        // Use the event callback
+        document.addEventListener("DOMContentLoaded", idempotentFn, false);
 
-		// A fallback to window.onload, that will always work
-		window.addEventListener("load", idempotentFn, false);
+        // A fallback to window.onload, that will always work
+        window.addEventListener("load", idempotentFn, false);
     };
-    return readyEventListener;
 })();
 
 lbwpsReady(function() {
