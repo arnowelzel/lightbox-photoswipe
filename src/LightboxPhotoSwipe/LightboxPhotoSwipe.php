@@ -24,6 +24,7 @@ class LightboxPhotoSwipe
     private int $galleryId;
     private bool $obActive;
     private int $obLevel;
+    private string $twigCacheFolder;
 
     /**
      * Constructor
@@ -33,6 +34,7 @@ class LightboxPhotoSwipe
         $this->pluginFile = $pluginFile;
 
         // If possible, create a cache folder for Twig
+        $this->twigCacheFolder = '-';
         $twigOptions = [];
         $wpCacheFolder = sprintf('%s/cache', WP_CONTENT_DIR);
         $twigCacheFolder = sprintf('%s/%s/twig/', $wpCacheFolder, self::SLUG);
@@ -48,7 +50,8 @@ class LightboxPhotoSwipe
         }
         if (is_writable($twigCacheFolder)) {
             if (!defined('SCRIPT_DEBUG') || !SCRIPT_DEBUG) {
-                $twigOptions['cache'] = $twigCacheFolder;
+                $this->twigCacheFolder = $twigCacheFolder;
+                $twigOptions['cache'] = $this->twigCacheFolder;
             }
         }
         // Initialize plugin
@@ -612,7 +615,8 @@ class LightboxPhotoSwipe
         global $wpdb;
 
         echo $this->twig->render('options.html.twig', [
-            'optionsManager' => $this,
+            'optionsManager' => $this->optionsManager,
+            'twigCacheFolder' => $this->twigCacheFolder,
             'wpdb' => $wpdb,
             'hasSimpleXML' => function_exists('simplexml_load_file'),
             'hasExif' => function_exists('exif_read_data'),
