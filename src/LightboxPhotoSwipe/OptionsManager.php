@@ -45,7 +45,6 @@ class OptionsManager
         'share_custom_link' => [ 'default' => '' ],
         'metabox' => [ 'default' => '1' ],
         'disabled_post_types' => [ 'default' => '', 'type' => 'list' ],
-        'use_cache' => [ 'default' => '0' ],
         'ignore_external' => [ 'default' => '0' ],
         'ignore_hash' => [ 'default' => '0' ],
         'hide_scrollbars' => [ 'default' => '1' ],
@@ -73,6 +72,17 @@ class OptionsManager
     {
         foreach (self::OPTIONS as $optionName => $option) {
             register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_'.$optionName);
+        }
+    }
+
+    /**
+     * Delete options
+     */
+    public function deleteOptions(): void
+    {
+        foreach (self::OPTIONS as $optionName => $option) {
+            delete_option('lightbox_photoswipe_'.$optionName);
+            $this->setOption($optionName, '');
         }
     }
 

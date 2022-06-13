@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -207,6 +207,10 @@ If you change any of the templates in the `templates` folder, you need to empty 
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 4.0.2 =
+
+* Removed cache table for image details and only use WordPress caching.
 
 = 4.0.0 =
 

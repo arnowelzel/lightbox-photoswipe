@@ -1,16 +1,22 @@
 <?php
+namespace LightboxPhotoSwipe;
+
+use LightboxPhotoSwipe\OptionsManager;
+
+require(__DIR__ . '/vendor/autoload.php');
+
 if(!defined('WP_UNINSTALL_PLUGIN')) exit();
 
 /**
- * Delete tables when uninstalling the plugin
- * 
+ * Make sure the old caching tables are removed when uninstalling the plugin
+ *
  * @return void
  */
 function lightboxPhotoswipeDeleteTables()
 {
     global $wpdb;
-    
-    $table_name = $wpdb->prefix . 'lightbox_photoswipe_img'; 
+
+    $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
     $sql = "DROP TABLE IF EXISTS $table_name";
     $wpdb->query($sql);
 }
@@ -24,32 +30,21 @@ function lightboxPhotoswipeUninstall()
 {
     global $wpdb;
 
+    $optionsManager = new OptionsManager();
+
     if (is_multisite()) {
         $blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
         foreach ($blog_ids as $blog_id) {
             switch_to_blog($blog_id);
             lightboxPhotoswipeDeleteTables();
-            delete_option('lightbox_photoswipe_db_version');
-            delete_option('lightbox_photoswipe_share_facebook');
-            delete_option('lightbox_photoswipe_share_pinterest');
-            delete_option('lightbox_photoswipe_share_twitter');
-            delete_option('lightbox_photoswipe_share_download');
-            delete_option('lightbox_photoswipe_close_on_scroll');
-            delete_option('lightbox_photoswipe_close_on_drag');
-            delete_option('lightbox_photoswipe_show_counter');
-            delete_option('lightbox_photoswipe_skin');
-            delete_option('lightbox_photoswipe_show_zoom');
-            delete_option('lightbox_photoswipe_show_caption');
-            delete_option('lightbox_photoswipe_spacing');
-            delete_option('lightbox_photoswipe_loop');
-            delete_option('lightbox_photoswipe_pinchtoclose');
-            delete_option('lightbox_photoswipe_usepostdata');
-            delete_option('lightbox_photoswipe_show_fullscreen');
+            $optionsManager->deleteOptions();
+            wp_clear_scheduled_hook('lbwps_cleanup');
             restore_current_blog();
         }
     } else {
         lightboxPhotoswipeDeleteTables();
-        delete_option('lightbox_photoswipe_db_version');
+        wp_clear_scheduled_hook('lbwps_cleanup');
+        $optionsManager->deleteOptions();
     }
 }
 

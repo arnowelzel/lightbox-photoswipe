@@ -5,15 +5,17 @@ namespace LightboxPhotoSwipe;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+use function Crontrol\Schedule\delete;
+
 /**
  * Main class for the plugin
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '4.0.1';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '4.0.2';
     const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
-    const DB_VERSION = 33;
+    const DB_VERSION = 34;
 
     private string $pluginFile;
     private OptionsManager $optionsManager;
@@ -79,8 +81,6 @@ class LightboxPhotoSwipe
                 add_shortcode('gallery', [$this, 'shortcodeGallery'], 10, 1);
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
             }
-        } else {
-            add_action('update_option_lightbox_photoswipe_use_cache', [$this, 'update_option_use_cache'], 10, 3);
         }
         add_action('wpmu_new_blog', [$this, 'onCreateBlog'], 10, 6);
         add_filter('wpmu_drop_tables', [$this, 'onDeleteBlog']);
@@ -355,101 +355,41 @@ class LightboxPhotoSwipe
 
             $imgkey = hash('md5', $file . $imgMtime);
 
-            if ($this->optionsManager->getOption('use_cache')) {
-                $cacheKey = "image:$imgkey";
+            $cacheKey = "image:$imgkey";
 
-                if (!$imgDetails = wp_cache_get($cacheKey, 'lbwps')) {
-                    $imageSize = $this->getImageSize($file, $extension);
+            if (!$imgDetails = wp_cache_get($cacheKey, 'lbwps')) {
+                $imageSize = $this->getImageSize($file, $extension);
 
-                    if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
-                        $imgDetails = [
-                            'imageSize'    => $imageSize,
-                            'exifCamera'   => '',
-                            'exifFocal'    => '',
-                            'exifFstop'    => '',
-                            'exifShutter'  => '',
-                            'exifIso'      => '',
-                            'exifDateTime' => '',
-                        ];
+                if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
+                    $imgDetails = [
+                        'imageSize'    => $imageSize,
+                        'exifCamera'   => '',
+                        'exifFocal'    => '',
+                        'exifFstop'    => '',
+                        'exifShutter'  => '',
+                        'exifIso'      => '',
+                        'exifDateTime' => '',
+                    ];
 
-                        if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
-                            $exif = @exif_read_data( $file, 'EXIF', true );
-                            if (false !== $exif) {
-                                $this->exifHelper->setExifData($exif);
-                                $imgDetails['exifCamera']   = $this->exifHelper->getCamera();
-                                $imgDetails['exifFocal']    = $this->exifHelper->getFocalLength();
-                                $imgDetails['exifFstop']    = $this->exifHelper->getFstop();
-                                $imgDetails['exifShutter']  = $this->exifHelper->getShutter();
-                                $imgDetails['exifIso']      = $this->exifHelper->getIso();
-                                $imgDetails['exifDateTime'] = $this->exifHelper->getDateTime();
-                            }
+                    if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
+                        $exif = @exif_read_data( $file, 'EXIF', true );
+                        if (false !== $exif) {
+                            $this->exifHelper->setExifData($exif);
+                            $imgDetails['exifCamera']   = $this->exifHelper->getCamera();
+                            $imgDetails['exifFocal']    = $this->exifHelper->getFocalLength();
+                            $imgDetails['exifFstop']    = $this->exifHelper->getFstop();
+                            $imgDetails['exifShutter']  = $this->exifHelper->getShutter();
+                            $imgDetails['exifIso']      = $this->exifHelper->getIso();
+                            $imgDetails['exifDateTime'] = $this->exifHelper->getDateTime();
                         }
-
-                        wp_cache_add($cacheKey, $imgDetails, 'lbwps', self::CACHE_EXPIRE_IMG_DETAILS);
                     }
-                }
 
-                if (is_array($imgDetails)) {
-                    extract($imgDetails);
+                    wp_cache_add($cacheKey, $imgDetails, 'lbwps', self::CACHE_EXPIRE_IMG_DETAILS);
                 }
-            } else {
-                $imageSize[0] = 0;
-                $imageSize[1] = 0;
-                $exifCamera = '';
-                $exifFocal = '';
-                $exifFstop = '';
-                $exifShutter = '';
-                $exifIso = '';
-                $exifDateTime = '';
-                $tableImg = $wpdb->prefix . 'lightbox_photoswipe_img';
-                $entry = $wpdb->get_row("SELECT width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime FROM $tableImg where imgkey='$imgkey'");
-                if (null != $entry) {
-                    $imageSize[0] = $entry->width;
-                    $imageSize[1] = $entry->height;
-                    $exifCamera = $entry->exif_camera;
-                    $exifFocal = $entry->exif_focal;
-                    $exifFstop  = $entry->exif_fstop;
-                    $exifShutter = $entry->exif_shutter;
-                    $exifIso = $entry->exif_iso;
-                    $exifDateTime = $entry->exif_datetime;
-                } else {
-                    $imageSize = $this->getImageSize($file, $extension);
-                    if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
-                        if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
-                            $exif = @exif_read_data($file, 'EXIF', true);
-                            if (false !== $exif) {
-                                $this->exifHelper->setExifData($exif);
-                                $exifCamera = $this->exifHelper->getCamera();
-                                $exifFocal = $this->exifHelper->getFocalLength();
-                                $exifFstop = $this->exifHelper->getFstop();
-                                $exifShutter = $this->exifHelper->getShutter();
-                                $exifIso = $this->exifHelper->getIso();
-                                $exifDateTime = $this->exifHelper->getDateTime();
-                            }
-                        }
+            }
 
-                        $created = strftime('%Y-%m-%d %H:%M:%S');
-                        $sql = sprintf(
-                            'INSERT INTO %s (imgkey, created, width, height, exif_camera, exif_focal, exif_fstop, exif_shutter, exif_iso, exif_datetime)'.
-                            ' VALUES ("%s", "%s", "%d", "%d", "%s", "%s", "%s", "%s", "%s", "%s")',
-                            $tableImg,
-                            $imgkey,
-                            $created,
-                            $imageSize[0],
-                            $imageSize[1],
-                            $exifCamera,
-                            $exifFocal,
-                            $exifFstop,
-                            $exifShutter,
-                            $exifIso,
-                            $exifDateTime
-                        );
-                        $wpdb->query($sql);
-                    } else {
-                        $imageSize[0] = 0;
-                        $imageSize[1] = 0;
-                    }
-                }
+            if (is_array($imgDetails)) {
+                extract($imgDetails);
             }
 
             $attr = '';
@@ -718,7 +658,6 @@ class LightboxPhotoSwipe
      */
     public function onActivate(): void
     {
-        $this->addCleanupJob();
     }
 
     /**
@@ -726,24 +665,7 @@ class LightboxPhotoSwipe
      */
     public function onDeactivate(): void
     {
-        // Remove scheduled clean up job
         wp_clear_scheduled_hook('lbwps_cleanup');
-    }
-
-    /**
-     * Scheduled job for database cleanup
-     * This will remove cached image data which is older than 24 hours
-     */
-    public function cleanupDatabase(): void
-    {
-        global $wpdb;
-
-        if ($this->optionsManager->getOption('use_cache') != '1') {
-            $table_name = $wpdb->prefix . 'lightbox_photoswipe_img';
-            $date = strftime('%Y-%m-%d %H:%M:%S', time() - 86400);
-            $sql = "DELETE FROM $table_name where created<(\"$date\")";
-            $wpdb->query($sql);
-        }
     }
 
     /**
@@ -751,10 +673,10 @@ class LightboxPhotoSwipe
      */
     public function init(): void
     {
+        global $wpdb;
+
         load_plugin_textdomain('lightbox-photoswipe', false, 'lightbox-photoswipe/languages/');
-
         $dbVersion = $this->optionsManager->getOption('db_version');
-
         if (intval($dbVersion) < 3) {
             delete_option('disabled_post_ids');
         }
@@ -765,33 +687,17 @@ class LightboxPhotoSwipe
             $this->deleteTables();
             $this->createTables();
         }
-        if (intval($dbVersion) < 33) {
-            // After changing the plugin to a class structure, the
-            // hooks for activation and deactivation did not get called
-            // any longer :-(
-            //
-            // Therefore we need to make sure, that the clean up job
-            // is activated which usually is done for activation only.
-            $this->addCleanupJob();
+        if (intval($dbVersion) < 34) {
+            // We don't use table based caching and don't need a cleanup job any longer
+            delete_option('lightbox_photoswipe_use_cache');
+            wp_clear_scheduled_hook('lbwps_cleanup');
+            $table_name = $wpdb->prefix.'lightbox_photoswipe_img';
+            $sql = "DROP TABLE IF EXISTS $table_name";
+            $wpdb->query($sql);
         }
-
         if ((int)$dbVersion !== self::DB_VERSION) {
             $this->cleanupTwigCache();
             $this->optionsManager->setOption('db_version', self::DB_VERSION, true);
-        }
-
-        add_action('lbwps_cleanup', [$this, 'cleanupDatabase']);
-    }
-
-    /**
-     * Helper to handle "use cache" option which deletes the cache tables if required.
-     */
-    public function update_option_use_cache($old_value, $value, $option): void
-    {
-        if (!$old_value && $value === '1' ) {
-            $this->deleteTables();
-        } else if ($old_value === '1' && !$value) {
-            $this->createTables();
         }
     }
 
@@ -840,57 +746,6 @@ class LightboxPhotoSwipe
         $translation_array['idletime'] = intval($this->optionsManager->getOption('idletime'));
         $translation_array['hide_scrollbars'] = intval($this->optionsManager->getOption('hide_scrollbars'));
         wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
-    }
-
-    /**
-     * Create custom database tables
-     */
-    protected function createTables(): void
-    {
-        global $wpdb;
-
-        $tableName = $wpdb->prefix . 'lightbox_photoswipe_img';
-        $charsetCollate = $wpdb->get_charset_collate();
-        $sql = "CREATE TABLE $tableName (
-          imgkey char(64) DEFAULT '' NOT NULL,
-          created datetime,
-          width mediumint(7),
-          height mediumint(7),
-          exif_camera varchar(255),
-          exif_focal varchar(255),
-          exif_fstop varchar(255),
-          exif_shutter varchar(255),
-          exif_iso varchar(255),
-          exif_datetime varchar(255),
-          PRIMARY KEY (imgkey),
-          INDEX idx_created (created)
-        ) $charsetCollate;";
-        include_once ABSPATH.'wp-admin/includes/upgrade.php';
-        $wpdb->query($sql);
-    }
-
-    /**
-     * Delete custom database tables
-     */
-    protected function deleteTables(): void
-    {
-        global $wpdb;
-
-        $table_name = $wpdb->prefix.'lightbox_photoswipe_img';
-        $sql = "DROP TABLE IF EXISTS $table_name";
-        $wpdb->query($sql);
-    }
-
-    /**
-     * Add cleanup job if needed
-     *
-     * @return void
-     */
-    protected function addCleanupJob(): void
-    {
-        if (!wp_next_scheduled('lbwps_cleanup')) {
-            wp_schedule_event(time(), 'hourly', 'lbwps_cleanup');
-        }
     }
 
     /**
