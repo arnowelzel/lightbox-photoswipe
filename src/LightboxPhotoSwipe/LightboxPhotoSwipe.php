@@ -681,7 +681,7 @@ class LightboxPhotoSwipe
             $this->onActivate();
         }
         if (intval($dbVersion) < 22) {
-            $this->deleteTables();
+            $this->deleteDatabaseTables();
             $this->createTables();
         }
         if (intval($dbVersion) < 34) {
@@ -713,7 +713,7 @@ class LightboxPhotoSwipe
             $blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
             foreach ($blog_ids as $blog_id) {
                 switch_to_blog($blog_id);
-                lightboxPhotoswipeDeleteTables();
+                $this->deleteDatabaseTables();
                 $optionsManager->deleteOptions();
                 wp_clear_scheduled_hook('lbwps_cleanup');
                 restore_current_blog();
@@ -721,6 +721,7 @@ class LightboxPhotoSwipe
         } else {
             lightboxPhotoswipeDeleteTables();
             wp_clear_scheduled_hook('lbwps_cleanup');
+            $this->deleteDatabaseTables();
             $optionsManager->deleteOptions();
         }
     }
@@ -730,7 +731,7 @@ class LightboxPhotoSwipe
      *
      * @return void
      */
-    protected function uninstallDeleteTables()
+    protected function deleteDatabaseTables()
     {
         global $wpdb;
 
