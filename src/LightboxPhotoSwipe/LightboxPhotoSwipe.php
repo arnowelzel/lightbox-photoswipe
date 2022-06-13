@@ -10,7 +10,7 @@ use Twig\Loader\FilesystemLoader;
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '4.0.0';
+    const LIGHTBOX_PHOTOSWIPE_VERSION = '4.0.1';
     const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 33;
