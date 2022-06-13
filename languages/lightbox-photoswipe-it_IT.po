@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-06-13 09:34+0000\n"
+"PO-Revision-Date: 2022-06-13 10:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -286,6 +286,9 @@ msgstr "Nuovo simbolo di condivisione con sfondo uniforme"
 msgid "Next (arrow right)"
 msgstr "Successivo (freccia a destra)"
 
+msgid "no"
+msgstr "no"
+
 #: options-manager.php:436
 msgid "Original"
 msgstr "Originale"
@@ -459,8 +462,8 @@ msgstr ""
 msgid "Tweet"
 msgstr "Tweet"
 
-msgid "Twig cache"
-msgstr "Twig-Cache"
+msgid "Twig cache enabled"
+msgstr "Cache Twig abilitata"
 
 #: options-manager.php:384
 msgid ""
@@ -499,6 +502,9 @@ msgstr "Elementi visibili"
 #: options-manager.php:486
 msgid "Visible sharing options"
 msgstr "Opzioni di condivisione visibili"
+
+msgid "yes"
+msgstr "sì"
 
 #: options-manager.php:500
 msgid "Your label here"

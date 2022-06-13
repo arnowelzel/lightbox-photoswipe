@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-06-13 09:33+0000\n"
+"PO-Revision-Date: 2022-06-13 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -286,6 +286,9 @@ msgstr "Neues Teilen-Symbol mit festem Hintergrund"
 msgid "Next (arrow right)"
 msgstr "Nächstes (Cursor rechts)"
 
+msgid "no"
+msgstr "nein"
+
 #: options-manager.php:436
 msgid "Original"
 msgstr "Original"
@@ -461,8 +464,8 @@ msgstr ""
 msgid "Tweet"
 msgstr "Tweet"
 
-msgid "Twig cache"
-msgstr "Twig-Cache"
+msgid "Twig cache enabled"
+msgstr "Twig-Cache aktiviert"
 
 #: options-manager.php:384
 msgid ""
@@ -502,6 +505,9 @@ msgstr "Sichtbare Elemente"
 #: options-manager.php:486
 msgid "Visible sharing options"
 msgstr "Sichtbare Teilen-Optionen"
+
+msgid "yes"
+msgstr "ja"
 
 #: options-manager.php:500
 msgid "Your label here"
