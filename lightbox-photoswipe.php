@@ -10,8 +10,6 @@ Text Domain: lightbox-photoswipe
 */
 namespace LightboxPhotoSwipe;
 
-use Twig\Loader\FilesystemLoader;
-use Twig\Environment;
 use LightboxPhotoSwipe\LightboxPhotoSwipe;
 
 defined('ABSPATH') or die();
