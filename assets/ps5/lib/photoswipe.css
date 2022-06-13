@@ -260,7 +260,6 @@ and show (for example fade in) when PhotoSwipe is opened
 div.pswp__img--placeholder,
 .pswp__img--with-bg {
 	background: var(--pswp-placeholder-bg);
-    display: none;
 }
 
 .pswp__top-bar {
