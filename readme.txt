@@ -571,7 +571,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 * Added backend option to enable or disable "tap to toggle UI controls" gesture on mobile devices.
 * Added experimental support for "return on close" (see the description how to use this).
 * Internal links without domain part (`/wp-content/...` instead of `http://domain.example/wp-content/...`) now also work.
-* Code refactoring: frontend script is now called "js/frontend.js".
+* Code refactoring: frontend script is now called "js/scripts-ps5.js".
 * Improved support for captions in Meow Gallery.
 
 = 1.97 =

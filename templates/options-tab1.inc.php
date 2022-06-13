@@ -1,6 +1,14 @@
 <table id="lbwps-tab-1" class="form-table">
     <tr>
         <th scope="row">
+            <label for="lightbox_photoswipe_version"><?php echo __('PhotoSwipe version to use', self::SLUG); ?></label>
+        </th>
+        <td>
+            <?php $this->uiControlRadio('version', ['4', '5'], [__('version 4', self::SLUG), __('version 5', self::SLUG)], ' '); ?>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
             <label for="lightbox_photoswipe_disabled_post_ids"><?php echo __('Excluded pages/posts', self::SLUG); ?></label>
         </th>
         <td>

@@ -39,6 +39,7 @@ class LightboxPhotoSwipe
         $this->obLevel = 0;
 
         if (!is_admin()) {
+            add_filter('script_loader_tag', [$this,'addScriptModule'] , 10, 3);
             add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
             add_action('wp_footer', [$this, 'outputFooter']);
             add_action('wp_head', [$this, 'bufferStart'], 2050);
@@ -73,6 +74,18 @@ class LightboxPhotoSwipe
     }
 
     /**
+     * Add module attribute to PhotoSwipe 5 script
+     */
+    function addScriptModule($tag, $handle, $src)
+    {
+        if ( 'lbwps-photoswipe5' !== $handle ) {
+            return $tag;
+        }
+        $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+        return $tag;
+    }
+
+    /**
      * Enqueue Scripts/CSS
      */
     public function enqueueScripts(): void
@@ -91,73 +104,91 @@ class LightboxPhotoSwipe
             return;
         }
 
-        if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+        if ($this->optionsManager->getOption('version') === '5') {
+            $handle = 'lbwps-photoswipe5';
             wp_enqueue_script(
-                'lbwps-photoswipe',
-                sprintf('%ssrc/lib/photoswipe.js', $this->getPluginUrl()),
+                'lbwps-photoswipe5',
+                sprintf('%sassets/scripts-ps5.js', $this->getPluginUrl()),
                 [],
                 self::VERSION,
                 true
-            );
-            wp_enqueue_script(
-                'lbwps-photoswipe-ui',
-                sprintf('%ssrc/lib/photoswipe-ui-default.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
-            wp_enqueue_script(
-                'lbwps',
-                sprintf('%ssrc/js/frontend.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
-        } else {
-            wp_enqueue_script(
-                'lbwps',
-                sprintf('%sassets/scripts.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
-        }
-        $this->enqueueFrontendOptions();
-        switch ($this->optionsManager->getOption('skin')) {
-            case '2':
-                $skin = 'classic-solid';
-                break;
-            case '3':
-                $skin = 'default';
-                break;
-            case '4':
-                $skin = 'default-solid';
-                break;
-            default:
-                $skin = 'classic';
-                break;
-        }
-        if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
-            wp_enqueue_style(
-                'lbwps-styles-photoswipe',
-                sprintf('%ssrc/lib/photoswipe.css', $this->getPluginUrl()),
-                false,
-                self::VERSION
             );
             wp_enqueue_style(
-                'lbwps-styles',
-                sprintf('%ssrc/lib/skins/%s/skin.css', $this->getPluginUrl(), $skin),
+                'lbwps-styles-photoswipe5',
+                sprintf('%sassets/ps5/lib/photoswipe.css', $this->getPluginUrl()),
                 false,
                 self::VERSION
             );
         } else {
-            wp_enqueue_style(
-                'lbwps-styles',
-                sprintf('%sassets/styles/%s.css', $this->getPluginUrl(), $skin),
-                false,
-                self::VERSION
-            );
+            $handle = 'lbwps';
+            if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+                wp_enqueue_script(
+                    'lbwps-photoswipe',
+                    sprintf('%ssrc/lib/photoswipe.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+                wp_enqueue_script(
+                    'lbwps-photoswipe-ui',
+                    sprintf('%ssrc/lib/photoswipe-ui-default.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+                wp_enqueue_script(
+                    'lbwps',
+                    sprintf('%ssrc/js/frontend.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            } else {
+                wp_enqueue_script(
+                    'lbwps',
+                    sprintf('%sassets/scripts.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            }
+            switch ($this->optionsManager->getOption('skin')) {
+                case '2':
+                    $skin = 'classic-solid';
+                    break;
+                case '3':
+                    $skin = 'default';
+                    break;
+                case '4':
+                    $skin = 'default-solid';
+                    break;
+                default:
+                    $skin = 'classic';
+                    break;
+            }
+            if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+                wp_enqueue_style(
+                    'lbwps-styles-photoswipe',
+                    sprintf('%ssrc/lib/photoswipe.css', $this->getPluginUrl()),
+                    false,
+                    self::VERSION
+                );
+                wp_enqueue_style(
+                    'lbwps-styles',
+                    sprintf('%ssrc/lib/skins/%s/skin.css', $this->getPluginUrl(), $skin),
+                    false,
+                    self::VERSION
+                );
+            } else {
+                wp_enqueue_style(
+                    'lbwps-styles',
+                    sprintf('%sassets/styles/%s.css', $this->getPluginUrl(), $skin),
+                    false,
+                    self::VERSION
+                );
+            }
         }
+        $this->enqueueFrontendOptions($handle);
     }
 
     /**
@@ -793,7 +824,7 @@ class LightboxPhotoSwipe
     /**
      * Enqueue options for frontend script
      */
-    protected function enqueueFrontendOptions(): void
+    protected function enqueueFrontendOptions(string $handle): void
     {
         $translation_array = [
             'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
@@ -834,7 +865,7 @@ class LightboxPhotoSwipe
         $translation_array['spacing'] = intval($this->optionsManager->getOption('spacing'));
         $translation_array['idletime'] = intval($this->optionsManager->getOption('idletime'));
         $translation_array['hide_scrollbars'] = intval($this->optionsManager->getOption('hide_scrollbars'));
-        wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
+        wp_localize_script($handle, 'lbwpsOptions', $translation_array);
     }
 
     /**

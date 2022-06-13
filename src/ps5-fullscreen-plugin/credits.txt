@@ -1,0 +1,5 @@
+Credits:
+https://github.com/BilouMaster
+
+Source:
+https://github.com/dimsemenov/PhotoSwipe/issues/1759
