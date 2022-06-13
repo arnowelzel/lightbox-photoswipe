@@ -353,11 +353,8 @@ class LightboxPhotoSwipe
                 $imgMtime = 0;
             }
 
-            $imgkey = hash('md5', $file . $imgMtime);
-
-            $cacheKey = "image:$imgkey";
-
-            if (!$imgDetails = wp_cache_get($cacheKey, 'lbwps')) {
+            $cacheKey = sprintf('%s-imgdata-%s', self::SLUG, hash('md5', $file.$imgMtime));
+            if (!$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file, $extension);
 
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
@@ -384,7 +381,7 @@ class LightboxPhotoSwipe
                         }
                     }
 
-                    wp_cache_add($cacheKey, $imgDetails, 'lbwps', self::CACHE_EXPIRE_IMG_DETAILS);
+                    set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
                 }
             }
 

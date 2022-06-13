@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-06-13 10:30+0000\n"
+"PO-Revision-Date: 2022-06-13 12:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -445,6 +445,13 @@ msgstr ""
 #: options-manager.php:469
 msgid "Title"
 msgstr "Titolo"
+
+msgid ""
+"To improve performance with large image galleries you can use caching "
+"plugins like Redis Object Cache"
+msgstr ""
+"Per migliorare le prestazioni con gallerie di immagini di grandi dimensioni "
+"puoi utilizzare plug-in di memorizzazione nella cache come Redis Object Cache"
 
 #: lightbox-photoswipe.php:185
 msgid "Toggle fullscreen"
