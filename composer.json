@@ -2,7 +2,6 @@
     "name": "arnowelzel/lightbox-photoswipe",
     "type": "project",
     "require": {
-        "twig/twig": "^3.0",
         "matthiasmullie/minify": "^1.3"
     },
     "autoload": {

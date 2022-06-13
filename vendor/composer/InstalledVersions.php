@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'd2c42f02f49f34bc432d2d1c109d043857879f2a',
+    'reference' => '1c2fee0b67df2f3dd7b84333c78fb97c0154db35',
     'name' => 'arnowelzel/lightbox-photoswipe',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'd2c42f02f49f34bc432d2d1c109d043857879f2a',
+      'reference' => '1c2fee0b67df2f3dd7b84333c78fb97c0154db35',
     ),
     'matthiasmullie/minify' => 
     array (
@@ -61,33 +61,6 @@ private static $installed = array (
       array (
       ),
       'reference' => 'e7d13b2c7e2f2268e1424aaed02085518afa02d9',
-    ),
-    'symfony/polyfill-ctype' => 
-    array (
-      'pretty_version' => 'v1.25.0',
-      'version' => '1.25.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '30885182c981ab175d4d034db0f6f469898070ab',
-    ),
-    'symfony/polyfill-mbstring' => 
-    array (
-      'pretty_version' => 'v1.25.0',
-      'version' => '1.25.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '0abb51d2f102e00a4eefcf46ba7fec406d245825',
-    ),
-    'twig/twig' => 
-    array (
-      'pretty_version' => 'v3.4.1',
-      'version' => '3.4.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'e939eae92386b69b49cfa4599dd9bead6bf4a342',
     ),
   ),
 );

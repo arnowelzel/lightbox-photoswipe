@@ -2,31 +2,25 @@
 
 namespace LightboxPhotoSwipe;
 
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-
-use function Crontrol\Schedule\delete;
-
 /**
  * Main class for the plugin
  */
 class LightboxPhotoSwipe
 {
-    const LIGHTBOX_PHOTOSWIPE_VERSION = '4.0.2';
+    const VERSION = '4.0.3';
     const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 34;
+    const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
 
     private string $pluginFile;
     private OptionsManager $optionsManager;
     private ExifHelper $exifHelper;
-    private Environment $twig;
 
     private bool $enabled;
     private int $galleryId;
     private bool $obActive;
     private int $obLevel;
-    private string $twigCache;
 
     /**
      * Constructor
@@ -35,37 +29,9 @@ class LightboxPhotoSwipe
     {
         $this->pluginFile = $pluginFile;
 
-        // If possible, create a cache folder for Twig
-        $this->twigCache = false;
-        $twigOptions = [];
-        $wpCacheFolder = sprintf('%s/cache', WP_CONTENT_DIR);
-        $twigCacheFolder = sprintf('%s/%s/twig/', $wpCacheFolder, self::SLUG);
-        if (is_writable(WP_CONTENT_DIR)) {
-            if (!file_exists($wpCacheFolder)) {
-                mkdir($wpCacheFolder);
-            }
-        }
-        if (is_writable($wpCacheFolder)) {
-            if (!file_exists($twigCacheFolder)) {
-                mkdir($twigCacheFolder, 0777, true);
-            }
-        }
-        if (is_writable($twigCacheFolder)) {
-            if (!defined('SCRIPT_DEBUG') || !SCRIPT_DEBUG) {
-                $this->twigCache = true;
-                $twigOptions['cache'] = $twigCacheFolder;
-            }
-        }
         // Initialize plugin
         $this->optionsManager = new OptionsManager();
         $this->exifHelper = new ExifHelper();
-
-        // Initialize Twig and extensions
-        $this->twig = new Environment(
-            new FilesystemLoader(sprintf('%s/%s/templates', WP_PLUGIN_DIR, self::SLUG)),
-            $twigOptions
-        );
-        $this->twig->addExtension(new TwigExtension($this->optionsManager));
 
         $this->enabled = true;
         $this->galleryId = 1;
@@ -130,21 +96,21 @@ class LightboxPhotoSwipe
                 'lbwps-photoswipe',
                 sprintf('%ssrc/lib/photoswipe.js', $this->getPluginUrl()),
                 [],
-                self::LIGHTBOX_PHOTOSWIPE_VERSION,
+                self::VERSION,
                 true
             );
             wp_enqueue_script(
                 'lbwps-photoswipe-ui',
                 sprintf('%ssrc/lib/photoswipe-ui-default.js', $this->getPluginUrl()),
                 [],
-                self::LIGHTBOX_PHOTOSWIPE_VERSION,
+                self::VERSION,
                 true
             );
             wp_enqueue_script(
                 'lbwps',
                 sprintf('%ssrc/js/frontend.js', $this->getPluginUrl()),
                 [],
-                self::LIGHTBOX_PHOTOSWIPE_VERSION,
+                self::VERSION,
                 true
             );
         } else {
@@ -152,7 +118,7 @@ class LightboxPhotoSwipe
                 'lbwps',
                 sprintf('%sassets/scripts.js', $this->getPluginUrl()),
                 [],
-                self::LIGHTBOX_PHOTOSWIPE_VERSION,
+                self::VERSION,
                 true
             );
         }
@@ -176,20 +142,20 @@ class LightboxPhotoSwipe
                 'lbwps-styles-photoswipe',
                 sprintf('%ssrc/lib/photoswipe.css', $this->getPluginUrl()),
                 false,
-                self::LIGHTBOX_PHOTOSWIPE_VERSION
+                self::VERSION
             );
             wp_enqueue_style(
                 'lbwps-styles',
                 sprintf('%ssrc/lib/skins/%s/skin.css', $this->getPluginUrl(), $skin),
                 false,
-                self::LIGHTBOX_PHOTOSWIPE_VERSION
+                self::VERSION
             );
         } else {
             wp_enqueue_style(
                 'lbwps-styles',
                 sprintf('%sassets/styles/%s.css', $this->getPluginUrl(), $skin),
                 false,
-                self::LIGHTBOX_PHOTOSWIPE_VERSION
+                self::VERSION
             );
         }
     }
@@ -203,7 +169,10 @@ class LightboxPhotoSwipe
             return;
         }
 
-        $footer = $this->twig->render('frontend.html.twig');
+        ob_start();
+        include(self::BASEPATH.'templates/frontend.inc.php');
+        $footer = ob_get_clean();
+
         $footer = apply_filters('lbwps_markup', $footer);
         echo $footer;
 
@@ -551,13 +520,9 @@ class LightboxPhotoSwipe
     {
         global $wpdb;
 
-        echo $this->twig->render('options.html.twig', [
-            'optionsManager' => $this->optionsManager,
-            'twigCache' => $this->twigCache,
-            'wpdb' => $wpdb,
-            'hasSimpleXML' => function_exists('simplexml_load_file'),
-            'hasExif' => function_exists('exif_read_data'),
-        ]);
+        $hasExif = function_exists('exif_read_data');
+
+        include(self::BASEPATH.'templates/options.inc.php');
     }
 
     /**
@@ -723,6 +688,92 @@ class LightboxPhotoSwipe
             $this->deleteDatabaseTables();
             $optionsManager->deleteOptions();
         }
+    }
+
+    /**
+     * Output the form opening in the backend
+     */
+    public function uiFormStart(): void
+    {
+        echo '<form method="post" action="options.php">';
+        settings_fields('lightbox-photoswipe-settings-group');
+    }
+
+    /**
+     * Output the form closing in the backend
+     */
+    public function uiFormEnd(): void
+    {
+        submit_button();
+        echo '</form>';
+    }
+
+    /**
+     * Output text control with an optional placeholder in the admin page
+     */
+    public function uiControlText(string $name, string $placeholder = ''): void
+    {
+        switch ($this->optionsManager->getOptionType($name)) {
+            case 'list':
+                $value = implode(',', $this->optionsManager->getOption($name));
+                break;
+
+            default:
+                $value = $this->optionsManager->getOption($name);
+                break;
+        }
+
+        echo sprintf(
+            '<input id="%1$s" class="regular-text" type="text" name="%1$s" value="%2$s" placeholder="%3$s" />',
+            esc_attr('lightbox_photoswipe_'.$name),
+            esc_attr($value),
+            esc_attr($placeholder)
+        );
+    }
+
+    /**
+     * Output a checkbox control in the admin page
+     */
+    public function uiControlCheckbox(string $name): void
+    {
+        echo sprintf(
+            '<input id="%1$s" type="checkbox" name="%1$s" value="1"%2$s/>',
+            esc_attr('lightbox_photoswipe_'.$name),
+            1 === (int)$this->optionsManager->getOption($name) ? ' checked' : ''
+        );
+    }
+
+    /**
+     * Output group of radio controls with custom separator in the admin page
+     */
+    public function uiControlRadio(string $name, array $optionValues, array $optionLabels, string $separator): void
+    {
+        $value = $this->optionsManager->getOption($name);
+        $output = '';
+        $num = 0;
+        while ($num < count($optionValues)) {
+            $output .= sprintf(
+                '<label style="margin-right:0.5em"><input id="%1$s" type="radio" name="%1$s" value="%2$s"%3$s/>%4$s</label>%5$s',
+                esc_attr('lightbox_photoswipe_'.$name),
+                $optionValues[$num],
+                $value === $optionValues[$num] ? ' checked' : '',
+                $optionLabels[$num] ?? '',
+                $separator
+            );
+            $num++;
+        }
+
+        echo $output;
+    }
+
+    /**
+     * Output all available post types as comma separated text
+     *
+     * @return string
+     */
+    public function uiGetPostTypes(): void
+    {
+        echo _wp_specialchars(implode(', ', get_post_types()));
     }
 
     /**
