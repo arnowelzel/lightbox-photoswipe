@@ -1,15 +1,16 @@
 <table id="lbwps-tab-1" class="form-table">
     <tr>
         <th scope="row">
-            <label for="lightbox_photoswipe_version"><?php echo __('PhotoSwipe version to use', self::SLUG); ?></label>
+            <?php echo __('PhotoSwipe version to use', self::SLUG); ?>
         </th>
         <td>
             <?php $this->uiControlRadio('version', ['4', '5'], [__('version 4', self::SLUG), __('version 5', self::SLUG)], ' '); ?>
+            <p class="description"><?php echo __('The available options depend on the PhotoSwipe version. UI customizations done for version 4 will not be used for version 5.', self::SLUG); ?></p>
         </td>
     </tr>
     <tr>
         <th scope="row">
-            <label for="lightbox_photoswipe_disabled_post_ids"><?php echo __('Excluded pages/posts', self::SLUG); ?></label>
+            <?php echo __('Excluded pages/posts', self::SLUG); ?>
         </th>
         <td>
             <?php $this->uiControlText('disabled_post_ids') ?>
@@ -19,7 +20,7 @@
     </tr>
     <tr>
         <th scope="row">
-            <label for="lightbox_photoswipe_disabled_post_types"><?php echo __('Excluded post types', self::SLUG); ?></label>
+            <?php echo __('Excluded post types', self::SLUG); ?>
         </th>
         <td>
             <?php $this->uiControlText('disabled_post_types') ?>
@@ -38,7 +39,9 @@
         </td>
     </tr>
     <tr>
-        <th scope="row"><?php echo __('Other options', self::SLUG); ?></th>
+        <th scope="row">
+            <?php echo __('Other options', self::SLUG); ?>
+        </th>
         <td>
             <label><?php $this->uiControlCheckbox('history') ?>&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('loop') ?>&nbsp;<?php echo __('Allow infinite loop', self::SLUG); ?></label><br>
@@ -52,7 +55,7 @@
     </tr>
     <tr>
         <th scope="row">
-            <label for="lightbox_photoswipe_svg_scaling"><?php echo __('SVG scaling factor', self::SLUG); ?></label>
+            <?php echo __('SVG scaling factor', self::SLUG); ?>
         </th>
         <td>
             <select id="lightbox_photoswipe_svg_scaling" name="lightbox_photoswipe_svg_scaling">
@@ -61,18 +64,18 @@
                     echo '<option value="'.$scaling.'"';
                     if ((int)$this->optionsManager->getOption('svg_scaling') === $scaling) echo ' selected="selected"';
                     echo '>'.($scaling).'%';
-                    if ($scaling == 2) echo ' ('.__('Default', self::SLUG).')';
+                    if ($scaling === 200) echo ' ('.__('Default', self::SLUG).')';
                     echo '</option>';
                 }
                 ?>
             </select>
             <p class="description"><?php echo __('Factor by which SVG images get scaled when displayed in the lightbox.', self::SLUG); ?>
-            <?php if (!function_exists('simplexml_load_file')) { ?><br><?php echo __('<a href="https://www.php.net/manual/en/ref.simplexml.php" target="_blank">The PHP SimpleXML extension</a> is missing on this server! SVG images can not be displayed!', self::SLUG); ?><?php } ?>></p>
+            <?php if (!function_exists('simplexml_load_file')) { ?><br><?php echo __('<a href="https://www.php.net/manual/en/ref.simplexml.php" target="_blank">The PHP SimpleXML extension</a> is missing on this server! SVG images can not be displayed!', self::SLUG); ?><?php } ?></p>
         </td>
     </tr>
     <tr>
         <th scope="row">
-            <label for="lightbox_photoswipe_cdn_url"><?php echo __('CDN URL prefix', self::SLUG); ?></label>
+            <?php echo __('CDN URL prefix', self::SLUG); ?>
         </th>
         <td>
             <?php $this->uiControlText('cdn_url') ?>
@@ -82,7 +85,7 @@
     </tr>
     <tr>
         <th scope="row">
-            <label for="lightbox_photoswipe_cdn_mode"><?php echo __('CDN mode', self::SLUG); ?></label>
+            <?php echo __('CDN mode', self::SLUG); ?>
         </th>
         <td>
             <?php $this->uiControlRadio('cdn_mode', ['prefix', 'pull'], [__('Prefix', self::SLUG), __('Pull', self::SLUG)], ' ') ?>
