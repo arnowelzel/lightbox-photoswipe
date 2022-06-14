@@ -1,4 +1,4 @@
-import PhotoSwipeLightbox from './ps5/lib/photoswipe-lightbox.esm.js';
+import PhotoSwipeLightbox from './lib/photoswipe-lightbox.esm.js';
 
 let lbwpsInit = function(domUpdate) {
     function lbwpsClick(event) {
@@ -309,7 +309,7 @@ let lbwpsInit = function(domUpdate) {
             showHideAnimationType: 'fade',
             showAnimationDuration: 250,
             hideAnimationDuration: 250,
-            pswpModule: () => import('./ps5/lib/photoswipe.esm.js'),
+            pswpModule: () => import('./lib/photoswipe.esm.js'),
         }
         const lightbox = new PhotoSwipeLightbox(options);
         if (lbwpsOptions.hide_scrollbars === '1') {

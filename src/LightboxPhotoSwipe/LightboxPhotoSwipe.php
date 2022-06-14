@@ -108,7 +108,7 @@ class LightboxPhotoSwipe
             $handle = 'lbwps-photoswipe5';
             wp_enqueue_script(
                 'lbwps-photoswipe5',
-                sprintf('%sassets/scripts-ps5.js', $this->getPluginUrl()),
+                sprintf('%sassets/ps5/scripts.js', $this->getPluginUrl()),
                 [],
                 self::VERSION,
                 true
@@ -197,6 +197,10 @@ class LightboxPhotoSwipe
     public function outputFooter()
     {
         if (!$this->enabled) {
+            return;
+        }
+
+        if ($this->optionsManager->getOption('photoswipe') !== '4') {
             return;
         }
 
@@ -802,7 +806,7 @@ class LightboxPhotoSwipe
     /**
      * Enqueue options for frontend script
      */
-    protected function enqueueFrontendOptions()
+    protected function enqueueFrontendOptions($handle)
     {
         $translation_array = [
             'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
