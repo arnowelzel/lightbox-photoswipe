@@ -10,7 +10,7 @@ class LightboxPhotoSwipe
     const VERSION = '4.0.3';
     const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
-    const DB_VERSION = 35;
+    const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
 
     private string $pluginFile;
@@ -401,23 +401,6 @@ class LightboxPhotoSwipe
     }
 
     /**
-     * Callback to add the "lazy loading" attribute to an image
-     */
-    public function callbackLazyLoading(array $matches): string
-    {
-        $replacement = $matches[4];
-        if (false === strpos($replacement, 'loading="lazy"') && false === strpos($replacement, "loading='lazy'")
-            && false === strpos($matches[0], 'loading="lazy"') && false === strpos($matches[0], "loading='lazy'")) {
-            if ('/' === substr($replacement, -1)) {
-                $replacement = substr($replacement, 0, strlen($replacement) - 1) . ' loading="lazy" /';
-            } else {
-                $replacement .= ' loading="lazy"';
-            }
-        }
-        return $matches[1] . $matches[2] . $matches[3] . $replacement . $matches[5];
-    }
-
-    /**
      * Callback to add current gallery id to a single image
      */
     public function callbackGalleryId(array $matches): string
@@ -431,19 +414,11 @@ class LightboxPhotoSwipe
      */
     function filterOutput(string $content): string
     {
-        $content = preg_replace_callback(
+        return preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
             [$this, 'callbackProperties'],
             $content
         );
-        if ('1' === $this->optionsManager->getOption('add_lazyloading')) {
-            $content = preg_replace_callback(
-                '/(<img.[^>]*src=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
-                [$this, 'callbackLazyLoading'],
-                $content
-            );
-        }
-        return $content;
     }
 
     /**
@@ -655,6 +630,9 @@ class LightboxPhotoSwipe
             $table_name = $wpdb->prefix.'lightbox_photoswipe_img';
             $sql = "DROP TABLE IF EXISTS $table_name";
             $wpdb->query($sql);
+        }
+        if (intval($dbVersion) < 36) {
+            delete_option('lightbox_photoswipe_add_lazyloading');
         }
         if ((int)$dbVersion !== self::DB_VERSION) {
             $this->cleanupTwigCache();

@@ -37,7 +37,6 @@
             <label><?php $this->uiControlCheckbox('history') ?>&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('loop') ?>&nbsp;<?php echo __('Allow infinite loop', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('separate_galleries') ?>&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', self::SLUG); ?></label><br>
-            <label><?php $this->uiControlCheckbox('add_lazyloading') ?>&nbsp;<?php echo __('Add native lazy loading to images', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('ignore_external') ?>&nbsp;<?php echo __('Ignore links to images on other sites', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('ignore_hash') ?>&nbsp;<?php echo __('Ignore links to images which contain a hash (#)', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('hide_scrollbars') ?>&nbsp;<?php echo __('Hide scrollbars when opening the lightbox (this may not work with your theme)', self::SLUG); ?></label><br>
