@@ -10,8 +10,6 @@ class ExifHelper
 
     /**
      * Set EXIF data array to be used
-     *
-     * @param array $exifData
      */
     function setExifData(array $exifData)
     {
@@ -20,8 +18,6 @@ class ExifHelper
 
     /**
      * Get the camera model
-     *
-     * @return string The camera model as readable text
      */
     function getCamera()
     {
@@ -51,8 +47,6 @@ class ExifHelper
 
     /**
      * Get the focal length
-     *
-     * @return string The focal length as readable text (e.h. "100mm")
      */
     function getFocalLength()
     {
@@ -70,8 +64,6 @@ class ExifHelper
 
     /**
      * Get the shutter speed
-     *
-     * @return string The shutter speed as readable text (e.h. "1/250s")
      */
     function getShutter()
     {
@@ -94,8 +86,6 @@ class ExifHelper
 
     /**
      * Get ISO speed rating
-     *
-     * @return string The ISO speed rating as readable text
      */
     function getIso()
     {
@@ -107,8 +97,6 @@ class ExifHelper
 
     /**
      * Get the date taken
-     *
-     * @return string The date taken in ISO date format (yyyy-mm-dd HH:MM:SS)
      */
     function getDateTime()
     {
@@ -126,8 +114,6 @@ class ExifHelper
 
     /**
      * Get the f-stop
-     *
-     * @return string The f-stop value as readable text (e.g. "f/3.5")
      */
     function getFstop()
     {
@@ -147,8 +133,6 @@ class ExifHelper
 
     /**
      * Build caption string based on given parameters
-     *
-     * @return string Caption to be used for EXIF data
      */
     function buildCaptionString($focal, $fstop, $shutter, $iso, $date, $camera, $includeDate)
     {
@@ -172,9 +156,6 @@ class ExifHelper
 
     /**
      * Add some detail to the EXIF output
-     *
-     * @param $output Existing output
-     * @param $detail Detail to add
      */
     private function addToCaption(&$output, $detail, $cssclass)
     {
@@ -186,10 +167,6 @@ class ExifHelper
 
     /**
      * Get a float value from an EXIF value
-     *
-     * @param $value string  The value to work with (e.g. "10/40")
-     *
-     * @return float|int
      */
     private function exifGetFloat($value)
     {

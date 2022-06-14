@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -19,7 +19,7 @@ More about the original version of PhotoSwipe see here: [http://photoswipe.com](
 
 The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
 
-As of version 4.0.0 this plugin requires at least WordPress 5.0 and PHP 7.4. Issues caused by using outdated PHP versions will not be solved. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also needs at least PHP 7.4 - see https://wordpress.org/about/requirements/.
+As of version 4.0.0 this plugin requires at least WordPress 5.0 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see https://wordpress.org/about/requirements/.
 
 == Installation ==
 
@@ -205,6 +205,11 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 4.0.4 =
+
+* Removed "lazy loading" as this is not needed any longer
+* Improved compatibility with older PHP versions (7.0 and up)
 
 = 4.0.3 =
 

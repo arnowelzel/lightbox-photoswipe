@@ -13,14 +13,14 @@ class LightboxPhotoSwipe
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
 
-    private string $pluginFile;
-    private OptionsManager $optionsManager;
-    private ExifHelper $exifHelper;
+    private $pluginFile;
+    private $optionsManager;
+    private $exifHelper;
 
-    private bool $enabled;
-    private int $galleryId;
-    private bool $obActive;
-    private int $obLevel;
+    private $enabled;
+    private $galleryId;
+    private $obActive;
+    private $obLevel;
 
     /**
      * Constructor
@@ -67,7 +67,7 @@ class LightboxPhotoSwipe
     /**
      * Helper to get the plugin URL
      */
-    public function getPluginUrl(): string
+    public function getPluginUrl()
     {
         return plugin_dir_url(WP_PLUGIN_DIR.'/').self::SLUG.'/';
     }
@@ -75,7 +75,7 @@ class LightboxPhotoSwipe
     /**
      * Enqueue Scripts/CSS
      */
-    public function enqueueScripts(): void
+    public function enqueueScripts()
     {
         $id = get_the_ID();
         if (!is_home() && !is_404() && !is_archive() && !is_search()) {
@@ -163,7 +163,7 @@ class LightboxPhotoSwipe
     /**
      * Output footer in frontend with PhotoSwipe UI
      */
-    public function outputFooter(): void
+    public function outputFooter()
     {
         if (!$this->enabled) {
             return;
@@ -187,7 +187,7 @@ class LightboxPhotoSwipe
     /**
      * Callback to handle a single image link
      */
-    public function callbackProperties(array $matches): string
+    public function callbackProperties(array $matches)
     {
         global $wpdb;
 
@@ -403,7 +403,7 @@ class LightboxPhotoSwipe
     /**
      * Callback to add current gallery id to a single image
      */
-    public function callbackGalleryId(array $matches): string
+    public function callbackGalleryId(array $matches)
     {
         $attr = sprintf(' data-lbwps-gid="%s"', $this->galleryId);
         return $matches[1].$matches[2].$matches[3].$matches[4].$attr.$matches[5];
@@ -412,7 +412,7 @@ class LightboxPhotoSwipe
     /**
      * Output filter for post content
      */
-    function filterOutput(string $content): string
+    function filterOutput(string $content)
     {
         return preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
@@ -424,7 +424,7 @@ class LightboxPhotoSwipe
     /**
      * Output filter for post content
      */
-    public function bufferStart(): void
+    public function bufferStart()
     {
         if (!$this->enabled) {
             return;
@@ -438,7 +438,7 @@ class LightboxPhotoSwipe
     /**
      * Handler for gallery shortcode to add the gallery ID to the output
      */
-    public function shortcodeGallery(array $attr): string
+    public function shortcodeGallery(array $attr)
     {
         $this->galleryId++;
         $content = gallery_shortcode($attr);
@@ -453,7 +453,7 @@ class LightboxPhotoSwipe
     /**
      * Filter for Gutenberg blocks to add gallery ID to images
      */
-    public function gutenbergBlock(string $block_content, array $block): string
+    public function gutenbergBlock(string $block_content, array $block)
     {
         if ($block['blockName'] === 'core/gallery') {
             $this->galleryId++;
@@ -469,7 +469,7 @@ class LightboxPhotoSwipe
     /**
      * Add admin menu in the backend
      */
-    public function adminMenu(): void
+    public function adminMenu()
     {
         add_options_page(
             __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'),
@@ -483,7 +483,7 @@ class LightboxPhotoSwipe
     /**
      * Initialization: Register settings
      */
-    public function adminInit(): void
+    public function adminInit()
     {
         $this->optionsManager->registerOptions();
     }
@@ -491,7 +491,7 @@ class LightboxPhotoSwipe
     /**
      * Output settings page in backend
      */
-    public function settingsPage(): void
+    public function settingsPage()
     {
         global $wpdb;
 
@@ -503,7 +503,7 @@ class LightboxPhotoSwipe
     /**
      * Add metabox for post editor
      */
-    public function metaBox(): void
+    public function metaBox()
     {
         $types = ['post', 'page'];
         foreach ($types as $type) {
@@ -520,7 +520,7 @@ class LightboxPhotoSwipe
     /**
      * Metabox HTML output
      */
-    public function metaBoxOutputHtml($post): void
+    public function metaBoxOutputHtml($post)
     {
         wp_nonce_field(basename( __FILE__ ), 'lbwps_nonce');
 
@@ -535,7 +535,7 @@ class LightboxPhotoSwipe
     /**
      * Save options from metabox
      */
-    public function metaBoxSave($postId): void
+    public function metaBoxSave($postId)
     {
         // Only save options if this is not an autosave
         $is_autosave = wp_is_post_autosave($postId);
@@ -569,7 +569,7 @@ class LightboxPhotoSwipe
     /**
      * Handler for creating a new blog
      */
-    public function onCreateBlog($blog_id, $user_id, $domain, $path, $site_id, $meta): void
+    public function onCreateBlog($blog_id, $user_id, $domain, $path, $site_id, $meta)
     {
         if (is_plugin_active_for_network('lightbox-photoswipe/lightbox-photoswipe.php')) {
             switch_to_blog($blog_id);
@@ -593,14 +593,14 @@ class LightboxPhotoSwipe
     /**
      * Hook for plugin activation
      */
-    public function onActivate(): void
+    public function onActivate()
     {
     }
 
     /**
      * Hook for plugin deactivation
      */
-    public function onDeactivate(): void
+    public function onDeactivate()
     {
         wp_clear_scheduled_hook('lbwps_cleanup');
     }
@@ -608,7 +608,7 @@ class LightboxPhotoSwipe
     /**
      * Plugin initialization, will be called after all plugins have been loaded
      */
-    public function init(): void
+    public function init()
     {
         global $wpdb;
 
@@ -671,7 +671,7 @@ class LightboxPhotoSwipe
     /**
      * Output the form opening in the backend
      */
-    public function uiFormStart(): void
+    public function uiFormStart()
     {
         echo '<form method="post" action="options.php">';
         settings_fields('lightbox-photoswipe-settings-group');
@@ -680,7 +680,7 @@ class LightboxPhotoSwipe
     /**
      * Output the form closing in the backend
      */
-    public function uiFormEnd(): void
+    public function uiFormEnd()
     {
         submit_button();
         echo '</form>';
@@ -689,7 +689,7 @@ class LightboxPhotoSwipe
     /**
      * Output text control with an optional placeholder in the admin page
      */
-    public function uiControlText(string $name, string $placeholder = ''): void
+    public function uiControlText(string $name, string $placeholder = '')
     {
         switch ($this->optionsManager->getOptionType($name)) {
             case 'list':
@@ -712,7 +712,7 @@ class LightboxPhotoSwipe
     /**
      * Output a checkbox control in the admin page
      */
-    public function uiControlCheckbox(string $name): void
+    public function uiControlCheckbox(string $name)
     {
         echo sprintf(
             '<input id="%1$s" type="checkbox" name="%1$s" value="1"%2$s/>',
@@ -724,7 +724,7 @@ class LightboxPhotoSwipe
     /**
      * Output group of radio controls with custom separator in the admin page
      */
-    public function uiControlRadio(string $name, array $optionValues, array $optionLabels, string $separator): void
+    public function uiControlRadio(string $name, array $optionValues, array $optionLabels, string $separator)
     {
         $value = $this->optionsManager->getOption($name);
         $output = '';
@@ -749,7 +749,7 @@ class LightboxPhotoSwipe
      *
      * @return string
      */
-    public function uiGetPostTypes(): void
+    public function uiGetPostTypes()
     {
         echo _wp_specialchars(implode(', ', get_post_types()));
     }
@@ -771,7 +771,7 @@ class LightboxPhotoSwipe
     /**
      * Enqueue options for frontend script
      */
-    protected function enqueueFrontendOptions(): void
+    protected function enqueueFrontendOptions()
     {
         $translation_array = [
             'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
@@ -899,7 +899,7 @@ class LightboxPhotoSwipe
     /**
      * Clean up Twig cache
      */
-    protected function cleanupTwigCache(): void
+    protected function cleanupTwigCache()
     {
         // Clean up Twig cache if needed
         $cacheFolder = WP_CONTENT_DIR.'/cache/'.self::SLUG;

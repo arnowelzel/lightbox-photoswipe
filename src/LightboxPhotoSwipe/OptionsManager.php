@@ -54,7 +54,7 @@ class OptionsManager
         'usecaption' => [ 'default' => '1' ],
     ];
 
-    public array $options;
+    public $options;
 
     /**
      * Constructor
@@ -67,7 +67,7 @@ class OptionsManager
     /**
      * Register options
      */
-    public function registerOptions(): void
+    public function registerOptions()
     {
         foreach (self::OPTIONS as $optionName => $option) {
             register_setting('lightbox-photoswipe-settings-group', 'lightbox_photoswipe_'.$optionName);
@@ -77,7 +77,7 @@ class OptionsManager
     /**
      * Delete options
      */
-    public function deleteOptions(): void
+    public function deleteOptions()
     {
         foreach (self::OPTIONS as $optionName => $option) {
             delete_option('lightbox_photoswipe_'.$optionName);
@@ -88,7 +88,7 @@ class OptionsManager
     /**
      * Set option
      */
-    public function setOption(string $name, $value, bool $save = false): void
+    public function setOption(string $name, $value, bool $save = false)
     {
         $this->options[$name] = $value;
         if ($save) {
@@ -124,7 +124,7 @@ class OptionsManager
     /**
      * Get option type
      */
-    public function getOptionType($name): string
+    public function getOptionType($name)
     {
         $option =  self::OPTIONS[$name];
         if (isset(self::OPTIONS[$name]['type'])) {
@@ -137,7 +137,7 @@ class OptionsManager
     /**
      * Load options
      */
-    public function loadOptions(): void
+    public function loadOptions()
     {
         foreach (self::OPTIONS as $nameValue => $option) {
             $nameOption = 'lightbox_photoswipe_'.$nameValue;
