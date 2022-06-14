@@ -37,7 +37,6 @@ class OptionsManager
         'desktop_slider' => [ 'default' => '1' ],
         'idletime' => [ 'default' => '4000' ],
         'usedescription' => [ 'default' => '0' ],
-        'add_lazyloading' => [ 'default' => '0' ],
         'wheelmode' => [ 'default' => 'zoom' ],
         'share_copyurl' => [ 'default' => '0' ],
         'share_custom' => [ 'default' => '' ],
