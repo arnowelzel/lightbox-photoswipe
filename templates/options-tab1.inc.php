@@ -1,6 +1,7 @@
 <table id="lbwps-tab-1" class="form-table">
     <tr>
         <th scope="row">
+<<<<<<< HEAD
             <?php echo __('PhotoSwipe version to use', self::SLUG); ?>
         </th>
         <td>
@@ -10,6 +11,8 @@
     </tr>
     <tr>
         <th scope="row">
+=======
+>>>>>>> b5d5f6cc89085d5e889c9f493f983d80ca8d12d6
             <?php echo __('Excluded pages/posts', self::SLUG); ?>
         </th>
         <td>
@@ -63,7 +66,11 @@
                     echo '<option value="'.$scaling.'"';
                     if ((int)$this->optionsManager->getOption('svg_scaling') === $scaling) echo ' selected="selected"';
                     echo '>'.($scaling).'%';
+<<<<<<< HEAD
                     if ($scaling === 200) echo ' ('.__('Default', self::SLUG).')';
+=======
+                    if ($scaling == 200) echo ' ('.__('Default', self::SLUG).')';
+>>>>>>> b5d5f6cc89085d5e889c9f493f983d80ca8d12d6
                     echo '</option>';
                 }
                 ?>

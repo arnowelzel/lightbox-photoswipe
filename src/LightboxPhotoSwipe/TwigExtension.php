@@ -10,7 +10,7 @@ use Twig\TwigFunction;
  */
 class TwigExtension extends AbstractExtension
 {
-    private OptionsManager $optionsManager;
+    private $optionsManager;
 
     /**
      * Constructor
