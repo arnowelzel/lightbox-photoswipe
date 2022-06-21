@@ -528,10 +528,6 @@ class LightboxPhotoSwipe
      */
     public function settingsPage()
     {
-        global $wpdb;
-
-        $hasExif = function_exists('exif_read_data');
-
         include(self::BASEPATH.'templates/options.inc.php');
     }
 
@@ -766,8 +762,9 @@ class LightboxPhotoSwipe
         $num = 0;
         while ($num < count($optionValues)) {
             $output .= sprintf(
-                '<label style="margin-right:0.5em"><input id="%1$s" type="radio" name="%1$s" value="%2$s"%3$s/>%4$s</label>%5$s',
+                '<label style="margin-right:0.5em"><input id="%1$s-%2$d" type="radio" name="%1$s" value="%3$s"%4$s/>%5$s</label>%6$s',
                 esc_attr('lightbox_photoswipe_'.$name),
+                $num,
                 $optionValues[$num],
                 $value === $optionValues[$num] ? ' checked' : '',
                 $optionLabels[$num] ?? '',

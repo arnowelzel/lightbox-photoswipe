@@ -188,7 +188,7 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
 
 = Licensing =
 
-To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
+To avoid any confusion: this plugin was published with the agreement of Dmytro Semenov.
 
 = Notes for developers =
 

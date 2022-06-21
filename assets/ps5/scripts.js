@@ -305,6 +305,31 @@ let lbwpsInit = function(domUpdate) {
             hideAnimationDuration: 250,
             pswpModule: () => import('./lib/photoswipe.esm.js'),
         }
+
+        // Additional options (also see https://photoswipe.com/options/)
+
+        options.spacing = lbwpsOptions.spacing/100;
+        options.loop = lbwpsOptions.loop === '1';
+        options.wheelToZoom = lbwpsOptions.wheelmode === 'zoom';
+        options.pinchToClose = lbwpsOptions.pinchtoclose === '1';
+        options.closeOnVerticalDrag = lbwpsOptions.close_on_drag === '1';
+        options.clickToCloseNonZoomable = true;
+
+        // Not supported any longer by PhotoSwipe 5 itself
+
+        /*
+        options.counterEl = lbwpsOptions.show_counter === '1';
+        options.closeOnScroll = lbwpsOptions.wheelmode === 'close';
+        options.switchOnScroll = lbwpsOptions.wheelmode === 'switch';
+        options.history = lbwpsOptions.history === '1';
+        options.fullscreenEl = lbwpsOptions.show_fullscreen === '1';
+        options.zoomEl = lbwpsOptions.show_zoom === '1';
+        options.captionEl = lbwpsOptions.show_caption === '1';
+        options.tapToToggleControls = lbwpsOptions.taptotoggle === '1';
+        options.desktopSlider = lbwpsOptions.desktop_slider === '1';
+        options.timeToIdle = lbwpsOptions.idletime;
+        */
+
         const lightbox = new PhotoSwipeLightbox(options);
         if (lbwpsOptions.hide_scrollbars === '1') {
             lightbox.on('destroy', () => {

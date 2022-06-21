@@ -62,9 +62,42 @@
         }
     }
 
+    function lbwpsUpdateVersion()
+    {
+        let optionsV4 = document.getElementsByClassName('lbwps-ver4');
+        let optionsV5 = document.getElementsByClassName('lbwps-ver5');
+        if (document.getElementById('lightbox_photoswipe_version-0').checked) {
+            for (let i=0; i < optionsV4.length; i++) {
+                console.log(optionsV4.item(i));
+                if (optionsV4.item(i).nodeName == 'DIV' || optionsV4.item(i).nodeName == 'P') {
+                    optionsV4.item(i).style.display = 'block';
+                } else{
+                    optionsV4.item(i).style.display = 'inline';
+                }
+            }
+            for (let i=0; i < optionsV5.length; i++) {
+                optionsV5.item(i).style.display = 'none';
+            }
+        } else {
+            for (let i=0; i < optionsV5.length; i++) {
+                console.log(optionsV5.item(i));
+                if (optionsV5.item(i).nodeName == 'DIV' || optionsV5.item(i).nodeName == 'P') {
+                    optionsV5.item(i).style.display = 'block';
+                } else{
+                    optionsV5.item(i).style.display = 'inline';
+                }
+            }
+            for (let i=0; i < optionsV4.length; i++) {
+                optionsV4.item(i).style.display = 'none';
+            }
+        }
+    }
+
     lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_show_caption"));
     lbwpsUpdateExifDateCheck(document.getElementById("lightbox_photoswipe_showexif"));
-    lbwpsUpdateCurrentTab()
+    lbwpsUpdateCurrentTab();
+    lbwpsUpdateVersion();
+
     window.addEventListener('popstate', (event) => {
         lbwpsUpdateCurrentTab();
     });
@@ -73,5 +106,11 @@
     });
     document.getElementById('lightbox_photoswipe_showexif').addEventListener('click', (event) => {
         lbwpsUpdateExifDateCheck(event.target)
+    });
+    document.getElementById('lightbox_photoswipe_version-0').addEventListener('click', (event) => {
+        lbwpsUpdateVersion()
+    });
+    document.getElementById('lightbox_photoswipe_version-1').addEventListener('click', (event) => {
+        lbwpsUpdateVersion()
     });
 </script>

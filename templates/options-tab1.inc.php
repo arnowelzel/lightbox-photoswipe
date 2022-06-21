@@ -5,7 +5,7 @@
         </th>
         <td>
             <?php $this->uiControlRadio('version', ['4', '5'], [__('version 4', self::SLUG), __('version 5', self::SLUG)], ' '); ?>
-            <p class="description"><?php echo __('The available options depend on the PhotoSwipe version. UI customizations done for version 4 will not be used for version 5.', self::SLUG); ?></p>
+            <p class="description"><?php echo __('The available options depend on the PhotoSwipe version. UI customizations done for version 4 may not work for version 5.', self::SLUG); ?></p>
         </td>
     </tr>
     <tr>
@@ -33,9 +33,9 @@
             <?php echo __('Visible elements', self::SLUG); ?>
         </th>
         <td>
-            <label><?php $this->uiControlCheckbox('show_counter') ?>&nbsp;<?php echo __('Show picture counter', self::SLUG); ?></label><br>
+            <label class="lbwps-ver4"><?php $this->uiControlCheckbox('show_counter') ?>&nbsp;<?php echo __('Show picture counter', self::SLUG); ?></label><br class="lbwps-ver4">
             <label><?php $this->uiControlCheckbox('show_fullscreen') ?>&nbsp;<?php echo __('Show fullscreen button', self::SLUG); ?></label><br>
-            <label><?php $this->uiControlCheckbox('show_zoom') ?>&nbsp;<?php echo __('Show zoom button if available', self::SLUG); ?></label>
+            <label class="lbwps-ver4"><?php $this->uiControlCheckbox('show_zoom') ?>&nbsp;<?php echo __('Show zoom button if available', self::SLUG); ?></label>
         </td>
     </tr>
     <tr>
@@ -43,7 +43,7 @@
             <?php echo __('Other options', self::SLUG); ?>
         </th>
         <td>
-            <label><?php $this->uiControlCheckbox('history') ?>&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', self::SLUG); ?></label><br>
+            <label class="lbwps-ver4"><?php $this->uiControlCheckbox('history') ?>&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', self::SLUG); ?></label><br class="lbwps-ver4">
             <label><?php $this->uiControlCheckbox('loop') ?>&nbsp;<?php echo __('Allow infinite loop', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('separate_galleries') ?>&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('ignore_external') ?>&nbsp;<?php echo __('Ignore links to images on other sites', self::SLUG); ?></label><br>
