@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-06-13 12:35+0000\n"
+"PO-Revision-Date: 2022-06-21 09:36+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch (Sie)\n"
 "Language: de_DE_formal\n"
@@ -120,6 +120,9 @@ msgstr "Beschreibung"
 #: options-manager.php:343
 msgid "Desktop"
 msgstr "Desktop"
+
+msgid "Desktop options are not yet supported for PhotoSwipe 5."
+msgstr "Desktop-Optionen werden für PhotoSwipe 5 noch nicht unterstützt."
 
 #: lightbox-photoswipe.php:684
 msgid "Disable"
@@ -270,6 +273,9 @@ msgstr "Lightbox mit PhotoSwipe"
 msgid "Mobile"
 msgstr "Mobil"
 
+msgid "Mobile options are not yet supported for PhotoSwipe 5."
+msgstr "Mobile Optionen werden für PhotoSwipe 5 noch nicht unterstützt."
+
 #: options-manager.php:524
 msgid "Mouse wheel function"
 msgstr "Funktion des Mausrads"
@@ -362,6 +368,9 @@ msgstr "Auf Facebook teilen"
 msgid "Sharing"
 msgstr "Teilen"
 
+msgid "Sharing options are not yet supported for PhotoSwipe 5."
+msgstr "Freigabeoptionen werden für PhotoSwipe 5 noch nicht unterstützt."
+
 #: options-manager.php:462
 msgid "Show caption if available"
 msgstr "Bildunterschrift anzeigen, wenn verfügbar"
@@ -416,6 +425,13 @@ msgstr "Zum nächsten/vorherigen Bild wechseln"
 #: options-manager.php:565
 msgid "Thank you :-)"
 msgstr "Vielen Dank :-)"
+
+msgid ""
+"The available options depend on the PhotoSwipe version. UI customizations "
+"done for version 4 may not work for version 5."
+msgstr ""
+"Die verfügbaren Optionen hängen von der PhotoSwipe-Version ab. Für Version 4 "
+"vorgenommene UI-Anpassungen funktionieren möglicherweise nicht für Version 5."
 
 #: options-manager.php:340
 msgid "Theme"
@@ -507,6 +523,9 @@ msgstr ""
 #: options-manager.php:467
 msgid "Used elements"
 msgstr "Verwendete Elemente"
+
+msgid "version"
+msgstr "Version"
 
 #: options-manager.php:374
 msgid "Visible elements"
