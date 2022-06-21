@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-06-21 09:38+0000\n"
+"PO-Revision-Date: 2022-06-21 09:41+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -524,8 +524,12 @@ msgstr ""
 msgid "Used elements"
 msgstr "Verwendete Elemente"
 
-msgid "version"
-msgstr "Version"
+#| msgid "version"
+msgid "version 4"
+msgstr "Version 4"
+
+msgid "version 5"
+msgstr "Version 5"
 
 #: options-manager.php:374
 msgid "Visible elements"
