@@ -290,8 +290,8 @@ class LightboxPhotoSwipe
         }
 
         if ($use) {
+            $baseDir = wp_upload_dir()['basedir'];
             $imgPostId = null;
-            $baseDir = null;
 
             // If image is served by the website itself, try to get caption for local file
             if ($isLocal) {
@@ -321,9 +321,6 @@ class LightboxPhotoSwipe
 
                     $file = $realFile;
                 }
-
-                // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
-                $baseDir = wp_upload_dir()['basedir'];
 
                 // If the "fix image links" option is set, try to remove size parameters from the image link.
                 // For example: "image-1024x768.jpg" will become "image.jpg"
@@ -364,8 +361,9 @@ class LightboxPhotoSwipe
                 $imgMtime = 0;
             }
 
-            $cacheKey = sprintf('%s-imgattr-%s', self::SLUG, hash('md5', $file.$imgMtime));
-            if (!$imgDetails = get_transient($cacheKey)) {
+            $cacheKey = sprintf('%s-image-%s', self::SLUG, hash('md5', $file.$imgMtime));
+            // if (!$imgDetails = get_transient($cacheKey)) {
+            if(true) {
                 $imageSize = $this->getImageSize($file, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);
@@ -421,9 +419,16 @@ class LightboxPhotoSwipe
                         $fileFull = str_replace($baseDir, get_home_url().'/wp-content/uploads', $fileFull);
                     }
 
+                    if (substr($fileSmall, 0, 1) === '/') {
+                        $fileSmall = '';
+                    }
+                    if (substr($fileFull, 0, 1) === '/') {
+                        $fileFull = '';
+                    }
+
                     $imgDetails = [
                         'imageSize'    => $imageSize,
-                        'fileSmall'    => str_replace($baseDir, '', $fileSmall),
+                        'fileSmall'    => $fileSmall,
                         'fileFull'     => $fileFull,
                         'exifCamera'   => '',
                         'exifFocal'    => '',
@@ -462,13 +467,13 @@ class LightboxPhotoSwipe
                     $width = $width * $this->optionsManager->getOption('svg_scaling') / 100;
                     $height = $height * $this->optionsManager->getOption('svg_scaling') / 100;
                 }
-                $attr .= sprintf(
-                    ' data-lbwps-width="%s" data-lbwps-height="%s" data-lbwps-srcsmall="%s" data-lbwps-srcfull="%s"',
-                    $width,
-                    $height,
-                    $imgDetails['fileSmall'],
-                    $imgDetails['fileFull']
-                );
+                $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $width, $height);
+                if ($imgDetails['fileSmall']) {
+                    $attr .= sprintf(' data-lbwps-srcsmall="%s"', $imgDetails['fileSmall']);
+                }
+                if ($imgDetails['fileFull']) {
+                    $attr .= sprintf(' data-lbwps-srcfull="%s"',  $imgDetails['fileFull']);
+                }
                 if ('1' === $this->optionsManager->getOption('usecaption') && $captionCaption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($captionCaption))));
                 }

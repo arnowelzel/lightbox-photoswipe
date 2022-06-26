@@ -215,9 +215,14 @@ let lbwpsInit = function(domUpdate) {
                     title = title + '<div class="pswp__caption__desc">' + element.getAttribute('data-lbwps-description') + '</div>';
                 }
 
+                let msrc = element.getAttribute('href');
+                if (element.getAttribute('data-lbwps-srcsmall')) {
+                    msrc = element.getAttribute('data-lbwps-srcsmall');
+                }
+
                 galleryItems.push({
                     src: element.getAttribute('href'),
-                    msrc: element.getAttribute('data-lbwps-srcsmall'),
+                    msrc: msrc,
                     w: element.getAttribute('data-lbwps-width'),
                     h: element.getAttribute('data-lbwps-height'),
                     title: title,
