@@ -127,7 +127,7 @@ class OptionsManager
      */
     public function getOptionType($name)
     {
-        $option =  self::OPTIONS[$name];
+        $option = self::OPTIONS[$name];
         if (isset(self::OPTIONS[$name]['type'])) {
             return self::OPTIONS[$name]['type'];
         }

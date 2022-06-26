@@ -16,6 +16,7 @@ class LightboxPhotoSwipe
     private $pluginFile;
     private $optionsManager;
     private $exifHelper;
+    private $imageSizes;
 
     private $enabled;
     private $galleryId;
@@ -200,7 +201,7 @@ class LightboxPhotoSwipe
             return;
         }
 
-        if ($this->optionsManager->getOption('photoswipe') !== '4') {
+        if ($this->optionsManager->getOption('version') !== '4') {
             return;
         }
 
@@ -245,6 +246,7 @@ class LightboxPhotoSwipe
         $extension = strtolower($type['ext']);
         $captionCaption = '';
         $captionDescription = '';
+        $isLocal = false;
         if (!in_array($extension, ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp', 'svg'])) {
             // Ignore unknown image formats
             $use = false;
@@ -276,8 +278,6 @@ class LightboxPhotoSwipe
 
             if (substr($file, 0, strlen($baseurlHttp)) === $baseurlHttp || substr($file, 0, strlen($baseurlHttps)) === $baseurlHttps) {
                 $isLocal = true;
-            } else {
-                $isLocal = false;
             }
 
             if (!$isLocal && '1' === $this->optionsManager->getOption('ignore_external')) {
@@ -290,6 +290,9 @@ class LightboxPhotoSwipe
         }
 
         if ($use) {
+            $imgPostId = null;
+            $baseDir = null;
+
             // If image is served by the website itself, try to get caption for local file
             if ($isLocal) {
                 // Remove domain part
@@ -319,28 +322,32 @@ class LightboxPhotoSwipe
                     $file = $realFile;
                 }
 
-                if ('1' === $this->optionsManager->getOption('usepostdata') && '1' === $this->optionsManager->getOption('show_caption')) {
-                    // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
-                    $basedir = wp_upload_dir()['basedir'];
+                // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
+                $baseDir = wp_upload_dir()['basedir'];
 
-                    // If the "fix image links" option is set, try to remove size parameters from the image link.
-                    // For example: "image-1024x768.jpg" will become "image.jpg"
-                    $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.))+$/';
-                    if ('1' === $this->optionsManager->getOption('fix_links')) {
-                        $fileFixed = preg_filter(
-                            $sizeMatcher,
-                            '.',
-                            $file
-                        );
-                        if ($fileFixed !== null && $fileFixed !== $file) {
-                            $file = $fileFixed . $extension;
-                            $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
-                        }
+                // If the "fix image links" option is set, try to remove size parameters from the image link.
+                // For example: "image-1024x768.jpg" will become "image.jpg"
+                $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.))+$/';
+                if ('1' === $this->optionsManager->getOption('fix_links')) {
+                    $fileFixed = preg_filter(
+                        $sizeMatcher,
+                        '.',
+                        $file
+                    );
+                    if ($fileFixed !== null && $fileFixed !== $file) {
+                        $file = $fileFixed . $extension;
+                        $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
                     }
-                    $shortfilename = str_replace ($basedir . '/', '', $file);
-                    $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
-                    if (isset($imgid[0])) {
-                        $imgpost = get_post($imgid[0]);
+                }
+                $shortFilename = str_replace ($baseDir . '/', '', $file);
+                $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortFilename));
+                if (isset($imgid[0])) {
+                    $imgPostId = $imgid[0];
+                }
+
+                if ('1' === $this->optionsManager->getOption('usepostdata') && '1' === $this->optionsManager->getOption('show_caption')) {
+                    if ($imgPostId) {
+                        $imgpost = get_post($imgPostId);
                         $captionCaption = $imgpost->post_excerpt;
                         $captionTitle = $imgpost->post_title;
                         $captionDescription = $imgpost->post_content;
@@ -357,13 +364,67 @@ class LightboxPhotoSwipe
                 $imgMtime = 0;
             }
 
-            $cacheKey = sprintf('%s-imgdata-%s', self::SLUG, hash('md5', $file.$imgMtime));
+            $cacheKey = sprintf('%s-imgattr-%s', self::SLUG, hash('md5', $file.$imgMtime));
             if (!$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file, $extension);
-
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
+                    $pathInfo = pathinfo($file);
+                    $nameLength = strlen($pathInfo['filename']);
+                    if ($nameLength > 7 && substr($pathInfo['filename'], $nameLength-7) === '-scaled')
+                    {
+                        $pathInfo['filename'] = substr($pathInfo['filename'], 0, $nameLength-7);
+                    }
+
+                    $fileSmall = $file;
+                    if ($imageSize[0] > $imageSize[1]) {
+                        for ($n=-1; $n<2; $n++) {
+                            $fileSmallTest = sprintf(
+                                '%s/%s-%dx%d.%s',
+                                $pathInfo['dirname'],
+                                $pathInfo['filename'],
+                                $this->imageSizes[0]['width'],
+                                $imageSize[1] / $imageSize[0] * $this->imageSizes[0]['height'] + $n,
+                                $pathInfo['extension']
+                            );
+                            if (file_exists($fileSmallTest)) {
+                                $fileSmall = $fileSmallTest;
+                            }
+                        }
+                    } else {
+                        for ($n=-1; $n<2; $n++) {
+                            $fileSmallTest = sprintf(
+                                '%s/%s-%dx%d.%s',
+                                $pathInfo['dirname'],
+                                $pathInfo['filename'],
+                                $imageSize[0] / $imageSize[1] * $this->imageSizes[0]['width'] + $n,
+                                $this->imageSizes[0]['height'],
+                                $pathInfo['extension']
+                            );
+                            if (file_exists($fileSmallTest)) {
+                                $fileSmall = $fileSmallTest;
+                            }
+                        }
+                    }
+
+                    $fileFull = sprintf(
+                        '%s/%s.%s',
+                        $pathInfo['dirname'],
+                        $pathInfo['filename'],
+                        $pathInfo['extension']
+                    );
+                    if (!file_exists($fileFull)) {
+                        $fileFull = $file;
+                    }
+
+                    if ($baseDir) {
+                        $fileSmall = str_replace($baseDir, get_home_url().'/wp-content/uploads', $fileSmall);
+                        $fileFull = str_replace($baseDir, get_home_url().'/wp-content/uploads', $fileFull);
+                    }
+
                     $imgDetails = [
                         'imageSize'    => $imageSize,
+                        'fileSmall'    => str_replace($baseDir, '', $fileSmall),
+                        'fileFull'     => $fileFull,
                         'exifCamera'   => '',
                         'exifFocal'    => '',
                         'exifFstop'    => '',
@@ -401,20 +462,22 @@ class LightboxPhotoSwipe
                     $width = $width * $this->optionsManager->getOption('svg_scaling') / 100;
                     $height = $height * $this->optionsManager->getOption('svg_scaling') / 100;
                 }
-                $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $width, $height);
-
+                $attr .= sprintf(
+                    ' data-lbwps-width="%s" data-lbwps-height="%s" data-lbwps-srcsmall="%s" data-lbwps-srcfull="%s"',
+                    $width,
+                    $height,
+                    $imgDetails['fileSmall'],
+                    $imgDetails['fileFull']
+                );
                 if ('1' === $this->optionsManager->getOption('usecaption') && $captionCaption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($captionCaption))));
                 }
-
                 if ('1' === $this->optionsManager->getOption('usetitle') && '' !== $captionTitle) {
                     $attr .= sprintf(' data-lbwps-title="%s"', htmlspecialchars(nl2br(wptexturize($captionTitle))));
                 }
-
                 if ('1' === $this->optionsManager->getOption('usedescription') && '' !== $captionDescription) {
                     $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($captionDescription))));
                 }
-
                 if ('1' === $this->optionsManager->getOption('showexif')) {
                     $exifCaption = $this->exifHelper->buildCaptionString(
                         $exifFocal,
@@ -669,6 +732,8 @@ class LightboxPhotoSwipe
             $this->cleanupTwigCache();
             $this->optionsManager->setOption('db_version', self::DB_VERSION, true);
         }
+
+        $this->imageSizes = $this->getWPImageSizes();
     }
 
     /**
@@ -926,6 +991,44 @@ class LightboxPhotoSwipe
         }
 
         return $imageSize;
+    }
+
+    /**
+     * Get available image sizes, ordered by size
+     */
+    protected function getWPImageSizes()
+    {
+        $imageSizes = [];
+        $additionalSizes = wp_get_additional_image_sizes();
+        $intermediateSizes = get_intermediate_image_sizes();
+        foreach($intermediateSizes as $intermediateSize) {
+            if (in_array($intermediateSize, ['thumbnail', 'medium', 'large'])) {
+                if ((bool)get_option($intermediateSize.'_crop') === false) {
+                    $imageSizes[$intermediateSize] = [
+                        'width' => get_option($intermediateSize.'_size_w'),
+                        'height' => get_option($intermediateSize.'_size_h'),
+                    ];
+                }
+            } elseif (isset($additionalSizes[$intermediateSize])) {
+                if ($additionalSizes[$intermediateSize]['crop'] === false) {
+                    $imageSizes[$intermediateSize] = [
+                        'width' => $additionalSizes[$intermediateSize]['width'],
+                        'height' => $additionalSizes[$intermediateSize]['height'],
+                    ];
+                }
+            }
+        }
+
+        usort($imageSizes, function($a, $b) {
+            $totalA = $a['width'] * $a['height'];
+            $totalB = $b['width'] * $b['height'];
+            if ($totalA > $totalB) return 1;
+            if ($totalA < $totalB) return -1;
+
+            return 0;
+        });
+
+        return $imageSizes;
     }
 
     /**

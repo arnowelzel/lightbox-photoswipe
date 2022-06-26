@@ -217,7 +217,7 @@ let lbwpsInit = function(domUpdate) {
 
                 galleryItems.push({
                     src: element.getAttribute('href'),
-                    msrc: element.getAttribute('href'),
+                    msrc: element.getAttribute('data-lbwps-srcsmall'),
                     w: element.getAttribute('data-lbwps-width'),
                     h: element.getAttribute('data-lbwps-height'),
                     title: title,
