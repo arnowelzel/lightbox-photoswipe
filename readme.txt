@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 4.0.4
+Stable tag: 4.0.5
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -205,6 +205,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 4.0.5 =
+
+* Fixed a potential problem when deleting a blog
 
 = 4.0.4 =
 

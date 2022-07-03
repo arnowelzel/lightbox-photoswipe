@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '4.0.4';
+    const VERSION = '4.0.5';
     const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
@@ -581,7 +581,7 @@ class LightboxPhotoSwipe
     /**
      * Filter for deleting a blog
      */
-    public function onDeleteBlog($tables): array
+    public function onDeleteBlog($tables)
     {
         global $wpdb;
 
