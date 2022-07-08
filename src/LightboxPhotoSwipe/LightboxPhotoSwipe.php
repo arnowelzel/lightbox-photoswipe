@@ -388,20 +388,6 @@ class LightboxPhotoSwipe
                                 $fileSmall = $fileSmallTest;
                             }
                         }
-                    } else {
-                        for ($n=-1; $n<2; $n++) {
-                            $fileSmallTest = sprintf(
-                                '%s/%s-%dx%d.%s',
-                                $pathInfo['dirname'],
-                                $pathInfo['filename'],
-                                $imageSize[0] / $imageSize[1] * $this->imageSizes[0]['width'] + $n,
-                                $this->imageSizes[0]['height'],
-                                $pathInfo['extension']
-                            );
-                            if (file_exists($fileSmallTest)) {
-                                $fileSmall = $fileSmallTest;
-                            }
-                        }
                     }
 
                     $fileFull = sprintf(
@@ -468,9 +454,11 @@ class LightboxPhotoSwipe
                     $height = $height * $this->optionsManager->getOption('svg_scaling') / 100;
                 }
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $width, $height);
+                // TODO: make using preview size configurable
                 if ($imgDetails['fileSmall']) {
                     $attr .= sprintf(' data-lbwps-srcsmall="%s"', $imgDetails['fileSmall']);
                 }
+                // TODO: make using full size configurable
                 if ($imgDetails['fileFull']) {
                     $attr .= sprintf(' data-lbwps-srcfull="%s"',  $imgDetails['fileFull']);
                 }

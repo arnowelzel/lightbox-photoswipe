@@ -308,7 +308,8 @@ if(lbwpsOptions.usecaption==='1'&&caption!=null){title=title+'<div class="pswp__
 if(lbwpsOptions.use_alt==='1'&&element.firstElementChild&&element.firstElementChild.getAttribute('alt')){title=title+'<div class="pswp__caption__alt">'+element.firstElementChild.getAttribute('alt')+'</div>'}
 if(element.getAttribute('data-lbwps-description')!=null){title=title+'<div class="pswp__caption__desc">'+element.getAttribute('data-lbwps-description')+'</div>'}
 let msrc=element.getAttribute('href');if(element.getAttribute('data-lbwps-srcsmall')){msrc=element.getAttribute('data-lbwps-srcsmall')}
-galleryItems.push({src:element.getAttribute('href'),msrc:msrc,w:element.getAttribute('data-lbwps-width'),h:element.getAttribute('data-lbwps-height'),title:title,exif:element.getAttribute('data-lbwps-exif'),getThumbBoundsFn:!1,showHideOpacity:!0,el:element,tabindex:tabindex})}}
+let src=element.getAttribute('href');if(element.getAttribute('data-lbwps-srcfull')){src=element.getAttribute('data-lbwps-srcfull')}
+galleryItems.push({src:src,msrc:msrc,w:element.getAttribute('data-lbwps-width'),h:element.getAttribute('data-lbwps-height'),title:title,exif:element.getAttribute('data-lbwps-exif'),getThumbBoundsFn:!1,showHideOpacity:!0,el:element,tabindex:tabindex})}}
 galleryItems.sort(function(a,b){let indexa=parseInt(a.tabindex);let indexb=parseInt(b.tabindex);if(indexa>indexb){return 1}
 if(indexa<indexb){return-1}
 return 0});if(link!=null){for(let i=0;i<galleryItems.length;i++){if(galleryItems[i].el.getAttribute('href')===link.getAttribute('href')){index=i}}}
