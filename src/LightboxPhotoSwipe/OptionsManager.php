@@ -50,6 +50,7 @@ class OptionsManager
         'svg_scaling' => [ 'default' => '200' ],
         'cdn_mode' => [ 'default' => 'prefix' ],
         'fix_links' => [ 'default' => '1' ],
+        'fix_scaled' => [ 'default' => '1' ],
         'usetitle' => [ 'default' => '0' ],
         'usecaption' => [ 'default' => '1' ],
         'version' => [ 'default' => '4' ],

@@ -324,16 +324,22 @@ class LightboxPhotoSwipe
 
                 // If the "fix image links" option is set, try to remove size parameters from the image link.
                 // For example: "image-1024x768.jpg" will become "image.jpg"
-                $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.))+$/';
+                $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.)).+$/';
                 if ('1' === $this->optionsManager->getOption('fix_links')) {
-                    $fileFixed = preg_filter(
-                        $sizeMatcher,
-                        '.',
-                        $file
-                    );
+                    $fileFixed = preg_filter($sizeMatcher, '.', $file);
                     if ($fileFixed !== null && $fileFixed !== $file) {
                         $file = $fileFixed . $extension;
                         $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
+                    }
+                }
+                // If the "fix scaled image links" option is set, try to remove "-scaled" from the image link.
+                // For example: "image-scaled.jpg" will become "image.jpg"
+                $scaledMatcher = '/(-scaled\.).+$/';
+                if ('1' === $this->optionsManager->getOption('fix_scaled')) {
+                    $fileFixed = preg_filter($scaledMatcher, '.', $file);
+                    if ($fileFixed !== null && $fileFixed !== $file) {
+                        $file = $fileFixed . $extension;
+                        $matches[2] = preg_filter($scaledMatcher, '.', $matches[2]) . $extension;
                     }
                 }
                 $shortFilename = str_replace ($baseDir . '/', '', $file);
@@ -362,17 +368,10 @@ class LightboxPhotoSwipe
             }
 
             $cacheKey = sprintf('%s-image-%s', self::SLUG, hash('md5', $file.$imgMtime));
-            // if (!$imgDetails = get_transient($cacheKey)) {
-            if(true) {
+            if (!$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);
-                    $nameLength = strlen($pathInfo['filename']);
-                    if ($nameLength > 7 && substr($pathInfo['filename'], $nameLength-7) === '-scaled')
-                    {
-                        $pathInfo['filename'] = substr($pathInfo['filename'], 0, $nameLength-7);
-                    }
-
                     $fileSmall = $file;
                     if ($imageSize[0] > $imageSize[1]) {
                         for ($n=-1; $n<2; $n++) {
@@ -389,33 +388,15 @@ class LightboxPhotoSwipe
                             }
                         }
                     }
-
-                    $fileFull = sprintf(
-                        '%s/%s.%s',
-                        $pathInfo['dirname'],
-                        $pathInfo['filename'],
-                        $pathInfo['extension']
-                    );
-                    if (!file_exists($fileFull)) {
-                        $fileFull = $file;
-                    }
-
                     if ($baseDir) {
                         $fileSmall = str_replace($baseDir, get_home_url().'/wp-content/uploads', $fileSmall);
-                        $fileFull = str_replace($baseDir, get_home_url().'/wp-content/uploads', $fileFull);
                     }
-
                     if (substr($fileSmall, 0, 1) === '/') {
                         $fileSmall = '';
                     }
-                    if (substr($fileFull, 0, 1) === '/') {
-                        $fileFull = '';
-                    }
-
                     $imgDetails = [
                         'imageSize'    => $imageSize,
                         'fileSmall'    => $fileSmall,
-                        'fileFull'     => $fileFull,
                         'exifCamera'   => '',
                         'exifFocal'    => '',
                         'exifFstop'    => '',
@@ -423,7 +404,6 @@ class LightboxPhotoSwipe
                         'exifIso'      => '',
                         'exifDateTime' => '',
                     ];
-
                     if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
                         $exif = @exif_read_data( $file, 'EXIF', true );
                         if (false !== $exif) {
@@ -436,7 +416,6 @@ class LightboxPhotoSwipe
                             $imgDetails['exifDateTime'] = $this->exifHelper->getDateTime();
                         }
                     }
-
                     set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
                 }
             }
@@ -457,10 +436,6 @@ class LightboxPhotoSwipe
                 // TODO: make using preview size configurable
                 if ($imgDetails['fileSmall']) {
                     $attr .= sprintf(' data-lbwps-srcsmall="%s"', $imgDetails['fileSmall']);
-                }
-                // TODO: make using full size configurable
-                if ($imgDetails['fileFull']) {
-                    $attr .= sprintf(' data-lbwps-srcfull="%s"',  $imgDetails['fileFull']);
                 }
                 if ('1' === $this->optionsManager->getOption('usecaption') && $captionCaption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($captionCaption))));

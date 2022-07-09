@@ -50,6 +50,7 @@
             <label><?php $this->uiControlCheckbox('ignore_hash') ?>&nbsp;<?php echo __('Ignore links to images which contain a hash (#)', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('hide_scrollbars') ?>&nbsp;<?php echo __('Hide scrollbars when opening the lightbox (this may not work with your theme)', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('fix_links') ?>&nbsp;<?php echo __('Try to fix links to images which include image sizes (e.g. "image-1024x768.jpg" instead of "image.jpg")', self::SLUG); ?></label><br>
+            <label><?php $this->uiControlCheckbox('fix_scaled') ?>&nbsp;<?php echo __('Try to fix links to scaled images (e.g."image.jpg" instead of "image-scaled.jpg")', self::SLUG); ?></label><br>
         </td>
     </tr>
     <tr>
