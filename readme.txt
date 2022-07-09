@@ -2,9 +2,9 @@
 
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
-Requires at least: 5.0
+Requires at least: 5.3
 Tested up to: 6.0
-Stable tag: 4.0.4
+Stable tag: 5.0.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -206,10 +206,17 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
+= 5.0.0 =
+
+* Minimum required WordPress version is no 5.3.
+* Added official release of PhotoSwipe 5 (thanks to Dmitry Semenov for his support!).
+* Added option to fix links to scaled images.
+* If possible PhotoSwipe will now be opened with lower resolution preview images for better performance.
+
 = 4.0.4 =
 
-* Removed "lazy loading" as this is not needed any longer
-* Improved compatibility with older PHP versions (7.0 and up)
+* Removed "lazy loading" as this is not needed any longer.
+* Improved compatibility with older PHP versions (7.0 and up).
 
 = 4.0.3 =
 
