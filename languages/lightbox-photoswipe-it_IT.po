@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-07-09 13:58+0000\n"
+"PO-Revision-Date: 2022-07-10 12:56+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -48,9 +48,18 @@ msgstr "Testo alternativo"
 msgid "Arno Welzel"
 msgstr "Arno Welzel"
 
+msgid "aside"
+msgstr "accanto"
+
+msgid "automatic"
+msgstr "automatico"
+
 #: options-manager.php:362
 msgid "Available post types on this site"
 msgstr "Tipi di post disponibili su questo sito"
+
+msgid "below"
+msgstr "sotto"
 
 #: options-manager.php:470
 msgid "Caption"
@@ -341,6 +350,9 @@ msgstr ""
 #: options-manager.php:560
 msgid "Plugin version"
 msgstr "Versione plug-in"
+
+msgid "Position"
+msgstr "Posizione"
 
 #: options-manager.php:426
 msgid "Prefix"

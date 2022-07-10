@@ -120,6 +120,12 @@ class LightboxPhotoSwipe
                 false,
                 self::VERSION
             );
+            wp_enqueue_style(
+                'lbwps-styles-photoswipe5-dynamic-caption',
+                sprintf('%sassets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.css', $this->getPluginUrl()),
+                false,
+                self::VERSION
+            );
         } else {
             $handle = 'lbwps';
             if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
@@ -877,6 +883,7 @@ class LightboxPhotoSwipe
         $translation_array['spacing'] = intval($this->optionsManager->getOption('spacing'));
         $translation_array['idletime'] = intval($this->optionsManager->getOption('idletime'));
         $translation_array['hide_scrollbars'] = intval($this->optionsManager->getOption('hide_scrollbars'));
+        $translation_array['caption_type'] = $this->optionsManager->getOption('caption_type');
         wp_localize_script($handle, 'lbwpsOptions', $translation_array);
     }
 

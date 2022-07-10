@@ -1,4 +1,5 @@
 import PhotoSwipeLightbox from './lib/photoswipe-lightbox.esm.js';
+import PhotoSwipeDynamicCaption from './dynamic-caption/photoswipe-dynamic-caption-plugin.esm.js';
 
 let lbwpsInit = function(domUpdate) {
     const fullscreenAPI = getFullscreenAPI();
@@ -321,15 +322,14 @@ let lbwpsInit = function(domUpdate) {
         options.clickToCloseNonZoomable = true;
 
         // Not supported any longer by PhotoSwipe 5 itself
+        // Maybe we add this in future versions
 
         /*
         options.counterEl = lbwpsOptions.show_counter === '1';
         options.closeOnScroll = lbwpsOptions.wheelmode === 'close';
         options.switchOnScroll = lbwpsOptions.wheelmode === 'switch';
         options.history = lbwpsOptions.history === '1';
-        options.fullscreenEl = lbwpsOptions.show_fullscreen === '1';
         options.zoomEl = lbwpsOptions.show_zoom === '1';
-        options.captionEl = lbwpsOptions.show_caption === '1';
         options.tapToToggleControls = lbwpsOptions.taptotoggle === '1';
         options.desktopSlider = lbwpsOptions.desktop_slider === '1';
         options.timeToIdle = lbwpsOptions.idletime;
@@ -396,120 +396,34 @@ let lbwpsInit = function(domUpdate) {
         });
         */
 
+        // Add captions with dynamic caption plugin
+        if (lbwpsOptions.show_caption) {
+            const captionPlugin = new PhotoSwipeDynamicCaption(lightbox, {
+                type: lbwpsOptions.caption_type,
+                captionContent: (slide) => {
+                    let caption = slide.data.el.getAttribute('data-lbwps-caption');
+                    if (!caption) {
+                        caption = '';
+                    }
+                    let exif = slide.data.el.getAttribute('data-lbwps-exif');
+                    if (!exif) {
+                        exif = '';
+                    }
+                    return '<span class="pswp__caption">'
+                        +caption
+                        +'</span>'
+                        +'<span class="pswp__caption__exif">'
+                        +exif
+                        +'</span>';
+                }
+            });
+        }
+
         lightbox.init();
         if (lbwpsOptions.hide_scrollbars === '1') {
             hideScrollbar();
         }
         lightbox.loadAndOpen(index);
-
-/*
-        options = {
-            index: index,
-            getThumbBoundsFn: false,
-            showHideOpacity: true,
-            loop: true,
-            tapToToggleControls: true,
-            clickToCloseNonZoomable: false,
-        };
-
-        if (id != null) {
-            options.galleryUID = id;
-        }
-
-        if(lbwpsOptions.close_on_click === '0') {
-            options.closeElClasses = ['pspw__button--close'];
-        }
-
-        if(lbwpsOptions.share_facebook === '1' ||
-            lbwpsOptions.share_twitter === '1' ||
-            lbwpsOptions.share_pinterest === '1' ||
-            lbwpsOptions.share_download === '1' ||
-            lbwpsOptions.share_copyurl === '1' ||
-            (lbwpsOptions.share_custom_link !== '' && lbwpsOptions.share_custom_label !== '')) {
-            options.shareEl = true;
-            options.shareButtons = [];
-            if(lbwpsOptions.share_facebook === '1') {
-                if(lbwpsOptions.share_direct === '1') {
-                    url = 'https://www.facebook.com/sharer/sharer.php?u={{image_url}}';
-                } else {
-                    url = 'https://www.facebook.com/sharer/sharer.php?u={{url}}';
-                }
-                options.shareButtons.push({id:'facebook', label:lbwpsOptions.label_facebook, url:url});
-            }
-            if(lbwpsOptions.share_twitter === '1') {
-                if(lbwpsOptions.share_direct === '1') {
-                    url = 'https://twitter.com/intent/tweet?text={{text}}&url={{image_url}}';
-                } else {
-                    url = 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}';
-                }
-                options.shareButtons.push({id:'twitter', label:lbwpsOptions.label_twitter, url:url});
-            }
-            if(lbwpsOptions.share_pinterest === '1') options.shareButtons.push({id:'pinterest', label:lbwpsOptions.label_pinterest, url:'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}'});
-            if(lbwpsOptions.share_download === '1') options.shareButtons.push({id:'download', label:lbwpsOptions.label_download, url:'{{raw_image_url}}', download:true});
-            if(lbwpsOptions.share_copyurl === '1') options.shareButtons.push({id:'copyurl', label:lbwpsOptions.label_copyurl, url:'{{raw_image_url}}', onclick:'window.lbwpsCopyToClipboard(\'{{raw_image_url}}\');return false;', download:false});
-            if(lbwpsOptions.share_custom_link !== '' && lbwpsOptions.share_custom_label !== '') {
-                options.shareButtons.push({id:'custom', label:lbwpsOptions.share_custom_label, url:lbwpsOptions.share_custom_link, download:false});
-            }
-        } else {
-            options.shareEl = false;
-        }
-
-        options.closeOnScroll = lbwpsOptions.wheelmode === 'close';
-        options.zoomOnScroll = lbwpsOptions.wheelmode === 'zoom';
-        options.switchOnScroll = lbwpsOptions.wheelmode === 'switch';
-        options.closeOnVerticalDrag = lbwpsOptions.close_on_drag === '1';
-        options.history = lbwpsOptions.history === '1';
-        options.counterEl = lbwpsOptions.show_counter === '1';
-        options.fullscreenEl = lbwpsOptions.show_fullscreen === '1';
-        options.zoomEl = lbwpsOptions.show_zoom === '1';
-        options.captionEl = lbwpsOptions.show_caption === '1';
-        options.loop = lbwpsOptions.loop === '1';
-        options.pinchToClose = lbwpsOptions.pinchtoclose === '1';
-        options.tapToToggleControls = lbwpsOptions.taptotoggle === '1';
-        options.desktopSlider = lbwpsOptions.desktop_slider === '1';
-        options.spacing = lbwpsOptions.spacing/100;
-        options.timeToIdle = lbwpsOptions.idletime;
-
-        if(fromURL === true) {
-            options.index = parseInt(index, 10) - 1;
-        }
-
-        if(lbwpsOptions.fulldesktop === '1') {
-            options.barsSize = {top: 0, bottom: 0};
-        }
-
-        gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-        gallery.listen('gettingData', function (index, item) {
-            if (item.w < 1 || item.h < 1) {
-                let img = new Image();
-                img.onload = function () {
-                    item.w = this.width;
-                    item.h = this.height;
-                    gallery.updateSize(true);
-                };
-                img.src = item.src;
-            }
-        });
-
-        if (returnToUrl !== '') {
-            gallery.listen('unbindEvents', function() {
-                document.location.href = returnToUrl;
-            });
-        }
-
-        gallery.listen('destroy', function() {
-            if (lbwpsOptions.hide_scrollbars === '1') {
-                showScrollbar();
-            }
-            window.lbwpsPhotoSwipe = null;
-        })
-
-        window.lbwpsPhotoSwipe = gallery;
-        if (lbwpsOptions.hide_scrollbars === '1') {
-            hideScrollbar();
-        }
-        gallery.init();
-*/
     };
 
     // Fullscreen API helper

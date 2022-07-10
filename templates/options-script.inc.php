@@ -68,24 +68,14 @@
         let optionsV5 = document.getElementsByClassName('lbwps-ver5');
         if (document.getElementById('lightbox_photoswipe_version-0').checked) {
             for (let i=0; i < optionsV4.length; i++) {
-                console.log(optionsV4.item(i));
-                if (optionsV4.item(i).nodeName == 'DIV' || optionsV4.item(i).nodeName == 'P') {
-                    optionsV4.item(i).style.display = 'block';
-                } else{
-                    optionsV4.item(i).style.display = 'inline';
-                }
+                optionsV4.item(i).style.display = '';
             }
             for (let i=0; i < optionsV5.length; i++) {
                 optionsV5.item(i).style.display = 'none';
             }
         } else {
             for (let i=0; i < optionsV5.length; i++) {
-                console.log(optionsV5.item(i));
-                if (optionsV5.item(i).nodeName == 'DIV' || optionsV5.item(i).nodeName == 'P') {
-                    optionsV5.item(i).style.display = 'block';
-                } else{
-                    optionsV5.item(i).style.display = 'inline';
-                }
+                optionsV5.item(i).style.display = ''
             }
             for (let i=0; i < optionsV4.length; i++) {
                 optionsV4.item(i).style.display = 'none';

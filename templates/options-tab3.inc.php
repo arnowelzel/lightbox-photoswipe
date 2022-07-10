@@ -21,4 +21,12 @@
             <label><?php $this->uiControlCheckbox('showexif_date'); ?> <?php echo __('Show date in EXIF data if available', self::SLUG); ?></label>
         </td>
     </tr>
+    <tr class="lbwps-ver5">
+        <th scope="row">
+            <?php echo __('Position', self::SLUG); ?>
+        </th>
+        <td>
+            <label><?php $this->uiControlRadio('caption_type', ['auto', 'aside', 'below'], [__('automatic', self::SLUG), __('aside', self::SLUG), __('below', self::SLUG)], ' '); ?></label>
+        </td>
+    </tr>
 </table>
