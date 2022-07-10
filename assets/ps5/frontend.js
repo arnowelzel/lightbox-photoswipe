@@ -218,13 +218,18 @@ let lbwpsInit = function(domUpdate) {
                     msrc = element.getAttribute('data-lbwps-srcsmall');
                 }
 
+                let exif = element.getAttribute('data-lbwps-exif');
+                if (!exif) {
+                    exif = '';
+                }
+
                 galleryItems.push({
                     src: element.getAttribute('href'),
                     msrc: msrc,
                     width: element.getAttribute('data-lbwps-width'),
                     height: element.getAttribute('data-lbwps-height'),
                     title: title,
-                    exif: element.getAttribute('data-lbwps-exif'),
+                    exif: exif,
                     el: element,
                     tabindex: tabindex
                 });
@@ -371,24 +376,16 @@ let lbwpsInit = function(domUpdate) {
         */
 
         // Add captions with dynamic caption plugin
-        if (lbwpsOptions.show_caption) {
+        if (lbwpsOptions.show_caption === '1') {
             const captionPlugin = new PhotoSwipeDynamicCaption(lightbox, {
                 type: lbwpsOptions.caption_type,
                 captionContent: (slide) => {
-                    let caption = slide.data.el.getAttribute('data-lbwps-caption');
-                    if (!caption) {
-                        caption = '';
-                    }
-                    let exif = slide.data.el.getAttribute('data-lbwps-exif');
-                    if (!exif) {
-                        exif = '';
-                    }
-                    return '<span class="pswp__caption">'
-                        +caption
-                        +'</span>'
-                        +'<span class="pswp__caption__exif">'
-                        +exif
-                        +'</span>';
+                    return '<div class="pswp__caption">'
+                        +slide.data.title
+                        +'</div>'
+                        +'<div class="pswp__caption__exif">'
+                        +slide.data.exif
+                        +'</div>';
                 }
             });
         }
