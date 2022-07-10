@@ -256,32 +256,6 @@ let lbwpsInit = function(domUpdate) {
         return [galleryItems, parseInt(index, 10)];
     };
 
-    let photoswipeParseHash = function() {
-        let hash = window.location.hash.substring(1), params = {};
-
-        if(hash.length < 5) {
-            return params;
-        }
-
-        let vars = hash.split('&');
-        for (let i = 0; i < vars.length; i++) {
-            if(!vars[i]) {
-                continue;
-            }
-            let pair = vars[i].split('=');
-            if(pair.length < 2) {
-                continue;
-            }
-            params[pair[0]] = pair[1];
-        }
-
-        if(params.gid) {
-            params.gid = parseInt(params.gid, 10);
-        }
-
-        return params;
-    };
-
     let openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
         let id = 1,
 //            gallery,
@@ -511,19 +485,8 @@ let lbwpsInit = function(domUpdate) {
             document.getSelection().removeAllRanges();
             document.getSelection().addRange(selected);
         }
-    };
-
-    if(true !== domUpdate) {
-        let hashData = photoswipeParseHash();
-        if (hashData.pid && hashData.gid) {
-            let returnUrl = '';
-            if (typeof (hashData.returnurl) !== 'undefined') {
-                returnUrl = hashData.returnurl;
-            }
-            openPhotoSwipe(hashData.pid, hashData.gid, null, true, returnUrl);
-        }
     }
-};
+}
 
 // Universal ready handler
 let lbwpsReady = (function () {
@@ -548,7 +511,7 @@ let lbwpsReady = (function () {
 
         // A fallback to window.onload, that will always work
         window.addEventListener("load", idempotentFn, false);
-    };
+    }
 })();
 
 lbwpsReady(function() {

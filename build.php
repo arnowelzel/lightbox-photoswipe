@@ -26,7 +26,7 @@ class Build
         $minifyJs->add('src/lib/photoswipe.js');
         $minifyJs->add('src/lib/photoswipe-ui-default.js');
         $minifyJs->add('src/js/frontend.js');
-        $minifyJs->minify('assets/scripts.js');
+        $minifyJs->minify('assets/ps4/scripts.js');
 
         echo "Building frontend script (PhotoSwipe 5)\n";
 
@@ -76,7 +76,7 @@ class Build
                 }
             }
             $minifyCss->add($source);
-            $minifyCss->minify(sprintf('assets/styles/%s.css', $skin));
+            $minifyCss->minify(sprintf('assets/ps4/styles/%s.css', $skin));
         }
     }
 }

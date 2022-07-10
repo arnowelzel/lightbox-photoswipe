@@ -107,13 +107,23 @@ class LightboxPhotoSwipe
 
         if ($this->optionsManager->getOption('version') === '5') {
             $handle = 'lbwps-photoswipe5';
-            wp_enqueue_script(
-                'lbwps-photoswipe5',
-                sprintf('%sassets/ps5/frontend.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
+            if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+                wp_enqueue_script(
+                    'lbwps-photoswipe5',
+                    sprintf('%sassets/ps5/frontend.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            } else {
+                wp_enqueue_script(
+                    'lbwps-photoswipe5',
+                    sprintf('%sassets/ps5/frontend.min.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            }
             wp_enqueue_style(
                 'lbwps-styles-photoswipe5',
                 sprintf('%sassets/ps5/lib/photoswipe.css', $this->getPluginUrl()),
@@ -122,7 +132,10 @@ class LightboxPhotoSwipe
             );
             wp_enqueue_style(
                 'lbwps-styles-photoswipe5-dynamic-caption',
-                sprintf('%sassets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.css', $this->getPluginUrl()),
+                sprintf(
+                    '%sassets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.css',
+                    $this->getPluginUrl()
+                ),
                 false,
                 self::VERSION
             );
@@ -153,7 +166,7 @@ class LightboxPhotoSwipe
             } else {
                 wp_enqueue_script(
                     'lbwps',
-                    sprintf('%sassets/scripts.js', $this->getPluginUrl()),
+                    sprintf('%sassets/ps4/scripts.js', $this->getPluginUrl()),
                     [],
                     self::VERSION,
                     true
@@ -189,7 +202,7 @@ class LightboxPhotoSwipe
             } else {
                 wp_enqueue_style(
                     'lbwps-styles',
-                    sprintf('%sassets/styles/%s.css', $this->getPluginUrl(), $skin),
+                    sprintf('%sassets/ps4/styles/%s.css', $this->getPluginUrl(), $skin),
                     false,
                     self::VERSION
                 );
