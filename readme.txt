@@ -214,7 +214,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 = 5.0.0 =
 
-* Minimum required WordPress version is no 5.3.
+* Minimum required WordPress version is now 5.3.
 * Added official release of PhotoSwipe 5 (thanks to Dmitry Semenov for his support!).
 * Added option to fix links to scaled images.
 * If possible PhotoSwipe will now be opened with lower resolution preview images for better performance.
