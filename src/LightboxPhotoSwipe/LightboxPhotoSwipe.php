@@ -109,7 +109,7 @@ class LightboxPhotoSwipe
             $handle = 'lbwps-photoswipe5';
             wp_enqueue_script(
                 'lbwps-photoswipe5',
-                sprintf('%sassets/ps5/scripts.js', $this->getPluginUrl()),
+                sprintf('%sassets/ps5/frontend.js', $this->getPluginUrl()),
                 [],
                 self::VERSION,
                 true

@@ -1,5 +1,5 @@
-import PhotoSwipeLightbox from './lib/photoswipe-lightbox.esm.js';
-import PhotoSwipeDynamicCaption from './dynamic-caption/photoswipe-dynamic-caption-plugin.esm.js';
+import PhotoSwipeLightbox from './lib/photoswipe-lightbox.esm.min.js';
+import PhotoSwipeDynamicCaption from './dynamic-caption/photoswipe-dynamic-caption-plugin.esm.min.js';
 
 let lbwpsInit = function(domUpdate) {
     const fullscreenAPI = getFullscreenAPI();
@@ -309,7 +309,7 @@ let lbwpsInit = function(domUpdate) {
             showHideAnimationType: 'fade',
             showAnimationDuration: 250,
             hideAnimationDuration: 250,
-            pswpModule: () => import('./lib/photoswipe.esm.js'),
+            pswpModule: () => import('./lib/photoswipe.esm.min.js'),
         }
 
         // Additional options (also see https://photoswipe.com/options/)
@@ -551,6 +551,7 @@ let lbwpsReady = (function () {
     };
 })();
 
+console.log('PS5: init');
 lbwpsReady(function() {
     window.lbwpsPhotoSwipe = null;
     lbwpsInit(false);
