@@ -105,7 +105,8 @@ class LightboxPhotoSwipe
             return;
         }
 
-        if ($this->optionsManager->getOption('version') === '5') {
+        $version = apply_filters('lbwps_version', $this->optionsManager->getOption('version'), get_the_ID());
+        if (5 === (int)$version) {
             $handle = 'lbwps-photoswipe5';
             if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
                 wp_enqueue_script(
@@ -220,7 +221,8 @@ class LightboxPhotoSwipe
             return;
         }
 
-        if ($this->optionsManager->getOption('version') !== '4') {
+        $version = apply_filters('lbwps_version', $this->optionsManager->getOption('version'), get_the_ID());
+        if (4 !== (int)$version) {
             return;
         }
 
@@ -341,6 +343,9 @@ class LightboxPhotoSwipe
                     $file = $realFile;
                 }
 
+                // Keep original file name for metadata retrieval
+                $fileOriginal = $file;
+
                 // If the "fix image links" option is set, try to remove size parameters from the image link.
                 // For example: "image-1024x768.jpg" will become "image.jpg"
                 $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.)).+$/';
@@ -361,18 +366,20 @@ class LightboxPhotoSwipe
                         $matches[2] = preg_filter($scaledMatcher, '.', $matches[2]) . $extension;
                     }
                 }
-                $shortFilename = str_replace ($baseDir . '/', '', $file);
-                $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortFilename));
-                if (isset($imgid[0])) {
-                    $imgPostId = $imgid[0];
-                }
 
+                // Try to get metadata from database
                 if ('1' === $this->optionsManager->getOption('usepostdata') && '1' === $this->optionsManager->getOption('show_caption')) {
-                    if ($imgPostId) {
-                        $imgpost = get_post($imgPostId);
-                        $captionCaption = $imgpost->post_excerpt;
-                        $captionTitle = $imgpost->post_title;
-                        $captionDescription = $imgpost->post_content;
+                    $imgId = $wpdb->get_col(
+                        $wpdb->prepare(
+                            'SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;',
+                            str_replace ($baseDir . '/', '', $fileOriginal)
+                        )
+                    );
+                    if (isset($imgId[0])) {
+                        $imgPost = get_post($imgId[0]);
+                        $captionCaption = $imgPost->post_excerpt;
+                        $captionTitle = $imgPost->post_title;
+                        $captionDescription = $imgPost->post_content;
                     }
                 }
 
