@@ -13,13 +13,13 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 == Description ==
 
-This plugin integrates an extended version of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
+This plugin integrates an extended version of PhotoSwipe 4 or the official release of PhotoSwipe 5 to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
 More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
 The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
 
-As of version 4.0.0 this plugin requires at least WordPress 5.0 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see https://wordpress.org/about/requirements/.
+As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see https://wordpress.org/about/requirements/.
 
 == Installation ==
 
@@ -91,7 +91,9 @@ add_filter('lbwps_enabled', 'my_lbwps_enabled', 10, 2);
 
 = How to modify the PhotoSwipe markup =
 
-If you want to modify the existing PhotoSwipe markup, you can use the filter `lbwps_markup`. This filter gets one parameter with the existing markup and must return the modified markup to be used.
+Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 modifying the markup is not supported any longer, since there is no static markup included.
+
+If you want to modify the existing PhotoSwipe 4 markup, you can use the filter `lbwps_markup`. This filter gets one parameter with the existing markup and must return the modified markup to be used.
 
 A "quick & dirty" example to add additional stuff in the header with the controls (CSS should never be inline - this is just to get a working example):
 
@@ -138,6 +140,8 @@ Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. Howev
 
 = How to use the PhotoSwipe API? =
 
+Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 there is no API hook yet.
+
 The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. Please note, that this variable is `null` if the lightbox is not open! This can be used to build your own extensions using the PhotoSwipe API. Also see [https://photoswipe.com/documentation/api.html](https://photoswipe.com/documentation/api.html) how to use the API.
 
 = How to change the order of the images in the lightbox? =
@@ -153,6 +157,8 @@ Lightbox with PhotoSwipe tries to determine the size based on the width/height a
 Reading SVG files also requires the SimpleXML extension for PHP to be available. Without this extension SVG files can not be displayed at all.
 
 = Local changes in PhotoSwipe =
+
+Note: this only applies for PhotoSwipe 4! PhotoSwipe 5 is used without any changes.
 
 The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
 

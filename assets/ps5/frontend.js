@@ -551,7 +551,6 @@ let lbwpsReady = (function () {
     };
 })();
 
-console.log('PS5: init');
 lbwpsReady(function() {
     window.lbwpsPhotoSwipe = null;
     lbwpsInit(false);

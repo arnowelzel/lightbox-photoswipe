@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-07-10 12:56+0000\n"
+"PO-Revision-Date: 2022-07-10 14:12+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -328,6 +328,9 @@ msgstr "Originale con sfondo uniforme"
 #: options-manager.php:382
 msgid "Other options"
 msgstr "Altre opzioni"
+
+msgid "PhotoSwipe version to use"
+msgstr "Versione PhotoSwipe da utilizzare"
 
 #: options-manager.php:220 options-manager.php:491
 msgid "Pin it"
