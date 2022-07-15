@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '4.0.5';
+    const VERSION = '4.0.6';
     const SLUG = 'lightbox-photoswipe';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
@@ -661,7 +661,6 @@ class LightboxPhotoSwipe
                 restore_current_blog();
             }
         } else {
-            lightboxPhotoswipeDeleteTables();
             wp_clear_scheduled_hook('lbwps_cleanup');
             $this->deleteDatabaseTables();
             $optionsManager->deleteOptions();
