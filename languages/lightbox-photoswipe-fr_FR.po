@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:32+0000\n"
-"PO-Revision-Date: 2022-07-10 14:12+0000\n"
+"PO-Revision-Date: 2022-07-16 00:10+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: French (France)\n"
 "Language: fr_FR\n"
@@ -48,18 +48,9 @@ msgstr "Texte alternatif"
 msgid "Arno Welzel"
 msgstr "Arno Welzel"
 
-msgid "aside"
-msgstr "à côté"
-
-msgid "automatic"
-msgstr "automatique"
-
 #: options-manager.php:362
 msgid "Available post types on this site"
 msgstr "Types de publication disponibles sur ce site"
-
-msgid "below"
-msgstr "dessous"
 
 #: options-manager.php:470
 msgid "Caption"
@@ -142,6 +133,15 @@ msgstr "Désactiver"
 msgid "Download image"
 msgstr "Télécharger l'image"
 
+msgid "dynamic, aside"
+msgstr "dynamique, à part"
+
+msgid "dynamic, automatic"
+msgstr "dynamique, automatique"
+
+msgid "dynamic, below"
+msgstr "dynamique, ci-dessous"
+
 #: options-manager.php:553
 msgid "Enable pinch to close gesture on mobile devices"
 msgstr "Activer le geste de pincement pour fermer sur les appareils mobiles"
@@ -186,6 +186,27 @@ msgid "Factor by which SVG images get scaled when displayed in the lightbox."
 msgstr ""
 "Facteur par lequel les images SVG sont mises à l'échelle lorsqu'elles sont "
 "affichées dans la lightbox."
+
+#: options-manager.php:392
+#| msgid ""
+#| "Try to fix links to images which include image sizes (e.g. \"image-"
+#| "1024x768.jpg\" instead of \"image.jpg\")"
+msgid ""
+"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
+"instead of \"image.jpg\")"
+msgstr ""
+"Corriger les liens vers des images qui incluent des tailles d'image (par "
+"exemple \"image-1024x768.jpg\" au lieu de \"image.jpg\")"
+
+#| msgid ""
+#| "Try to fix links to scaled images (e.g.\"image.jpg\" instead of \"image-"
+#| "scaled.jpg\")"
+msgid ""
+"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
+"jpg\")"
+msgstr ""
+"Corriger les liens vers des images à l'échelle (par exemple, \"image.jpg\" "
+"au lieu de \"image-scaled.jpg\")"
 
 #: options-manager.php:562
 msgid "For documentation about hooks, styling etc. please see FAQ"
@@ -333,6 +354,9 @@ msgstr "Original avec fond solide"
 msgid "Other options"
 msgstr "Autres options"
 
+msgid "overlay"
+msgstr "recouvrir"
+
 msgid "PhotoSwipe version to use"
 msgstr "Version de PhotoSwipe à utiliser"
 
@@ -356,9 +380,6 @@ msgstr ""
 #: options-manager.php:560
 msgid "Plugin version"
 msgstr "Version du plug-in"
-
-msgid "Position"
-msgstr "Position"
 
 #: options-manager.php:426
 msgid "Prefix"
@@ -504,27 +525,15 @@ msgstr "Titre"
 msgid "Toggle fullscreen"
 msgstr "Passer en plein écran"
 
-#: options-manager.php:392
-msgid ""
-"Try to fix links to images which include image sizes (e.g. \"image-1024x768."
-"jpg\" instead of \"image.jpg\")"
-msgstr ""
-"Essayez de corriger les liens vers des images qui incluent des tailles "
-"d'image (par exemple \"image-1024x768.jpg\" au lieu de \"image.jpg\")"
-
-msgid ""
-"Try to fix links to scaled images (e.g.\"image.jpg\" instead of \"image-"
-"scaled.jpg\")"
-msgstr ""
-"Essayez de corriger les liens vers des images à l'échelle (par exemple, "
-"\"image.jpg\" au lieu de \"image-scaled.jpg\")"
-
 #: options-manager.php:219 options-manager.php:489
 msgid "Tweet"
 msgstr "Tweet"
 
 msgid "Twig cache enabled"
 msgstr "Cache Twig activé"
+
+msgid "Type of caption"
+msgstr "Type de légende"
 
 #: options-manager.php:384
 msgid ""

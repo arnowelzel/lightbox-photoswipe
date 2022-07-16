@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-07-10 14:11+0000\n"
+"PO-Revision-Date: 2022-07-16 00:06+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Deutsch (Sie)\n"
 "Language: de_DE_formal\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.2; wp-6.0"
+"X-Loco-Version: 2.6.2; wp-6.0.1"
 
 #: options-manager.php:476
 msgid ""
@@ -48,18 +48,9 @@ msgstr "Alternativer Text"
 msgid "Arno Welzel"
 msgstr "Arno Welzel"
 
-msgid "aside"
-msgstr "seitlich"
-
-msgid "automatic"
-msgstr "automatisch"
-
 #: options-manager.php:362
 msgid "Available post types on this site"
 msgstr "Verfügbare Post-Typen auf dieser Website"
-
-msgid "below"
-msgstr "darunter"
 
 #: options-manager.php:470
 msgid "Caption"
@@ -141,6 +132,15 @@ msgstr "Deaktivieren"
 msgid "Download image"
 msgstr "Herunterladen"
 
+msgid "dynamic, aside"
+msgstr "dynamisch, daneben"
+
+msgid "dynamic, automatic"
+msgstr "dynamisch, automatisch"
+
+msgid "dynamic, below"
+msgstr "dynamisch, darunter"
+
 #: options-manager.php:553
 msgid "Enable pinch to close gesture on mobile devices"
 msgstr "\"Pinch to close\"-Geste auf mobilen Geräten aktivieren"
@@ -185,6 +185,27 @@ msgid "Factor by which SVG images get scaled when displayed in the lightbox."
 msgstr ""
 "Faktor für die Skalierung von SVG-Bildern bei der Anzeige in der Lightbox."
 
+#: options-manager.php:392
+#| msgid ""
+#| "Try to fix links to images which include image sizes (e.g. \"image-"
+#| "1024x768.jpg\" instead of \"image.jpg\")"
+msgid ""
+"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
+"instead of \"image.jpg\")"
+msgstr ""
+"Links auf Bilder mit Größenangaben zu korrigieren (z.B. \"image-1024x768."
+"jpg\" statt \"image.jpg\")"
+
+#| msgid ""
+#| "Try to fix links to scaled images (e.g.\"image.jpg\" instead of \"image-"
+#| "scaled.jpg\")"
+msgid ""
+"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
+"jpg\")"
+msgstr ""
+"Links auf skalierte Bilder zu korrigieren (z.B. \"image-scaled.jpg\" statt "
+"\"image.jpg\")"
+
 #: options-manager.php:562
 msgid "For documentation about hooks, styling etc. please see FAQ"
 msgstr "Für eine Dokumentation zu Hooks, Styling etc. siehe die FAQ"
@@ -210,8 +231,8 @@ msgstr ""
 msgid ""
 "Hide scrollbars when opening the lightbox (this may not work with your theme)"
 msgstr ""
-"Versuche die Bildlaufleisten auszublenden, wenn die Lightbox geöffnet wird "
-"(das funktioniert eventuell nicht mit ihrem Theme)"
+"Bildlaufleisten ausblenden, wenn die Lightbox geöffnet wird (das "
+"funktioniert eventuell nicht mit Ihrem Theme)"
 
 #. Author URI of the plugin
 msgid "http://arnowelzel.de"
@@ -328,6 +349,9 @@ msgstr "Original mit festem Hintergrund"
 msgid "Other options"
 msgstr "Weitere Optionen"
 
+msgid "overlay"
+msgstr "Overlay"
+
 msgid "PhotoSwipe version to use"
 msgstr "Zu verwendende PhotoSwipe-Version"
 
@@ -352,9 +376,6 @@ msgstr ""
 #: options-manager.php:560
 msgid "Plugin version"
 msgstr "Plugin-Version"
-
-msgid "Position"
-msgstr "Position"
 
 #: options-manager.php:426
 msgid "Prefix"
@@ -495,27 +516,15 @@ msgstr "Titel"
 msgid "Toggle fullscreen"
 msgstr "Vollbildanzeige umschalten"
 
-#: options-manager.php:392
-msgid ""
-"Try to fix links to images which include image sizes (e.g. \"image-1024x768."
-"jpg\" instead of \"image.jpg\")"
-msgstr ""
-"Versuchen, Links auf Bilder mit Größenangaben zu korrigieren (z.B. \"image-"
-"1024x768.jpg\" statt \"image.jpg\")"
-
-msgid ""
-"Try to fix links to scaled images (e.g.\"image.jpg\" instead of \"image-"
-"scaled.jpg\")"
-msgstr ""
-"Versuchen, Links auf skalierte Bilder zu korrigieren (z.B. \"image-scaled."
-"jpg\" statt \"image.jpg\")"
-
 #: options-manager.php:219 options-manager.php:489
 msgid "Tweet"
 msgstr "Tweet"
 
 msgid "Twig cache enabled"
 msgstr "Twig-Cache aktiviert"
+
+msgid "Type of caption"
+msgstr "Art der Beschriftung"
 
 #: options-manager.php:384
 msgid ""

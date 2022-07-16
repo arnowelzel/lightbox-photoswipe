@@ -23,10 +23,10 @@
     </tr>
     <tr class="lbwps-ver5">
         <th scope="row">
-            <?php echo __('Position', self::SLUG); ?>
+            <?php echo __('Type of caption', self::SLUG); ?>
         </th>
         <td>
-            <label><?php $this->uiControlRadio('caption_type', ['auto', 'aside', 'below'], [__('automatic', self::SLUG), __('aside', self::SLUG), __('below', self::SLUG)], ' '); ?></label>
+            <label><?php $this->uiControlRadio('caption_type', ['auto', 'aside', 'below', 'overlay'], [__('dynamic, automatic', self::SLUG), __('dynamic, aside', self::SLUG), __('dynamic, below', self::SLUG), __('overlay', self::SLUG)], '<br>'); ?></label>
         </td>
     </tr>
 </table>

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-10 14:11+0000\n"
+"POT-Creation-Date: 2022-07-16 00:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -402,8 +402,8 @@ msgstr ""
 
 #: options-manager.php:392
 msgid ""
-"Try to fix links to images which include image sizes (e.g. \"image-1024x768."
-"jpg\" instead of \"image.jpg\")"
+"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
+"instead of \"image.jpg\")"
 msgstr ""
 
 #: options-manager.php:219 options-manager.php:489
@@ -488,21 +488,24 @@ msgid "version 5"
 msgstr ""
 
 msgid ""
-"Try to fix links to scaled images (e.g.\"image.jpg\" instead of \"image-"
-"scaled.jpg\")"
+"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
+"jpg\")"
 msgstr ""
 
-msgid "Position"
+msgid "Type of caption"
 msgstr ""
 
-msgid "automatic"
+msgid "dynamic, automatic"
 msgstr ""
 
-msgid "aside"
+msgid "dynamic, aside"
 msgstr ""
 
-msgid "below"
+msgid "dynamic, below"
 msgstr ""
 
 msgid "PhotoSwipe version to use"
+msgstr ""
+
+msgid "overlay"
 msgstr ""
