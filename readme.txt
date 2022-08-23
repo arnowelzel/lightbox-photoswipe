@@ -219,6 +219,22 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 * Added option to fix links to scaled images.
 * If possible PhotoSwipe will now be opened with lower resolution preview images for better performance.
 
+= 4.0.8 =
+
+* Restore focus to the opening image after closing the lightbox.
+
+= 4.0.7 =
+
+* Fixed calculation of fstop value in EXIF data for non apex values.
+
+= 4.0.6 =
+
+* Fixed a potential problem when deleting a blog.
+
+= 4.0.5 =
+
+* Fixed a bug which caused an error when trying to remove the plugin.
+
 = 4.0.4 =
 
 * Removed "lazy loading" as this is not needed any longer.

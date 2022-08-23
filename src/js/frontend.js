@@ -407,6 +407,9 @@ let lbwpsInit = function(domUpdate) {
                 showScrollbar();
             }
             window.lbwpsPhotoSwipe = null;
+            if (element) {
+                element.focus();
+            }
         })
 
         window.lbwpsPhotoSwipe = gallery;
