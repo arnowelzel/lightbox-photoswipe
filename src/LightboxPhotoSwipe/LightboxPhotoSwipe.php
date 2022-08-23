@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '4.0.7';
+    const VERSION = '4.0.8';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '4';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;

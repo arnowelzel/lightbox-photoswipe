@@ -329,7 +329,7 @@ options.closeOnScroll=lbwpsOptions.wheelmode==='close';options.zoomOnScroll=lbwp
 if(lbwpsOptions.fulldesktop==='1'){options.barsSize={top:0,bottom:0}}
 gallery=new PhotoSwipe(pswpElement,PhotoSwipeUI_Default,items,options);gallery.listen('gettingData',function(index,item){if(item.w<1||item.h<1){let img=new Image();img.onload=function(){item.w=this.width;item.h=this.height;gallery.updateSize(!0)};img.src=item.src}});if(returnToUrl!==''){gallery.listen('unbindEvents',function(){document.location.href=returnToUrl})}
 gallery.listen('destroy',function(){if(lbwpsOptions.hide_scrollbars==='1'){showScrollbar()}
-window.lbwpsPhotoSwipe=null})
+window.lbwpsPhotoSwipe=null;if(element){element.focus()}})
 window.lbwpsPhotoSwipe=gallery;if(lbwpsOptions.hide_scrollbars==='1'){hideScrollbar()}
 gallery.init()};window.lbwpsCopyToClipboard=function(str){const el=document.createElement('textarea');el.value=str;el.setAttribute('readonly','');el.style.position='absolute';el.style.left='-9999px';document.body.appendChild(el);const selected=document.getSelection().rangeCount>0?document.getSelection().getRangeAt(0):!1;el.select();document.execCommand('copy');document.body.removeChild(el);if(selected){document.getSelection().removeAllRanges();document.getSelection().addRange(selected)}};if(!0!==domUpdate){let hashData=photoswipeParseHash();if(hashData.pid&&hashData.gid){let returnUrl='';if(typeof(hashData.returnurl)!=='undefined'){returnUrl=hashData.returnurl}
 openPhotoSwipe(hashData.pid,hashData.gid,null,!0,returnUrl)}}};let lbwpsReady=(function(){let readyEventFired=!1;return function(fn){let idempotentFn=function(){if(readyEventFired){return}
