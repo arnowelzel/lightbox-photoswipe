@@ -9,6 +9,7 @@ class LightboxPhotoSwipe
 {
     const VERSION = '5.0.0';
     const SLUG = 'lightbox-photoswipe';
+    const META_VERSION = '4';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -393,7 +394,7 @@ class LightboxPhotoSwipe
                 $imgMtime = 0;
             }
 
-            $cacheKey = sprintf('%s-image-%s', self::SLUG, hash('md5', $file.$imgMtime));
+            $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
             if (!$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
