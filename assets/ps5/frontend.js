@@ -315,11 +315,14 @@ let lbwpsInit = function(domUpdate) {
         */
 
         const lightbox = new PhotoSwipeLightbox(options);
-        if (lbwpsOptions.hide_scrollbars === '1') {
-            lightbox.on('destroy', () => {
+        lightbox.on('destroy', () => {
+            if (lbwpsOptions.hide_scrollbars === '1') {
                 showScrollbar();
-            });
-        }
+            }
+            if (element) {
+                element.focus();
+            }
+        });
 
         // Add fullscreen button and keyboard shortcut for fullscreen mode
         // based on the idea described at https://github.com/dimsemenov/PhotoSwipe/issues/1759
