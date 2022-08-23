@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 4.0.6
+Stable tag: 4.0.7
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -206,13 +206,16 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
-= 4.0.6 =
+= 4.0.7 =
 
 * Fixed calculation of fstop value in EXIF data for non apex values.
 
-= 4.0.5 =
+= 4.0.6 =
 
 * Fixed a potential problem when deleting a blog.
+
+= 4.0.5 =
+
 * Fixed a bug which caused an error when trying to remove the plugin.
 
 = 4.0.4 =
