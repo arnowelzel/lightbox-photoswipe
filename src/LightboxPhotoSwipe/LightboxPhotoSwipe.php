@@ -662,7 +662,6 @@ class LightboxPhotoSwipe
                 restore_current_blog();
             }
         } else {
-            lightboxPhotoswipeDeleteTables();
             wp_clear_scheduled_hook('lbwps_cleanup');
             $this->deleteDatabaseTables();
             $optionsManager->deleteOptions();

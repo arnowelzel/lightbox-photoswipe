@@ -213,6 +213,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 = 4.0.5 =
 
 * Fixed a potential problem when deleting a blog.
+* Fixed a bug which caused an error when trying to remove the plugin.
 
 = 4.0.4 =
 
