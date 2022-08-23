@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 4.0.5
+Stable tag: 4.0.6
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -206,14 +206,18 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
+= 4.0.6 =
+
+* Fixed calculation of fstop value in EXIF data for non apex values.
+
 = 4.0.5 =
 
-* Fixed a potential problem when deleting a blog
+* Fixed a potential problem when deleting a blog.
 
 = 4.0.4 =
 
-* Removed "lazy loading" as this is not needed any longer
-* Improved compatibility with older PHP versions (7.0 and up)
+* Removed "lazy loading" as this is not needed any longer.
+* Improved compatibility with older PHP versions (7.0 and up).
 
 = 4.0.3 =
 
