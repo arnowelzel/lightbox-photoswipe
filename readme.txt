@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.0
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -196,7 +196,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
-= 5.0.0 =
+= 5.0.1 =
 
 * Minimum required WordPress version is now 5.3.
 * Added official release of PhotoSwipe 5 (thanks to Dmitry Semenov for his support!).
