@@ -44,20 +44,6 @@ Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in ve
 
 Starting with release 3.1.14 this is also supported for Elementor image widgets and Elementor image carousel widgets.
 
-= Experimental feature: return to a specific URL when closing the lightbox =
-
-Note: this was changed with version 2.0. The previous parameter `return` is no longer supported.
-
-When you activate the setting for "Activate browser history" you can link directly to an image inside a page or post:
-
-`http://domain.example/example-page#gid=1&pid=1`
-
-This will load the given page/post and automatically open the first image (`pid=1`) in the lightbox. However, when closing the lightbox, you will see the page or post itself. Sometimes it is preferred to go to a specific URL when closing the lightbox. This can be done by using `returnurl` combined with the URL to got to as the first parameter:
-
-`http://domain.example/example-page#returnurl=http://domain.example&gid=1&pid=1`
-
-When a visitor now opens the link, closing the lightbox will get the visitor to specified URL `http://domain.example`.
-
 = The plugin seems not to work properly =
 
 Some themes or plugins have their own lightbox implementation which can cause a conflict with Lightbox with PhotoSwipe. In this case you need to disable the lightbox of the theme or other plugins if possible.
@@ -110,29 +96,27 @@ A "quick & dirty" example to add additional stuff in the header with the control
 
 add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
-= How to style the caption below the images =
+= Changes with PhotoSwipe 5 =
 
-If you want to style the caption below the images, you need to create custom styles for the following CSS classes:
+PhotoSwipe 5 improves the overall performance and compatibility with newer mobile devices like the iPhone 13. However, some features are no longer supported by that version:
 
-pswp__caption - this class is used for the whole caption area.
+1) Updating the browser history when opening the lightbox or navigating through images (this is no longer supported by PhotoSwipe).
 
-pswp__caption__center - this class is used for the caption itself.
+2) Customizing the display of image counter and zoom button (this may be added in future updates).
 
-pswp__caption__title - this class is the "title" element inside the caption.
+3) All desktop and mobile specific options (some options may return in future updates).
 
-pswp__caption__text - this class is the "text" element inside the caption (below "title").
+4) Sharing options (some options may return in future updates).
 
-pswp__caption__alt - this class is the "alternative text" element inside the caption (below "text").
+= How to style the caption =
 
-pswp__caption__desc - this class is the "description" element inside the caption (below "text").
+Which styles are available depends on which PhotoSwipe version you use and what kind of caption.
 
-pswp__caption__exif - this class is used for the EXIF data DIV element.
-
-pswp__caption__exif_focal, pswp__caption__exif_fstop, pswp__caption__exif_shutter, pswp__caption__exif_iso, pswp__caption__exif_datetime - these classes are used for the individual properties in the EXIF data.
+Please use the web developer tools of your browser to examine the caption elements and to learn which CSS classes are used.
 
 = Why is there no "zoom animation" when opening the lightbox? =
 
-PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a black background where the final image gets loaded seems to be the better solution. Also see [http://photoswipe.com/documentation/faq.html](http://photoswipe.com/documentation/faq.html) about this topic.
+PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a fade-in animation is the better solution.
 
 = Conflict with PublishPress Blocks (Advanced Gutenberg Blocks) =
 
@@ -140,7 +124,7 @@ Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. Howev
 
 = How to use the PhotoSwipe API? =
 
-Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 there is no API hook yet.
+Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 there is no API hook yet!
 
 The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. Please note, that this variable is `null` if the lightbox is not open! This can be used to build your own extensions using the PhotoSwipe API. Also see [https://photoswipe.com/documentation/api.html](https://photoswipe.com/documentation/api.html) how to use the API.
 
