@@ -382,7 +382,6 @@ let lbwpsInit = function(domUpdate) {
                 if (fullscreenAPI && fullscreenAPI.isFullscreen()) {
                     fullscreenAPI.exit();
                 }
-                history.pushState(null, null, ' ');
             });
         }
 
@@ -523,6 +522,7 @@ let lbwpsInit = function(domUpdate) {
         } else {
             elements = document.querySelectorAll('a[data-lbwps-width][data-lbwps-gid="' + hashData.gid + '"]');
         }
+        history.replaceState(null, null, ' ');
         elements[hashData.pid-1].click();
     }
 }
