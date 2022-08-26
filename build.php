@@ -20,20 +20,30 @@ class Build
         // Frontend script:
         // Combine all frontend scripts to one minified file
 
-        echo "Building frontend script\n";
+        echo "Building frontend script (PhotoSwipe 4)\n";
 
         $minifyJs = new Minify\JS();
         $minifyJs->add('src/lib/photoswipe.js');
         $minifyJs->add('src/lib/photoswipe-ui-default.js');
         $minifyJs->add('src/js/frontend.js');
-        $minifyJs->minify('assets/scripts.js');
+        $minifyJs->minify('assets/ps4/scripts.js');
+
+        echo "Building frontend script (PhotoSwipe 5)\n";
+
+        $minifyJs = new Minify\JS();
+        $minifyJs->add('assets/ps5/frontend.js');
+        $minifyJs->minify('assets/ps5/frontend.min.js');
+
+        $minifyJs = new Minify\JS();
+        $minifyJs->add('assets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.esm.js');
+        $minifyJs->minify('assets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.esm.min.js');
 
         // Skins:
         // Combine all styles for each skine to one minifed file which includes all images as data URIs
 
         $sourcePhotoswipe = file_get_contents('src/lib/photoswipe.css');
         foreach (['classic', 'classic-solid', 'default', 'default-solid'] as $skin) {
-            echo sprintf("Building style for skin %s\n", $skin);
+            echo sprintf("Building style for PhotoSwipe 4 skin %s\n", $skin);
 
             $minifyCss = new Minify\CSS();
             $source = $sourcePhotoswipe.file_get_contents(sprintf('src/lib/skins/%s/skin.css', $skin));
@@ -66,7 +76,7 @@ class Build
                 }
             }
             $minifyCss->add($source);
-            $minifyCss->minify(sprintf('assets/styles/%s.css', $skin));
+            $minifyCss->minify(sprintf('assets/ps4/styles/%s.css', $skin));
         }
     }
 }

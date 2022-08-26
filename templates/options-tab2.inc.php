@@ -1,5 +1,5 @@
 <table id="lbwps-tab-2" class="form-table" style="display:none;">
-    <tr>
+    <tr class="lbwps-ver4">
         <th scope="row">
             <?php echo __('Skin', self::SLUG); ?>
         </th>

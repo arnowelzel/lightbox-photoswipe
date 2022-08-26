@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '4.0.8';
+    const VERSION = '5.0.0';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '4';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -17,6 +17,7 @@ class LightboxPhotoSwipe
     private $pluginFile;
     private $optionsManager;
     private $exifHelper;
+    private $imageSizes;
 
     private $enabled;
     private $galleryId;
@@ -40,6 +41,7 @@ class LightboxPhotoSwipe
         $this->obLevel = 0;
 
         if (!is_admin()) {
+            add_filter('script_loader_tag', [$this,'addScriptModule'] , 10, 3);
             add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
             add_action('wp_footer', [$this, 'outputFooter']);
             add_action('wp_head', [$this, 'bufferStart'], 2050);
@@ -74,6 +76,18 @@ class LightboxPhotoSwipe
     }
 
     /**
+     * Add module attribute to PhotoSwipe 5 script
+     */
+    function addScriptModule($tag, $handle, $src)
+    {
+        if ( 'lbwps-photoswipe5' !== $handle ) {
+            return $tag;
+        }
+        $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+        return $tag;
+    }
+
+    /**
      * Enqueue Scripts/CSS
      */
     public function enqueueScripts()
@@ -92,73 +106,111 @@ class LightboxPhotoSwipe
             return;
         }
 
-        if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
-            wp_enqueue_script(
-                'lbwps-photoswipe',
-                sprintf('%ssrc/lib/photoswipe.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
-            wp_enqueue_script(
-                'lbwps-photoswipe-ui',
-                sprintf('%ssrc/lib/photoswipe-ui-default.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
-            wp_enqueue_script(
-                'lbwps',
-                sprintf('%ssrc/js/frontend.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
-        } else {
-            wp_enqueue_script(
-                'lbwps',
-                sprintf('%sassets/scripts.js', $this->getPluginUrl()),
-                [],
-                self::VERSION,
-                true
-            );
-        }
-        $this->enqueueFrontendOptions();
-        switch ($this->optionsManager->getOption('skin')) {
-            case '2':
-                $skin = 'classic-solid';
-                break;
-            case '3':
-                $skin = 'default';
-                break;
-            case '4':
-                $skin = 'default-solid';
-                break;
-            default:
-                $skin = 'classic';
-                break;
-        }
-        if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+        $version = apply_filters('lbwps_version', $this->optionsManager->getOption('version'), get_the_ID());
+        if (5 === (int)$version) {
+            $handle = 'lbwps-photoswipe5';
+            if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+                wp_enqueue_script(
+                    'lbwps-photoswipe5',
+                    sprintf('%sassets/ps5/frontend.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            } else {
+                wp_enqueue_script(
+                    'lbwps-photoswipe5',
+                    sprintf('%sassets/ps5/frontend.min.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            }
             wp_enqueue_style(
-                'lbwps-styles-photoswipe',
-                sprintf('%ssrc/lib/photoswipe.css', $this->getPluginUrl()),
+                'lbwps-styles-photoswipe5',
+                sprintf('%sassets/ps5/lib/photoswipe.css', $this->getPluginUrl()),
                 false,
                 self::VERSION
             );
             wp_enqueue_style(
-                'lbwps-styles',
-                sprintf('%ssrc/lib/skins/%s/skin.css', $this->getPluginUrl(), $skin),
+                'lbwps-styles-photoswipe5-dynamic-caption',
+                sprintf(
+                    '%sassets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.css',
+                    $this->getPluginUrl()
+                ),
                 false,
                 self::VERSION
             );
         } else {
-            wp_enqueue_style(
-                'lbwps-styles',
-                sprintf('%sassets/styles/%s.css', $this->getPluginUrl(), $skin),
-                false,
-                self::VERSION
-            );
+            $handle = 'lbwps';
+            if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+                wp_enqueue_script(
+                    'lbwps-photoswipe',
+                    sprintf('%ssrc/lib/photoswipe.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+                wp_enqueue_script(
+                    'lbwps-photoswipe-ui',
+                    sprintf('%ssrc/lib/photoswipe-ui-default.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+                wp_enqueue_script(
+                    'lbwps',
+                    sprintf('%ssrc/js/frontend.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            } else {
+                wp_enqueue_script(
+                    'lbwps',
+                    sprintf('%sassets/ps4/scripts.js', $this->getPluginUrl()),
+                    [],
+                    self::VERSION,
+                    true
+                );
+            }
+            switch ($this->optionsManager->getOption('skin')) {
+                case '2':
+                    $skin = 'classic-solid';
+                    break;
+                case '3':
+                    $skin = 'default';
+                    break;
+                case '4':
+                    $skin = 'default-solid';
+                    break;
+                default:
+                    $skin = 'classic';
+                    break;
+            }
+            if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+                wp_enqueue_style(
+                    'lbwps-styles-photoswipe',
+                    sprintf('%ssrc/lib/photoswipe.css', $this->getPluginUrl()),
+                    false,
+                    self::VERSION
+                );
+                wp_enqueue_style(
+                    'lbwps-styles',
+                    sprintf('%ssrc/lib/skins/%s/skin.css', $this->getPluginUrl(), $skin),
+                    false,
+                    self::VERSION
+                );
+            } else {
+                wp_enqueue_style(
+                    'lbwps-styles',
+                    sprintf('%sassets/ps4/styles/%s.css', $this->getPluginUrl(), $skin),
+                    false,
+                    self::VERSION
+                );
+            }
         }
+        $this->enqueueFrontendOptions($handle);
     }
 
     /**
@@ -167,6 +219,11 @@ class LightboxPhotoSwipe
     public function outputFooter()
     {
         if (!$this->enabled) {
+            return;
+        }
+
+        $version = apply_filters('lbwps_version', $this->optionsManager->getOption('version'), get_the_ID());
+        if (4 !== (int)$version) {
             return;
         }
 
@@ -211,6 +268,7 @@ class LightboxPhotoSwipe
         $extension = strtolower($type['ext']);
         $captionCaption = '';
         $captionDescription = '';
+        $isLocal = false;
         if (!in_array($extension, ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp', 'svg'])) {
             // Ignore unknown image formats
             $use = false;
@@ -242,8 +300,6 @@ class LightboxPhotoSwipe
 
             if (substr($file, 0, strlen($baseurlHttp)) === $baseurlHttp || substr($file, 0, strlen($baseurlHttps)) === $baseurlHttps) {
                 $isLocal = true;
-            } else {
-                $isLocal = false;
             }
 
             if (!$isLocal && '1' === $this->optionsManager->getOption('ignore_external')) {
@@ -256,6 +312,9 @@ class LightboxPhotoSwipe
         }
 
         if ($use) {
+            $baseDir = wp_upload_dir()['basedir'];
+            $imgPostId = null;
+
             // If image is served by the website itself, try to get caption for local file
             if ($isLocal) {
                 // Remove domain part
@@ -285,31 +344,43 @@ class LightboxPhotoSwipe
                     $file = $realFile;
                 }
 
-                if ('1' === $this->optionsManager->getOption('usepostdata') && '1' === $this->optionsManager->getOption('show_caption')) {
-                    // Fix provived by Emmanuel Liron - this will also cover scaled and rotated images
-                    $basedir = wp_upload_dir()['basedir'];
+                // Keep original file name for metadata retrieval
+                $fileOriginal = $file;
 
-                    // If the "fix image links" option is set, try to remove size parameters from the image link.
-                    // For example: "image-1024x768.jpg" will become "image.jpg"
-                    $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.))+$/';
-                    if ('1' === $this->optionsManager->getOption('fix_links')) {
-                        $fileFixed = preg_filter(
-                            $sizeMatcher,
-                            '.',
-                            $file
-                        );
-                        if ($fileFixed !== null && $fileFixed !== $file) {
-                            $file = $fileFixed . $extension;
-                            $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
-                        }
+                // If the "fix image links" option is set, try to remove size parameters from the image link.
+                // For example: "image-1024x768.jpg" will become "image.jpg"
+                $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.)).+$/';
+                if ('1' === $this->optionsManager->getOption('fix_links')) {
+                    $fileFixed = preg_filter($sizeMatcher, '.', $file);
+                    if ($fileFixed !== null && $fileFixed !== $file) {
+                        $file = $fileFixed . $extension;
+                        $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
                     }
-                    $shortfilename = str_replace ($basedir . '/', '', $file);
-                    $imgid = $wpdb->get_col($wpdb->prepare('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;', $shortfilename));
-                    if (isset($imgid[0])) {
-                        $imgpost = get_post($imgid[0]);
-                        $captionCaption = $imgpost->post_excerpt;
-                        $captionTitle = $imgpost->post_title;
-                        $captionDescription = $imgpost->post_content;
+                }
+                // If the "fix scaled image links" option is set, try to remove "-scaled" from the image link.
+                // For example: "image-scaled.jpg" will become "image.jpg"
+                $scaledMatcher = '/(-scaled\.).+$/';
+                if ('1' === $this->optionsManager->getOption('fix_scaled')) {
+                    $fileFixed = preg_filter($scaledMatcher, '.', $file);
+                    if ($fileFixed !== null && $fileFixed !== $file) {
+                        $file = $fileFixed . $extension;
+                        $matches[2] = preg_filter($scaledMatcher, '.', $matches[2]) . $extension;
+                    }
+                }
+
+                // Try to get metadata from database
+                if ('1' === $this->optionsManager->getOption('usepostdata') && '1' === $this->optionsManager->getOption('show_caption')) {
+                    $imgId = $wpdb->get_col(
+                        $wpdb->prepare(
+                            'SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;',
+                            str_replace ($baseDir . '/', '', $fileOriginal)
+                        )
+                    );
+                    if (isset($imgId[0])) {
+                        $imgPost = get_post($imgId[0]);
+                        $captionCaption = $imgPost->post_excerpt;
+                        $captionTitle = $imgPost->post_title;
+                        $captionDescription = $imgPost->post_content;
                     }
                 }
 
@@ -326,10 +397,33 @@ class LightboxPhotoSwipe
             $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
             if (!$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file, $extension);
-
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
+                    $pathInfo = pathinfo($file);
+                    $fileSmall = $file;
+                    if ($imageSize[0] > $imageSize[1]) {
+                        for ($n=-1; $n<2; $n++) {
+                            $fileSmallTest = sprintf(
+                                '%s/%s-%dx%d.%s',
+                                $pathInfo['dirname'],
+                                $pathInfo['filename'],
+                                $this->imageSizes[0]['width'],
+                                $imageSize[1] / $imageSize[0] * $this->imageSizes[0]['height'] + $n,
+                                $pathInfo['extension']
+                            );
+                            if (file_exists($fileSmallTest)) {
+                                $fileSmall = $fileSmallTest;
+                            }
+                        }
+                    }
+                    if ($baseDir) {
+                        $fileSmall = str_replace($baseDir, get_home_url().'/wp-content/uploads', $fileSmall);
+                    }
+                    if (substr($fileSmall, 0, 1) === '/') {
+                        $fileSmall = '';
+                    }
                     $imgDetails = [
                         'imageSize'    => $imageSize,
+                        'fileSmall'    => $fileSmall,
                         'exifCamera'   => '',
                         'exifFocal'    => '',
                         'exifFstop'    => '',
@@ -337,7 +431,6 @@ class LightboxPhotoSwipe
                         'exifIso'      => '',
                         'exifDateTime' => '',
                     ];
-
                     if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
                         $exif = @exif_read_data( $file, 'EXIF', true );
                         if (false !== $exif) {
@@ -350,7 +443,6 @@ class LightboxPhotoSwipe
                             $imgDetails['exifDateTime'] = $this->exifHelper->getDateTime();
                         }
                     }
-
                     set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
                 }
             }
@@ -368,19 +460,19 @@ class LightboxPhotoSwipe
                     $height = $height * $this->optionsManager->getOption('svg_scaling') / 100;
                 }
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $width, $height);
-
+                // TODO: make using preview size configurable
+                if ($imgDetails['fileSmall']) {
+                    $attr .= sprintf(' data-lbwps-srcsmall="%s"', $imgDetails['fileSmall']);
+                }
                 if ('1' === $this->optionsManager->getOption('usecaption') && $captionCaption != '') {
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($captionCaption))));
                 }
-
                 if ('1' === $this->optionsManager->getOption('usetitle') && '' !== $captionTitle) {
                     $attr .= sprintf(' data-lbwps-title="%s"', htmlspecialchars(nl2br(wptexturize($captionTitle))));
                 }
-
                 if ('1' === $this->optionsManager->getOption('usedescription') && '' !== $captionDescription) {
                     $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($captionDescription))));
                 }
-
                 if ('1' === $this->optionsManager->getOption('showexif')) {
                     $exifCaption = $this->exifHelper->buildCaptionString(
                         $exifFocal,
@@ -494,10 +586,6 @@ class LightboxPhotoSwipe
      */
     public function settingsPage()
     {
-        global $wpdb;
-
-        $hasExif = function_exists('exif_read_data');
-
         include(self::BASEPATH.'templates/options.inc.php');
     }
 
@@ -582,7 +670,7 @@ class LightboxPhotoSwipe
     /**
      * Filter for deleting a blog
      */
-    public function onDeleteBlog($tables)
+    public function onDeleteBlog($tables): array
     {
         global $wpdb;
 
@@ -639,6 +727,8 @@ class LightboxPhotoSwipe
             $this->cleanupTwigCache();
             $this->optionsManager->setOption('db_version', self::DB_VERSION, true);
         }
+
+        $this->imageSizes = $this->getWPImageSizes();
     }
 
     /**
@@ -656,14 +746,10 @@ class LightboxPhotoSwipe
             $blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs);
             foreach ($blog_ids as $blog_id) {
                 switch_to_blog($blog_id);
-                $this->deleteDatabaseTables();
                 $optionsManager->deleteOptions();
-                wp_clear_scheduled_hook('lbwps_cleanup');
                 restore_current_blog();
             }
         } else {
-            wp_clear_scheduled_hook('lbwps_cleanup');
-            $this->deleteDatabaseTables();
             $optionsManager->deleteOptions();
         }
     }
@@ -731,8 +817,9 @@ class LightboxPhotoSwipe
         $num = 0;
         while ($num < count($optionValues)) {
             $output .= sprintf(
-                '<label style="margin-right:0.5em"><input id="%1$s" type="radio" name="%1$s" value="%2$s"%3$s/>%4$s</label>%5$s',
+                '<label style="margin-right:0.5em"><input id="%1$s-%2$d" type="radio" name="%1$s" value="%3$s"%4$s/>%5$s</label>%6$s',
                 esc_attr('lightbox_photoswipe_'.$name),
+                $num,
                 $optionValues[$num],
                 $value === $optionValues[$num] ? ' checked' : '',
                 $optionLabels[$num] ?? '',
@@ -771,7 +858,7 @@ class LightboxPhotoSwipe
     /**
      * Enqueue options for frontend script
      */
-    protected function enqueueFrontendOptions()
+    protected function enqueueFrontendOptions($handle)
     {
         $translation_array = [
             'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
@@ -812,7 +899,8 @@ class LightboxPhotoSwipe
         $translation_array['spacing'] = intval($this->optionsManager->getOption('spacing'));
         $translation_array['idletime'] = intval($this->optionsManager->getOption('idletime'));
         $translation_array['hide_scrollbars'] = intval($this->optionsManager->getOption('hide_scrollbars'));
-        wp_localize_script('lbwps', 'lbwpsOptions', $translation_array);
+        $translation_array['caption_type'] = $this->optionsManager->getOption('caption_type');
+        wp_localize_script($handle, 'lbwpsOptions', $translation_array);
     }
 
     /**
@@ -894,6 +982,44 @@ class LightboxPhotoSwipe
         }
 
         return $imageSize;
+    }
+
+    /**
+     * Get available image sizes, ordered by size
+     */
+    protected function getWPImageSizes()
+    {
+        $imageSizes = [];
+        $additionalSizes = wp_get_additional_image_sizes();
+        $intermediateSizes = get_intermediate_image_sizes();
+        foreach($intermediateSizes as $intermediateSize) {
+            if (in_array($intermediateSize, ['thumbnail', 'medium', 'large'])) {
+                if ((bool)get_option($intermediateSize.'_crop') === false) {
+                    $imageSizes[$intermediateSize] = [
+                        'width' => get_option($intermediateSize.'_size_w'),
+                        'height' => get_option($intermediateSize.'_size_h'),
+                    ];
+                }
+            } elseif (isset($additionalSizes[$intermediateSize])) {
+                if ($additionalSizes[$intermediateSize]['crop'] === false) {
+                    $imageSizes[$intermediateSize] = [
+                        'width' => $additionalSizes[$intermediateSize]['width'],
+                        'height' => $additionalSizes[$intermediateSize]['height'],
+                    ];
+                }
+            }
+        }
+
+        usort($imageSizes, function($a, $b) {
+            $totalA = $a['width'] * $a['height'];
+            $totalB = $b['width'] * $b['height'];
+            if ($totalA > $totalB) return 1;
+            if ($totalA < $totalB) return -1;
+
+            return 0;
+        });
+
+        return $imageSizes;
     }
 
     /**

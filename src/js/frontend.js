@@ -4,7 +4,7 @@ let lbwpsInit = function(domUpdate) {
         if (event.target.parentNode.getAttribute('data-lbwps-width')) {
 
             event.preventDefault();
-            openPhotoSwipe(false, 0, event.target.parentNode, false, '');
+            openPhotoSwipe(false, 0, event.target.parentNode);
             return;
         }
 
@@ -18,7 +18,7 @@ let lbwpsInit = function(domUpdate) {
         {
             if (typeof path[num].getAttribute === 'function' && path[num].getAttribute('data-lbwps-width')) {
                 event.preventDefault();
-                openPhotoSwipe(false, 0, path[num], false, '');
+                openPhotoSwipe(false, 0, path[num]);
                 return;
             }
             num++;
@@ -215,9 +215,14 @@ let lbwpsInit = function(domUpdate) {
                     title = title + '<div class="pswp__caption__desc">' + element.getAttribute('data-lbwps-description') + '</div>';
                 }
 
+                let msrc = element.getAttribute('href');
+                if (element.getAttribute('data-lbwps-srcsmall')) {
+                    msrc = element.getAttribute('data-lbwps-srcsmall');
+                }
+
                 galleryItems.push({
                     src: element.getAttribute('href'),
-                    msrc: element.getAttribute('href'),
+                    msrc: msrc,
                     w: element.getAttribute('data-lbwps-width'),
                     h: element.getAttribute('data-lbwps-height'),
                     title: title,
@@ -281,7 +286,7 @@ let lbwpsInit = function(domUpdate) {
         return params;
     };
 
-    let openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
+    let openPhotoSwipe = function(element_index, group_index, element) {
         let id = 1,
             pswpElement = document.querySelector('.pswp'),
             gallery,
@@ -370,10 +375,6 @@ let lbwpsInit = function(domUpdate) {
         options.spacing = lbwpsOptions.spacing/100;
         options.timeToIdle = lbwpsOptions.idletime;
 
-        if(fromURL === true) {
-            options.index = parseInt(index, 10) - 1;
-        }
-
         if(lbwpsOptions.fulldesktop === '1') {
             options.barsSize = {top: 0, bottom: 0};
         }
@@ -437,11 +438,7 @@ let lbwpsInit = function(domUpdate) {
     if(true !== domUpdate) {
         let hashData = photoswipeParseHash();
         if (hashData.pid && hashData.gid) {
-            let returnUrl = '';
-            if (typeof (hashData.returnurl) !== 'undefined') {
-                returnUrl = hashData.returnurl;
-            }
-            openPhotoSwipe(hashData.pid, hashData.gid, null, true, returnUrl);
+            openPhotoSwipe(hashData.pid, hashData.gid, null);
         }
     }
 };

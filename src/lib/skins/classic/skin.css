@@ -506,6 +506,8 @@ a.pswp__share--custom:hover:before {
 
 .pswp__caption__exif_camera {
 	padding-left: 2.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 	background-position: 0.5em center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
@@ -514,6 +516,8 @@ a.pswp__share--custom:hover:before {
 
 .pswp__caption__exif_focal {
 	padding-left: 2.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 	background-position: 0.5em center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
@@ -522,6 +526,8 @@ a.pswp__share--custom:hover:before {
 
 .pswp__caption__exif_shutter {
 	padding-left: 2.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 	background-position: 0.5em center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
@@ -530,6 +536,8 @@ a.pswp__share--custom:hover:before {
 
 .pswp__caption__exif_fstop {
 	padding-left: 2.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 	background-position: 0.5em center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
@@ -538,6 +546,8 @@ a.pswp__share--custom:hover:before {
 
 .pswp__caption__exif_iso {
 	padding-left: 2.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 	background-position: 0.5em center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
@@ -546,6 +556,8 @@ a.pswp__share--custom:hover:before {
 
 .pswp__caption__exif_datetime {
 	padding-left: 2.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 	background-position: 0.5em center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;

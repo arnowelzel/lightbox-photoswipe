@@ -2,9 +2,9 @@
 
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
-Requires at least: 5.0
+Requires at least: 5.3
 Tested up to: 6.0
-Stable tag: 4.0.8
+Stable tag: 5.0.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,13 +13,13 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 == Description ==
 
-This plugin integrates an extended version of PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
+This plugin integrates an extended version of PhotoSwipe 4 or the official release of PhotoSwipe 5 to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
 More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
 The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
 
-As of version 4.0.0 this plugin requires at least WordPress 5.0 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see https://wordpress.org/about/requirements/.
+As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see https://wordpress.org/about/requirements/.
 
 == Installation ==
 
@@ -43,20 +43,6 @@ You can also add the same `data-lbwps-gid` attribute to multiple single images t
 Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in version 2.97 to avoid conflicts with existing themes or plugins!
 
 Starting with release 3.1.14 this is also supported for Elementor image widgets and Elementor image carousel widgets.
-
-= Experimental feature: return to a specific URL when closing the lightbox =
-
-Note: this was changed with version 2.0. The previous parameter `return` is no longer supported.
-
-When you activate the setting for "Activate browser history" you can link directly to an image inside a page or post:
-
-`http://domain.example/example-page#gid=1&pid=1`
-
-This will load the given page/post and automatically open the first image (`pid=1`) in the lightbox. However, when closing the lightbox, you will see the page or post itself. Sometimes it is preferred to go to a specific URL when closing the lightbox. This can be done by using `returnurl` combined with the URL to got to as the first parameter:
-
-`http://domain.example/example-page#returnurl=http://domain.example&gid=1&pid=1`
-
-When a visitor now opens the link, closing the lightbox will get the visitor to specified URL `http://domain.example`.
 
 = The plugin seems not to work properly =
 
@@ -91,7 +77,9 @@ add_filter('lbwps_enabled', 'my_lbwps_enabled', 10, 2);
 
 = How to modify the PhotoSwipe markup =
 
-If you want to modify the existing PhotoSwipe markup, you can use the filter `lbwps_markup`. This filter gets one parameter with the existing markup and must return the modified markup to be used.
+Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 modifying the markup is not supported any longer, since there is no static markup included.
+
+If you want to modify the existing PhotoSwipe 4 markup, you can use the filter `lbwps_markup`. This filter gets one parameter with the existing markup and must return the modified markup to be used.
 
 A "quick & dirty" example to add additional stuff in the header with the controls (CSS should never be inline - this is just to get a working example):
 
@@ -108,35 +96,35 @@ A "quick & dirty" example to add additional stuff in the header with the control
 
 add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
 
-= How to style the caption below the images =
+= Changes with PhotoSwipe 5 =
 
-If you want to style the caption below the images, you need to create custom styles for the following CSS classes:
+PhotoSwipe 5 improves the overall performance and compatibility with newer mobile devices like the iPhone 13. However, some features are no longer supported by that version:
 
-pswp__caption - this class is used for the whole caption area.
+1) Updating the browser history when opening the lightbox or navigating through images (this is no longer supported by PhotoSwipe).
 
-pswp__caption__center - this class is used for the caption itself.
+2) Customizing the display of image counter and zoom button (this may be added in future updates).
 
-pswp__caption__title - this class is the "title" element inside the caption.
+3) All desktop and mobile specific options (some options may return in future updates).
 
-pswp__caption__text - this class is the "text" element inside the caption (below "title").
+4) Sharing options (some options may return in future updates).
 
-pswp__caption__alt - this class is the "alternative text" element inside the caption (below "text").
+= How to style the caption =
 
-pswp__caption__desc - this class is the "description" element inside the caption (below "text").
+Which styles are available depends on which PhotoSwipe version you use and what kind of caption.
 
-pswp__caption__exif - this class is used for the EXIF data DIV element.
-
-pswp__caption__exif_focal, pswp__caption__exif_fstop, pswp__caption__exif_shutter, pswp__caption__exif_iso, pswp__caption__exif_datetime - these classes are used for the individual properties in the EXIF data.
+Please use the web developer tools of your browser to examine the caption elements and to learn which CSS classes are used.
 
 = Why is there no "zoom animation" when opening the lightbox? =
 
-PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a black background where the final image gets loaded seems to be the better solution. Also see [http://photoswipe.com/documentation/faq.html](http://photoswipe.com/documentation/faq.html) about this topic.
+PhotoSwipe has the option to create a zoom animation from the thumbnail to the final image when opening the lightbox. However, this does not work well with square thumbnails since the thumbnail is just enlarged to the final image size without keeping its aspect ratio. This would result in a quite weird image display where a square thumbnail gets stretched to a portrait or landscape image before the final image is loaded. Just having a fade-in animation is the better solution.
 
 = Conflict with PublishPress Blocks (Advanced Gutenberg Blocks) =
 
 Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. However when you use the "PublishPress Blocks" plugin it brings its own lightbox script which can cause conflicts. To avoid any problems, you should disable the Advanced Gutenberg lightbox in the settings. Disable the option "Open galleries in lightbox" in the backend configuration of PublishPress Blocks.
 
 = How to use the PhotoSwipe API? =
+
+Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 there is no API hook yet!
 
 The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. Please note, that this variable is `null` if the lightbox is not open! This can be used to build your own extensions using the PhotoSwipe API. Also see [https://photoswipe.com/documentation/api.html](https://photoswipe.com/documentation/api.html) how to use the API.
 
@@ -153,6 +141,8 @@ Lightbox with PhotoSwipe tries to determine the size based on the width/height a
 Reading SVG files also requires the SimpleXML extension for PHP to be available. Without this extension SVG files can not be displayed at all.
 
 = Local changes in PhotoSwipe =
+
+Note: this only applies for PhotoSwipe 4! PhotoSwipe 5 is used without any changes.
 
 The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
 
@@ -188,7 +178,7 @@ The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
 
 = Licensing =
 
-To avoid any confusion: this plugin was published with the agreement of Dmitry Semenov.
+To avoid any confusion: this plugin was published with the agreement of Dmytro Semenov.
 
 = Notes for developers =
 
@@ -205,6 +195,13 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.0.0 =
+
+* Minimum required WordPress version is now 5.3.
+* Added official release of PhotoSwipe 5 (thanks to Dmitry Semenov for his support!).
+* Added option to fix links to scaled images.
+* If possible PhotoSwipe will now be opened with lower resolution preview images for better performance.
 
 = 4.0.8 =
 
@@ -592,7 +589,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 * Added backend option to enable or disable "tap to toggle UI controls" gesture on mobile devices.
 * Added experimental support for "return on close" (see the description how to use this).
 * Internal links without domain part (`/wp-content/...` instead of `http://domain.example/wp-content/...`) now also work.
-* Code refactoring: frontend script is now called "js/frontend.js".
+* Code refactoring: frontend script is now called "js/scripts.js".
 * Improved support for captions in Meow Gallery.
 
 = 1.97 =

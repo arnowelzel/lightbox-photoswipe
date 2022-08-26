@@ -500,49 +500,61 @@ a.pswp__share--custom:hover:before {
 }
 
 .pswp__caption__exif_camera {
-	padding-left: 2.5em;
-	background-position: 0.5em center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-	background-image: url(camera.svg);
+  padding-left: 2.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-position: 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-image: url(camera.svg);
 }
 
 .pswp__caption__exif_focal {
-	padding-left: 2.5em;
-	background-position: 0.5em center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-	background-image: url(focal.svg);
+  padding-left: 2.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-position: 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-image: url(focal.svg);
 }
 
 .pswp__caption__exif_shutter {
-	padding-left: 2.5em;
-	background-position: 0.5em center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-	background-image: url(shutter.svg);
+  padding-left: 2.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-position: 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-image: url(shutter.svg);
 }
 
 .pswp__caption__exif_fstop {
-	padding-left: 2.5em;
-	background-position: 0.5em center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-	background-image: url(fstop.svg);
+  padding-left: 2.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-position: 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-image: url(fstop.svg);
 }
 
 .pswp__caption__exif_iso {
-	padding-left: 2.5em;
-	background-position: 0.5em center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-	background-image: url(iso.svg);
+  padding-left: 2.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-position: 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-image: url(iso.svg);
 }
 
 .pswp__caption__exif_datetime {
-	padding-left: 2.5em;
-	background-position: 0.5em center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-	background-image: url(datetime.svg);
+  padding-left: 2.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-position: 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-image: url(datetime.svg);
 }

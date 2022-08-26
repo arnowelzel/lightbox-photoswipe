@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:32+0000\n"
-"PO-Revision-Date: 2022-06-13 12:35+0000\n"
+"PO-Revision-Date: 2022-07-16 00:10+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: French (France)\n"
 "Language: fr_FR\n"
@@ -121,6 +121,10 @@ msgstr "La description"
 msgid "Desktop"
 msgstr "Bureau"
 
+msgid "Desktop options are not yet supported for PhotoSwipe 5."
+msgstr ""
+"Les options de bureau ne sont pas encore prises en charge pour PhotoSwipe 5."
+
 #: lightbox-photoswipe.php:684
 msgid "Disable"
 msgstr "Désactiver"
@@ -128,6 +132,15 @@ msgstr "Désactiver"
 #: options-manager.php:221 options-manager.php:492
 msgid "Download image"
 msgstr "Télécharger l'image"
+
+msgid "dynamic, aside"
+msgstr "dynamique, à part"
+
+msgid "dynamic, automatic"
+msgstr "dynamique, automatique"
+
+msgid "dynamic, below"
+msgstr "dynamique, ci-dessous"
 
 #: options-manager.php:553
 msgid "Enable pinch to close gesture on mobile devices"
@@ -173,6 +186,27 @@ msgid "Factor by which SVG images get scaled when displayed in the lightbox."
 msgstr ""
 "Facteur par lequel les images SVG sont mises à l'échelle lorsqu'elles sont "
 "affichées dans la lightbox."
+
+#: options-manager.php:392
+#| msgid ""
+#| "Try to fix links to images which include image sizes (e.g. \"image-"
+#| "1024x768.jpg\" instead of \"image.jpg\")"
+msgid ""
+"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
+"instead of \"image.jpg\")"
+msgstr ""
+"Corriger les liens vers des images qui incluent des tailles d'image (par "
+"exemple \"image-1024x768.jpg\" au lieu de \"image.jpg\")"
+
+#| msgid ""
+#| "Try to fix links to scaled images (e.g.\"image.jpg\" instead of \"image-"
+#| "scaled.jpg\")"
+msgid ""
+"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
+"jpg\")"
+msgstr ""
+"Corriger les liens vers des images à l'échelle (par exemple, \"image.jpg\" "
+"au lieu de \"image-scaled.jpg\")"
 
 #: options-manager.php:562
 msgid "For documentation about hooks, styling etc. please see FAQ"
@@ -257,6 +291,19 @@ msgstr "Ignorer les liens vers des images sur d'autres sites"
 msgid "Ignore links to images which contain a hash (#)"
 msgstr "Ignorer les liens vers des images contenant un hachage (#)"
 
+msgid ""
+"Image information like size, EXIF data, name of the preview image is cached "
+"as WordPress transients. To improve performance with large image galleries "
+"you can use caching plugins like <a href=\"https://wordpress."
+"org/plugins/redis-cache/\" target=\"_blank\">Redis Object Cache</a>."
+msgstr ""
+"Les informations sur l'image telles que la taille, les données EXIF, le nom "
+"de l'image d'aperçu sont mises en cache en tant que transitoires WordPress. "
+"Pour améliorer les performances avec de grandes galeries d'images, vous "
+"pouvez utiliser des plugins de mise en cache comme <a href=\"https:"
+"//wordpress.org/plugins/redis-cache/\" target=\"_blank\">Redis Object "
+"Cache</a>."
+
 #: options-manager.php:345
 msgid "Info"
 msgstr "Info"
@@ -271,6 +318,10 @@ msgstr "Lightbox avec PhotoSwipe"
 #: options-manager.php:344
 msgid "Mobile"
 msgstr "Mobile"
+
+msgid "Mobile options are not yet supported for PhotoSwipe 5."
+msgstr ""
+"Les options mobiles ne sont pas encore prises en charge pour PhotoSwipe 5."
 
 #: options-manager.php:524
 msgid "Mouse wheel function"
@@ -302,6 +353,12 @@ msgstr "Original avec fond solide"
 #: options-manager.php:382
 msgid "Other options"
 msgstr "Autres options"
+
+msgid "overlay"
+msgstr "recouvrir"
+
+msgid "PhotoSwipe version to use"
+msgstr "Version de PhotoSwipe à utiliser"
 
 #: options-manager.php:220 options-manager.php:491
 msgid "Pin it"
@@ -364,6 +421,10 @@ msgstr "Partager sur Facebook"
 msgid "Sharing"
 msgstr "Partage"
 
+msgid "Sharing options are not yet supported for PhotoSwipe 5."
+msgstr ""
+"Les options de partage ne sont pas encore prises en charge pour PhotoSwipe 5."
+
 #: options-manager.php:462
 msgid "Show caption if available"
 msgstr "Afficher la légende si disponible"
@@ -421,6 +482,14 @@ msgstr "Passer à l'image suivante/précédente"
 msgid "Thank you :-)"
 msgstr "Merci :-)"
 
+msgid ""
+"The available options depend on the PhotoSwipe version. UI customizations "
+"done for version 4 may not work for version 5."
+msgstr ""
+"Les options disponibles dépendent de la version de PhotoSwipe. Les "
+"personnalisations de l'interface utilisateur effectuées pour la version 4 "
+"peuvent ne pas fonctionner pour la version 5."
+
 #: options-manager.php:340
 msgid "Theme"
 msgstr "Thème"
@@ -452,27 +521,9 @@ msgstr ""
 msgid "Title"
 msgstr "Titre"
 
-#| msgid ""
-#| "To improve performance with large image galleries you can use caching "
-#| "plugins like Redis Object Cache"
-msgid ""
-"To improve performance with large image galleries you can use caching "
-"plugins like Redis Object Cache."
-msgstr ""
-"Pour améliorer les performances avec de grandes galeries d'images, vous "
-"pouvez utiliser des plugins de mise en cache comme Redis Object Cache."
-
 #: lightbox-photoswipe.php:185
 msgid "Toggle fullscreen"
 msgstr "Passer en plein écran"
-
-#: options-manager.php:392
-msgid ""
-"Try to fix links to images which include image sizes (e.g. \"image-1024x768."
-"jpg\" instead of \"image.jpg\")"
-msgstr ""
-"Essayez de corriger les liens vers des images qui incluent des tailles "
-"d'image (par exemple \"image-1024x768.jpg\" au lieu de \"image.jpg\")"
 
 #: options-manager.php:219 options-manager.php:489
 msgid "Tweet"
@@ -480,6 +531,9 @@ msgstr "Tweet"
 
 msgid "Twig cache enabled"
 msgstr "Cache Twig activé"
+
+msgid "Type of caption"
+msgstr "Type de légende"
 
 #: options-manager.php:384
 msgid ""
@@ -512,6 +566,13 @@ msgstr ""
 #: options-manager.php:467
 msgid "Used elements"
 msgstr "Éléments utilisés"
+
+#| msgid "version"
+msgid "version 4"
+msgstr "Version 4"
+
+msgid "version 5"
+msgstr "Version 5"
 
 #: options-manager.php:374
 msgid "Visible elements"

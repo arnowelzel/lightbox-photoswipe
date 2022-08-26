@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-13 12:34+0000\n"
+"POT-Creation-Date: 2022-07-16 00:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -402,8 +402,8 @@ msgstr ""
 
 #: options-manager.php:392
 msgid ""
-"Try to fix links to images which include image sizes (e.g. \"image-1024x768."
-"jpg\" instead of \"image.jpg\")"
+"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
+"instead of \"image.jpg\")"
 msgstr ""
 
 #: options-manager.php:219 options-manager.php:489
@@ -461,6 +461,51 @@ msgid "no"
 msgstr ""
 
 msgid ""
-"To improve performance with large image galleries you can use caching "
-"plugins like Redis Object Cache."
+"Image information like size, EXIF data, name of the preview image is cached "
+"as WordPress transients. To improve performance with large image galleries "
+"you can use caching plugins like <a href=\"https://wordpress."
+"org/plugins/redis-cache/\" target=\"_blank\">Redis Object Cache</a>."
+msgstr ""
+
+msgid "version 4"
+msgstr ""
+
+msgid ""
+"The available options depend on the PhotoSwipe version. UI customizations "
+"done for version 4 may not work for version 5."
+msgstr ""
+
+msgid "Sharing options are not yet supported for PhotoSwipe 5."
+msgstr ""
+
+msgid "Desktop options are not yet supported for PhotoSwipe 5."
+msgstr ""
+
+msgid "Mobile options are not yet supported for PhotoSwipe 5."
+msgstr ""
+
+msgid "version 5"
+msgstr ""
+
+msgid ""
+"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
+"jpg\")"
+msgstr ""
+
+msgid "Type of caption"
+msgstr ""
+
+msgid "dynamic, automatic"
+msgstr ""
+
+msgid "dynamic, aside"
+msgstr ""
+
+msgid "dynamic, below"
+msgstr ""
+
+msgid "PhotoSwipe version to use"
+msgstr ""
+
+msgid "overlay"
 msgstr ""

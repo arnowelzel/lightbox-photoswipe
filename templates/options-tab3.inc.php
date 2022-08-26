@@ -17,8 +17,16 @@
             <label><?php $this->uiControlCheckbox('usecaption'); ?> <?php echo __('Caption', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('usedescription'); ?> <?php echo __('Description', self::SLUG); ?></label><br>
             <label><?php $this->uiControlCheckbox('use_alt'); ?> <?php echo __('Alternative text', self::SLUG); ?></label><br>
-            <label><?php $this->uiControlCheckbox('showexif'); ?> <?php echo __('EXIF data if available', self::SLUG); ?>{% if not hasExif %} (<?php echo __('<a href="https://www.php.net/manual/en/book.exif.php" target="_blank">the PHP EXIF extension</a> is missing on this server!', self::SLUG); ?>){% endif %}</label><br>
+            <label><?php $this->uiControlCheckbox('showexif'); ?> <?php echo __('EXIF data if available', self::SLUG); ?><?php if (!function_exists('exif_read_data')) { ?>(<?php echo __('<a href="https://www.php.net/manual/en/book.exif.php" target="_blank">the PHP EXIF extension</a> is missing on this server!', self::SLUG); ?>)<?php } ?></label><br>
             <label><?php $this->uiControlCheckbox('showexif_date'); ?> <?php echo __('Show date in EXIF data if available', self::SLUG); ?></label>
+        </td>
+    </tr>
+    <tr class="lbwps-ver5">
+        <th scope="row">
+            <?php echo __('Type of caption', self::SLUG); ?>
+        </th>
+        <td>
+            <label><?php $this->uiControlRadio('caption_type', ['auto', 'aside', 'below', 'overlay'], [__('dynamic, automatic', self::SLUG), __('dynamic, aside', self::SLUG), __('dynamic, below', self::SLUG), __('overlay', self::SLUG)], '<br>'); ?></label>
         </td>
     </tr>
 </table>

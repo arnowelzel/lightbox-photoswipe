@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '1c2fee0b67df2f3dd7b84333c78fb97c0154db35',
+    'reference' => 'd43e42fb2cc4c26e773f9e734c56b254d349815d',
     'name' => 'arnowelzel/lightbox-photoswipe',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '1c2fee0b67df2f3dd7b84333c78fb97c0154db35',
+      'reference' => 'd43e42fb2cc4c26e773f9e734c56b254d349815d',
     ),
     'matthiasmullie/minify' => 
     array (

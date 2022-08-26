@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-06-13 12:35+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2022-07-16 00:09+0000\n"
+"Last-Translator: Arno Welzel\n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Language: it_IT\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.4.0; wp-5.4.2"
+"X-Loco-Version: 2.6.2; wp-6.0"
 
 #: options-manager.php:476
 msgid ""
@@ -121,6 +121,9 @@ msgstr "Descrizione"
 msgid "Desktop"
 msgstr "Desktop"
 
+msgid "Desktop options are not yet supported for PhotoSwipe 5."
+msgstr "Le opzioni desktop non sono ancora supportate per PhotoSwipe 5."
+
 #: lightbox-photoswipe.php:684
 msgid "Disable"
 msgstr "Disattivare"
@@ -128,6 +131,15 @@ msgstr "Disattivare"
 #: options-manager.php:221 options-manager.php:492
 msgid "Download image"
 msgstr "Scarica l'immagine"
+
+msgid "dynamic, aside"
+msgstr "dinamico, a parte"
+
+msgid "dynamic, automatic"
+msgstr "dinamico, automatico"
+
+msgid "dynamic, below"
+msgstr "dinamico, di seguito"
 
 #: options-manager.php:553
 msgid "Enable pinch to close gesture on mobile devices"
@@ -174,6 +186,27 @@ msgstr ""
 "Fattore in base al quale le immagini SVG vengono ridimensionate quando "
 "vengono visualizzate nella lightbox."
 
+#: options-manager.php:392
+#| msgid ""
+#| "Try to fix links to images which include image sizes (e.g. \"image-"
+#| "1024x768.jpg\" instead of \"image.jpg\")"
+msgid ""
+"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
+"instead of \"image.jpg\")"
+msgstr ""
+"Correggere i collegamenti alle immagini che includono le dimensioni "
+"dell'immagine (ad esempio \"image-1024x768.jpg\" invece di \"image.jpg\")"
+
+#| msgid ""
+#| "Try to fix links to scaled images (e.g.\"image.jpg\" instead of \"image-"
+#| "scaled.jpg\")"
+msgid ""
+"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
+"jpg\")"
+msgstr ""
+"Correggere i collegamenti alle immagini ridimensionate (ad es. \"image.jpg\" "
+"anziché \"image-scaled.jpg\")"
+
 #: options-manager.php:562
 msgid "For documentation about hooks, styling etc. please see FAQ"
 msgstr "Per la documentazione su ganci, styling ecc. consultare le FAQ"
@@ -199,8 +232,8 @@ msgstr ""
 msgid ""
 "Hide scrollbars when opening the lightbox (this may not work with your theme)"
 msgstr ""
-"Prova a nascondere le barre di scorrimento quando la lightbox è aperta "
-"(potrebbe non funzionare con il tuo tema)"
+"Nascondere le barre di scorrimento quando la lightbox è aperta (potrebbe non "
+"funzionare con il tuo tema)"
 
 #. Author URI of the plugin
 msgid "http://arnowelzel.de"
@@ -255,6 +288,19 @@ msgstr "Ignora i collegamenti alle immagini su altri siti Web"
 msgid "Ignore links to images which contain a hash (#)"
 msgstr "Ignora i collegamenti alle immagini che contengono un hash (#)"
 
+msgid ""
+"Image information like size, EXIF data, name of the preview image is cached "
+"as WordPress transients. To improve performance with large image galleries "
+"you can use caching plugins like <a href=\"https://wordpress."
+"org/plugins/redis-cache/\" target=\"_blank\">Redis Object Cache</a>."
+msgstr ""
+"Informazioni sull'immagine come dimensioni, dati EXIF e nome dell'immagine "
+"di anteprima vengono memorizzate nella cache come transitori di WordPress. "
+"Per migliorare le prestazioni con gallerie di immagini di grandi dimensioni "
+"puoi utilizzare plug-in di memorizzazione nella cache come <a href=\"https:"
+"//wordpress.org/plugins/redis-cache/\" target=\"_blank\">Redis Object "
+"Cache</a>."
+
 #: options-manager.php:345
 msgid "Info"
 msgstr "Info"
@@ -269,6 +315,9 @@ msgstr "Lightbox with PhotoSwipe"
 #: options-manager.php:344
 msgid "Mobile"
 msgstr "Mobile"
+
+msgid "Mobile options are not yet supported for PhotoSwipe 5."
+msgstr "Le opzioni mobili non sono ancora supportate per PhotoSwipe 5."
 
 #: options-manager.php:524
 msgid "Mouse wheel function"
@@ -300,6 +349,12 @@ msgstr "Originale con sfondo uniforme"
 #: options-manager.php:382
 msgid "Other options"
 msgstr "Altre opzioni"
+
+msgid "overlay"
+msgstr "copertura"
+
+msgid "PhotoSwipe version to use"
+msgstr "Versione PhotoSwipe da utilizzare"
 
 #: options-manager.php:220 options-manager.php:491
 msgid "Pin it"
@@ -361,6 +416,10 @@ msgstr "Condividi su Facebook"
 msgid "Sharing"
 msgstr "Condivisione"
 
+msgid "Sharing options are not yet supported for PhotoSwipe 5."
+msgstr ""
+"Le opzioni di condivisione non sono ancora supportate per PhotoSwipe 5."
+
 #: options-manager.php:462
 msgid "Show caption if available"
 msgstr "Mostra didascalia se disponibile"
@@ -415,6 +474,14 @@ msgstr "Vai all'immagine successiva / precedente"
 msgid "Thank you :-)"
 msgstr "Mille Grazie :-)"
 
+msgid ""
+"The available options depend on the PhotoSwipe version. UI customizations "
+"done for version 4 may not work for version 5."
+msgstr ""
+"Le opzioni disponibili dipendono dalla versione di PhotoSwipe. Le "
+"personalizzazioni dell'interfaccia utente eseguite per la versione 4 "
+"potrebbero non funzionare per la versione 5."
+
 #: options-manager.php:340
 msgid "Theme"
 msgstr "Tema"
@@ -446,28 +513,9 @@ msgstr ""
 msgid "Title"
 msgstr "Titolo"
 
-#| msgid ""
-#| "To improve performance with large image galleries you can use caching "
-#| "plugins like Redis Object Cache"
-msgid ""
-"To improve performance with large image galleries you can use caching "
-"plugins like Redis Object Cache."
-msgstr ""
-"Per migliorare le prestazioni con gallerie di immagini di grandi dimensioni "
-"puoi utilizzare plug-in di memorizzazione nella cache come Redis Object "
-"Cache."
-
 #: lightbox-photoswipe.php:185
 msgid "Toggle fullscreen"
 msgstr "Attiva/disattiva schermo intero"
-
-#: options-manager.php:392
-msgid ""
-"Try to fix links to images which include image sizes (e.g. \"image-1024x768."
-"jpg\" instead of \"image.jpg\")"
-msgstr ""
-"Prova a correggere i collegamenti alle immagini che includono le dimensioni "
-"dell'immagine (ad esempio \"image-1024x768.jpg\" invece di \"image.jpg\")"
 
 #: options-manager.php:219 options-manager.php:489
 msgid "Tweet"
@@ -475,6 +523,9 @@ msgstr "Tweet"
 
 msgid "Twig cache enabled"
 msgstr "Cache Twig abilitata"
+
+msgid "Type of caption"
+msgstr "Tipo di didascalia"
 
 #: options-manager.php:384
 msgid ""
@@ -505,6 +556,13 @@ msgstr ""
 #: options-manager.php:467
 msgid "Used elements"
 msgstr "Elementi usati"
+
+#| msgid "version"
+msgid "version 4"
+msgstr "versione 4"
+
+msgid "version 5"
+msgstr "versione 5"
 
 #: options-manager.php:374
 msgid "Visible elements"
