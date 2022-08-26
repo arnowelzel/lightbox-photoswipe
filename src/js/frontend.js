@@ -392,12 +392,6 @@ let lbwpsInit = function(domUpdate) {
             }
         });
 
-        if (returnToUrl !== '') {
-            gallery.listen('unbindEvents', function() {
-                document.location.href = returnToUrl;
-            });
-        }
-
         gallery.listen('destroy', function() {
             if (lbwpsOptions.hide_scrollbars === '1') {
                 showScrollbar();
