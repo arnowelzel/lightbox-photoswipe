@@ -261,10 +261,34 @@ let lbwpsInit = function(domUpdate) {
         return [galleryItems, parseInt(index, 10)];
     };
 
+    let photoswipeParseHash = function() {
+        let hash = window.location.hash.substring(1), params = {};
+
+        if(hash.length < 5) {
+            return params;
+        }
+
+        let vars = hash.split('&');
+        for (let i = 0; i < vars.length; i++) {
+            if(!vars[i]) {
+                continue;
+            }
+            let pair = vars[i].split('=');
+            if(pair.length < 2) {
+                continue;
+            }
+            params[pair[0]] = pair[1];
+        }
+
+        if(params.gid) {
+            params.gid = parseInt(params.gid, 10);
+        }
+
+        return params;
+    };
+
     let openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
         let id = 1,
-//            gallery,
-//            options,
             items,
             index;
 
@@ -358,6 +382,7 @@ let lbwpsInit = function(domUpdate) {
                 if (fullscreenAPI && fullscreenAPI.isFullscreen()) {
                     fullscreenAPI.exit();
                 }
+                history.pushState(null, null, ' ');
             });
         }
 
@@ -485,6 +510,20 @@ let lbwpsInit = function(domUpdate) {
             document.getSelection().removeAllRanges();
             document.getSelection().addRange(selected);
         }
+    }
+
+    let hashData = photoswipeParseHash();
+    if (hashData.pid && hashData.gid) {
+        // If the URL provides picture and group ID click the given element
+        // as opening the lightbox at this point won't work
+        let elements;
+
+        if (hashData.gid == 1) {
+            elements = document.querySelectorAll('a[data-lbwps-width]:not([data-lbwps-gid])');
+        } else {
+            elements = document.querySelectorAll('a[data-lbwps-width][data-lbwps-gid="' + hashData.gid + '"]');
+        }
+        elements[hashData.pid-1].click();
     }
 }
 
