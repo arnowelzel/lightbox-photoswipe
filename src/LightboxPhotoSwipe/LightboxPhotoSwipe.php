@@ -7,9 +7,9 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.2';
+    const VERSION = '5.0.3';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '4';
+    const META_VERSION = '5';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -461,7 +461,7 @@ class LightboxPhotoSwipe
                 }
                 $attr .= sprintf(' data-lbwps-width="%s" data-lbwps-height="%s"', $width, $height);
                 // TODO: make using preview size configurable
-                if ($imgDetails['fileSmall']) {
+                if (isset($imgDetails['fileSmall']) && '' !== $imgDetails['fileSmall']) {
                     $attr .= sprintf(' data-lbwps-srcsmall="%s"', $imgDetails['fileSmall']);
                 }
                 if ('1' === $this->optionsManager->getOption('usecaption') && $captionCaption != '') {
