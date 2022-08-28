@@ -17,7 +17,7 @@ This plugin integrates an extended version of PhotoSwipe 4 or the official relea
 
 More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
-The version of PhotoSwipe provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
+The version of PhotoSwipe 4 provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
 
 As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see https://wordpress.org/about/requirements/.
 
