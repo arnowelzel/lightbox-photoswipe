@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.4';
+    const VERSION = '5.0.5';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '5';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -899,7 +899,7 @@ class LightboxPhotoSwipe
         $translation_array['spacing'] = intval($this->optionsManager->getOption('spacing'));
         $translation_array['idletime'] = intval($this->optionsManager->getOption('idletime'));
         $translation_array['hide_scrollbars'] = intval($this->optionsManager->getOption('hide_scrollbars'));
-        $translation_array['caption_type'] = $this->optionsManager->getOption('caption_type');
+        $translation_array['caption_type'] = apply_filters('lbwps_caption_type', $this->optionsManager->getOption('caption_type'), get_the_ID());
         wp_localize_script($handle, 'lbwpsOptions', $translation_array);
     }
 

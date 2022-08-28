@@ -42,6 +42,10 @@ class Build
         $minifyJs->add('assets/ps5/auto-hide-ui/photoswipe-auto-hide-ui.esm.js');
         $minifyJs->minify('assets/ps5/auto-hide-ui/photoswipe-auto-hide-ui.esm.min.js');
 
+        $minifyJs = new Minify\JS();
+        $minifyJs->add('assets/ps5/fullscreen/photoswipe-fullscreen.esm.js');
+        $minifyJs->minify('assets/ps5/fullscreen/photoswipe-fullscreen.esm.min.js');
+
         // Skins:
         // Combine all styles for each skine to one minifed file which includes all images as data URIs
 

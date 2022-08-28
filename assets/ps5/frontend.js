@@ -1,10 +1,9 @@
 import PhotoSwipeLightbox from './lib/photoswipe-lightbox.esm.min.js';
 import PhotoSwipeDynamicCaption from './dynamic-caption/photoswipe-dynamic-caption-plugin.esm.min.js';
 import PhotoSwipeAutoHideUI from './auto-hide-ui/photoswipe-auto-hide-ui.esm.min.js';
+import PhotoSwipeFullscreen from './fullscreen/photoswipe-fullscreen.esm.min.js';
 
 let lbwpsInit = function(domUpdate) {
-    const fullscreenAPI = getFullscreenAPI();
-
     if (!domUpdate) {
         document.addEventListener('click', (event) => {
             // Backwards compatible solution for older browsers
@@ -336,7 +335,6 @@ let lbwpsInit = function(domUpdate) {
         options.zoomEl = lbwpsOptions.show_zoom === '1';
         options.tapToToggleControls = lbwpsOptions.taptotoggle === '1';
         options.desktopSlider = lbwpsOptions.desktop_slider === '1';
-        options.timeToIdle = lbwpsOptions.idletime;
         */
 
         const lightbox = new PhotoSwipeLightbox(options);
@@ -351,58 +349,9 @@ let lbwpsInit = function(domUpdate) {
         });
 
         // Add fullscreen button and keyboard shortcut for fullscreen mode
-        // based on the idea described at https://github.com/dimsemenov/PhotoSwipe/issues/1759
         if (lbwpsOptions.show_fullscreen === '1') {
-            const fullscreenSVG = '<svg aria-hidden="true" class="pswp__icn" viewBox="0 0 32 32" width="32" height="32">' +
-                '<use class="pswp__icn-shadow" xlink:href="#pswp__icn-fullscreen-exit"/>' +
-                '<use class="pswp__icn-shadow" xlink:href="#pswp__icn-fullscreen-request"/>' +
-                '<path id="pswp__icn-fullscreen-request" transform="translate(4,4)" d="M20 3h2v6h-2V5h-4V3h4zM4 3h4v2H4v4H2V3h2zm16 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z" /></g>' +
-                '<path id="pswp__icn-fullscreen-exit" style="display:none" transform="translate(4,4)" d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"/>' +
-                '</svg>';
-
-            lightbox.on('uiRegister', function() {
-                lightbox.pswp.ui.registerElement({
-                    name: 'fullscreen-button',
-                    title: 'Toggle fullscreen',
-                    order: 9,
-                    isButton: true,
-                    html: fullscreenSVG,
-                    onClick: (event, el) => {
-                        toggleFullscreen();
-                    }
-                });
-
-                lightbox.pswp.events.add(document, 'keydown', (e) => {
-                    if (e.keyCode == 70) { // 'f'
-                        toggleFullscreen();
-                        e.preventDefault();
-                    }
-                });
-            });
-
-            lightbox.on('close', () => {
-                if (fullscreenAPI && fullscreenAPI.isFullscreen()) {
-                    fullscreenAPI.exit();
-                }
-            });
+            const fullscreenPlugin = new PhotoSwipeFullscreen(lightbox);
         }
-
-        // Experimental slide transition - does not work very well with endless rotation
-        /*
-        const customGoTo = (index, animate = false) => {
-            const ctx = lightbox.pswp;
-            index = ctx.getLoopedIndex(index);
-            const indexChanged = ctx.mainScroll.moveIndexBy(index - ctx.potentialIndex, animate);
-
-            if (indexChanged) {
-                ctx.dispatch('afterGoto');
-            }
-        }
-        lightbox.on('uiRegister', () => {
-            lightbox.pswp.next = () => customGoTo(lightbox.pswp.potentialIndex + 1, true);
-            lightbox.pswp.prev = () => customGoTo(lightbox.pswp.potentialIndex - 1, true);
-        });
-        */
 
         // Add captions with dynamic caption plugin
         if (lbwpsOptions.show_caption === '1') {
@@ -448,72 +397,6 @@ let lbwpsInit = function(domUpdate) {
         lightbox.loadAndOpen(index);
     };
 
-    // Fullscreen API helper
-    function getFullscreenAPI()
-    {
-        let api;
-        let enterFS;
-        let exitFS;
-        let elementFS;
-        let changeEvent;
-        let errorEvent;
-        if (document.documentElement.requestFullscreen) {
-            enterFS = 'requestFullscreen';
-            exitFS = 'exitFullscreen';
-            elementFS = 'fullscreenElement';
-            changeEvent = 'fullscreenchange';
-            errorEvent = 'fullscreenerror';
-        } else if (document.documentElement.webkitRequestFullscreen) {
-            enterFS = 'webkitRequestFullscreen';
-            exitFS = 'webkitExitFullscreen';
-            elementFS = 'webkitFullscreenElement';
-            changeEvent = 'webkitfullscreenchange';
-            errorEvent = 'webkitfullscreenerror';
-        }
-        if (enterFS) {
-            api = {
-                request: function (el) {
-                    if (enterFS === 'webkitRequestFullscreen') {
-                        el[enterFS](Element.ALLOW_KEYBOARD_INPUT);
-                    } else {
-                        el[enterFS]();
-                    }
-                },
-                exit: function () {
-                    return document[exitFS]();
-                },
-                isFullscreen: function () {
-                    return document[elementFS];
-                },
-                change: changeEvent,
-                error: errorEvent
-            };
-        }
-        return api;
-    }
-
-    // Toggle fullscreen view
-    function toggleFullscreen() {
-        if (fullscreenAPI) {
-            if (fullscreenAPI.isFullscreen()) {
-                // Exit full-screen mode
-                fullscreenAPI.exit();
-                // Toggle "Exit" and "Enter" full-screen SVG icon display
-                setTimeout(function() {
-                    document.getElementById('pswp__icn-fullscreen-exit').style.display = 'none';
-                    document.getElementById('pswp__icn-fullscreen-request').style.display = 'inline';
-                }, 300);
-            } else {
-                // Enter full-screen mode
-                fullscreenAPI.request(document.querySelector(`.pswp`));
-                // Toggle "Exit" and "Enter" full-screen SVG icon display
-                setTimeout(function() {
-                    document.getElementById('pswp__icn-fullscreen-exit').style.display = 'inline';
-                    document.getElementById('pswp__icn-fullscreen-request').style.display = 'none';
-                }, 300);
-            }
-        }
-    }
 
     window.lbwpsCopyToClipboard = function(str) {
         const el = document.createElement('textarea');

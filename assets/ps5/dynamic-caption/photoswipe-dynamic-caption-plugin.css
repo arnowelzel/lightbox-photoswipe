@@ -8,6 +8,12 @@
   line-height: 1.5em;
 }
 
+.pswp__dynamic-caption--aside,
+.pswp__dynamic-caption--below,
+.pswp__dynamic-caption--mobile {
+  opacity: 1 !important;
+}
+
 .pswp-caption-content {
   display: none;
 }
