@@ -14,7 +14,10 @@ class PhotoSwipeAutoHideUI {
 
         this.lightbox = lightbox;
 
+        this.hasTouch = false;
+
         this.lightbox.on('change', () => {
+            document.addEventListener('touchstart', () => { this.stopHideTimer(); this.hasTouch = true; }, {once:true})
             document.addEventListener('mousemove', () => { this.startHideTimer() }, {once:true});
         });
 
@@ -40,6 +43,10 @@ class PhotoSwipeAutoHideUI {
     }
 
     startHideTimer() {
+        if (this.hasTouch) {
+            return;
+        }
+
         this.stopHideTimer();
         this.captionTimer = window.setTimeout(() => {
             this.hideUI();
