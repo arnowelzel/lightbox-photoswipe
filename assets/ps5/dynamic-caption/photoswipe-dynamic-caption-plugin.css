@@ -5,6 +5,7 @@
   left: 0;
   top: 0;
   transition: opacity 120ms linear !important; /* override default */
+  line-height: 1.5em;
 }
 
 .pswp-caption-content {
@@ -47,7 +48,7 @@
 }
 
 .pswp__caption__exif {
-  padding-top: 0.5em;
+  padding: 0.5em 0;
 }
 
 .pswp__caption__exif_camera {

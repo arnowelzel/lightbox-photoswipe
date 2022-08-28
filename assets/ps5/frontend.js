@@ -1,5 +1,6 @@
 import PhotoSwipeLightbox from './lib/photoswipe-lightbox.esm.min.js';
 import PhotoSwipeDynamicCaption from './dynamic-caption/photoswipe-dynamic-caption-plugin.esm.min.js';
+import PhotoSwipeAutoHideUI from './auto-hide-ui/photoswipe-auto-hide-ui.esm.min.js';
 
 let lbwpsInit = function(domUpdate) {
     const fullscreenAPI = getFullscreenAPI();
@@ -340,6 +341,7 @@ let lbwpsInit = function(domUpdate) {
 
         const lightbox = new PhotoSwipeLightbox(options);
         lightbox.on('destroy', () => {
+            const pswpElements = document.getElementsByClassName('pswp__scroll-wrap');
             if (lbwpsOptions.hide_scrollbars === '1') {
                 showScrollbar();
             }
@@ -416,6 +418,9 @@ let lbwpsInit = function(domUpdate) {
                 }
             });
         }
+
+        // Add automatic hide of controls and caption
+        const autoHideUI = new PhotoSwipeAutoHideUI(lightbox);
 
         lightbox.init();
         if (lbwpsOptions.hide_scrollbars === '1') {

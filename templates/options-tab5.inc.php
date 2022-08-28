@@ -1,7 +1,7 @@
 <div id="lbwps-tab-5" style="display:none;">
     <div class="lbwps-ver4">
         <table class="form-table">
-            <tr>
+            <tr id="lbwps-tab-5-general">
                 <th scope="row">
                     <?php echo __('General', self::SLUG); ?>
                 </th>
@@ -11,7 +11,7 @@
                     <label><?php $this->uiControlCheckbox('close_on_click'); ?> <?php echo __('Close the lightbox by clicking outside the image', self::SLUG); ?></label>
                 </td>
             </tr>
-            <tr>
+            <tr id="lbwps-tab-5-wheel">
                 <th scope="row">
                     <?php echo __('Mouse wheel function', self::SLUG); ?>
                 </th>

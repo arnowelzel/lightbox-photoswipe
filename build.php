@@ -28,7 +28,7 @@ class Build
         $minifyJs->add('src/js/frontend.js');
         $minifyJs->minify('assets/ps4/scripts.js');
 
-        echo "Building frontend script (PhotoSwipe 5)\n";
+        echo "Building frontend scripts (PhotoSwipe 5)\n";
 
         $minifyJs = new Minify\JS();
         $minifyJs->add('assets/ps5/frontend.js');
@@ -37,6 +37,10 @@ class Build
         $minifyJs = new Minify\JS();
         $minifyJs->add('assets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.esm.js');
         $minifyJs->minify('assets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.esm.min.js');
+
+        $minifyJs = new Minify\JS();
+        $minifyJs->add('assets/ps5/auto-hide-ui/photoswipe-auto-hide-ui.esm.js');
+        $minifyJs->minify('assets/ps5/auto-hide-ui/photoswipe-auto-hide-ui.esm.min.js');
 
         // Skins:
         // Combine all styles for each skine to one minifed file which includes all images as data URIs
