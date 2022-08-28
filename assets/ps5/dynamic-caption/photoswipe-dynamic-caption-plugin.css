@@ -47,10 +47,7 @@
   padding: 10px 15px;
 }
 
-.pswp__caption {
-  padding: 0.5em 0;
-}
-
+.pswp__caption,
 .pswp__caption__exif {
   padding-bottom: 0.5em;
 }
