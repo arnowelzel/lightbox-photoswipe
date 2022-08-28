@@ -198,11 +198,11 @@ let lbwpsInit = function(domUpdate) {
                 // Build complete caption based on selected elements
                 title = '';
 
-                if (element.getAttribute('data-lbwps-title') != null) {
+                if (element.getAttribute('data-lbwps-title') != null && element.getAttribute('data-lbwps-title') != '') {
                     title = title + '<div class="pswp__caption__title">' + element.getAttribute('data-lbwps-title') + '</div>';
                 }
 
-                if (lbwpsOptions.usecaption === '1' && caption != null) {
+                if (lbwpsOptions.usecaption === '1' && caption != null && caption != '') {
                     title = title + '<div class="pswp__caption__text">' + caption + '</div>';
                 }
 
@@ -409,18 +409,37 @@ let lbwpsInit = function(domUpdate) {
             const captionPlugin = new PhotoSwipeDynamicCaption(lightbox, {
                 type: lbwpsOptions.caption_type,
                 captionContent: (slide) => {
-                    return '<div class="pswp__caption">'
-                        +slide.data.title
-                        +'</div>'
-                        +'<div class="pswp__caption__exif">'
-                        +slide.data.exif
-                        +'</div>';
+                    let caption = '';
+
+                    if (slide.data.title && slide.data.title !== '') {
+                        caption = caption + '<div class="pswp__caption">'
+                            + slide.data.title
+                            + '</div>';
+                    }
+
+                    if (slide.data.exif && slide.data.exif !== '') {
+                        caption = caption + '<div class="pswp__caption__exif">'
+                            + slide.data.exif
+                            + '</div>';
+                    }
+
+                    return caption;
+                },
+                mobileLayoutBreakpoint: function() {
+                    if (this.options.type !== 'overlay') {
+                        return window.innerWidth < 600;
+                    }
                 }
             });
         }
 
         // Add automatic hide of controls and caption
-        const autoHideUI = new PhotoSwipeAutoHideUI(lightbox);
+        if (lbwpsOptions.idletime > 0) {
+            const autoHideUI = new PhotoSwipeAutoHideUI(lightbox, {
+                    idleTime: lbwpsOptions.idletime
+                }
+            );
+        }
 
         lightbox.init();
         if (lbwpsOptions.hide_scrollbars === '1') {

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-16 00:06+0000\n"
+"POT-Creation-Date: 2022-08-28 05:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -389,7 +389,7 @@ msgstr ""
 #: options-manager.php:543
 msgid ""
 "Time until the on screen controls will disappear automatically in desktop "
-"view."
+"view. Note: Keeping controls visible is only supported with PhotoSwipe 5."
 msgstr ""
 
 #: options-manager.php:469
@@ -508,4 +508,7 @@ msgid "PhotoSwipe version to use"
 msgstr ""
 
 msgid "overlay"
+msgstr ""
+
+msgid "never hide automatically"
 msgstr ""

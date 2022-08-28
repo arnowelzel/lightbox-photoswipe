@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-07-16 00:09+0000\n"
+"PO-Revision-Date: 2022-08-28 05:15+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -323,6 +323,9 @@ msgstr "Le opzioni mobili non sono ancora supportate per PhotoSwipe 5."
 msgid "Mouse wheel function"
 msgstr "Funzione rotellina del mouse"
 
+msgid "never hide automatically"
+msgstr "non nasconderti mai automaticamente"
+
 #: options-manager.php:438
 msgid "New share symbol"
 msgstr "Nuovo simbolo di condivisione"
@@ -504,10 +507,11 @@ msgstr ""
 #: options-manager.php:543
 msgid ""
 "Time until the on screen controls will disappear automatically in desktop "
-"view."
+"view. Note: Keeping controls visible is only supported with PhotoSwipe 5."
 msgstr ""
-"Tempo fino a quando i controlli su schermo scompaiono automaticamente nella "
-"vista desktop."
+"Tempo prima che i controlli sullo schermo scompaiano automaticamente nella "
+"visualizzazione desktop. Nota: mantenere i controlli visibili è supportato "
+"solo con PhotoSwipe 5."
 
 #: options-manager.php:469
 msgid "Title"

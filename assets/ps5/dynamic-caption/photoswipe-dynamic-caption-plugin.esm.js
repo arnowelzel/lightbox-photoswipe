@@ -3,8 +3,6 @@
  * https://github.com/dimsemenov/photoswipe-dynamic-caption-plugin
  *
  * By https://dimsemenov.com
- *
- * With modifications by Arno Welzel
  */
 
 const defaultOptions = {
@@ -100,11 +98,6 @@ class PhotoSwipeDynamicCaption {
   }
 
   useMobileLayout() {
-    // AW: If overlay is used as layout, never change to mobile layout
-    if (this.options.type === 'overlay') {
-      return false;
-    }
-
     const { mobileLayoutBreakpoint } = this.options;
 
     if (typeof mobileLayoutBreakpoint === 'function') {
@@ -396,8 +389,7 @@ class PhotoSwipeDynamicCaption {
 
   updateCaptionHTML() {
     const captionHTML = this.getCaptionHTML(this.pswp.currSlide);
-    // AW: also check for empty captions which only contains empty DIV elements
-    this.captionElement.style.visibility = (captionHTML && captionHTML !== '<div class="pswp__caption"><div class="pswp__caption__title"></div><div class="pswp__caption__text"></div></div><div class="pswp__caption__exif"></div>') ? 'visible' :  'hidden';
+    this.captionElement.style.visibility = captionHTML ? 'visible' :  'hidden';
     this.captionElement.innerHTML = captionHTML || '';
     this.pswp.dispatch('dynamicCaptionUpdateHTML', { 
       captionElement: this.captionElement

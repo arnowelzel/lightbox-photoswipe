@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:32+0000\n"
-"PO-Revision-Date: 2022-07-16 00:10+0000\n"
+"PO-Revision-Date: 2022-08-28 05:16+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: French (France)\n"
 "Language: fr_FR\n"
@@ -327,6 +327,9 @@ msgstr ""
 msgid "Mouse wheel function"
 msgstr "Fonction molette de la souris"
 
+msgid "never hide automatically"
+msgstr "ne se cache jamais automatiquement"
+
 #: options-manager.php:438
 msgid "New share symbol"
 msgstr "Nouveau symbole d'action"
@@ -512,10 +515,11 @@ msgstr ""
 #: options-manager.php:543
 msgid ""
 "Time until the on screen controls will disappear automatically in desktop "
-"view."
+"view. Note: Keeping controls visible is only supported with PhotoSwipe 5."
 msgstr ""
 "Temps jusqu'à ce que les commandes à l'écran disparaissent automatiquement "
-"dans la vue du bureau."
+"dans la vue du bureau. Remarque : Garder les commandes visibles n'est pris "
+"en charge qu'avec PhotoSwipe 5."
 
 #: options-manager.php:469
 msgid "Title"

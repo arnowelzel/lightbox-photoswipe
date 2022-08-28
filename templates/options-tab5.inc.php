@@ -1,7 +1,7 @@
 <div id="lbwps-tab-5" style="display:none;">
-    <div class="lbwps-ver4">
+    <div>
         <table class="form-table">
-            <tr id="lbwps-tab-5-general">
+            <tr class="lbwps-ver4">
                 <th scope="row">
                     <?php echo __('General', self::SLUG); ?>
                 </th>
@@ -11,7 +11,7 @@
                     <label><?php $this->uiControlCheckbox('close_on_click'); ?> <?php echo __('Close the lightbox by clicking outside the image', self::SLUG); ?></label>
                 </td>
             </tr>
-            <tr id="lbwps-tab-5-wheel">
+            <tr class="lbwps-ver4">
                 <th scope="row">
                     <?php echo __('Mouse wheel function', self::SLUG); ?>
                 </th>
@@ -40,6 +40,11 @@
                 <td>
                     <select id="lightbox_photoswipe_idletime" name="lightbox_photoswipe_idletime">
                         <?php
+                        echo '<option value="0"';
+                        if ((int)$this->optionsManager->getOption('idletime') === 0) {
+                            echo ' selected="selected"';
+                        }
+                        echo '>'.__('never hide automatically', self::SLUG).'</option>';
                         for ($idletime = 1000; $idletime <= 10000; $idletime+=1000) {
                             echo '<option value="'.$idletime.'"';
                             if ((int)$this->optionsManager->getOption('idletime') === $idletime) {
@@ -53,12 +58,9 @@
                         }
                         ?>
                     </select>
-                    <p class="description"><?php echo __('Time until the on screen controls will disappear automatically in desktop view.', self::SLUG); ?></p>
+                    <p class="description"><?php echo __('Time until the on screen controls will disappear automatically in desktop view. Note: Keeping controls visible is only supported with PhotoSwipe 5.', self::SLUG); ?></p>
                 </td>
             </tr>
         </table>
-    </div>
-    <div class="lbwps-ver5">
-        <p class="lbwps_text"><?php echo __('Desktop options are not yet supported for PhotoSwipe 5.', self::SLUG) ?></p>
     </div>
 </div>

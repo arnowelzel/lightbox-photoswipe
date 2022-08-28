@@ -198,7 +198,11 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 = 5.0.4 =
 
+PhotoSwipe 5 integration:
+
 * Fixed caption hiding if there is nothing to display.
+* Fixed display of captions in "overlay" mode on mobile devices.
+* Added automatic hiding of captions in desktop mode.
 
 = 5.0.3 =
 

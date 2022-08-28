@@ -4,9 +4,14 @@
  * By https://arnowelzel.de
  */
 
+const defaultOptions = {
+    idleTime: 4000
+};
+
 class PhotoSwipeAutoHideUI {
     constructor(lightbox, options) {
         this.options = {
+            ...defaultOptions,
             ...options
         };
 
@@ -50,7 +55,7 @@ class PhotoSwipeAutoHideUI {
         this.stopHideTimer();
         this.captionTimer = window.setTimeout(() => {
             this.hideUI();
-        }, 5000);
+        }, this.options.idleTime);
         document.addEventListener('mousemove', () => { this.mouseMove() }, {once:true});
     }
 
