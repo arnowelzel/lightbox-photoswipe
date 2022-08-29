@@ -25,25 +25,27 @@ class PhotoSwipeFullscreen {
             '<path id="pswp__icn-fullscreen-exit" style="display:none" transform="translate(4,4)" d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"/>' +
             '</svg>';
 
-        this.lightbox.on('uiRegister', () => {
-            this.pswp.ui.registerElement({
-                name: 'fullscreen-button',
-                title: 'Toggle fullscreen',
-                order: 9,
-                isButton: true,
-                html: fullscreenSVG,
-                onClick: (event, el) => {
-                    this.toggleFullscreen();
-                }
-            });
+        if (this.fullscreenAPI) {
+            this.lightbox.on('uiRegister', () => {
+                this.pswp.ui.registerElement({
+                    name: 'fullscreen-button',
+                    title: 'Toggle fullscreen',
+                    order: 9,
+                    isButton: true,
+                    html: fullscreenSVG,
+                    onClick: (event, el) => {
+                        this.toggleFullscreen();
+                    }
+                });
 
-            this.pswp.events.add(document, 'keydown', (e) => {
-                if (e.keyCode == 70) { // 'f'
-                    this.toggleFullscreen();
-                    e.preventDefault();
-                }
+                this.pswp.events.add(document, 'keydown', (e) => {
+                    if (e.keyCode == 70) { // 'f'
+                        this.toggleFullscreen();
+                        e.preventDefault();
+                    }
+                });
             });
-        });
+        }
 
         this.lightbox.on('close', () => {
             if (this.fullscreenAPI && this.fullscreenAPI.isFullscreen()) {
@@ -81,6 +83,7 @@ class PhotoSwipeFullscreen {
         let elementFS;
         let changeEvent;
         let errorEvent;
+
         if (document.documentElement.requestFullscreen) {
             enterFS = 'requestFullscreen';
             exitFS = 'exitFullscreen';
