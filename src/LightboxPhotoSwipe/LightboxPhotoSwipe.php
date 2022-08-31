@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.7';
+    const VERSION = '5.0.8';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '6';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -312,9 +312,8 @@ class LightboxPhotoSwipe
         }
 
         if ($use) {
-            $baseDir = wp_upload_dir()['basedir'];
+            $uploadDir = wp_upload_dir()['basedir'];
             $uploadUrl = wp_upload_dir()['baseurl'];
-            $imgPostId = null;
 
             // If image is served by the website itself, try to get caption for local file
             if ($isLocal) {
@@ -329,8 +328,8 @@ class LightboxPhotoSwipe
                 if (substr($file, 0, 6) != 'ftp://' &&
                     substr($file, 0, 7) != 'http://' &&
                     substr($file, 0, 8) != 'https://') {
-                    $uploadDir = wp_upload_dir(null, false)['basedir'];
-                    $realFile = $this->strReplaceOverlap($uploadDir, $file);
+                    $localDir = wp_upload_dir(null, false)['basedir'];
+                    $realFile = $this->strReplaceOverlap($localDir, $file);
 
                     // Using ABSPATH is not recommended, also see
                     // <https://github.com/arnowelzel/lightbox-photoswipe/issues/33>.
@@ -374,7 +373,7 @@ class LightboxPhotoSwipe
                     $imgId = $wpdb->get_col(
                         $wpdb->prepare(
                             'SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;',
-                            str_replace ($baseDir . '/', '', $fileOriginal)
+                            str_replace ($uploadDir . '/', '', $fileOriginal)
                         )
                     );
                     if (isset($imgId[0])) {
@@ -416,8 +415,8 @@ class LightboxPhotoSwipe
                             }
                         }
                     }
-                    if ($baseDir && $uploadUrl) {
-                        $fileSmall = str_replace($baseDir, $uploadUrl, $fileSmall);
+                    if ($uploadDir && $uploadUrl) {
+                        $fileSmall = str_replace($uploadDir, $uploadUrl, $fileSmall);
                     }
                     if (substr($fileSmall, 0, 1) === '/') {
                         $fileSmall = '';
@@ -506,7 +505,7 @@ class LightboxPhotoSwipe
     /**
      * Output filter for post content
      */
-    function filterOutput(string $content)
+    public function filterOutput(string $content)
     {
         return preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',

@@ -1,7 +1,7 @@
 /**
- * PhotoSwipe Dynamic Caption plugin v1.1.0
+ * PhotoSwipe Dynamic Caption plugin v1.2.6
  * https://github.com/dimsemenov/photoswipe-dynamic-caption-plugin
- *
+ * 
  * By https://dimsemenov.com
  */
 
@@ -11,6 +11,7 @@ const defaultOptions = {
   horizontalEdgeThreshold: 20,
   mobileCaptionOverlapRatio: 0.3,
   mobileLayoutBreakpoint: 600,
+  verticallyCenterImage: false
 };
 
 class PhotoSwipeDynamicCaption {
@@ -23,28 +24,8 @@ class PhotoSwipeDynamicCaption {
     this.lightbox = lightbox;
 
     this.lightbox.on('init', () => {
-      this.initPlugin();
-    });
-  }
-
-  initPlugin() {
-    this.pswp = this.lightbox.pswp;
-    this.isCaptionHidden = false;
-    this.tempCaption = false;
-    this.captionElement = false;
-
-    this.pswp.on('uiRegister', () => {
-      this.pswp.ui.registerElement({
-        name: 'dynamic-caption',
-        order: 9,
-        isButton: false,
-        appendTo: 'root',
-        html: '',
-        onInit: (el) => {
-          this.captionElement = el;
-          this.initCaption();
-        }
-      });
+      this.pswp = this.lightbox.pswp;
+      this.initCaption();
     });
   }
 
@@ -52,49 +33,70 @@ class PhotoSwipeDynamicCaption {
     const { pswp } = this;
 
     pswp.on('change', () => {
-      this.updateCaptionHTML(); 
-      this.updateCurrentCaptionPosition();
-
       // make sure caption is displayed after slides are switched
-      this.showCaption();
+      this.showCaption(this.pswp.currSlide);
     });
 
     pswp.on('calcSlideSize', (e) => this.onCalcSlideSize(e));
 
-    // hide caption if mainscroll is shifted (dragging)
-    pswp.on('moveMainScroll', () => {
-      if (!this.useMobileLayout()) {
-        if (this.pswp.mainScroll.isShifted()) {
-          this.hideCaption();
-        } else {
-          this.showCaption();
+    pswp.on('slideDestroy', (e) => {
+      if (e.slide.dynamicCaption) {
+        if (e.slide.dynamicCaption.element) {
+          e.slide.dynamicCaption.element.remove();
         }
+        delete e.slide.dynamicCaption;
       }
     });
 
     // hide caption if zoomed
-    pswp.on('zoomPanUpdate', () => {
-      if (pswp.currSlide.currZoomLevel > pswp.currSlide.zoomLevels.initial) {
-        this.hideCaption();
-      } else {
-        this.showCaption();
+    pswp.on('zoomPanUpdate', ({ slide }) => {
+      if (pswp.opener.isOpen && slide.dynamicCaption) {
+        if (slide.currZoomLevel > slide.zoomLevels.initial) {
+          this.hideCaption(slide);
+        } else {
+          this.showCaption(slide);
+        }
+  
+        // move caption on vertical drag
+        if (slide.dynamicCaption.element) {
+          let captionYOffset = 0;
+          if (slide.currZoomLevel <= slide.zoomLevels.initial) {
+            const shiftedAmount = slide.pan.y - slide.bounds.center.y;
+            if (Math.abs(shiftedAmount) > 1) {
+              captionYOffset = shiftedAmount;
+            }
+          }
+
+          this.setCaptionYOffset(slide.dynamicCaption.element, captionYOffset);
+        }
+
+        this.adjustPanArea(slide, slide.currZoomLevel);
       }
     });
 
     pswp.on('beforeZoomTo', (e) => {
-      const { currSlide } = pswp;
+      this.adjustPanArea(pswp.currSlide, e.destZoomLevel);
+    });
 
-      if (currSlide.__dcAdjustedPanAreaSize) {
-        if (e.destZoomLevel > currSlide.zoomLevels.initial) {
-          currSlide.panAreaSize.x = currSlide.__dcOriginalPanAreaSize.x;
-          currSlide.panAreaSize.y = currSlide.__dcOriginalPanAreaSize.y;
-        } else {
-          // Restore panAreaSize after we zoom back to initial position
-          currSlide.panAreaSize.x = currSlide.__dcAdjustedPanAreaSize.x;
-          currSlide.panAreaSize.y = currSlide.__dcAdjustedPanAreaSize.y;
-        }
+    // Stop default action of tap when tapping on the caption
+    pswp.on('tapAction', (e) => {
+      if (e.originalEvent.target.closest('.pswp__dynamic-caption')) {
+        e.preventDefault();
       }
     });
+  }
+
+  adjustPanArea(slide, zoomLevel) {
+    if (slide.dynamicCaption && slide.dynamicCaption.adjustedPanAreaSize) {
+      if (zoomLevel > slide.zoomLevels.initial) {
+        slide.panAreaSize.x = slide.dynamicCaption.originalPanAreaSize.x;
+        slide.panAreaSize.y = slide.dynamicCaption.originalPanAreaSize.y;
+      } else {
+        // Restore panAreaSize after we zoom back to initial position
+        slide.panAreaSize.x = slide.dynamicCaption.adjustedPanAreaSize.x;
+        slide.panAreaSize.y = slide.dynamicCaption.adjustedPanAreaSize.y;
+      }
+    }
   }
 
   useMobileLayout() {
@@ -111,43 +113,59 @@ class PhotoSwipeDynamicCaption {
     return false;
   }
 
-  hideCaption() {
-    if (!this.isCaptionHidden) {
-      this.isCaptionHidden = true;
-      this.captionElement.classList.add('pswp__dynamic-caption--faded');
+  hideCaption(slide) {
+    if (slide.dynamicCaption && !slide.dynamicCaption.hidden) {
+      const captionElement = slide.dynamicCaption.element;
+
+      if (!captionElement) {
+        return;
+      }
+
+      slide.dynamicCaption.hidden = true;
+      captionElement.classList.add('pswp__dynamic-caption--faded');
 
       // Disable caption visibility with the delay, so it's not interactable 
-      if (this.captionFadeTimeout) {
-        clearTimeout(this.captionFadeTimeout);
+      if (slide.captionFadeTimeout) {
+        clearTimeout(slide.captionFadeTimeout);
       }
-      this.captionFadeTimeout = setTimeout(() => {
-        this.captionElement.style.visibility = 'hidden';
-        this.captionFadeTimeout = null;
+      slide.captionFadeTimeout = setTimeout(() => {
+        captionElement.style.visibility = 'hidden';
+        delete slide.captionFadeTimeout;
       }, 400);
     }
   }
 
-  showCaption() {
-    if (this.isCaptionHidden) {
-      this.isCaptionHidden = false;
-      this.captionElement.style.visibility = 'visible';
+  setCaptionYOffset(el, y) {
+    el.style.transform = `translateY(${y}px)`;
+  }
+
+  showCaption(slide) {
+    if (slide.dynamicCaption && slide.dynamicCaption.hidden) {
+      const captionElement = slide.dynamicCaption.element;
+
+      if (!captionElement) {
+        return;
+      }
+
+      slide.dynamicCaption.hidden = false;
+      captionElement.style.visibility = 'visible';
       
-      clearTimeout(this.captionFadeTimeout);
-      this.captionFadeTimeout = setTimeout(() => {
-        this.captionElement.classList.remove('pswp__dynamic-caption--faded');
-        this.captionFadeTimeout = null;
+      clearTimeout(slide.captionFadeTimeout);
+      slide.captionFadeTimeout = setTimeout(() => {
+        captionElement.classList.remove('pswp__dynamic-caption--faded');
+        delete slide.captionFadeTimeout;;
       }, 50);
     }
   }
 
-  setCaptionPosition(x, y) {
+  setCaptionPosition(captionEl, x, y) {
     const isOnHorizontalEdge = (x <= this.options.horizontalEdgeThreshold);
-    this.captionElement.classList[
+    captionEl.classList[
       isOnHorizontalEdge ? 'add' : 'remove'
     ]('pswp__dynamic-caption--on-hor-edge');
 
-    this.captionElement.style.left = x + 'px';
-    this.captionElement.style.top = y + 'px';
+    captionEl.style.left = x + 'px';
+    captionEl.style.top = y + 'px';
   }
 
   setCaptionWidth(captionEl, width) {
@@ -167,67 +185,76 @@ class PhotoSwipeDynamicCaption {
     }
   }
 
-  updateCurrentCaptionPosition() {
-    const slide = this.pswp.currSlide;
-
-    if (!slide.dynamicCaptionType) {
+  updateCaptionPosition(slide) {
+    if (!slide.dynamicCaption || !slide.dynamicCaption.type || !slide.dynamicCaption.element) {
       return;
     }
 
-    if (slide.dynamicCaptionType === 'mobile') {
-      this.setCaptionType(this.captionElement, slide.dynamicCaptionType);
+    if (slide.dynamicCaption.type === 'mobile') {
+      this.setCaptionType(
+        slide.dynamicCaption.element, 
+        slide.dynamicCaption.type
+      );
       
-      this.captionElement.style.removeProperty('left');
-      this.captionElement.style.removeProperty('top');
-      this.setCaptionWidth(this.captionElement, false);
+      slide.dynamicCaption.element.style.removeProperty('left');
+      slide.dynamicCaption.element.style.removeProperty('top');
+      this.setCaptionWidth(slide.dynamicCaption.element, false);
       return;
     }
 
     const zoomLevel = slide.zoomLevels.initial;
     const imageWidth = Math.ceil(slide.width * zoomLevel);
     const imageHeight = Math.ceil(slide.height * zoomLevel);
-
     
-    this.setCaptionType(this.captionElement, slide.dynamicCaptionType);
-    if (slide.dynamicCaptionType === 'aside') {
+    this.setCaptionType(slide.dynamicCaption.element, slide.dynamicCaption.type);
+    if (slide.dynamicCaption.type === 'aside') {
       this.setCaptionPosition(
-        this.pswp.currSlide.bounds.center.x + imageWidth,
-        this.pswp.currSlide.bounds.center.y
+        slide.dynamicCaption.element,
+        slide.bounds.center.x + imageWidth,
+        slide.bounds.center.y
       );
-      this.setCaptionWidth(this.captionElement, false);
-    } else if (slide.dynamicCaptionType === 'below') {
+      this.setCaptionWidth(slide.dynamicCaption.element, false);
+    } else if (slide.dynamicCaption.type === 'below') {
       this.setCaptionPosition(
-        this.pswp.currSlide.bounds.center.x,
-        this.pswp.currSlide.bounds.center.y + imageHeight
+        slide.dynamicCaption.element,
+        slide.bounds.center.x,
+        slide.bounds.center.y + imageHeight
       );
-      this.setCaptionWidth(this.captionElement, imageWidth);
+      this.setCaptionWidth(slide.dynamicCaption.element, imageWidth);
     }
-  }
-
-  /**
-   * Temporary caption is used to measure size for the current/next/previous captions,
-   * (it has visibility:hidden)
-   */
-  createTemporaryCaption() {
-    this.tempCaption = document.createElement('div');
-    this.tempCaption.className = 'pswp__dynamic-caption pswp__dynamic-caption--temp';
-    this.tempCaption.style.visibility = 'hidden';
-    this.tempCaption.setAttribute('aria-hidden', 'true');
-    // move caption element, so it's after BG,
-    // so that other controls can freely overlap it
-    this.pswp.bg.after(this.captionElement); 
-    this.captionElement.after(this.tempCaption);
   }
 
   onCalcSlideSize(e) {
     const { slide } = e;
-
-    const captionHTML = this.getCaptionHTML(e.slide);
-    let useMobileVersion = false;
     let captionSize;
+    let useMobileVersion;
 
-    if (!captionHTML) {
-      slide.dynamicCaptionType = false;
+    if (!slide.dynamicCaption) {
+      slide.dynamicCaption = {
+        element: undefined,
+        type: false,
+        hidden: false
+      };
+
+      const captionHTML = this.getCaptionHTML(slide);
+
+      if (!captionHTML) {
+        return;
+      }
+
+      slide.dynamicCaption.element = document.createElement('div');
+      slide.dynamicCaption.element.className = 'pswp__dynamic-caption pswp__hide-on-close';
+      slide.dynamicCaption.element.innerHTML = captionHTML;
+
+      this.pswp.dispatch('dynamicCaptionUpdateHTML', { 
+        captionElement: slide.dynamicCaption.element,
+        slide
+      });
+
+      slide.holderElement.appendChild(slide.dynamicCaption.element);
+    }
+
+    if (!slide.dynamicCaption.element) {
       return;
     }
 
@@ -236,33 +263,32 @@ class PhotoSwipeDynamicCaption {
     slide.bounds.update(slide.zoomLevels.initial);
     
     if (this.useMobileLayout()) {
-      slide.dynamicCaptionType = 'mobile';
+      slide.dynamicCaption.type = 'mobile';
       useMobileVersion = true;
     } else {
       if (this.options.type === 'auto') {
         if (slide.bounds.center.x > slide.bounds.center.y) {
-          slide.dynamicCaptionType = 'aside';
+          slide.dynamicCaption.type = 'aside';
         } else {
-          slide.dynamicCaptionType = 'below';
+          slide.dynamicCaption.type = 'below';
         }
       } else {
-        slide.dynamicCaptionType = this.options.type;
+        slide.dynamicCaption.type = this.options.type;
       }
     } 
 
     const imageWidth = Math.ceil(slide.width * slide.zoomLevels.initial);
     const imageHeight = Math.ceil(slide.height * slide.zoomLevels.initial);
 
-    if (!this.tempCaption) {
-      this.createTemporaryCaption();
-    }
+    this.setCaptionType(
+      slide.dynamicCaption.element, 
+      slide.dynamicCaption.type
+    );
 
-    this.setCaptionType(this.tempCaption, slide.dynamicCaptionType);
+    if (slide.dynamicCaption.type === 'aside') {
+      this.setCaptionWidth(slide.dynamicCaption.element, false);
+      captionSize = this.measureCaptionSize(slide.dynamicCaption.element, e.slide);
 
-    if (slide.dynamicCaptionType === 'aside') {
-      this.tempCaption.innerHTML = this.getCaptionHTML(e.slide);
-      this.setCaptionWidth(this.tempCaption, false);
-      captionSize = this.measureCaptionSize(this.tempCaption, e.slide);
       const captionWidth = captionSize.x;      
 
       const horizontalEnding = imageWidth + slide.bounds.center.x;
@@ -274,60 +300,53 @@ class PhotoSwipeDynamicCaption {
       } else {
         // do nothing, caption will fit aside without any adjustments
       }
-    } else if (slide.dynamicCaptionType === 'below' || useMobileVersion) {
+    } else if (slide.dynamicCaption.type === 'below' || useMobileVersion) {
       this.setCaptionWidth(
-        this.tempCaption, 
+        slide.dynamicCaption.element, 
         useMobileVersion ? this.pswp.viewportSize.x : imageWidth
       );
-      this.tempCaption.innerHTML = this.getCaptionHTML(e.slide);
-      captionSize = this.measureCaptionSize(this.tempCaption, e.slide);
+
+      captionSize = this.measureCaptionSize(slide.dynamicCaption.element, e.slide);
       const captionHeight = captionSize.y;
 
-
-      // vertical ending of the image
-      const verticalEnding = imageHeight + slide.bounds.center.y;
-
-      // height between bottom of the screen and ending of the image
-      // (before any adjustments applied) 
-      const verticalLeftover = slide.panAreaSize.y - verticalEnding;
-      const initialPanAreaHeight = slide.panAreaSize.y;
-
-      if (verticalLeftover <= captionHeight) {
-        // lift up the image to give more space for caption
-        slide.panAreaSize.y -= Math.min((captionHeight - verticalLeftover) * 2, captionHeight);
-
-        // we reduce viewport size, thus we need to update zoom level and pan bounds
+      if (this.options.verticallyCenterImage) {
+        slide.panAreaSize.y -= captionHeight;
         this.recalculateZoomLevelAndBounds(slide);
+      } else {
+        // Lift up the image only by caption height
 
-        const maxPositionX = slide.panAreaSize.x * this.options.mobileCaptionOverlapRatio / 2;
+        // vertical ending of the image
+        const verticalEnding = imageHeight + slide.bounds.center.y;
 
-        // Do not reduce viewport height if too few space available
-        if (useMobileVersion 
-            && slide.bounds.center.x > maxPositionX) {
-          // Restore the default position
-          slide.panAreaSize.y = initialPanAreaHeight;
+        // height between bottom of the screen and ending of the image
+        // (before any adjustments applied) 
+        const verticalLeftover = slide.panAreaSize.y - verticalEnding;
+        const initialPanAreaHeight = slide.panAreaSize.y;
+
+        if (verticalLeftover <= captionHeight) {
+          // lift up the image to give more space for caption
+          slide.panAreaSize.y -= Math.min((captionHeight - verticalLeftover) * 2, captionHeight);
+
+          // we reduce viewport size, thus we need to update zoom level and pan bounds
           this.recalculateZoomLevelAndBounds(slide);
+
+          const maxPositionX = slide.panAreaSize.x * this.options.mobileCaptionOverlapRatio / 2;
+
+          // Do not reduce viewport height if too few space available
+          if (useMobileVersion 
+              && slide.bounds.center.x > maxPositionX) {
+            // Restore the default position
+            slide.panAreaSize.y = initialPanAreaHeight;
+            this.recalculateZoomLevelAndBounds(slide);
+          }
         }
       }
-
-      
-      
-      // if (this.useMobileLayout && slide.bounds.center.x > 100) {
-      //   // do nothing, caption will overlap the bottom part of the image
-      // } else if (verticalLeftover <= captionHeight) {
-        
-      // } else {
-      //   // do nothing, caption will fit below the image without any adjustments
-      // }
     } else {
       // mobile
     }
 
     this.storeAdjustedPanAreaSize(slide);
-
-    if (slide === this.pswp.currSlide) {
-      this.updateCurrentCaptionPosition();
-    }
+    this.updateCaptionPosition(slide);
   }
 
   measureCaptionSize(captionEl, slide) {
@@ -349,19 +368,23 @@ class PhotoSwipeDynamicCaption {
   }
 
   storeAdjustedPanAreaSize(slide) {
-    if (!slide.__dcAdjustedPanAreaSize) {
-      slide.__dcAdjustedPanAreaSize = {};
+    if (slide.dynamicCaption) {
+      if (!slide.dynamicCaption.adjustedPanAreaSize) {
+        slide.dynamicCaption.adjustedPanAreaSize = {};
+      }
+      slide.dynamicCaption.adjustedPanAreaSize.x = slide.panAreaSize.x;
+      slide.dynamicCaption.adjustedPanAreaSize.y = slide.panAreaSize.y;
     }
-    slide.__dcAdjustedPanAreaSize.x = slide.panAreaSize.x;
-    slide.__dcAdjustedPanAreaSize.y = slide.panAreaSize.y;
   }
 
   storeOriginalPanAreaSize(slide) {
-    if (!slide.__dcOriginalPanAreaSize) {
-      slide.__dcOriginalPanAreaSize = {};
+    if (slide.dynamicCaption) {
+      if (!slide.dynamicCaption.originalPanAreaSize) {
+        slide.dynamicCaption.originalPanAreaSize = {};
+      }
+      slide.dynamicCaption.originalPanAreaSize.x = slide.panAreaSize.x;
+      slide.dynamicCaption.originalPanAreaSize.y = slide.panAreaSize.y;
     }
-    slide.__dcOriginalPanAreaSize.x = slide.panAreaSize.x;
-    slide.__dcOriginalPanAreaSize.y = slide.panAreaSize.y;
   }
 
   getCaptionHTML(slide) {
@@ -385,15 +408,6 @@ class PhotoSwipeDynamicCaption {
       }
     }
     return captionHTML;
-  }
-
-  updateCaptionHTML() {
-    const captionHTML = this.getCaptionHTML(this.pswp.currSlide);
-    this.captionElement.style.visibility = captionHTML ? 'visible' :  'hidden';
-    this.captionElement.innerHTML = captionHTML || '';
-    this.pswp.dispatch('dynamicCaptionUpdateHTML', { 
-      captionElement: this.captionElement
-    });
   }
 }
 
