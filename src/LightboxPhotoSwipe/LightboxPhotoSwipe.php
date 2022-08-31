@@ -7,9 +7,9 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.6';
+    const VERSION = '5.0.7';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '5';
+    const META_VERSION = '6';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -313,6 +313,7 @@ class LightboxPhotoSwipe
 
         if ($use) {
             $baseDir = wp_upload_dir()['basedir'];
+            $uploadUrl = wp_upload_dir()['baseurl'];
             $imgPostId = null;
 
             // If image is served by the website itself, try to get caption for local file
@@ -415,8 +416,8 @@ class LightboxPhotoSwipe
                             }
                         }
                     }
-                    if ($baseDir) {
-                        $fileSmall = str_replace($baseDir, get_home_url().'/wp-content/uploads', $fileSmall);
+                    if ($baseDir && $uploadUrl) {
+                        $fileSmall = str_replace($baseDir, $uploadUrl, $fileSmall);
                     }
                     if (substr($fileSmall, 0, 1) === '/') {
                         $fileSmall = '';
