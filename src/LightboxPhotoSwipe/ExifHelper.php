@@ -122,8 +122,8 @@ class ExifHelper
             $apex  = $this->exifGetFloat($aperture);
             $fstop = pow(2, $apex/2);
             if ($fstop == 0) return '';
-        } else if (isset($this->exifData['EXIF']['FNumber'])) {
-            $fstop = $this->exifData['EXIF']['FNumber']/10;
+        } else if (isset($this->exifData['EXIF']['FNumber']) && is_numeric($this->exifData['EXIF']['FNumber'])) {
+            $fstop = $this->exifData['EXIF']['FNumber'] / 10;
         } else {
             return '';
         }
