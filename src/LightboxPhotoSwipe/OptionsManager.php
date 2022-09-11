@@ -54,7 +54,7 @@ class OptionsManager
         'fix_scaled' => [ 'default' => '1' ],
         'usetitle' => [ 'default' => '0' ],
         'usecaption' => [ 'default' => '1' ],
-        'version' => [ 'default' => '4' ],
+        'version' => [ 'default' => '5' ],
     ];
 
     public $options;
