@@ -7,9 +7,9 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.9';
+    const VERSION = '5.0.10';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '6';
+    const META_VERSION = '7';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
