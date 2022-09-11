@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.0
-Stable tag: 5.0.10
+Stable tag: 5.0.11
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -196,13 +196,9 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
-= 5.0.10 =
+= 5.0.8 - 5.0.11 =
 
-* Fix fstop calculation for EXIF data if it is stored as FNumber.
-
-= 5.0.9 =
-
-* Fix warning if EXIF data contains a non numeric fstop value.
+* Several fixes in EXIF data handling.
 
 = 5.0.8 =
 

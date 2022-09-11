@@ -117,14 +117,20 @@ class ExifHelper
      */
     function getFstop()
     {
+        $fstop = 0;
+
         if (isset($this->exifData['EXIF']['ApertureValue'])) {
             $aperture = $this->exifData['EXIF']['ApertureValue'];
             $apex  = $this->exifGetFloat($aperture);
             $fstop = pow(2, $apex/2);
-            if ($fstop == 0) return '';
         } if (isset($this->exifData['EXIF']['FNumber'])) {
             $fstop = $this->exifGetFloat($this->exifData['EXIF']['FNumber']);
         }
+
+        if (0 === $fstop) {
+            return '';
+        }
+
         return 'f/' . round($fstop,1);
     }
 
