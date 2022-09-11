@@ -21,7 +21,7 @@ class OptionsManager
         'spacing' => [ 'default' => '12' ],
         'show_zoom' => [ 'default' => '1' ],
         'show_caption' => [ 'default' => '1' ],
-        'caption_type' => [ 'default' => 'auto' ],
+        'caption_type' => [ 'default' => 'overlay' ],
         'usepostdata' => [ 'default' => '0' ],
         'loop' => [ 'default' => '1' ],
         'pinchtoclose' => [ 'default' => '1' ],
