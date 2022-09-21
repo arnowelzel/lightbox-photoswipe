@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.11';
+    const VERSION = '5.0.12';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '8';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -255,9 +255,21 @@ class LightboxPhotoSwipe
         $baseurlHttps = get_site_url(null, null, 'https');
         $url = $matches[2];
 
-        // Remove parameters if any
-        $urlparts = explode('?', $url);
-        $file = $urlparts[0];
+        // Remove fragments and parameters from URL
+        $hasFragment = false;
+        $params = '';
+        $urlParts = explode('#', $url);
+        if (count($urlParts) > 1) {
+            $file = $urlParts[0];
+            $hasFragment = true;
+            $urlParts = explode('?', $urlParts[1]);
+        } else {
+            $urlParts = explode('?', $url);
+            $file = $urlParts[0];
+        }
+        if (count($urlParts) > 1) {
+            $params = '?'.$urlParts[1];
+        }
 
         // If URL is relative then add site URL
         if (substr($file, 0,  7) !== 'http://' && substr($file, 0, 8) !== 'https://') {
@@ -300,12 +312,13 @@ class LightboxPhotoSwipe
 
             if (substr($file, 0, strlen($baseurlHttp)) === $baseurlHttp || substr($file, 0, strlen($baseurlHttps)) === $baseurlHttps) {
                 $isLocal = true;
+                $params = '';
             }
 
             if (!$isLocal && '1' === $this->optionsManager->getOption('ignore_external')) {
                 // Ignore URL if it is an external URL and the respective option to ignore that is set
                 $use = false;
-            } else if (strpos($file, '#') !== false && '1' === $this->optionsManager->getOption('ignore_hash')) {
+            } else if ($hasFragment && '1' === $this->optionsManager->getOption('ignore_hash')) {
                 // Ignore URL if it contains a hash the respective option to ignore that is set
                 $use = false;
             }
@@ -396,8 +409,10 @@ class LightboxPhotoSwipe
 
             $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
             if (!$imgDetails = get_transient($cacheKey)) {
-                $imageSize = $this->getImageSize($file, $extension);
-                if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
+                $imageSize = $this->getImageSize($file . $params, $extension);
+                // If the image is a local file and we have a valid image size,
+                // then try to get a smallest available version for the opening transition
+                if ($isLocal && false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);
                     $fileSmall = $file;
                     if ($imageSize[0] > $imageSize[1]) {
@@ -432,7 +447,7 @@ class LightboxPhotoSwipe
                         'exifDateTime' => '',
                     ];
                     if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
-                        $exif = @exif_read_data( $file, 'EXIF', true );
+                        $exif = @exif_read_data( $file . $params, 'EXIF', true );
                         if (false !== $exif) {
                             $this->exifHelper->setExifData($exif);
                             $imgDetails['exifCamera']   = $this->exifHelper->getCamera();
