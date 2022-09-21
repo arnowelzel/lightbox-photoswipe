@@ -9,7 +9,7 @@ class LightboxPhotoSwipe
 {
     const VERSION = '5.0.12';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '8';
+    const META_VERSION = '9';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
