@@ -198,6 +198,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 = 5.0.12 =
 
+* Using PhotoSwipe 5 with "overlay" caption by default.
 * Keep URL parameters in image links when reading image information for external images.
 * Fix bug when using image URLs with hash.
 
