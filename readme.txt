@@ -196,6 +196,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
+= 5.0.13 =
+
+* Fix meta data handling for "external" images.
+
 = 5.0.12 =
 
 * Using PhotoSwipe 5 with "overlay" caption by default.

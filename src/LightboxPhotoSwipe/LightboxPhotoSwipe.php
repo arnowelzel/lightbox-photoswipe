@@ -7,9 +7,9 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.12';
+    const VERSION = '5.0.13';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '9';
+    const META_VERSION = '10';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -410,12 +410,10 @@ class LightboxPhotoSwipe
             $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
             if (!$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
-                // If the image is a local file and we have a valid image size,
-                // then try to get a smallest available version for the opening transition
-                if ($isLocal && false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
+                if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);
                     $fileSmall = $file;
-                    if ($imageSize[0] > $imageSize[1]) {
+                    if ($isLocal && $imageSize[0] > $imageSize[1]) {
                         for ($n=-1; $n<2; $n++) {
                             $fileSmallTest = sprintf(
                                 '%s/%s-%dx%d.%s',
