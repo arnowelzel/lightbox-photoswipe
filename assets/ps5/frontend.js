@@ -312,6 +312,7 @@ let lbwpsInit = function(domUpdate) {
             showHideAnimationType: 'fade',
             showAnimationDuration: 250,
             hideAnimationDuration: 250,
+            bgClickAction: 'toggle-controls',
             pswpModule: () => import('./lib/photoswipe.esm.min.js'),
         }
 
