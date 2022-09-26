@@ -414,7 +414,7 @@ class LightboxPhotoSwipe
             }
 
             $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
-            if (true || !$imgDetails = get_transient($cacheKey)) {
+            if (!$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);
