@@ -8,7 +8,7 @@ For more information about how to install Lightbox with PhotoSwipe see the [Word
 
 ## Custom styles for PhotoSwipe 5
 
-Please note that this plugin uses a custom stylesheet for the frontend (see `assets\ps5\lib\photoswipe-local.css`).
+Please note that this plugin uses a custom stylesheet for the frontend (see `assets/ps5/lib/photoswipe-local.css`).
 This style is based on the original stylesheet of PhotoSwipe 5 and contains the following changes:
 
 
