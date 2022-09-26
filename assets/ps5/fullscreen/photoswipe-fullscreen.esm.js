@@ -1,13 +1,22 @@
 /**
- * PhotoSwipe fullscreen plugin v1.0.0
+ * PhotoSwipe fullscreen plugin v1.0.2
  *
  * Inspired by https://github.com/dimsemenov/PhotoSwipe/issues/1759
  *
  * By https://arnowelzel.de
  */
 
+const defaultOptions = {
+    fullscreenTitle: 'Toggle fullscreen'
+};
+
 class PhotoSwipeFullscreen {
-    constructor(lightbox) {
+    constructor(lightbox, options) {
+        this.options = {
+            ...defaultOptions,
+            ...options
+        };
+
         this.lightbox = lightbox;
 
         this.lightbox.on('init', () => {
@@ -29,7 +38,7 @@ class PhotoSwipeFullscreen {
             this.lightbox.on('uiRegister', () => {
                 this.pswp.ui.registerElement({
                     name: 'fullscreen-button',
-                    title: 'Toggle fullscreen',
+                    title: this.options.fullscreenTitle,
                     order: 9,
                     isButton: true,
                     html: fullscreenSVG,

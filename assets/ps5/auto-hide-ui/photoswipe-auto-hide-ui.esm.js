@@ -1,5 +1,5 @@
 /**
- * PhotoSwipe Auto Hide UI plugin v1.0.0
+ * PhotoSwipe Auto Hide UI plugin v1.0.1
  *
  * By https://arnowelzel.de
  */
@@ -32,11 +32,15 @@ class PhotoSwipeAutoHideUI {
     }
 
     showUI() {
-        this.lightbox.pswp.element.classList.add('pswp--ui-visible');
+        if (this.lightbox && this.lightbox.pswp && this.lightbox.pswp.element) {
+            this.lightbox.pswp.element.classList.add('pswp--ui-visible');
+        }
     }
 
     hideUI() {
-        this.lightbox.pswp.element.classList.remove('pswp--ui-visible');
+        if (this.lightbox && this.lightbox.pswp && this.lightbox.pswp.element) {
+            this.lightbox.pswp.element.classList.remove('pswp--ui-visible');
+        }
     }
 
     mouseMove() {

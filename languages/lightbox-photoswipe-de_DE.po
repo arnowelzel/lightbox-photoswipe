@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-08-28 05:14+0000\n"
+"PO-Revision-Date: 2022-09-26 09:45+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.2; wp-6.0"
+"X-Loco-Version: 2.6.2; wp-6.0.2"
 
 #: options-manager.php:476
 msgid ""
@@ -84,6 +84,9 @@ msgstr ""
 #: lightbox-photoswipe.php:183
 msgid "Close (Esc)"
 msgstr "Schließen (Esc)"
+
+msgid "Close [Esc]"
+msgstr "Schließen [Esc]"
 
 #: options-manager.php:520
 msgid "Close the lightbox by clicking outside the image"
@@ -337,6 +340,9 @@ msgstr "Neues Teilen-Symbol mit festem Hintergrund"
 msgid "Next (arrow right)"
 msgstr "Nächstes (Cursor rechts)"
 
+msgid "Next [→]"
+msgstr "Nächstes [→]"
+
 msgid "no"
 msgstr "nein"
 
@@ -387,6 +393,9 @@ msgstr "Präfix"
 #: lightbox-photoswipe.php:199
 msgid "Previous (arrow left)"
 msgstr "Vorheriges (Cursor links)"
+
+msgid "Previous [←]"
+msgstr "Vorheriges [←]"
 
 #: options-manager.php:426
 msgid "Pull"
@@ -484,6 +493,9 @@ msgstr ""
 "Die verfügbaren Optionen hängen von der PhotoSwipe-Version ab. Für Version 4 "
 "vorgenommene UI-Anpassungen funktionieren möglicherweise nicht für Version 5."
 
+msgid "The image cannot be loaded"
+msgstr "Das Bild kann nicht geladen werden"
+
 #: options-manager.php:340
 msgid "Theme"
 msgstr "Theme"
@@ -519,6 +531,9 @@ msgstr "Titel"
 #: lightbox-photoswipe.php:185
 msgid "Toggle fullscreen"
 msgstr "Vollbildanzeige umschalten"
+
+msgid "Toggle fullscreen [F]"
+msgstr "Vollbildanzeige umschalten [F]"
 
 #: options-manager.php:219 options-manager.php:489
 msgid "Tweet"
@@ -582,6 +597,9 @@ msgstr "ja"
 #: options-manager.php:500
 msgid "Your label here"
 msgstr "Deine Beschriftung hier"
+
+msgid "Zoom"
+msgstr "Vergrößern/verkleinern"
 
 #: lightbox-photoswipe.php:186 options-manager.php:528
 msgid "Zoom in/out"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-28 05:13+0000\n"
+"POT-Creation-Date: 2022-09-26 09:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -511,4 +511,22 @@ msgid "overlay"
 msgstr ""
 
 msgid "never hide automatically"
+msgstr ""
+
+msgid "Close [Esc]"
+msgstr ""
+
+msgid "Zoom"
+msgstr ""
+
+msgid "Previous [←]"
+msgstr ""
+
+msgid "Next [→]"
+msgstr ""
+
+msgid "The image cannot be loaded"
+msgstr ""
+
+msgid "Toggle fullscreen [F]"
 msgstr ""

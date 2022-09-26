@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2022-08-28 05:15+0000\n"
+"PO-Revision-Date: 2022-09-26 09:47+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -84,6 +84,9 @@ msgstr ""
 #: lightbox-photoswipe.php:183
 msgid "Close (Esc)"
 msgstr "Chiudi (Esc)"
+
+msgid "Close [Esc]"
+msgstr "Chiudi [Esc]"
 
 #: options-manager.php:520
 msgid "Close the lightbox by clicking outside the image"
@@ -338,6 +341,9 @@ msgstr "Nuovo simbolo di condivisione con sfondo uniforme"
 msgid "Next (arrow right)"
 msgstr "Successivo (freccia a destra)"
 
+msgid "Next [→]"
+msgstr "Successivo [→]"
+
 msgid "no"
 msgstr "no"
 
@@ -388,6 +394,9 @@ msgstr "Prefisso"
 #: lightbox-photoswipe.php:199
 msgid "Previous (arrow left)"
 msgstr "Precedente (freccia a sinistra)"
+
+msgid "Previous [←]"
+msgstr "Precedente [←]"
 
 #: options-manager.php:426
 msgid "Pull"
@@ -485,6 +494,9 @@ msgstr ""
 "personalizzazioni dell'interfaccia utente eseguite per la versione 4 "
 "potrebbero non funzionare per la versione 5."
 
+msgid "The image cannot be loaded"
+msgstr "Impossibile caricare l'immagine"
+
 #: options-manager.php:340
 msgid "Theme"
 msgstr "Tema"
@@ -520,6 +532,9 @@ msgstr "Titolo"
 #: lightbox-photoswipe.php:185
 msgid "Toggle fullscreen"
 msgstr "Attiva/disattiva schermo intero"
+
+msgid "Toggle fullscreen [F]"
+msgstr "Attiva/disattiva schermo intero [F]"
 
 #: options-manager.php:219 options-manager.php:489
 msgid "Tweet"
@@ -582,6 +597,9 @@ msgstr "sì"
 #: options-manager.php:500
 msgid "Your label here"
 msgstr "La tua etichetta qui"
+
+msgid "Zoom"
+msgstr "Ingrandire/ridurre"
 
 #: lightbox-photoswipe.php:186 options-manager.php:528
 msgid "Zoom in/out"

@@ -312,7 +312,11 @@ let lbwpsInit = function(domUpdate) {
             showHideAnimationType: 'fade',
             showAnimationDuration: 250,
             hideAnimationDuration: 250,
-            bgClickAction: 'toggle-controls',
+            closeTitle: lbwpsOptions.label_ui_close,
+            zoomTitle: lbwpsOptions.label_ui_zoom,
+            arrowPrevTitle: lbwpsOptions.label_ui_prev,
+            arrowNextTitle: lbwpsOptions.label_ui_next,
+            errorMsg: lbwpsOptions.label_ui_error,
             pswpModule: () => import('./lib/photoswipe.esm.min.js'),
         }
 
@@ -351,7 +355,9 @@ let lbwpsInit = function(domUpdate) {
 
         // Add fullscreen button and keyboard shortcut for fullscreen mode
         if (lbwpsOptions.show_fullscreen === '1') {
-            const fullscreenPlugin = new PhotoSwipeFullscreen(lightbox);
+            const fullscreenPlugin = new PhotoSwipeFullscreen(lightbox, {
+                fullscreenTitle: lbwpsOptions.label_ui_fullscreen
+            });
         }
 
         // Add captions with dynamic caption plugin

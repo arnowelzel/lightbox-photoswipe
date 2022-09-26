@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.15';
+    const VERSION = '5.0.16';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '10';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -884,7 +884,13 @@ class LightboxPhotoSwipe
             'label_twitter' => __('Tweet', LightboxPhotoSwipe::SLUG),
             'label_pinterest' => __('Pin it', LightboxPhotoSwipe::SLUG),
             'label_download' => __('Download image', LightboxPhotoSwipe::SLUG),
-            'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::SLUG)
+            'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::SLUG),
+            'label_ui_close' => __('Close [Esc]', LightboxPhotoSwipe::SLUG),
+            'label_ui_zoom' => __('Zoom', LightboxPhotoSwipe::SLUG),
+            'label_ui_prev' => __('Previous [←]', LightboxPhotoSwipe::SLUG),
+            'label_ui_next' => __('Next [→]', LightboxPhotoSwipe::SLUG),
+            'label_ui_error' => __('The image cannot be loaded', LightboxPhotoSwipe::SLUG),
+            'label_ui_fullscreen' => __('Toggle fullscreen [F]', LightboxPhotoSwipe::SLUG),
         ];
         $boolOptions = [
             'share_facebook',
