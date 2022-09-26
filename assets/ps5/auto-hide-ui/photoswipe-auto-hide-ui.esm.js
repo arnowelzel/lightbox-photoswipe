@@ -26,10 +26,6 @@ class PhotoSwipeAutoHideUI {
             document.addEventListener('mousemove', () => { this.startHideTimer() }, {once:true});
         });
 
-        this.lightbox.on('click', () => {
-           this.mouseMove();
-        });
-
         this.lightbox.on('destroy', () => {
             this.stopHideTimer();
         });
