@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.0
-Stable tag: 5.0.14
+Stable tag: 5.0.15
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -196,7 +196,16 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
+= 5.0.15 =
+
+PhotoSwipe 5 integration:
+
+* Reverted background click in desktop to the original "close lightbox" behaviour and made UI elements clickable even if hidden - as it was implemented in PhotoSwipe 4 - to avoid confusion when UI hides automatically in desktop mode.
+* Optimized frontend styles to include only one minimized file.
+
 = 5.0.14 =
+
+PhotoSwipe 5 integration:
 
 * Change background click action in desktop mode to "toggle controls" to avoid confusion when UI hides automatically in desktop mode.
 

@@ -6,6 +6,17 @@ More about PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
 For more information about how to install Lightbox with PhotoSwipe see the [WordPress plugin repository](https://wordpress.org/plugins/lightbox-photoswipe/).
 
+## Custom styles for PhotoSwipe 5
+
+Please note that this plugin uses a custom stylesheet for the frontend (see `assets\ps5\lib\photoswipe-local.css`).
+This style is based on the original stylesheet of PhotoSwipe 5 and contains the following changes:
+
+
+* Keep UI elements clickable when hidden - this was the behaviour of PhotoSwipe 4 and avoids
+  confusion when the UI hides automatically in desktop mode and clicking the hidden arrow
+  would then close the lightbox instead of changing to the next image.
+* Make sure that UI elements are hidden even when the mouse is hovering them in desktop mode.
+
 ## Plugins for PhotoSwipe
 
 If you like to use the plugins for fullscreen mode and automatic hiding of the UI in desktop mode, you find these also on Github:
@@ -37,4 +48,5 @@ Building style for PhotoSwipe 4 skin classic
 Building style for PhotoSwipe 4 skin classic-solid
 Building style for PhotoSwipe 4 skin default
 Building style for PhotoSwipe 4 skin default-solid
+Building style for PhotoSwipe 5
 ```

@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.14';
+    const VERSION = '5.0.15';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '10';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -117,6 +117,21 @@ class LightboxPhotoSwipe
                     self::VERSION,
                     true
                 );
+                wp_enqueue_style(
+                    'lbwps-styles-photoswipe5-local',
+                    sprintf('%sassets/ps5/lib/photoswipe-local.css', $this->getPluginUrl()),
+                    false,
+                    self::VERSION
+                );
+                wp_enqueue_style(
+                    'lbwps-styles-photoswipe5-dynamic-caption',
+                    sprintf(
+                        '%sassets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.css',
+                        $this->getPluginUrl()
+                    ),
+                    false,
+                    self::VERSION
+                );
             } else {
                 wp_enqueue_script(
                     'lbwps-photoswipe5',
@@ -125,22 +140,13 @@ class LightboxPhotoSwipe
                     self::VERSION,
                     true
                 );
+                wp_enqueue_style(
+                    'lbwps-styles-photoswipe5-main',
+                    sprintf('%sassets/ps5/styles/main.css', $this->getPluginUrl()),
+                    false,
+                    self::VERSION
+                );
             }
-            wp_enqueue_style(
-                'lbwps-styles-photoswipe5',
-                sprintf('%sassets/ps5/lib/photoswipe.css', $this->getPluginUrl()),
-                false,
-                self::VERSION
-            );
-            wp_enqueue_style(
-                'lbwps-styles-photoswipe5-dynamic-caption',
-                sprintf(
-                    '%sassets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.css',
-                    $this->getPluginUrl()
-                ),
-                false,
-                self::VERSION
-            );
         } else {
             $handle = 'lbwps';
             if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
@@ -408,7 +414,7 @@ class LightboxPhotoSwipe
             }
 
             $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
-            if (!$imgDetails = get_transient($cacheKey)) {
+            if (true || !$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);

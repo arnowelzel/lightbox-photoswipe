@@ -86,6 +86,14 @@ class Build
             $minifyCss->add($source);
             $minifyCss->minify(sprintf('assets/ps4/styles/%s.css', $skin));
         }
+
+        // Styles for PhotoSwipe 5
+        echo sprintf("Building style for PhotoSwipe 5\n");
+
+        $minifyCss = new Minify\CSS();
+        $minifyCss->addFile('assets/ps5/lib/photoswipe-local.css');
+        $minifyCss->addFile('assets/ps5/dynamic-caption/photoswipe-dynamic-caption-plugin.css');
+        $minifyCss->minify('assets/ps5/styles/main.css');
     }
 }
 
