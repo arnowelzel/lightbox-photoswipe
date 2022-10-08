@@ -79,9 +79,7 @@ add_filter('lbwps_enabled', 'my_lbwps_enabled', 10, 2);
 
 The individual parts of the caption can be modified using the following filters. Each filter gets the ID of the current page/post and the original text to be used. You can either return the text as it is or modify it if needed.
 
-`lbwps_caption_caption` - caption
-`lbwps_caption_title` - title
-`lbwps_caption_description` - description
+`lbwps_caption_caption`, `lbwps_caption_title`, `lbwps_caption_description`
 
 Example:
 
