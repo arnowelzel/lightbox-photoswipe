@@ -1,5 +1,5 @@
 /**
- * PhotoSwipe fullscreen plugin v1.0.3
+ * PhotoSwipe fullscreen plugin v1.0.4
  *
  * Inspired by https://github.com/dimsemenov/PhotoSwipe/issues/1759
  *
@@ -96,13 +96,13 @@ class PhotoSwipeFullscreen {
         let changeEvent;
         let errorEvent;
 
-        if (document.documentElement.requestFullscreen) {
+        if (document.fullscreenEnabled) {
             enterFS = 'requestFullscreen';
             exitFS = 'exitFullscreen';
             elementFS = 'fullscreenElement';
             changeEvent = 'fullscreenchange';
             errorEvent = 'fullscreenerror';
-        } else if (document.documentElement.webkitRequestFullscreen) {
+        } else if (document.webkitFullscreenEnabled) {
             enterFS = 'webkitRequestFullscreen';
             exitFS = 'webkitExitFullscreen';
             elementFS = 'webkitFullscreenElement';

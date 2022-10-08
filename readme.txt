@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.0
-Stable tag: 5.0.16
+Stable tag: 5.0.17
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -195,6 +195,12 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.0.17 =
+
+PhotoSwipe 5 integration:
+
+* Updated "fullscreen" plugin to support iPad.
 
 = 5.0.16 =
 
