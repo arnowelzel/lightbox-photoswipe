@@ -75,6 +75,27 @@ function my_lbwps_enabled($enabled, $id)
 add_filter('lbwps_enabled', 'my_lbwps_enabled', 10, 2);
 `
 
+= How to modify the caption =
+
+The individual parts of the caption can be modified using the following filters. Each filter gets the ID of the current page/post and the original text to be used. You can either return the text as it is or modify it if needed.
+
+`lbwps_caption_caption` - caption
+`lbwps_caption_title` - title
+`lbwps_caption_description` - description
+
+Example:
+
+`
+// Add copyright notice to caption title
+
+function my_lbwps_caption_title($title, $id)
+{
+    return sprintf('%s<br>Copyright (c) %s Foobar', $title, date('Y'));
+}
+
+add_filter('lbwps_caption_title', 'my_lbwps_caption_title', 10, 2);
+`
+
 = How to modify the PhotoSwipe markup =
 
 Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 modifying the markup is not supported any longer, since there is no static markup included.
@@ -197,6 +218,8 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 == Changelog ==
 
 = 5.0.17 =
+
+* Added filters for caption text parts.
 
 PhotoSwipe 5 integration:
 

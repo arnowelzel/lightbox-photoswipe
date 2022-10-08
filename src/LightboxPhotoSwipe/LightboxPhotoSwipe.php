@@ -286,6 +286,7 @@ class LightboxPhotoSwipe
         $extension = strtolower($type['ext']);
         $captionCaption = '';
         $captionDescription = '';
+        $captionTitle = '';
         $isLocal = false;
         if (!in_array($extension, ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp', 'svg'])) {
             // Ignore unknown image formats
@@ -472,6 +473,7 @@ class LightboxPhotoSwipe
 
             $attr = '';
             if (is_array($imageSize) && isset($imageSize[0]) && isset($imageSize[1]) && 0 != $imageSize[0] && 0 != $imageSize[1]) {
+                $id = get_the_ID();
                 $width = $imageSize[0];
                 $height = $imageSize[1];
                 if ('svg' === $extension) {
@@ -484,12 +486,15 @@ class LightboxPhotoSwipe
                     $attr .= sprintf(' data-lbwps-srcsmall="%s"', $imgDetails['fileSmall']);
                 }
                 if ('1' === $this->optionsManager->getOption('usecaption') && $captionCaption != '') {
+                    $captionCaption = apply_filters('lbwps_caption_caption', $captionCaption, $id);
                     $attr .= sprintf(' data-lbwps-caption="%s"', htmlspecialchars(nl2br(wptexturize($captionCaption))));
                 }
                 if ('1' === $this->optionsManager->getOption('usetitle') && '' !== $captionTitle) {
+                    $captionTitle = apply_filters('lbwps_caption_title', $captionTitle, $id);
                     $attr .= sprintf(' data-lbwps-title="%s"', htmlspecialchars(nl2br(wptexturize($captionTitle))));
                 }
                 if ('1' === $this->optionsManager->getOption('usedescription') && '' !== $captionDescription) {
+                    $captionDescription = apply_filters('lbwps_caption_description', $captionDescription, $id);
                     $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($captionDescription))));
                 }
                 if ('1' === $this->optionsManager->getOption('showexif')) {
@@ -503,6 +508,7 @@ class LightboxPhotoSwipe
                         '1' === $this->optionsManager->getOption('showexif_date')
                     );
                     if ($exifCaption != '') {
+                        $exifCaption = apply_filters('lbwps_caption_exif', $exifCaption, $id);
                         $attr .= sprintf(' data-lbwps-exif="%s"', htmlspecialchars($exifCaption));
                     }
                 }
