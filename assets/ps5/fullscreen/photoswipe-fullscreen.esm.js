@@ -1,5 +1,5 @@
 /**
- * PhotoSwipe fullscreen plugin v1.0.4
+ * PhotoSwipe fullscreen plugin v1.0.5
  *
  * Inspired by https://github.com/dimsemenov/PhotoSwipe/issues/1759
  *
@@ -17,14 +17,12 @@ class PhotoSwipeFullscreen {
             ...options
         };
         this.lightbox = lightbox;
-        this.uiInit = false;
         this.lightbox.on('init', () => {
-            this.initPlugin();
+            this.initPlugin(this.lightbox.pswp);
         });
     }
 
-    initPlugin() {
-        this.pswp = this.lightbox.pswp;
+    initPlugin(pswp) {
         this.fullscreenAPI = this.getFullscreenAPI();
         const fullscreenSVG = '<svg aria-hidden="true" class="pswp__icn" viewBox="0 0 32 32" width="32" height="32">' +
             '<use class="pswp__icn-shadow" xlink:href="#pswp__icn-fullscreen-exit"/>' +
@@ -34,12 +32,8 @@ class PhotoSwipeFullscreen {
             '</svg>';
 
         if (this.fullscreenAPI) {
-            if (this.uiInit) {
-                return;
-            }
-            this.uiInit = true;
-            this.lightbox.on('uiRegister', () => {
-                this.pswp.ui.registerElement({
+            pswp.on('uiRegister', () => {
+                pswp.ui.registerElement({
                     name: 'fullscreen-button',
                     title: this.options.fullscreenTitle,
                     order: 9,
@@ -50,7 +44,7 @@ class PhotoSwipeFullscreen {
                     }
                 });
 
-                this.pswp.events.add(document, 'keydown', (e) => {
+                pswp.events.add(document, 'keydown', (e) => {
                     if (e.keyCode == 70) { // 'f'
                         this.toggleFullscreen();
                         e.preventDefault();
