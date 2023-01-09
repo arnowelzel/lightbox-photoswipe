@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.0
-Stable tag: 5.0.18
+Stable tag: 5.0.19
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -218,6 +218,12 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.0.19 =
+
+PhotoSwipe 4 integration:
+
+* Fixed a problem when using an URL fragment to open an image.
 
 = 5.0.18 =
 

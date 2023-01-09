@@ -4,7 +4,7 @@ let lbwpsInit = function(domUpdate) {
         if (event.target.parentNode.getAttribute('data-lbwps-width')) {
 
             event.preventDefault();
-            openPhotoSwipe(false, 0, event.target.parentNode);
+            openPhotoSwipe(false, 0, event.target.parentNode, false);
             return;
         }
 
@@ -18,7 +18,7 @@ let lbwpsInit = function(domUpdate) {
         {
             if (typeof path[num].getAttribute === 'function' && path[num].getAttribute('data-lbwps-width')) {
                 event.preventDefault();
-                openPhotoSwipe(false, 0, path[num]);
+                openPhotoSwipe(false, 0, path[num], false);
                 return;
             }
             num++;
@@ -279,6 +279,10 @@ let lbwpsInit = function(domUpdate) {
             params[pair[0]] = pair[1];
         }
 
+        if(params.pid) {
+            params.pid = parseInt(params.pid, 10);
+        }
+
         if(params.gid) {
             params.gid = parseInt(params.gid, 10);
         }
@@ -286,7 +290,7 @@ let lbwpsInit = function(domUpdate) {
         return params;
     };
 
-    let openPhotoSwipe = function(element_index, group_index, element) {
+    let openPhotoSwipe = function(element_index, group_index, element, fromURL) {
         let id = 1,
             pswpElement = document.querySelector('.pswp'),
             gallery,
@@ -316,6 +320,10 @@ let lbwpsInit = function(domUpdate) {
             tapToToggleControls: true,
             clickToCloseNonZoomable: false,
         };
+
+        if (fromURL === true) {
+            options.index--;
+        }
 
         if (id != null) {
             options.galleryUID = id;
@@ -432,7 +440,7 @@ let lbwpsInit = function(domUpdate) {
     if(true !== domUpdate) {
         let hashData = photoswipeParseHash();
         if (hashData.pid && hashData.gid) {
-            openPhotoSwipe(hashData.pid, hashData.gid, null);
+            openPhotoSwipe(hashData.pid, hashData.gid, null, true);
         }
     }
 };
