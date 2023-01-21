@@ -1,7 +1,7 @@
 <table id="lbwps-tab-2" class="form-table" style="display:none;">
     <tr class="lbwps-ver4">
         <th scope="row">
-            <?php echo __('Skin', self::SLUG); ?>
+            <?php echo __('Skin', 'lightbox-photoswipe'); ?>
         </th>
         <td>
             <?php $this->uiControlRadio(
@@ -13,10 +13,10 @@
                     '4'
                 ],
                 [
-                    __('Original', self::SLUG),
-                    __('Original with solid background', self::SLUG),
-                    __('New share symbol', self::SLUG),
-                    __('New share symbol with solid background', self::SLUG),
+                    __('Original', 'lightbox-photoswipe'),
+                    __('Original with solid background', 'lightbox-photoswipe'),
+                    __('New share symbol', 'lightbox-photoswipe'),
+                    __('New share symbol with solid background', 'lightbox-photoswipe'),
                 ],
                 '<br>'
             );
@@ -25,7 +25,7 @@
     </tr>
     <tr>
         <th scope="row">
-            <?php echo __('Spacing between pictures', self::SLUG); ?></th>
+            <?php echo __('Spacing between pictures', 'lightbox-photoswipe'); ?></th>
         <td>
             <select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">
                 <?php
@@ -38,7 +38,7 @@
                 }
                 ?>
             </select>
-            <p class="description"><?php echo __('Space between pictures relative to screenwidth.', self::SLUG); ?></p>
+            <p class="description"><?php echo __('Space between pictures relative to screenwidth.', 'lightbox-photoswipe'); ?></p>
         </td>
     </tr>
 </table>

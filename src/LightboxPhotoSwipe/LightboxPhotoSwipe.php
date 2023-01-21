@@ -7,9 +7,9 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.19';
+    const VERSION = '5.0.20';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '10';
+    const META_VERSION = '11';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -415,25 +415,38 @@ class LightboxPhotoSwipe
             }
 
             $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
-            if (!$imgDetails = get_transient($cacheKey)) {
+            if (true || !$imgDetails = get_transient($cacheKey)) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);
                     $fileSmall = $file;
-                    if ($isLocal && $imageSize[0] > $imageSize[1]) {
+                    if ($isLocal) {
                         for ($n=-1; $n<2; $n++) {
-                            $fileSmallTest = sprintf(
-                                '%s/%s-%dx%d.%s',
-                                $pathInfo['dirname'],
-                                $pathInfo['filename'],
-                                $this->imageSizes[0]['width'],
-                                $imageSize[1] / $imageSize[0] * $this->imageSizes[0]['height'] + $n,
-                                $pathInfo['extension']
-                            );
-                            if (file_exists($fileSmallTest)) {
-                                $fileSmall = $fileSmallTest;
-                            }
-                        }
+							if ($imageSize[0] > $imageSize[1]) {
+								// portrait
+								$fileSmallTest = sprintf(
+									'%s/%s-%dx%d.%s',
+									$pathInfo['dirname'],
+									$pathInfo['filename'],
+									$this->imageSizes[0]['width'],
+									$imageSize[1] / $imageSize[0] * $this->imageSizes[0]['width'] + $n,
+									$pathInfo['extension']
+								);
+							} else {
+								// landscape
+								$fileSmallTest = sprintf(
+									'%s/%s-%dx%d.%s',
+									$pathInfo['dirname'],
+									$pathInfo['filename'],
+									$imageSize[0] / $imageSize[1] * $this->imageSizes[0]['height'] + $n,
+									$this->imageSizes[0]['height'],
+									$pathInfo['extension']
+								);
+							}
+							if (file_exists($fileSmallTest)) {
+								$fileSmall = $fileSmallTest;
+							}
+						}
                     }
                     if ($uploadDir && $uploadUrl) {
                         $fileSmall = str_replace($uploadDir, $uploadUrl, $fileSmall);
@@ -886,17 +899,17 @@ class LightboxPhotoSwipe
     protected function enqueueFrontendOptions($handle)
     {
         $translation_array = [
-            'label_facebook' => __('Share on Facebook', LightboxPhotoSwipe::SLUG),
-            'label_twitter' => __('Tweet', LightboxPhotoSwipe::SLUG),
-            'label_pinterest' => __('Pin it', LightboxPhotoSwipe::SLUG),
-            'label_download' => __('Download image', LightboxPhotoSwipe::SLUG),
-            'label_copyurl' => __('Copy image URL', LightboxPhotoSwipe::SLUG),
-            'label_ui_close' => __('Close [Esc]', LightboxPhotoSwipe::SLUG),
-            'label_ui_zoom' => __('Zoom', LightboxPhotoSwipe::SLUG),
-            'label_ui_prev' => __('Previous [←]', LightboxPhotoSwipe::SLUG),
-            'label_ui_next' => __('Next [→]', LightboxPhotoSwipe::SLUG),
-            'label_ui_error' => __('The image cannot be loaded', LightboxPhotoSwipe::SLUG),
-            'label_ui_fullscreen' => __('Toggle fullscreen [F]', LightboxPhotoSwipe::SLUG),
+            'label_facebook' => __('Share on Facebook', 'lightbox-photoswipe'),
+            'label_twitter' => __('Tweet', 'lightbox-photoswipe'),
+            'label_pinterest' => __('Pin it', 'lightbox-photoswipe'),
+            'label_download' => __('Download image', 'lightbox-photoswipe'),
+            'label_copyurl' => __('Copy image URL', 'lightbox-photoswipe'),
+            'label_ui_close' => __('Close [Esc]', 'lightbox-photoswipe'),
+            'label_ui_zoom' => __('Zoom', 'lightbox-photoswipe'),
+            'label_ui_prev' => __('Previous [←]', 'lightbox-photoswipe'),
+            'label_ui_next' => __('Next [→]', 'lightbox-photoswipe'),
+            'label_ui_error' => __('The image cannot be loaded', 'lightbox-photoswipe'),
+            'label_ui_fullscreen' => __('Toggle fullscreen [F]', 'lightbox-photoswipe'),
         ];
         $boolOptions = [
             'share_facebook',
