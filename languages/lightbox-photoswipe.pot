@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-26 09:40+0000\n"
+"POT-Creation-Date: 2023-01-21 15:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,28 +14,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: options-manager.php:476
+#: templates/options-tab3.inc.php:20
 msgid ""
 "<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\">"
 "the PHP EXIF extension</a> is missing on this server!"
 msgstr ""
 
-#: options-manager.php:409
+#: templates/options-tab1.inc.php:73
 msgid ""
 "<a href=\"https://www.php.net/manual/en/ref.simplexml.php\" "
 "target=\"_blank\">The PHP SimpleXML extension</a> is missing on this server! "
 "SVG images can not be displayed!"
 msgstr ""
 
-#: options-manager.php:387
-msgid "Add native lazy loading to images"
-msgstr ""
-
-#: options-manager.php:385
+#: templates/options-tab1.inc.php:47
 msgid "Allow infinite loop"
 msgstr ""
 
-#: options-manager.php:472
+#: templates/options-tab3.inc.php:19
 msgid "Alternative text"
 msgstr ""
 
@@ -43,27 +39,27 @@ msgstr ""
 msgid "Arno Welzel"
 msgstr ""
 
-#: options-manager.php:362
+#: templates/options-tab1.inc.php:28
 msgid "Available post types on this site"
 msgstr ""
 
-#: options-manager.php:470
+#: templates/options-tab3.inc.php:17
 msgid "Caption"
 msgstr ""
 
-#: options-manager.php:341
+#: templates/options-navigation.inc.php:4
 msgid "Captions"
 msgstr ""
 
-#: options-manager.php:424
+#: templates/options-tab1.inc.php:88
 msgid "CDN mode"
 msgstr ""
 
-#: options-manager.php:415
+#: templates/options-tab1.inc.php:78
 msgid "CDN URL prefix"
 msgstr ""
 
-#: options-manager.php:427
+#: templates/options-tab1.inc.php:92
 msgid ""
 "CDNs usually use \"prefix mode\" which adds the CDN domain in front of the "
 "whole URL. Some CDNs like ExactDN use \"pull mode\" which means only the "
@@ -71,111 +67,160 @@ msgid ""
 "with the CDN active try another mode."
 msgstr ""
 
-#: lightbox-photoswipe.php:183
+#: templates/frontend.inc.php:12
 msgid "Close (Esc)"
 msgstr ""
 
-#: options-manager.php:520
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:907
+msgid "Close [Esc]"
+msgstr ""
+
+#: templates/options-tab5.inc.php:11
 msgid "Close the lightbox by clicking outside the image"
 msgstr ""
 
-#: options-manager.php:552
+#: templates/options-tab6.inc.php:9
 msgid "Close with vertical drag in mobile view"
 msgstr ""
 
-#: options-manager.php:222 options-manager.php:493
+#: templates/options-tab4.inc.php:14
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:906
 msgid "Copy image URL"
 msgstr ""
 
-#: options-manager.php:494
+#: templates/options-tab4.inc.php:15
 msgid "Custom link"
 msgstr ""
 
-#: options-manager.php:498
+#: templates/options-tab4.inc.php:20
 msgid "Custom link, label"
 msgstr ""
 
-#: options-manager.php:504
+#: templates/options-tab4.inc.php:28
 msgid "Custom link, URL"
 msgstr ""
 
-#: options-manager.php:403 options-manager.php:450 options-manager.php:540
+#: templates/options-tab5.inc.php:55 templates/options-tab1.inc.php:67
+#: templates/options-tab2.inc.php:36
 msgid "Default"
 msgstr ""
 
-#: options-manager.php:471
+#: templates/options-tab3.inc.php:18
 msgid "Description"
 msgstr ""
 
-#: options-manager.php:343
+#: templates/options-navigation.inc.php:6
 msgid "Desktop"
 msgstr ""
 
-#: lightbox-photoswipe.php:684
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:659
 msgid "Disable"
 msgstr ""
 
-#: options-manager.php:221 options-manager.php:492
+#: templates/options-tab4.inc.php:13
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:905
 msgid "Download image"
 msgstr ""
 
-#: options-manager.php:553
+#: templates/options-tab3.inc.php:29
+msgid "dynamic, aside"
+msgstr ""
+
+#: templates/options-tab3.inc.php:29
+msgid "dynamic, automatic"
+msgstr ""
+
+#: templates/options-tab3.inc.php:29
+msgid "dynamic, below"
+msgstr ""
+
+#: templates/options-tab6.inc.php:10
 msgid "Enable pinch to close gesture on mobile devices"
 msgstr ""
 
-#: options-manager.php:554
+#: templates/options-tab6.inc.php:11
 msgid "Enable tap to toggle controls on mobile devices"
 msgstr ""
 
-#: options-manager.php:361
+#: templates/options-tab1.inc.php:27
 msgid ""
 "Enter a comma separated list of post types where the lightbox should not be "
 "used."
 msgstr ""
 
-#: options-manager.php:353
+#: templates/options-tab1.inc.php:17
 msgid ""
 "Enter a comma separated list with the numerical IDs of the pages/posts where "
 "the lightbox should not be used. This can also be changed in the page/post "
 "itself."
 msgstr ""
 
-#: options-manager.php:350
+#: templates/options-tab1.inc.php:13
 msgid "Excluded pages/posts"
 msgstr ""
 
-#: options-manager.php:358
+#: templates/options-tab1.inc.php:23
 msgid "Excluded post types"
 msgstr ""
 
-#: options-manager.php:473
+#: templates/options-tab3.inc.php:20
 msgid "EXIF data if available"
 msgstr ""
 
-#: options-manager.php:406
+#: templates/options-tab1.inc.php:72
 msgid "Factor by which SVG images get scaled when displayed in the lightbox."
 msgstr ""
 
-#: options-manager.php:562
+#: templates/options-tab1.inc.php:52
+msgid ""
+"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
+"instead of \"image.jpg\")"
+msgstr ""
+
+#: templates/options-tab1.inc.php:53
+msgid ""
+"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
+"jpg\")"
+msgstr ""
+
+#: templates/options-tab7.inc.php:28
 msgid "For documentation about hooks, styling etc. please see FAQ"
 msgstr ""
 
-#: options-manager.php:518
+#. %d value for image size
+#: templates/options-tab7.inc.php:19
+#, php-format
+msgid ""
+"For example: if an image is 1000×400 pixels the small version of it should "
+"be %d×%d pixels since the smallest registered image size is %d×%d pixels. If "
+"a portrait image has 820×1400 pixels the small version should then be %d×%d "
+"pixels. The plugin will take rounding errors into account and will also "
+"check for images which are one pixel less or more wide or high."
+msgstr ""
+
+#: templates/options-tab7.inc.php:4
+msgid ""
+"For the opening transition of PhotoSwipe the plugin will use a smaller "
+"version of the linked image if available. The registered image sizes on this "
+"website are as following"
+msgstr ""
+
+#: templates/options-tab5.inc.php:9
 msgid "Full picture size in desktop view"
 msgstr ""
 
-#: options-manager.php:339 options-manager.php:460 options-manager.php:516
-#: options-manager.php:550
+#: templates/options-tab5.inc.php:6 templates/options-tab3.inc.php:4
+#: templates/options-tab6.inc.php:6 templates/options-navigation.inc.php:2
 msgid "General"
 msgstr ""
 
-#: options-manager.php:463
+#: templates/options-tab3.inc.php:8
 msgid ""
 "Get the image captions from the database (this may cause delays on slower "
 "servers)"
 msgstr ""
 
-#: options-manager.php:391
+#: templates/options-tab1.inc.php:51
 msgid ""
 "Hide scrollbars when opening the lightbox (this may not work with your theme)"
 msgstr ""
@@ -188,17 +233,17 @@ msgstr ""
 msgid "https://wordpress.org/plugins/lightbox-photoswipe/"
 msgstr ""
 
-#: options-manager.php:533
+#: templates/options-tab5.inc.php:38
 msgid "Idle time for controls"
 msgstr ""
 
-#: options-manager.php:563
+#: templates/options-tab7.inc.php:29
 msgid ""
 "If you like my WordPress plugins and want to support my work I would be very "
 "happy about a donation via PayPal."
 msgstr ""
 
-#: options-manager.php:419
+#: templates/options-tab1.inc.php:83
 msgid ""
 "If you use a CDN plugin which adds an URL prefix in front of the image link, "
 "you can add this prefix (including \"http://\" or \"https://\") here. You "
@@ -208,68 +253,103 @@ msgid ""
 "database but serve images using a CDN."
 msgstr ""
 
-#: options-manager.php:418
+#: templates/options-tab1.inc.php:82
 msgid ""
 "If you use the JetPack CDN you can leave this setting empty – JetPack is "
 "already supported!"
 msgstr ""
 
-#: options-manager.php:389
+#: templates/options-tab1.inc.php:49
 msgid "Ignore links to images on other sites"
 msgstr ""
 
-#: options-manager.php:390
+#: templates/options-tab1.inc.php:50
 msgid "Ignore links to images which contain a hash (#)"
 msgstr ""
 
-#: options-manager.php:345
+#: templates/options-tab7.inc.php:27
+msgid ""
+"Image information like size, EXIF data, name of the preview image is cached "
+"as WordPress transients. To improve performance with large image galleries "
+"you can use caching plugins like <a href=\"https://wordpress."
+"org/plugins/redis-cache/\" target=\"_blank\">Redis Object Cache</a>."
+msgstr ""
+
+#: templates/options-navigation.inc.php:8
 msgid "Info"
 msgstr ""
 
 #. Name of the plugin
 #. Description of the plugin
-#: lightbox-photoswipe.php:623 lightbox-photoswipe.php:624
-#: lightbox-photoswipe.php:662 options-manager.php:271
+#: templates/options.inc.php:12
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:606
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:607
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:639
 msgid "Lightbox with PhotoSwipe"
 msgstr ""
 
-#: options-manager.php:344
+#: templates/options-navigation.inc.php:7
 msgid "Mobile"
 msgstr ""
 
-#: options-manager.php:524
+#: templates/options-tab6.inc.php:17
+msgid "Mobile options are not yet supported for PhotoSwipe 5."
+msgstr ""
+
+#: templates/options-tab5.inc.php:16
 msgid "Mouse wheel function"
 msgstr ""
 
-#: options-manager.php:438
+#: templates/options-tab5.inc.php:47
+msgid "never hide automatically"
+msgstr ""
+
+#: templates/options-tab2.inc.php:18
 msgid "New share symbol"
 msgstr ""
 
-#: options-manager.php:439
+#: templates/options-tab2.inc.php:19
 msgid "New share symbol with solid background"
 msgstr ""
 
-#: lightbox-photoswipe.php:200
+#: templates/frontend.inc.php:29
 msgid "Next (arrow right)"
 msgstr ""
 
-#: options-manager.php:436
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:910
+msgid "Next [→]"
+msgstr ""
+
+#: templates/options-tab2.inc.php:16
 msgid "Original"
 msgstr ""
 
-#: options-manager.php:437
+#: templates/options-tab2.inc.php:17
 msgid "Original with solid background"
 msgstr ""
 
-#: options-manager.php:382
+#: templates/options-tab1.inc.php:43
 msgid "Other options"
 msgstr ""
 
-#: options-manager.php:220 options-manager.php:491
+#: templates/options-tab3.inc.php:29
+msgid "overlay"
+msgstr ""
+
+#: templates/options-tab1.inc.php:4
+msgid "PhotoSwipe version to use"
+msgstr ""
+
+#: templates/options-tab4.inc.php:12
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:904
 msgid "Pin it"
 msgstr ""
 
-#: options-manager.php:508
+#: templates/options-tab7.inc.php:8
+msgid "pixels"
+msgstr ""
+
+#: templates/options-tab4.inc.php:32
 msgid ""
 "Placeholders for the link:<br />{{raw_url}}&nbsp;&ndash;&nbsp;URL of the "
 "lightbox<br />{{url}}&nbsp;&ndash;&nbsp;encoded URL of the lightbox<br />"
@@ -278,255 +358,214 @@ msgid ""
 "caption."
 msgstr ""
 
-#: options-manager.php:560
+#: templates/options-tab7.inc.php:2
 msgid "Plugin version"
 msgstr ""
 
-#: options-manager.php:426
+#: templates/options-tab1.inc.php:91
 msgid "Prefix"
 msgstr ""
 
-#: lightbox-photoswipe.php:199
+#: templates/frontend.inc.php:28
 msgid "Previous (arrow left)"
 msgstr ""
 
-#: options-manager.php:426
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:909
+msgid "Previous [←]"
+msgstr ""
+
+#: templates/options-tab1.inc.php:91
 msgid "Pull"
 msgstr ""
 
-#: options-manager.php:527
+#: templates/options-tab5.inc.php:29
 msgid "Scroll zoomed image or close lightbox if not zoomed"
 msgstr ""
 
-#: options-manager.php:526
+#: templates/options-tab5.inc.php:28
 msgid "Scroll zoomed image otherwise do nothing"
 msgstr ""
 
-#: options-manager.php:539
+#: templates/options-tab5.inc.php:53
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lightbox-photoswipe.php:184
+#: templates/options-navigation.inc.php:1
+msgid "Secondary menu"
+msgstr ""
+
+#: templates/frontend.inc.php:13
 msgid "Share"
 msgstr ""
 
-#: options-manager.php:218 options-manager.php:488
+#: templates/options-tab4.inc.php:9
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:902
 msgid "Share on Facebook"
 msgstr ""
 
-#: options-manager.php:342
+#: templates/options-navigation.inc.php:5
 msgid "Sharing"
 msgstr ""
 
-#: options-manager.php:462
+#: templates/options-tab4.inc.php:38
+msgid "Sharing options are not yet supported for PhotoSwipe 5."
+msgstr ""
+
+#: templates/options-tab3.inc.php:7
 msgid "Show caption if available"
 msgstr ""
 
-#: options-manager.php:479
+#: templates/options-tab3.inc.php:21
 msgid "Show date in EXIF data if available"
 msgstr ""
 
-#: options-manager.php:377
+#: templates/options-tab1.inc.php:37
 msgid "Show fullscreen button"
 msgstr ""
 
-#: options-manager.php:376
+#: templates/options-tab1.inc.php:36
 msgid "Show picture counter"
 msgstr ""
 
-#: options-manager.php:354
+#: templates/options-tab1.inc.php:18
 msgid "Show this setting as checkbox in page/post editor"
 msgstr ""
 
-#: options-manager.php:386
+#: templates/options-tab1.inc.php:48
 msgid ""
 "Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes"
 msgstr ""
 
-#: options-manager.php:378
+#: templates/options-tab1.inc.php:38
 msgid "Show zoom button if available"
 msgstr ""
 
-#: options-manager.php:434
+#: templates/options-tab2.inc.php:4
 msgid "Skin"
 msgstr ""
 
-#: options-manager.php:453
+#: templates/options-tab2.inc.php:41
 msgid "Space between pictures relative to screenwidth."
 msgstr ""
 
-#: options-manager.php:443
+#: templates/options-tab2.inc.php:28
 msgid "Spacing between pictures"
 msgstr ""
 
-#: options-manager.php:396
+#: templates/options-tab1.inc.php:58
 msgid "SVG scaling factor"
 msgstr ""
 
-#: options-manager.php:529
+#: templates/options-tab5.inc.php:31
 msgid "Switch to next/previous picture"
 msgstr ""
 
-#: options-manager.php:565
+#: templates/options-tab7.inc.php:31
 msgid "Thank you :-)"
 msgstr ""
 
-#: options-manager.php:340
-msgid "Theme"
-msgstr ""
-
-#: options-manager.php:561
-msgid ""
-"This plugin shows all linked pictures in a lightbox based on an extended "
-"version of Photoswipe. If the lightbox does not open, make sure that images "
-"are linked to the media and not to the attachment page. Also make sure that "
-"no other lightbox is in use (some themes or gallery plugins bring their own "
-"lightbox which needs to be disabled). "
-msgstr ""
-
-#: options-manager.php:543
-msgid ""
-"Time until the on screen controls will disappear automatically in desktop "
-"view. Note: Keeping controls visible is only supported with PhotoSwipe 5."
-msgstr ""
-
-#: options-manager.php:469
-msgid "Title"
-msgstr ""
-
-#: lightbox-photoswipe.php:185
-msgid "Toggle fullscreen"
-msgstr ""
-
-#: options-manager.php:392
-msgid ""
-"Fix links to images which include image sizes (e.g. \"image-1024x768.jpg\" "
-"instead of \"image.jpg\")"
-msgstr ""
-
-#: options-manager.php:219 options-manager.php:489
-msgid "Tweet"
-msgstr ""
-
-#: options-manager.php:384
-msgid ""
-"Update browser history (going back in the browser will first close the "
-"lightbox)"
-msgstr ""
-
-#: options-manager.php:519
-msgid "Use slide animation when switching images in desktop view"
-msgstr ""
-
-#: options-manager.php:490
-msgid "Use URL of images instead of lightbox on Facebook and Twitter"
-msgstr ""
-
-#: options-manager.php:388
-#, php-format
-msgid ""
-"Use WordPress cache instead of the database table %slightbox_photoswipe_img "
-"(use this option if you use caching plugins like \"Redis Object Cache\")"
-msgstr ""
-
-#: options-manager.php:467
-msgid "Used elements"
-msgstr ""
-
-#: options-manager.php:374
-msgid "Visible elements"
-msgstr ""
-
-#: options-manager.php:486
-msgid "Visible sharing options"
-msgstr ""
-
-#: options-manager.php:500
-msgid "Your label here"
-msgstr ""
-
-#: lightbox-photoswipe.php:186 options-manager.php:528
-msgid "Zoom in/out"
-msgstr ""
-
-msgid "Twig cache enabled"
-msgstr ""
-
-msgid "yes"
-msgstr ""
-
-msgid "no"
-msgstr ""
-
-msgid ""
-"Image information like size, EXIF data, name of the preview image is cached "
-"as WordPress transients. To improve performance with large image galleries "
-"you can use caching plugins like <a href=\"https://wordpress."
-"org/plugins/redis-cache/\" target=\"_blank\">Redis Object Cache</a>."
-msgstr ""
-
-msgid "version 4"
-msgstr ""
-
+#: templates/options-tab1.inc.php:8
 msgid ""
 "The available options depend on the PhotoSwipe version. UI customizations "
 "done for version 4 may not work for version 5."
 msgstr ""
 
-msgid "Sharing options are not yet supported for PhotoSwipe 5."
-msgstr ""
-
-msgid "Desktop options are not yet supported for PhotoSwipe 5."
-msgstr ""
-
-msgid "Mobile options are not yet supported for PhotoSwipe 5."
-msgstr ""
-
-msgid "version 5"
-msgstr ""
-
-msgid ""
-"Fix links to scaled images (e.g.\"image.jpg\" instead of \"image-scaled."
-"jpg\")"
-msgstr ""
-
-msgid "Type of caption"
-msgstr ""
-
-msgid "dynamic, automatic"
-msgstr ""
-
-msgid "dynamic, aside"
-msgstr ""
-
-msgid "dynamic, below"
-msgstr ""
-
-msgid "PhotoSwipe version to use"
-msgstr ""
-
-msgid "overlay"
-msgstr ""
-
-msgid "never hide automatically"
-msgstr ""
-
-msgid "Close [Esc]"
-msgstr ""
-
-msgid "Zoom"
-msgstr ""
-
-msgid "Previous [←]"
-msgstr ""
-
-msgid "Next [→]"
-msgstr ""
-
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:911
 msgid "The image cannot be loaded"
 msgstr ""
 
+#. %d value for image size
+#: templates/options-tab7.inc.php:13
+#, php-format
+msgid ""
+"The smallest size (%d×%d pixels) will be used to check if a smaller image is "
+"available for the transition."
+msgstr ""
+
+#: templates/options-navigation.inc.php:3
+msgid "Theme"
+msgstr ""
+
+#: templates/options-tab7.inc.php:3
+msgid ""
+"This plugin shows all linked pictures in a lightbox based on an extended "
+"version of PhotoSwipe. If the lightbox does not open, make sure that images "
+"are linked to the media and not to the attachment page. Also make sure that "
+"no other lightbox is in use (some themes or gallery plugins bring their own "
+"lightbox which needs to be disabled). "
+msgstr ""
+
+#: templates/options-tab5.inc.php:61
+msgid ""
+"Time until the on screen controls will disappear automatically in desktop "
+"view. Note: Keeping controls visible is only supported with PhotoSwipe 5."
+msgstr ""
+
+#: templates/options-tab3.inc.php:16
+msgid "Title"
+msgstr ""
+
+#: templates/frontend.inc.php:14
+msgid "Toggle fullscreen"
+msgstr ""
+
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:912
 msgid "Toggle fullscreen [F]"
+msgstr ""
+
+#: templates/options-tab4.inc.php:10
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:903
+msgid "Tweet"
+msgstr ""
+
+#: templates/options-tab3.inc.php:26
+msgid "Type of caption"
+msgstr ""
+
+#: templates/options-tab1.inc.php:46
+msgid ""
+"Update browser history (going back in the browser will first close the "
+"lightbox)"
+msgstr ""
+
+#: templates/options-tab5.inc.php:10
+msgid "Use slide animation when switching images in desktop view"
+msgstr ""
+
+#: templates/options-tab4.inc.php:11
+msgid "Use URL of images instead of lightbox on Facebook and Twitter"
+msgstr ""
+
+#: templates/options-tab3.inc.php:13
+msgid "Used elements"
+msgstr ""
+
+#: templates/options-tab1.inc.php:7
+msgid "version 4"
+msgstr ""
+
+#: templates/options-tab1.inc.php:7
+msgid "version 5"
+msgstr ""
+
+#: templates/options-tab1.inc.php:33
+msgid "Visible elements"
+msgstr ""
+
+#: templates/options-tab4.inc.php:6
+msgid "Visible sharing options"
+msgstr ""
+
+#: templates/options-tab4.inc.php:23
+msgid "Your label here"
+msgstr ""
+
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:908
+msgid "Zoom"
+msgstr ""
+
+#: templates/options-tab5.inc.php:30 templates/frontend.inc.php:15
+msgid "Zoom in/out"
 msgstr ""
