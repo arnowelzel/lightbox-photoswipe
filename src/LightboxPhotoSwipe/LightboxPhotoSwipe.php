@@ -422,31 +422,31 @@ class LightboxPhotoSwipe
                     $fileSmall = $file;
                     if ($isLocal) {
                         for ($n=-1; $n<2; $n++) {
-							if ($imageSize[0] > $imageSize[1]) {
-								// portrait
-								$fileSmallTest = sprintf(
-									'%s/%s-%dx%d.%s',
-									$pathInfo['dirname'],
-									$pathInfo['filename'],
-									$this->imageSizes[0]['width'],
-									$imageSize[1] / $imageSize[0] * $this->imageSizes[0]['width'] + $n,
-									$pathInfo['extension']
-								);
-							} else {
-								// landscape
-								$fileSmallTest = sprintf(
-									'%s/%s-%dx%d.%s',
-									$pathInfo['dirname'],
-									$pathInfo['filename'],
-									$imageSize[0] / $imageSize[1] * $this->imageSizes[0]['height'] + $n,
-									$this->imageSizes[0]['height'],
-									$pathInfo['extension']
-								);
-							}
-							if (file_exists($fileSmallTest)) {
-								$fileSmall = $fileSmallTest;
-							}
-						}
+                            if ($imageSize[0] > $imageSize[1]) {
+                                // portrait
+                                $fileSmallTest = sprintf(
+                                    '%s/%s-%dx%d.%s',
+                                    $pathInfo['dirname'],
+                                    $pathInfo['filename'],
+                                    $this->imageSizes[0]['width'],
+                                    $imageSize[1] / $imageSize[0] * $this->imageSizes[0]['width'] + $n,
+                                    $pathInfo['extension']
+                                );
+                            } else {
+                                // landscape
+                                $fileSmallTest = sprintf(
+                                    '%s/%s-%dx%d.%s',
+                                    $pathInfo['dirname'],
+                                    $pathInfo['filename'],
+                                    $imageSize[0] / $imageSize[1] * $this->imageSizes[0]['height'] + $n,
+                                    $this->imageSizes[0]['height'],
+                                    $pathInfo['extension']
+                                );
+                            }
+                            if (file_exists($fileSmallTest)) {
+                                $fileSmall = $fileSmallTest;
+                            }
+                        }
                     }
                     if ($uploadDir && $uploadUrl) {
                         $fileSmall = str_replace($uploadDir, $uploadUrl, $fileSmall);
