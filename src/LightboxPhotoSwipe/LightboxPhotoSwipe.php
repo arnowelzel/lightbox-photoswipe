@@ -7,9 +7,9 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.20';
+    const VERSION = '5.0.21';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '11';
+    const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -455,14 +455,15 @@ class LightboxPhotoSwipe
                         $fileSmall = '';
                     }
                     $imgDetails = [
-                        'imageSize'    => $imageSize,
-                        'fileSmall'    => $fileSmall,
-                        'exifCamera'   => '',
-                        'exifFocal'    => '',
-                        'exifFstop'    => '',
-                        'exifShutter'  => '',
-                        'exifIso'      => '',
-                        'exifDateTime' => '',
+                        'imageSize'       => $imageSize,
+                        'fileSmall'       => $fileSmall,
+                        'exifCamera'      => '',
+                        'exifFocal'       => '',
+                        'exifFstop'       => '',
+                        'exifShutter'     => '',
+                        'exifIso'         => '',
+                        'exifDateTime'    => '',
+						'exifOrientation' => '',
                     ];
                     if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
                         $exif = @exif_read_data( $file . $params, 'EXIF', true );
@@ -474,7 +475,16 @@ class LightboxPhotoSwipe
                             $imgDetails['exifShutter']  = $this->exifHelper->getShutter();
                             $imgDetails['exifIso']      = $this->exifHelper->getIso();
                             $imgDetails['exifDateTime'] = $this->exifHelper->getDateTime();
-                        }
+							if (isset($exif['IFD0']['Orientation'])) {
+								$imgDetails['exifOrientation'] = $exif['IFD0']['Orientation'];
+							}
+							// If the image is rotated, width and height may need to be swapped
+							if (in_array($imgDetails['exifOrientation'], [5, 6, 7, 8])) {
+								$swap = $imgDetails['imageSize'][0];
+								$imgDetails['imageSize'][0] = $imgDetails['imageSize'][1];
+								$imgDetails['imageSize'][1] = $swap;
+							}
+						}
                     }
                     set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
                 }

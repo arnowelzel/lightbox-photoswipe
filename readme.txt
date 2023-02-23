@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.1
-Stable tag: 5.0.20
+Stable tag: 5.0.21
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -218,6 +218,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.0.21 =
+
+* Fix image width and height for images with EXIF rotation recorded in the IFD0 group.
 
 = 5.0.20 =
 
