@@ -463,7 +463,7 @@ class LightboxPhotoSwipe
                         'exifShutter'     => '',
                         'exifIso'         => '',
                         'exifDateTime'    => '',
-						'exifOrientation' => '',
+                        'exifOrientation' => '',
                     ];
                     if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
                         $exif = @exif_read_data( $file . $params, 'EXIF', true );
@@ -475,16 +475,16 @@ class LightboxPhotoSwipe
                             $imgDetails['exifShutter']  = $this->exifHelper->getShutter();
                             $imgDetails['exifIso']      = $this->exifHelper->getIso();
                             $imgDetails['exifDateTime'] = $this->exifHelper->getDateTime();
-							if (isset($exif['IFD0']['Orientation'])) {
-								$imgDetails['exifOrientation'] = $exif['IFD0']['Orientation'];
-							}
-							// If the image is rotated, width and height may need to be swapped
-							if (in_array($imgDetails['exifOrientation'], [5, 6, 7, 8])) {
-								$swap = $imgDetails['imageSize'][0];
-								$imgDetails['imageSize'][0] = $imgDetails['imageSize'][1];
-								$imgDetails['imageSize'][1] = $swap;
-							}
-						}
+                            if (isset($exif['IFD0']['Orientation'])) {
+                                $imgDetails['exifOrientation'] = $exif['IFD0']['Orientation'];
+                            }
+                            // If the image is rotated, width and height may need to be swapped
+                            if (in_array($imgDetails['exifOrientation'], [5, 6, 7, 8])) {
+                                $swap = $imgDetails['imageSize'][0];
+                                $imgDetails['imageSize'][0] = $imgDetails['imageSize'][1];
+                                $imgDetails['imageSize'][1] = $swap;
+                            }
+                        }
                     }
                     set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
                 }
