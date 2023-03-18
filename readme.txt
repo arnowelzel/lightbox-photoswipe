@@ -219,6 +219,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
+= 5.0.23 =
+
+* Fixed missing header in backend settings.
+
 = 5.0.22 =
 
 * Update translations.

@@ -9,7 +9,7 @@
     padding-top:15px;
 }
 </style>
-<div class="wrap lbwps_admin"><h1><?php __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'); ?></h1>
+<div class="wrap lbwps_admin"><h1><?php echo __('Lightbox with PhotoSwipe', 'lightbox-photoswipe'); ?></h1>
 <?php
 $this->uiFormStart();
 include('options-navigation.inc.php');
