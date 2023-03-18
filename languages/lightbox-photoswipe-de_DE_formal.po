@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2023-01-21 15:43+0000\n"
+"PO-Revision-Date: 2023-03-18 15:24+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Deutsch (Sie)\n"
 "Language: de_DE_formal\n"
@@ -48,6 +48,14 @@ msgstr "Arno Welzel"
 msgid "Available post types on this site"
 msgstr "Verfügbare Post-Typen auf dieser Website"
 
+#: templates/options-tab2.inc.php:47
+msgid "Background opacity"
+msgstr "Deckkraft des Hintergrunds"
+
+#: templates/options-tab2.inc.php:72
+msgid "bottom"
+msgstr "unten"
+
 #: templates/options-tab3.inc.php:17
 msgid "Caption"
 msgstr "Beschriftung"
@@ -78,8 +86,9 @@ msgstr ""
 "Lightbox angezeigt werden, versuchen Sie einen anderen Modus."
 
 #: templates/frontend.inc.php:12
-msgid "Close (Esc)"
-msgstr "Schließen (Esc)"
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:918
+msgid "Close [Esc]"
+msgstr "Schließen [Esc]"
 
 #: templates/options-tab5.inc.php:11
 msgid "Close the lightbox by clicking outside the image"
@@ -90,6 +99,7 @@ msgid "Close with vertical drag in mobile view"
 msgstr "Schließen mit vertikalem ziehen in der mobilen Ansicht"
 
 #: templates/options-tab4.inc.php:14
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:917
 msgid "Copy image URL"
 msgstr "Bild-URL kopieren"
 
@@ -106,7 +116,7 @@ msgid "Custom link, URL"
 msgstr "Eigener Link, URL"
 
 #: templates/options-tab5.inc.php:55 templates/options-tab1.inc.php:67
-#: templates/options-tab2.inc.php:36
+#: templates/options-tab2.inc.php:37 templates/options-tab2.inc.php:56
 msgid "Default"
 msgstr "Standard"
 
@@ -118,11 +128,12 @@ msgstr "Beschreibung"
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:659
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:669
 msgid "Disable"
 msgstr "Deaktivieren"
 
 #: templates/options-tab4.inc.php:13
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:916
 msgid "Download image"
 msgstr "Herunterladen"
 
@@ -326,16 +337,24 @@ msgstr ""
 "//wordpress.org/plugins/redis-cache/\" target=\"_blank\">Redis Object "
 "Cache</a> verwenden."
 
+#: templates/options-tab2.inc.php:66
+msgid "Image padding"
+msgstr "Abstand um das Bild"
+
 #: templates/options-navigation.inc.php:8
 msgid "Info"
 msgstr "Info"
 
+#: templates/options-tab2.inc.php:69
+msgid "left"
+msgstr "links"
+
 #. Name of the plugin
 #. Description of the plugin
 #: templates/options.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:606
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:607
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:639
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:616
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:617
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:649
 msgid "Lightbox with PhotoSwipe"
 msgstr "Lightbox mit PhotoSwipe"
 
@@ -364,8 +383,17 @@ msgid "New share symbol with solid background"
 msgstr "Neues Teilen-Symbol mit festem Hintergrund"
 
 #: templates/frontend.inc.php:29
-msgid "Next (arrow right)"
-msgstr "Nächstes (Cursor rechts)"
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:921
+msgid "Next [→]"
+msgstr "Nächstes [→]"
+
+#: templates/options-tab2.inc.php:61
+msgid ""
+"Opacity of the background for the lightbox (values below 100% may not work "
+"well with some caption styles)."
+msgstr ""
+"Deckkraft des Hintergrunds für die Lightbox (Werte unter 100% funktionieren "
+"mit manchen Beschriftungsarten nicht sehr gut)."
 
 #: templates/options-tab2.inc.php:16
 msgid "Original"
@@ -383,11 +411,16 @@ msgstr "Weitere Optionen"
 msgid "overlay"
 msgstr "Overlay"
 
+#: templates/options-tab2.inc.php:73
+msgid "Padding around the image in px"
+msgstr "Abstand um das Bild in px"
+
 #: templates/options-tab1.inc.php:4
 msgid "PhotoSwipe version to use"
 msgstr "Zu verwendende PhotoSwipe-Version"
 
 #: templates/options-tab4.inc.php:12
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:915
 msgid "Pin it"
 msgstr "Auf Pinterest merken"
 
@@ -418,12 +451,17 @@ msgid "Prefix"
 msgstr "Präfix"
 
 #: templates/frontend.inc.php:28
-msgid "Previous (arrow left)"
-msgstr "Vorheriges (Cursor links)"
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:920
+msgid "Previous [←]"
+msgstr "Vorheriges [←]"
 
 #: templates/options-tab1.inc.php:91
 msgid "Pull"
 msgstr "Pull"
+
+#: templates/options-tab2.inc.php:71
+msgid "right"
+msgstr "rechts"
 
 #: templates/options-tab5.inc.php:29
 msgid "Scroll zoomed image or close lightbox if not zoomed"
@@ -449,6 +487,7 @@ msgid "Share"
 msgstr "Teilen"
 
 #: templates/options-tab4.inc.php:9
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:913
 msgid "Share on Facebook"
 msgstr "Auf Facebook teilen"
 
@@ -495,7 +534,7 @@ msgstr "Zoom-Knopf anzeigen, wenn verfügbar"
 msgid "Skin"
 msgstr "Darstellung"
 
-#: templates/options-tab2.inc.php:41
+#: templates/options-tab2.inc.php:42
 msgid "Space between pictures relative to screenwidth."
 msgstr "Abstand zwischen den Bildern relativ zur Bildschirmbreite."
 
@@ -522,6 +561,10 @@ msgid ""
 msgstr ""
 "Die verfügbaren Optionen hängen von der PhotoSwipe-Version ab. Für Version 4 "
 "vorgenommene UI-Anpassungen funktionieren möglicherweise nicht für Version 5."
+
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:922
+msgid "The image cannot be loaded"
+msgstr "Das Bild can nicht geladen werden"
 
 #. %d value for image size
 #: templates/options-tab7.inc.php:13
@@ -572,10 +615,16 @@ msgid "Title"
 msgstr "Titel"
 
 #: templates/frontend.inc.php:14
-msgid "Toggle fullscreen"
-msgstr "Vollbildanzeige umschalten"
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:923
+msgid "Toggle fullscreen [F]"
+msgstr "Vollbildanzeige umschalten [F]"
+
+#: templates/options-tab2.inc.php:70
+msgid "top"
+msgstr "oben"
 
 #: templates/options-tab4.inc.php:10
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:914
 msgid "Tweet"
 msgstr "Tweet"
 
@@ -624,6 +673,10 @@ msgstr "Sichtbare Teilen-Optionen"
 #: templates/options-tab4.inc.php:23
 msgid "Your label here"
 msgstr "Deine Beschriftung hier"
+
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:919
+msgid "Zoom"
+msgstr "Zoom"
 
 #: templates/options-tab5.inc.php:30 templates/frontend.inc.php:15
 msgid "Zoom in/out"

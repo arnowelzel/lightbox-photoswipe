@@ -308,7 +308,6 @@ let lbwpsInit = function(domUpdate) {
 
         const options = {
             dataSource: items,
-            bgOpacity: 1,
             showHideAnimationType: 'fade',
             showAnimationDuration: 250,
             hideAnimationDuration: 250,
@@ -318,16 +317,22 @@ let lbwpsInit = function(domUpdate) {
             arrowNextTitle: lbwpsOptions.label_ui_next,
             errorMsg: lbwpsOptions.label_ui_error,
             pswpModule: () => import('./lib/photoswipe.esm.min.js'),
+
+            // Additional options (also see https://photoswipe.com/options/)
+            spacing: lbwpsOptions.spacing/100,
+            loop: lbwpsOptions.loop === '1',
+            wheelToZoom: true,
+            pinchToClose: lbwpsOptions.pinchtoclose === '1',
+            closeOnVerticalDrag: lbwpsOptions.close_on_drag === '1',
+            clickToCloseNonZoomable: true,
+            bgOpacity: lbwpsOptions.bg_opacity / 100,
+            padding: {
+                top: parseInt(lbwpsOptions.padding_top),
+                bottom: parseInt(lbwpsOptions.padding_bottom),
+                left: parseInt(lbwpsOptions.padding_left),
+                right: parseInt(lbwpsOptions.padding_right)
+            }
         }
-
-        // Additional options (also see https://photoswipe.com/options/)
-
-        options.spacing = lbwpsOptions.spacing/100;
-        options.loop = lbwpsOptions.loop === '1';
-        options.wheelToZoom = lbwpsOptions.wheelmode === 'zoom';
-        options.pinchToClose = lbwpsOptions.pinchtoclose === '1';
-        options.closeOnVerticalDrag = lbwpsOptions.close_on_drag === '1';
-        options.clickToCloseNonZoomable = true;
 
         // Not supported any longer by PhotoSwipe 5 itself
         // Maybe we add this in future versions

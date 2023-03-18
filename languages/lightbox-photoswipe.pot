@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-21 15:38+0000\n"
+"POT-Creation-Date: 2023-03-18 15:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -43,6 +43,14 @@ msgstr ""
 msgid "Available post types on this site"
 msgstr ""
 
+#: templates/options-tab2.inc.php:47
+msgid "Background opacity"
+msgstr ""
+
+#: templates/options-tab2.inc.php:72
+msgid "bottom"
+msgstr ""
+
 #: templates/options-tab3.inc.php:17
 msgid "Caption"
 msgstr ""
@@ -68,10 +76,7 @@ msgid ""
 msgstr ""
 
 #: templates/frontend.inc.php:12
-msgid "Close (Esc)"
-msgstr ""
-
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:907
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:918
 msgid "Close [Esc]"
 msgstr ""
 
@@ -84,7 +89,7 @@ msgid "Close with vertical drag in mobile view"
 msgstr ""
 
 #: templates/options-tab4.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:906
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:917
 msgid "Copy image URL"
 msgstr ""
 
@@ -101,7 +106,7 @@ msgid "Custom link, URL"
 msgstr ""
 
 #: templates/options-tab5.inc.php:55 templates/options-tab1.inc.php:67
-#: templates/options-tab2.inc.php:36
+#: templates/options-tab2.inc.php:37 templates/options-tab2.inc.php:56
 msgid "Default"
 msgstr ""
 
@@ -113,12 +118,12 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:659
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:669
 msgid "Disable"
 msgstr ""
 
 #: templates/options-tab4.inc.php:13
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:905
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:916
 msgid "Download image"
 msgstr ""
 
@@ -275,16 +280,24 @@ msgid ""
 "org/plugins/redis-cache/\" target=\"_blank\">Redis Object Cache</a>."
 msgstr ""
 
+#: templates/options-tab2.inc.php:66
+msgid "Image padding"
+msgstr ""
+
 #: templates/options-navigation.inc.php:8
 msgid "Info"
+msgstr ""
+
+#: templates/options-tab2.inc.php:69
+msgid "left"
 msgstr ""
 
 #. Name of the plugin
 #. Description of the plugin
 #: templates/options.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:606
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:607
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:639
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:616
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:617
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:649
 msgid "Lightbox with PhotoSwipe"
 msgstr ""
 
@@ -313,11 +326,14 @@ msgid "New share symbol with solid background"
 msgstr ""
 
 #: templates/frontend.inc.php:29
-msgid "Next (arrow right)"
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:921
+msgid "Next [→]"
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:910
-msgid "Next [→]"
+#: templates/options-tab2.inc.php:61
+msgid ""
+"Opacity of the background for the lightbox (values below 100% may not work "
+"well with some caption styles)."
 msgstr ""
 
 #: templates/options-tab2.inc.php:16
@@ -336,12 +352,16 @@ msgstr ""
 msgid "overlay"
 msgstr ""
 
+#: templates/options-tab2.inc.php:73
+msgid "Padding around the image in px"
+msgstr ""
+
 #: templates/options-tab1.inc.php:4
 msgid "PhotoSwipe version to use"
 msgstr ""
 
 #: templates/options-tab4.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:904
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:915
 msgid "Pin it"
 msgstr ""
 
@@ -367,15 +387,16 @@ msgid "Prefix"
 msgstr ""
 
 #: templates/frontend.inc.php:28
-msgid "Previous (arrow left)"
-msgstr ""
-
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:909
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:920
 msgid "Previous [←]"
 msgstr ""
 
 #: templates/options-tab1.inc.php:91
 msgid "Pull"
+msgstr ""
+
+#: templates/options-tab2.inc.php:71
+msgid "right"
 msgstr ""
 
 #: templates/options-tab5.inc.php:29
@@ -401,7 +422,7 @@ msgid "Share"
 msgstr ""
 
 #: templates/options-tab4.inc.php:9
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:902
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:913
 msgid "Share on Facebook"
 msgstr ""
 
@@ -446,7 +467,7 @@ msgstr ""
 msgid "Skin"
 msgstr ""
 
-#: templates/options-tab2.inc.php:41
+#: templates/options-tab2.inc.php:42
 msgid "Space between pictures relative to screenwidth."
 msgstr ""
 
@@ -472,7 +493,7 @@ msgid ""
 "done for version 4 may not work for version 5."
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:911
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:922
 msgid "The image cannot be loaded"
 msgstr ""
 
@@ -508,15 +529,16 @@ msgid "Title"
 msgstr ""
 
 #: templates/frontend.inc.php:14
-msgid "Toggle fullscreen"
-msgstr ""
-
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:912
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:923
 msgid "Toggle fullscreen [F]"
 msgstr ""
 
+#: templates/options-tab2.inc.php:70
+msgid "top"
+msgstr ""
+
 #: templates/options-tab4.inc.php:10
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:903
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:914
 msgid "Tweet"
 msgstr ""
 
@@ -562,7 +584,7 @@ msgstr ""
 msgid "Your label here"
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:908
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:919
 msgid "Zoom"
 msgstr ""
 

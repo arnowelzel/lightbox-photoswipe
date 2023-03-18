@@ -9,9 +9,9 @@
         <div class="pswp__ui pswp__ui--hidden">
             <div class="pswp__top-bar">
                 <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close wp-dark-mode-ignore" title="<?php echo __('Close (Esc)', 'lightbox-photoswipe') ?>"></button>
+                <button class="pswp__button pswp__button--close wp-dark-mode-ignore" title="<?php echo __('Close [Esc]', 'lightbox-photoswipe') ?>"></button>
                 <button class="pswp__button pswp__button--share wp-dark-mode-ignore" title="<?php echo __('Share', 'lightbox-photoswipe') ?>"></button>
-                <button class="pswp__button pswp__button--fs wp-dark-mode-ignore" title="<?php echo __('Toggle fullscreen', 'lightbox-photoswipe') ?>"></button>
+                <button class="pswp__button pswp__button--fs wp-dark-mode-ignore" title="<?php echo __('Toggle fullscreen [F]', 'lightbox-photoswipe') ?>"></button>
                 <button class="pswp__button pswp__button--zoom wp-dark-mode-ignore" title="<?php echo __('Zoom in/out', 'lightbox-photoswipe') ?>"></button>
                 <div class="pswp__preloader">
                     <div class="pswp__preloader__icn">
@@ -25,8 +25,8 @@
                 <div class="pswp__share-tooltip">
                 </div>
             </div>
-            <button class="pswp__button pswp__button--arrow--left wp-dark-mode-ignore" title="<?php echo __('Previous (arrow left)', 'lightbox-photoswipe') ?>"></button>
-            <button class="pswp__button pswp__button--arrow--right wp-dark-mode-ignore" title="<?php echo __('Next (arrow right)', 'lightbox-photoswipe') ?>"></button>
+            <button class="pswp__button pswp__button--arrow--left wp-dark-mode-ignore" title="<?php echo __('Previous [←]', 'lightbox-photoswipe') ?>"></button>
+            <button class="pswp__button pswp__button--arrow--right wp-dark-mode-ignore" title="<?php echo __('Next [→]', 'lightbox-photoswipe') ?>"></button>
             <div class="pswp__caption">
                 <div class="pswp__caption__center"></div>
             </div>

@@ -55,6 +55,11 @@ class OptionsManager
         'usetitle' => [ 'default' => '0' ],
         'usecaption' => [ 'default' => '1' ],
         'version' => [ 'default' => '5' ],
+        'bg_opacity' => [ 'default' => '100' ],
+        'padding_left' => [ 'default' => '0' ],
+        'padding_top' => [ 'default' => '0' ],
+        'padding_right' => [ 'default' => '0' ],
+        'padding_bottom' => [ 'default' => '0' ],
     ];
 
     public $options;

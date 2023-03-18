@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.21';
+    const VERSION = '5.0.22';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -823,7 +823,7 @@ class LightboxPhotoSwipe
     /**
      * Output text control with an optional placeholder in the admin page
      */
-    public function uiControlText(string $name, string $placeholder = '')
+    public function uiControlText(string $name, string $placeholder = '', string $class = 'regular-text')
     {
         switch ($this->optionsManager->getOptionType($name)) {
             case 'list':
@@ -836,8 +836,9 @@ class LightboxPhotoSwipe
         }
 
         echo sprintf(
-            '<input id="%1$s" class="regular-text" type="text" name="%1$s" value="%2$s" placeholder="%3$s" />',
+            '<input id="%1$s" class="%2$s" type="text" name="%1$s" value="%3$s" placeholder="%4$s" />',
             esc_attr('lightbox_photoswipe_'.$name),
+            esc_attr($class),
             esc_attr($value),
             esc_attr($placeholder)
         );
@@ -954,6 +955,11 @@ class LightboxPhotoSwipe
         $translation_array['idletime'] = intval($this->optionsManager->getOption('idletime'));
         $translation_array['hide_scrollbars'] = intval($this->optionsManager->getOption('hide_scrollbars'));
         $translation_array['caption_type'] = apply_filters('lbwps_caption_type', $this->optionsManager->getOption('caption_type'), get_the_ID());
+        $translation_array['bg_opacity'] = intval($this->optionsManager->getOption('bg_opacity'));
+        $translation_array['padding_left'] = intval($this->optionsManager->getOption('padding_left'));
+        $translation_array['padding_top'] = intval($this->optionsManager->getOption('padding_top'));
+        $translation_array['padding_right'] = intval($this->optionsManager->getOption('padding_right'));
+        $translation_array['padding_bottom'] = intval($this->optionsManager->getOption('padding_bottom'));
         wp_localize_script($handle, 'lbwpsOptions', $translation_array);
     }
 
