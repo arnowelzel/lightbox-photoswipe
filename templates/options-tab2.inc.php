@@ -66,11 +66,21 @@
             <?php echo __('Image padding', 'lightbox-photoswipe'); ?>
         </th>
         <td>
-            <label><?php echo __('left', 'lightbox-photoswipe'); ?>: <?php $this->uiControlText('padding_left', '', 'small-text') ?></label>
-            <label><?php echo __('top', 'lightbox-photoswipe'); ?>: <?php $this->uiControlText('padding_top', '', 'small-text') ?></label>
-            <label><?php echo __('right', 'lightbox-photoswipe'); ?>: <?php $this->uiControlText('padding_right', '', 'small-text') ?></label>
-            <label><?php echo __('bottom', 'lightbox-photoswipe'); ?>: <?php $this->uiControlText('padding_bottom', '', 'small-text') ?></label>
-            <p class="description"><?php echo __('Padding around the image in px', 'lightbox-photoswipe'); ?></p>
+            <label><?php echo __('left', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_left', '', 'small-text') ?></label>
+            <label><?php echo __('top', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_top', '', 'small-text') ?></label>
+            <label><?php echo __('right', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_right', '', 'small-text') ?></label>
+            <label><?php echo __('bottom', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_bottom', '', 'small-text') ?></label>
+            <p class="description"><?php echo __('Padding around the image in px.', 'lightbox-photoswipe'); ?></p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <?php echo __('Maximum image size', 'lightbox-photoswipe'); ?>
+        </th>
+        <td>
+            <label><?php echo __('width', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('max_width', '', 'small-text') ?></label>
+            <label><?php echo __('height', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('max_height', '', 'small-text') ?></label>
+            <p class="description"><?php echo __('Maximum width or height to be used for images in px, leave empty for automatic sizing.', 'lightbox-photoswipe'); ?></p>
         </td>
     </tr>
 </table>

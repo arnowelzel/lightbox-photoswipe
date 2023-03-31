@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-18 15:19+0000\n"
+"POT-Creation-Date: 2023-03-31 18:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -76,7 +76,7 @@ msgid ""
 msgstr ""
 
 #: templates/frontend.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:918
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:956
 msgid "Close [Esc]"
 msgstr ""
 
@@ -89,7 +89,7 @@ msgid "Close with vertical drag in mobile view"
 msgstr ""
 
 #: templates/options-tab4.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:917
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:955
 msgid "Copy image URL"
 msgstr ""
 
@@ -118,12 +118,12 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:669
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:683
 msgid "Disable"
 msgstr ""
 
 #: templates/options-tab4.inc.php:13
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:916
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:954
 msgid "Download image"
 msgstr ""
 
@@ -225,6 +225,10 @@ msgid ""
 "servers)"
 msgstr ""
 
+#: templates/options-tab2.inc.php:82
+msgid "height"
+msgstr ""
+
 #: templates/options-tab1.inc.php:51
 msgid ""
 "Hide scrollbars when opening the lightbox (this may not work with your theme)"
@@ -295,10 +299,20 @@ msgstr ""
 #. Name of the plugin
 #. Description of the plugin
 #: templates/options.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:616
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:617
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:649
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:630
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:631
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:663
 msgid "Lightbox with PhotoSwipe"
+msgstr ""
+
+#: templates/options-tab2.inc.php:78
+msgid "Maximum image size"
+msgstr ""
+
+#: templates/options-tab2.inc.php:83
+msgid ""
+"Maximum width or height to be used for images in px, leave empty for "
+"automatic sizing."
 msgstr ""
 
 #: templates/options-navigation.inc.php:7
@@ -326,7 +340,7 @@ msgid "New share symbol with solid background"
 msgstr ""
 
 #: templates/frontend.inc.php:29
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:921
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:959
 msgid "Next [→]"
 msgstr ""
 
@@ -353,7 +367,7 @@ msgid "overlay"
 msgstr ""
 
 #: templates/options-tab2.inc.php:73
-msgid "Padding around the image in px"
+msgid "Padding around the image in px."
 msgstr ""
 
 #: templates/options-tab1.inc.php:4
@@ -361,7 +375,7 @@ msgid "PhotoSwipe version to use"
 msgstr ""
 
 #: templates/options-tab4.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:915
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:953
 msgid "Pin it"
 msgstr ""
 
@@ -387,7 +401,7 @@ msgid "Prefix"
 msgstr ""
 
 #: templates/frontend.inc.php:28
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:920
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:958
 msgid "Previous [←]"
 msgstr ""
 
@@ -422,7 +436,7 @@ msgid "Share"
 msgstr ""
 
 #: templates/options-tab4.inc.php:9
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:913
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:951
 msgid "Share on Facebook"
 msgstr ""
 
@@ -493,7 +507,7 @@ msgid ""
 "done for version 4 may not work for version 5."
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:922
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:960
 msgid "The image cannot be loaded"
 msgstr ""
 
@@ -529,7 +543,7 @@ msgid "Title"
 msgstr ""
 
 #: templates/frontend.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:923
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:961
 msgid "Toggle fullscreen [F]"
 msgstr ""
 
@@ -538,7 +552,7 @@ msgid "top"
 msgstr ""
 
 #: templates/options-tab4.inc.php:10
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:914
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:952
 msgid "Tweet"
 msgstr ""
 
@@ -580,11 +594,15 @@ msgstr ""
 msgid "Visible sharing options"
 msgstr ""
 
+#: templates/options-tab2.inc.php:81
+msgid "width"
+msgstr ""
+
 #: templates/options-tab4.inc.php:23
 msgid "Your label here"
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:919
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:957
 msgid "Zoom"
 msgstr ""
 

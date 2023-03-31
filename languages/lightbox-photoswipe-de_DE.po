@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2023-03-18 15:24+0000\n"
+"PO-Revision-Date: 2023-03-31 18:22+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -86,7 +86,7 @@ msgstr ""
 "Lightbox angezeigt werden, versuchen Sie einen anderen Modus."
 
 #: templates/frontend.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:918
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:956
 msgid "Close [Esc]"
 msgstr "Schließen [Esc]"
 
@@ -99,7 +99,7 @@ msgid "Close with vertical drag in mobile view"
 msgstr "Schließen mit vertikalem ziehen in der mobilen Ansicht"
 
 #: templates/options-tab4.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:917
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:955
 msgid "Copy image URL"
 msgstr "Bild-URL kopieren"
 
@@ -128,12 +128,12 @@ msgstr "Beschreibung"
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:669
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:683
 msgid "Disable"
 msgstr "Deaktivieren"
 
 #: templates/options-tab4.inc.php:13
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:916
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:954
 msgid "Download image"
 msgstr "Herunterladen"
 
@@ -263,6 +263,10 @@ msgstr ""
 "Bildunterschriften aus der Datenbank lesen (dies kann auf langsameren "
 "Servern zu Verzögerungen führen)"
 
+#: templates/options-tab2.inc.php:82
+msgid "height"
+msgstr "Höhe"
+
 #: templates/options-tab1.inc.php:51
 msgid ""
 "Hide scrollbars when opening the lightbox (this may not work with your theme)"
@@ -352,11 +356,23 @@ msgstr "links"
 #. Name of the plugin
 #. Description of the plugin
 #: templates/options.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:616
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:617
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:649
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:630
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:631
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:663
 msgid "Lightbox with PhotoSwipe"
 msgstr "Lightbox mit PhotoSwipe"
+
+#: templates/options-tab2.inc.php:78
+msgid "Maximum image size"
+msgstr "Maximale Bildgröße"
+
+#: templates/options-tab2.inc.php:83
+msgid ""
+"Maximum width or height to be used for images in px, leave empty for "
+"automatic sizing."
+msgstr ""
+"Maximal zu verwendende Breite oder Höhe für Bilder in px, leer lassen für "
+"automatische Größenanpassung."
 
 #: templates/options-navigation.inc.php:7
 msgid "Mobile"
@@ -383,7 +399,7 @@ msgid "New share symbol with solid background"
 msgstr "Neues Teilen-Symbol mit festem Hintergrund"
 
 #: templates/frontend.inc.php:29
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:921
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:959
 msgid "Next [→]"
 msgstr "Nächstes [→]"
 
@@ -412,15 +428,16 @@ msgid "overlay"
 msgstr "Overlay"
 
 #: templates/options-tab2.inc.php:73
-msgid "Padding around the image in px"
-msgstr "Abstand um das Bild in px"
+#| msgid "Padding around the image in px"
+msgid "Padding around the image in px."
+msgstr "Abstand um das Bild in px."
 
 #: templates/options-tab1.inc.php:4
 msgid "PhotoSwipe version to use"
 msgstr "Zu verwendende PhotoSwipe-Version"
 
 #: templates/options-tab4.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:915
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:953
 msgid "Pin it"
 msgstr "Auf Pinterest merken"
 
@@ -451,7 +468,7 @@ msgid "Prefix"
 msgstr "Präfix"
 
 #: templates/frontend.inc.php:28
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:920
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:958
 msgid "Previous [←]"
 msgstr "Vorheriges [←]"
 
@@ -487,7 +504,7 @@ msgid "Share"
 msgstr "Teilen"
 
 #: templates/options-tab4.inc.php:9
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:913
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:951
 msgid "Share on Facebook"
 msgstr "Auf Facebook teilen"
 
@@ -562,7 +579,7 @@ msgstr ""
 "Die verfügbaren Optionen hängen von der PhotoSwipe-Version ab. Für Version 4 "
 "vorgenommene UI-Anpassungen funktionieren möglicherweise nicht für Version 5."
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:922
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:960
 msgid "The image cannot be loaded"
 msgstr "Das Bild kann nicht geladen werden"
 
@@ -615,7 +632,7 @@ msgid "Title"
 msgstr "Titel"
 
 #: templates/frontend.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:923
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:961
 msgid "Toggle fullscreen [F]"
 msgstr "Vollbild umschalten [F]"
 
@@ -624,7 +641,7 @@ msgid "top"
 msgstr "oben"
 
 #: templates/options-tab4.inc.php:10
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:914
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:952
 msgid "Tweet"
 msgstr "Tweet"
 
@@ -670,11 +687,15 @@ msgstr "Sichtbare Elemente"
 msgid "Visible sharing options"
 msgstr "Sichtbare Teilen-Optionen"
 
+#: templates/options-tab2.inc.php:81
+msgid "width"
+msgstr "Breite"
+
 #: templates/options-tab4.inc.php:23
 msgid "Your label here"
 msgstr "Deine Beschriftung hier"
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:919
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:957
 msgid "Zoom"
 msgstr "Zoom"
 

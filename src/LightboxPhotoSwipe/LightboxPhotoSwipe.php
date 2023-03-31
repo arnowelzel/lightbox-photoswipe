@@ -7,7 +7,7 @@ namespace LightboxPhotoSwipe;
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.23';
+    const VERSION = '5.0.30';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -499,6 +499,20 @@ class LightboxPhotoSwipe
                 $id = get_the_ID();
                 $width = $imageSize[0];
                 $height = $imageSize[1];
+
+                $maxWidth = intval($this->optionsManager->getOption('max_width'));
+                $maxHeight = intval($this->optionsManager->getOption('max_height'));
+                if ($maxWidth > 0 && $height > 0 && $width > $maxWidth) {
+                    $ratio = $width / $height;
+                    $width = $maxWidth;
+                    $height = $width / $ratio;
+                }
+                if ($maxHeight > 0 && $height > 0 && $height > $maxHeight) {
+                    $ratio = $width / $height;
+                    $height = $maxHeight;
+                    $width = $height * $ratio;
+                }
+
                 if ('svg' === $extension) {
                     $width = $width * $this->optionsManager->getOption('svg_scaling') / 100;
                     $height = $height * $this->optionsManager->getOption('svg_scaling') / 100;
@@ -837,6 +851,30 @@ class LightboxPhotoSwipe
 
         echo sprintf(
             '<input id="%1$s" class="%2$s" type="text" name="%1$s" value="%3$s" placeholder="%4$s" />',
+            esc_attr('lightbox_photoswipe_'.$name),
+            esc_attr($class),
+            esc_attr($value),
+            esc_attr($placeholder)
+        );
+    }
+
+    /**
+     * Output number control with an optional placeholder in the admin page
+     */
+    public function uiControlNumber(string $name, string $placeholder = '', string $class = 'regular-text')
+    {
+        switch ($this->optionsManager->getOptionType($name)) {
+            case 'list':
+                $value = implode(',', $this->optionsManager->getOption($name));
+                break;
+
+            default:
+                $value = $this->optionsManager->getOption($name);
+                break;
+        }
+
+        echo sprintf(
+            '<input id="%1$s" class="%2$s" type="number" name="%1$s" value="%3$s" placeholder="%4$s" />',
             esc_attr('lightbox_photoswipe_'.$name),
             esc_attr($class),
             esc_attr($value),

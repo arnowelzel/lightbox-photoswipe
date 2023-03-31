@@ -60,6 +60,8 @@ class OptionsManager
         'padding_top' => [ 'default' => '0' ],
         'padding_right' => [ 'default' => '0' ],
         'padding_bottom' => [ 'default' => '0' ],
+        'max_width' => [ 'default' => '' ],
+        'max_height' => [ 'default' => '' ],
     ];
 
     public $options;

@@ -2,7 +2,6 @@ let lbwpsInit = function(domUpdate) {
     function lbwpsClick(event) {
         // Backwards compatible solution for older browsers
         if (event.target.parentNode.getAttribute('data-lbwps-width')) {
-
             event.preventDefault();
             openPhotoSwipe(false, 0, event.target.parentNode, false);
             return;
