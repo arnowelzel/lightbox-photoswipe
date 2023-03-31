@@ -3,7 +3,7 @@
 Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
-Tested up to: 6.1
+Tested up to: 6.2
 Stable tag: 5.0.30
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
@@ -218,10 +218,6 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
-
-= 5.0.30 =
-
-* Added an option to limit the width or height of images.
 
 = 5.0.23 =
 
