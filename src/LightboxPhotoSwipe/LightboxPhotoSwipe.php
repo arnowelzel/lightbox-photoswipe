@@ -2,12 +2,16 @@
 
 namespace LightboxPhotoSwipe;
 
+defined('ABSPATH') or die();
+
+include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
 /**
  * Main class for the plugin
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.30';
+    const VERSION = '5.0.31';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -23,6 +27,8 @@ class LightboxPhotoSwipe
     private $galleryId;
     private $obActive;
     private $obLevel;
+
+    private $domainMappings;
 
     /**
      * Constructor
@@ -65,6 +71,14 @@ class LightboxPhotoSwipe
 
         register_activation_hook($pluginFile, [$this, 'onActivate']);
         register_deactivation_hook($pluginFile, [$this, 'onDeactivate']);
+
+        // Support for "Multiple Domain Mapping on Single Site"
+        // https://wordpress.org/plugins/multiple-domain-mapping-on-single-site/
+
+        $this->domainMappings = false;
+        if (is_plugin_active('multiple-domain-mapping-on-single-site/multidomainmapping.php')) {
+            $this->domainMappings = get_option('falke_mdm_mappings');
+        }
     }
 
     /**
@@ -313,6 +327,25 @@ class LightboxPhotoSwipe
                     $length = strlen($cdnUrl);
                     if ($length>0 && substr($file, 0, $length) === $cdnUrl) {
                         $file = $baseurlHttp.'/'.ltrim(substr($file, $length),'/');
+                    }
+                }
+            }
+
+            if ($this->optionsManager->getOption('support_multiple_domain_mapping')) {
+                if ($this->domainMappings !== false && is_array($this->domainMappings['mappings'])) {
+                    if (substr($file, 0, 7) === 'http://') {
+                        $fileSchemaPrefix = 'http://';
+                    } else {
+                        $fileSchemaPrefix = 'https://';
+                    }
+                    foreach ($this->domainMappings['mappings'] as $mapping) {
+                        if (isset($mapping['domain'])) {
+                            $mappingBaseUrl = $fileSchemaPrefix.$mapping['domain'];
+                            $length = strlen($mappingBaseUrl);
+                            if ($length > 0 && substr($file, 0, $length) === $mappingBaseUrl) {
+                                $file = $baseurlHttp.'/'.ltrim(substr($file, $length), '/');
+                            }
+                        }
                     }
                 }
             }

@@ -52,6 +52,7 @@ class OptionsManager
         'cdn_mode' => [ 'default' => 'prefix' ],
         'fix_links' => [ 'default' => '1' ],
         'fix_scaled' => [ 'default' => '1' ],
+        'support_multiple_domain_mapping' => [ 'default' => 1 ],
         'usetitle' => [ 'default' => '0' ],
         'usecaption' => [ 'default' => '1' ],
         'version' => [ 'default' => '5' ],
