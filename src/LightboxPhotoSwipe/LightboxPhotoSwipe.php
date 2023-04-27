@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.31';
+    const VERSION = '5.0.32';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -271,8 +271,8 @@ class LightboxPhotoSwipe
 
         $use = true;
         $attr = '';
-        $baseurlHttp = get_site_url(null, null, 'http');
-        $baseurlHttps = get_site_url(null, null, 'https');
+        $baseurlHttp = get_home_url(null, null, 'http');
+        $baseurlHttps = get_home_url(null, null, 'https');
         $url = $matches[2];
 
         // Remove fragments and parameters from URL
@@ -291,7 +291,7 @@ class LightboxPhotoSwipe
             $params = '?'.$urlParts[1];
         }
 
-        // If URL is relative then add site URL
+        // If URL is relative then add home URL
         if (substr($file, 0,  7) !== 'http://' && substr($file, 0, 8) !== 'https://') {
             $file = get_home_url() . $file;
         }
