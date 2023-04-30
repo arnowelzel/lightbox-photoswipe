@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.2
-Stable tag: 5.0.32
+Stable tag: 5.0.33
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -218,6 +218,12 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.0.33 =
+
+PhotoSwipe 5 integration:
+
+* Adjusted style for overlay captions (`.pswp__dynamic-caption--overlay`) so they are easier to read on front of bright images.
 
 = 5.0.32 =
 
