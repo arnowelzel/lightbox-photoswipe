@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.33';
+    const VERSION = '5.0.34';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -27,6 +27,9 @@ class LightboxPhotoSwipe
     private $galleryId;
     private $obActive;
     private $obLevel;
+
+    private $baseUrlHttp;
+    private $baseUrlHttps;
 
     private $domainMappings;
 
@@ -78,6 +81,15 @@ class LightboxPhotoSwipe
         $this->domainMappings = false;
         if (is_plugin_active('multiple-domain-mapping-on-single-site/multidomainmapping.php')) {
             $this->domainMappings = get_option('falke_mdm_mappings');
+        }
+
+        $baseUrl = get_home_url();
+        if (substr($baseUrl, 0, 7) === 'http://') {
+            $this->baseUrlHttp = $baseUrl;
+            $this->baseUrlHttps = 'https://'.substr($baseUrl, 7);
+        } else {
+            $this->baseUrlHttps = $baseUrl;
+            $this->baseUrlHttp = 'http://'.substr($baseUrl, 8);
         }
     }
 
@@ -271,8 +283,6 @@ class LightboxPhotoSwipe
 
         $use = true;
         $attr = '';
-        $baseurlHttp = get_home_url(null, null, 'http');
-        $baseurlHttps = get_home_url(null, null, 'https');
         $url = $matches[2];
 
         // Remove fragments and parameters from URL
@@ -326,7 +336,7 @@ class LightboxPhotoSwipe
                 foreach ($cdnUrls as $cdnUrl) {
                     $length = strlen($cdnUrl);
                     if ($length>0 && substr($file, 0, $length) === $cdnUrl) {
-                        $file = $baseurlHttp.'/'.ltrim(substr($file, $length),'/');
+                        $file = $this->baseUrlHttp.'/'.ltrim(substr($file, $length),'/');
                     }
                 }
             }
@@ -343,14 +353,15 @@ class LightboxPhotoSwipe
                             $mappingBaseUrl = $fileSchemaPrefix.$mapping['domain'];
                             $length = strlen($mappingBaseUrl);
                             if ($length > 0 && substr($file, 0, $length) === $mappingBaseUrl) {
-                                $file = $baseurlHttp.'/'.ltrim(substr($file, $length), '/');
+                                $file = $this->baseUrlHttp.'/'.ltrim(substr($file, $length), '/');
                             }
                         }
                     }
                 }
             }
 
-            if (substr($file, 0, strlen($baseurlHttp)) === $baseurlHttp || substr($file, 0, strlen($baseurlHttps)) === $baseurlHttps) {
+            if (substr($file, 0, strlen($this->baseUrlHttp)) === $this->baseUrlHttp
+                || substr($file, 0, strlen($this->baseUrlHttps)) === $this->baseUrlHttps) {
                 $isLocal = true;
                 $params = '';
             }
@@ -371,8 +382,8 @@ class LightboxPhotoSwipe
             // If image is served by the website itself, try to get caption for local file
             if ($isLocal) {
                 // Remove domain part
-                $file = str_replace($baseurlHttp.'/', '', $file);
-                $file = str_replace($baseurlHttps.'/', '', $file);
+                $file = str_replace($this->baseUrlHttp.'/', '', $file);
+                $file = str_replace($this->baseUrlHttps.'/', '', $file);
 
                 // Remove leading slash
                 $file = ltrim($file, '/');
