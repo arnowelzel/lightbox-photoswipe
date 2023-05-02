@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.34';
+    const VERSION = '5.0.35';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -60,8 +60,6 @@ class LightboxPhotoSwipe
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
             }
         }
-        add_action('wpmu_new_blog', [$this, 'onCreateBlog'], 10, 6);
-        add_filter('wpmu_drop_tables', [$this, 'onDeleteBlog']);
         add_action('plugins_loaded', [$this, 'init']);
         add_action('admin_menu', [$this, 'adminMenu']);
         add_action('admin_init', [$this, 'adminInit']);
@@ -759,30 +757,6 @@ class LightboxPhotoSwipe
                 $this->optionsManager->setOption('disabled_post_ids', $disabledPostIdsCurrent, true);
             }
         }
-    }
-
-    /**
-     * Handler for creating a new blog
-     */
-    public function onCreateBlog($blog_id, $user_id, $domain, $path, $site_id, $meta)
-    {
-        if (is_plugin_active_for_network('lightbox-photoswipe/lightbox-photoswipe.php')) {
-            switch_to_blog($blog_id);
-            $this->createTables();
-            restore_current_blog();
-        }
-    }
-
-    /**
-     * Filter for deleting a blog
-     */
-    public function onDeleteBlog($tables): array
-    {
-        global $wpdb;
-
-        $tables[] = $wpdb->prefix . 'lightbox_photoswipe_img';
-
-        return $tables;
     }
 
     /**
