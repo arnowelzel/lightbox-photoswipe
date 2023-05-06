@@ -15,7 +15,7 @@ class Build
     /**
      * Build minified frontend assets
      */
-    public function buildAssets(): void
+    public function buildAssets()
     {
         // Frontend script:
         // Combine all frontend scripts to one minified file
