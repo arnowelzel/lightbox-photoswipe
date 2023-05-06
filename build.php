@@ -7,6 +7,18 @@ use MatthiasMullie\Minify;
 
 require(__DIR__ . '/vendor/autoload.php');
 
+if (!defined('PHP_VERSION_ID')) {
+    $version = explode('.', PHP_VERSION);
+    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+}
+if (PHP_VERSION_ID < 70400) {
+    echo "=================================================================\n";
+    echo "Warning! You are using a very old PHP version!\n";
+    echo "This is no supported any may cause errors or unpredicted results!\n";
+    echo "Please use at least PHP 7.4!\n";
+    echo "=================================================================\n";
+}
+
 /**
  * Helper class to build the frontend assets
  */
