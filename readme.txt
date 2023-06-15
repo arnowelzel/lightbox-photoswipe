@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.2
-Stable tag: 5.0.35
+Stable tag: 5.0.40
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -218,6 +218,11 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.0.40 =
+
+* Implemented backwards compatibility so PHP 5 won't break the plugin.
+* Added PHP version to the info page including warnings about outdated versions.
 
 = 5.0.34 =
 
