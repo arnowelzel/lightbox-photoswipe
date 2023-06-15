@@ -1,5 +1,17 @@
 <div id="lbwps-tab-7" style="display:none">
     <p class="lbwps_text"><?php echo __('Plugin version', 'lightbox-photoswipe'); ?>: <?php echo self::VERSION ?></p>
+    <p class="lbwps_text"><?php echo __('PHP version', 'lightbox-photoswipe'); ?>: <?php echo phpversion(); ?></p>
+<?php
+if(PHP_VERSION_ID < 70400) {
+?>
+    <p class="lbwps_text"><?php echo __('Warning! You are using a very old version of PHP (older than 7.4)! This is a security risk and either WordPress or this plugin may not work correctly with it. Please upgrade PHP or ask your hoster to do so!', 'lightbox-photoswipe'); ?></p>
+<?php
+} else if(PHP_VERSION_ID < 80000) {
+?>
+    <p class="lbwps_text"><?php echo __('Warning! Your PHP is outdated (older than 8.0)! This may be a security risk! Please upgrade PHP or ask your hoster to do so!', 'lightbox-photoswipe'); ?></p>
+<?php
+}
+?>
     <p class="lbwps_text"><?php echo __('This plugin shows all linked pictures in a lightbox based on an extended version of PhotoSwipe. If the lightbox does not open, make sure that images are linked to the media and not to the attachment page. Also make sure that no other lightbox is in use (some themes or gallery plugins bring their own lightbox which needs to be disabled). ', 'lightbox-photoswipe'); ?></p>
     <p class="lbwps_text"><?php echo __('For the opening transition of PhotoSwipe the plugin will use a smaller version of the linked image if available. The registered image sizes on this website are as following', 'lightbox-photoswipe'); ?>:</p>
     <p class="lbwps_text"><?php

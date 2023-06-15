@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:32+0000\n"
-"PO-Revision-Date: 2023-04-26 12:28+0000\n"
-"Last-Translator: Arno Welzel\n"
+"PO-Revision-Date: 2023-06-15 17:44+0000\n"
+"Last-Translator: \n"
 "Language-Team: French (France)\n"
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.3; wp-6.1.1"
+"X-Loco-Version: 2.6.4; wp-6.2-RC2-55551"
 
 #: templates/options-tab3.inc.php:20
 msgid ""
@@ -86,7 +86,7 @@ msgstr ""
 "mode."
 
 #: templates/frontend.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:991
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:980
 #| msgid "Close (Esc)"
 msgid "Close [Esc]"
 msgstr "Fermer [Esc]"
@@ -100,7 +100,7 @@ msgid "Close with vertical drag in mobile view"
 msgstr "Fermer avec un glissement vertical en vue mobile"
 
 #: templates/options-tab4.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:990
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:979
 msgid "Copy image URL"
 msgstr "Copier l'URL de l'image"
 
@@ -116,8 +116,8 @@ msgstr "Lien personnalisé, étiquette"
 msgid "Custom link, URL"
 msgstr "Lien personnalisé, URL"
 
-#: templates/options-tab5.inc.php:55 templates/options-tab1.inc.php:68
 #: templates/options-tab2.inc.php:37 templates/options-tab2.inc.php:56
+#: templates/options-tab1.inc.php:68 templates/options-tab5.inc.php:55
 msgid "Default"
 msgstr "Défaut"
 
@@ -129,12 +129,12 @@ msgstr "La description"
 msgid "Desktop"
 msgstr "Bureau"
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:718
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:731
 msgid "Disable"
 msgstr "Désactiver"
 
 #: templates/options-tab4.inc.php:13
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:989
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:978
 msgid "Download image"
 msgstr "Télécharger l'image"
 
@@ -217,14 +217,14 @@ msgstr ""
 "Corriger les liens vers des images à l'échelle (par exemple, \"image.jpg\" "
 "au lieu de \"image-scaled.jpg\")"
 
-#: templates/options-tab7.inc.php:28
+#: templates/options-tab7.inc.php:40
 msgid "For documentation about hooks, styling etc. please see FAQ"
 msgstr ""
 "Pour la documentation sur les crochets, le style, etc., veuillez consulter "
 "la FAQ"
 
 #. %d value for image size
-#: templates/options-tab7.inc.php:19
+#: templates/options-tab7.inc.php:31
 #, php-format
 msgid ""
 "For example: if an image is 1000×400 pixels the small version of it should "
@@ -240,7 +240,7 @@ msgstr ""
 "errori di arrotondamento e controllerà anche le immagini che sono larghe o "
 "alte un pixel in meno o in più."
 
-#: templates/options-tab7.inc.php:4
+#: templates/options-tab7.inc.php:16
 msgid ""
 "For the opening transition of PhotoSwipe the plugin will use a smaller "
 "version of the linked image if available. The registered image sizes on this "
@@ -254,8 +254,8 @@ msgstr ""
 msgid "Full picture size in desktop view"
 msgstr "Taille complète de l'image en mode bureau"
 
-#: templates/options-tab5.inc.php:6 templates/options-tab3.inc.php:4
-#: templates/options-tab6.inc.php:6 templates/options-navigation.inc.php:2
+#: templates/options-tab3.inc.php:4 templates/options-navigation.inc.php:2
+#: templates/options-tab6.inc.php:6 templates/options-tab5.inc.php:6
 msgid "General"
 msgstr "Général"
 
@@ -290,7 +290,7 @@ msgstr "https://wordpress.org/plugins/lightbox-photoswipe/"
 msgid "Idle time for controls"
 msgstr "Temps d'inactivité pour les contrôles"
 
-#: templates/options-tab7.inc.php:29
+#: templates/options-tab7.inc.php:41
 msgid ""
 "If you like my WordPress plugins and want to support my work I would be very "
 "happy about a donation via PayPal."
@@ -331,7 +331,7 @@ msgstr "Ignorer les liens vers des images sur d'autres sites"
 msgid "Ignore links to images which contain a hash (#)"
 msgstr "Ignorer les liens vers des images contenant un hachage (#)"
 
-#: templates/options-tab7.inc.php:27
+#: templates/options-tab7.inc.php:39
 msgid ""
 "Image information like size, EXIF data, name of the preview image is cached "
 "as WordPress transients. To improve performance with large image galleries "
@@ -360,9 +360,9 @@ msgstr "en haut"
 #. Name of the plugin
 #. Description of the plugin
 #: templates/options.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:665
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:666
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:698
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:678
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:679
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:711
 msgid "Lightbox with PhotoSwipe"
 msgstr "Lightbox avec PhotoSwipe"
 
@@ -404,7 +404,7 @@ msgid "New share symbol with solid background"
 msgstr "Nouveau symbole d'action avec fond uni"
 
 #: templates/frontend.inc.php:29
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:994
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:983
 msgid "Next [→]"
 msgstr "Suivant [→]"
 
@@ -441,12 +441,16 @@ msgstr "Rembourrage autour de l'image en px."
 msgid "PhotoSwipe version to use"
 msgstr "Version de PhotoSwipe à utiliser"
 
+#: templates/options-tab7.inc.php:3
+msgid "PHP version"
+msgstr "Version PHP"
+
 #: templates/options-tab4.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:988
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:977
 msgid "Pin it"
 msgstr "Épinglez-le"
 
-#: templates/options-tab7.inc.php:8
+#: templates/options-tab7.inc.php:20
 msgid "pixels"
 msgstr "pixel"
 
@@ -472,7 +476,7 @@ msgid "Prefix"
 msgstr "Préfixe"
 
 #: templates/frontend.inc.php:28
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:993
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:982
 msgid "Previous [←]"
 msgstr "Précédent [←]"
 
@@ -509,7 +513,7 @@ msgid "Share"
 msgstr "Partager"
 
 #: templates/options-tab4.inc.php:9
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:986
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:975
 msgid "Share on Facebook"
 msgstr "Partager sur Facebook"
 
@@ -585,7 +589,7 @@ msgstr "Facteur d'échelle SVG"
 msgid "Switch to next/previous picture"
 msgstr "Passer à l'image suivante/précédente"
 
-#: templates/options-tab7.inc.php:31
+#: templates/options-tab7.inc.php:43
 msgid "Thank you :-)"
 msgstr "Merci :-)"
 
@@ -598,12 +602,12 @@ msgstr ""
 "personnalisations de l'interface utilisateur effectuées pour la version 4 "
 "peuvent ne pas fonctionner pour la version 5."
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:995
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:984
 msgid "The image cannot be loaded"
 msgstr "L'image ne peut pas être chargée"
 
 #. %d value for image size
-#: templates/options-tab7.inc.php:13
+#: templates/options-tab7.inc.php:25
 #, php-format
 msgid ""
 "The smallest size (%d×%d pixels) will be used to check if a smaller image is "
@@ -616,7 +620,7 @@ msgstr ""
 msgid "Theme"
 msgstr "Thème"
 
-#: templates/options-tab7.inc.php:3
+#: templates/options-tab7.inc.php:15
 #| msgid ""
 #| "This plugin shows all linked pictures in a lightbox based on an extended "
 #| "version of Photoswipe. If the lightbox does not open, make sure that "
@@ -651,7 +655,7 @@ msgid "Title"
 msgstr "Titre"
 
 #: templates/frontend.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:996
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:985
 #| msgid "Toggle fullscreen"
 msgid "Toggle fullscreen [F]"
 msgstr "Passer en plein écran [F]"
@@ -661,7 +665,7 @@ msgid "top"
 msgstr "à gauche"
 
 #: templates/options-tab4.inc.php:10
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:987
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:976
 msgid "Tweet"
 msgstr "Tweet"
 
@@ -708,6 +712,26 @@ msgstr "Éléments visibles"
 msgid "Visible sharing options"
 msgstr "Options de partage visibles"
 
+#: templates/options-tab7.inc.php:7
+msgid ""
+"Warning! You are using a very old version of PHP (older than 7.4)! This is a "
+"security risk and either WordPress or this plugin may not work correctly "
+"with it. Please upgrade PHP or ask your hoster to do so!"
+msgstr ""
+"Avertissement! Vous utilisez une très ancienne version de PHP (plus ancienne "
+"que la 7.4) ! Il s'agit d'un risque de sécurité et WordPress ou ce plugin "
+"peuvent ne pas fonctionner correctement avec lui. Veuillez mettre à niveau "
+"PHP ou demander à votre hébergeur de le faire !"
+
+#: templates/options-tab7.inc.php:11
+msgid ""
+"Warning! Your PHP is outdated (older than 8.0)! This may be a security risk! "
+"Please upgrade PHP or ask your hoster to do so!"
+msgstr ""
+"Avertissement! Votre PHP est obsolète (plus ancien que 8.0) ! Cela peut être "
+"un risque pour la sécurité ! Veuillez mettre à niveau PHP ou demander à "
+"votre hébergeur de le faire !"
+
 #: templates/options-tab2.inc.php:81
 msgid "width"
 msgstr "largeur"
@@ -716,7 +740,7 @@ msgstr "largeur"
 msgid "Your label here"
 msgstr "Votre étiquette ici"
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:992
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:981
 msgid "Zoom"
 msgstr "Zoom"
 

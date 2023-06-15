@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.0.35';
+    const VERSION = '5.0.36';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '12';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -39,6 +39,12 @@ class LightboxPhotoSwipe
     public function __construct($pluginFile)
     {
         $this->pluginFile = $pluginFile;
+
+        // Make sure we can check the PHP version even with ancient versions
+        if (!defined('PHP_VERSION_ID')) {
+            $version = explode('.', PHP_VERSION);
+            define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+        }
 
         // Initialize plugin
         $this->optionsManager = new OptionsManager();
@@ -609,7 +615,7 @@ class LightboxPhotoSwipe
     /**
      * Output filter for post content
      */
-    public function filterOutput(string $content)
+    public function filterOutput($content)
     {
         return preg_replace_callback(
             '/(<a.[^>]*href=["\'])(.[^"^\']*?)(["\'])([^>]*)(>)/sU',
@@ -650,7 +656,7 @@ class LightboxPhotoSwipe
     /**
      * Filter for Gutenberg blocks to add gallery ID to images
      */
-    public function gutenbergBlock(string $block_content, array $block)
+    public function gutenbergBlock($block_content, $block)
     {
         if ($block['blockName'] === 'core/gallery') {
             $this->galleryId++;
@@ -855,7 +861,7 @@ class LightboxPhotoSwipe
     /**
      * Output text control with an optional placeholder in the admin page
      */
-    public function uiControlText(string $name, string $placeholder = '', string $class = 'regular-text')
+    public function uiControlText($name, $placeholder = '', $class = 'regular-text')
     {
         switch ($this->optionsManager->getOptionType($name)) {
             case 'list':
@@ -879,7 +885,7 @@ class LightboxPhotoSwipe
     /**
      * Output number control with an optional placeholder in the admin page
      */
-    public function uiControlNumber(string $name, string $placeholder = '', string $class = 'regular-text')
+    public function uiControlNumber($name, $placeholder = '', $class = 'regular-text')
     {
         switch ($this->optionsManager->getOptionType($name)) {
             case 'list':
@@ -903,7 +909,7 @@ class LightboxPhotoSwipe
     /**
      * Output a checkbox control in the admin page
      */
-    public function uiControlCheckbox(string $name)
+    public function uiControlCheckbox($name)
     {
         echo sprintf(
             '<input id="%1$s" type="checkbox" name="%1$s" value="1"%2$s/>',
@@ -915,7 +921,7 @@ class LightboxPhotoSwipe
     /**
      * Output group of radio controls with custom separator in the admin page
      */
-    public function uiControlRadio(string $name, array $optionValues, array $optionLabels, string $separator)
+    public function uiControlRadio($name, $optionValues, $optionLabels, $separator)
     {
         $value = $this->optionsManager->getOption($name);
         $output = '';
@@ -1022,7 +1028,7 @@ class LightboxPhotoSwipe
     /**
      * Helper to find strings overlapping
      */
-    protected function strFindOverlap(string $str1, string $str2)
+    protected function strFindOverlap($str1, $str2)
     {
         $return = [];
         $sl1 = strlen($str1);
@@ -1046,7 +1052,7 @@ class LightboxPhotoSwipe
     /**
      * Helper to replace strings overlapping
      */
-    protected function strReplaceOverlap(string $str1, string $str2, string $length = "long")
+    protected function strReplaceOverlap($str1, $str2, $length = 'long')
     {
         if ($overlap = $this->strFindOverlap($str1, $str2)){
             switch ($length) {
