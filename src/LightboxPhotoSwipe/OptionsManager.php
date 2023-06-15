@@ -99,7 +99,7 @@ class OptionsManager
     /**
      * Set option
      */
-    public function setOption(string $name, $value, bool $save = false)
+    public function setOption($name, $value, $save = false)
     {
         $this->options[$name] = $value;
         if ($save) {
@@ -118,7 +118,7 @@ class OptionsManager
     /**
      * Get option
      */
-    public function getOption(string $name)
+    public function getOption($name)
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
@@ -138,8 +138,8 @@ class OptionsManager
     public function getOptionType($name)
     {
         $option = self::OPTIONS[$name];
-        if (isset(self::OPTIONS[$name]['type'])) {
-            return self::OPTIONS[$name]['type'];
+        if (isset($option['type'])) {
+            return $option['type'];
         }
 
         return 'string';

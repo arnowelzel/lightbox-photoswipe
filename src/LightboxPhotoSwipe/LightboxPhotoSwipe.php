@@ -927,13 +927,18 @@ class LightboxPhotoSwipe
         $output = '';
         $num = 0;
         while ($num < count($optionValues)) {
+            if (isset($optionLabels[$num]) && $optionLabels[$num] != null) {
+                $label = $optionLabels[$num];
+            } else {
+                $label = '';
+            }
             $output .= sprintf(
                 '<label style="margin-right:0.5em"><input id="%1$s-%2$d" type="radio" name="%1$s" value="%3$s"%4$s/>%5$s</label>%6$s',
                 esc_attr('lightbox_photoswipe_'.$name),
                 $num,
                 $optionValues[$num],
                 $value === $optionValues[$num] ? ' checked' : '',
-                $optionLabels[$num] ?? '',
+                $label,
                 $separator
             );
             $num++;
