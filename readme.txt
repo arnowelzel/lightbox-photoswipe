@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.3
-Stable tag: 5.0.41
+Stable tag: 5.0.42
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -19,7 +19,7 @@ More about the original version of PhotoSwipe see here: [http://photoswipe.com](
 
 The version of PhotoSwipe 4 provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
 
-As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see https://wordpress.org/about/requirements/.
+As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see [https://wordpress.org/about/requirements/](https://wordpress.org/about/requirements/).
 
 == Installation ==
 
@@ -218,6 +218,14 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.0.42 =
+
+PhotoSwipe 5 integration:
+
+* Updated PhotoSwipe 5 to version 5.3.8.
+* Mouse wheel is now used for scrolling by default while zooming is done by holding the Ctrl key.
+* Zoom levels changed: initial zoom level is 'fit', secondary zoom level is 'fill' and maximum zoom level is 2.
 
 = 5.0.41 =
 
