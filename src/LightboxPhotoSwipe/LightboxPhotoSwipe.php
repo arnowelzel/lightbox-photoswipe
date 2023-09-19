@@ -87,7 +87,7 @@ class LightboxPhotoSwipe
             $this->domainMappings = get_option('falke_mdm_mappings');
         }
 
-        $baseUrl = get_home_url();
+        $baseUrl = $this->getHomeUrl();
         if (substr($baseUrl, 0, 7) === 'http://') {
             $this->baseUrlHttp = $baseUrl;
             $this->baseUrlHttps = 'https://'.substr($baseUrl, 7);
@@ -307,7 +307,7 @@ class LightboxPhotoSwipe
 
         // If URL is relative then add home URL
         if (substr($file, 0,  7) !== 'http://' && substr($file, 0, 8) !== 'https://') {
-            $file = get_home_url() . $file;
+            $file = $this->getHomeUrl() . $file;
         }
 
         $type = wp_check_filetype($file);
@@ -1147,6 +1147,23 @@ class LightboxPhotoSwipe
         });
 
         return $imageSizes;
+    }
+
+    /**
+     * Helper to get home URL without any filters
+     */
+    protected function getHomeUrl($scheme = null)
+    {
+        $url = get_option('home');
+        if (!in_array($scheme, array('http', 'https', 'relative'), true)) {
+            if (is_ssl()) {
+                $scheme = 'https';
+            } else {
+                $scheme = parse_url($url, PHP_URL_SCHEME);
+            }
+        }
+
+        return set_url_scheme($url, $scheme);
     }
 
     /**
