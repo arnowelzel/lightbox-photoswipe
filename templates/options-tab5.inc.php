@@ -1,12 +1,12 @@
 <div id="lbwps-tab-5" style="display:none;">
     <div>
         <table class="form-table">
-            <tr class="lbwps-ver4">
+            <tr>
                 <th scope="row">
                     <?php echo __('General', 'lightbox-photoswipe'); ?>
                 </th>
                 <td>
-                    <label class="lbwps-ver4"><?php $this->uiControlCheckbox('fulldesktop'); ?> <?php echo __('Full picture size in desktop view', 'lightbox-photoswipe'); ?></label><br>
+                    <label class="lbwps-ver4"><?php $this->uiControlCheckbox('fulldesktop'); ?> <?php echo __('Full picture size in desktop view', 'lightbox-photoswipe'); ?></label><br class="lbwps-ver4">
                     <label><?php $this->uiControlCheckbox('desktop_slider'); ?> <?php echo __('Use slide animation when switching images in desktop view', 'lightbox-photoswipe'); ?></label><br>
                     <label><?php $this->uiControlCheckbox('close_on_click'); ?> <?php echo __('Close the lightbox by clicking outside the image', 'lightbox-photoswipe'); ?></label>
                 </td>

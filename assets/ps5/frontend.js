@@ -347,8 +347,8 @@ let lbwpsInit = function(domUpdate) {
         options.history = lbwpsOptions.history === '1';
         options.zoomEl = lbwpsOptions.show_zoom === '1';
         options.tapToToggleControls = lbwpsOptions.taptotoggle === '1';
-        options.desktopSlider = lbwpsOptions.desktop_slider === '1';
         */
+
 
         const lightbox = new PhotoSwipeLightbox(options);
         lightbox.on('destroy', () => {
@@ -403,6 +403,25 @@ let lbwpsInit = function(domUpdate) {
                     idleTime: lbwpsOptions.idletime
                 }
             );
+        }
+
+        // Add sliding in desktop mode
+        options.desktopSlider = lbwpsOptions.desktop_slider === '1';
+
+        if (options.desktopSlider) {
+            const lbwpsGoTo = (index, animate = false) => {
+                const pwsp = lightbox.pswp;
+                index = pwsp.getLoopedIndex(index);
+                const indexChanged = pwsp.mainScroll.moveIndexBy(index - pwsp.potentialIndex, animate);
+
+                if (indexChanged) {
+                    pwsp.dispatch('afterGoto');
+                }
+            }
+            lightbox.on('uiRegister', () => {
+                lightbox.pswp.next = () => lbwpsGoTo(lightbox.pswp.potentialIndex + 1, true);
+                lightbox.pswp.prev = () => lbwpsGoTo(lightbox.pswp.potentialIndex - 1, true);
+            });
         }
 
         lightbox.init();
