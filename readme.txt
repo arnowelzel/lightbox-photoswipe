@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.3
-Stable tag: 5.1.0
+Stable tag: 5.1.1
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -218,6 +218,11 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.1.1 =
+
+* Fix output of EXIF data shutter speed: instead of "123/1s" it will now be displayed as "123s" without "/1".
+* Use EXIF field "FocalLength" by default and not "FocalLengthIn35mmFilm".
 
 = 5.1.0 =
 
