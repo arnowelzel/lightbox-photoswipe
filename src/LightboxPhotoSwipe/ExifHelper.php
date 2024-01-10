@@ -51,10 +51,10 @@ class ExifHelper
     function getFocalLength()
     {
         $focal = '';
-        if (isset($this->exifData['EXIF']['FocalLengthIn35mmFilm'])) {
-            $focal = $this->exifData['EXIF']['FocalLengthIn35mmFilm'];
-        } else if (isset($this->exifData['EXIF']['FocalLength'])) {
+        if (isset($this->exifData['EXIF']['FocalLength'])) {
             $focal = $this->exifData['EXIF']['FocalLength'];
+        } else if (isset($this->exifData['EXIF']['FocalLengthIn35mmFilm'])) {
+            $focal = $this->exifData['EXIF']['FocalLengthIn35mmFilm'];
         } else {
             return '';
         }
