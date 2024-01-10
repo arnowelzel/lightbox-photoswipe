@@ -68,7 +68,11 @@ class ExifHelper
     function getShutter()
     {
         if (isset($this->exifData['EXIF']['ExposureTime'])) {
-            return $this->exifData['EXIF']['ExposureTime'].'s';
+            $exposureTime = $this->exifData['EXIF']['ExposureTime'];
+            if (substr($exposureTime, -2) === '/1') {
+                $exposureTime = substr($exposureTime, 0, -2);
+            }
+            return $exposureTime . 's';
         }
         if (!isset($this->exifData['EXIF']['ShutterSpeedValue'])) {
             return '';
