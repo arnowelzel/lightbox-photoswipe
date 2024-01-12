@@ -67,13 +67,22 @@ class ExifHelper
      */
     function getShutter()
     {
+        // Variant 1: ExposureTime as numerator/denominator (e.g. "1/50" or "35/10")
         if (isset($this->exifData['EXIF']['ExposureTime'])) {
-            $exposureTime = $this->exifData['EXIF']['ExposureTime'];
-            if (substr($exposureTime, -2) === '/1') {
-                $exposureTime = substr($exposureTime, 0, -2);
+            $parts = explode('/', $this->exifData['EXIF']['ExposureTime']);
+            // Exposure times with a numerator of more than 1 will always be
+            // displays as float value with 2 decimals maximum (e.g. 35/10 = "3.5s" or 60/1 = "60s" etc.)
+            if ((float) $parts[0] != 1) {
+                if ((float) $parts[1] == 0) {
+                    return '';
+                }
+                return round((float) $parts[0] / (float) $parts[1], 2) . 's';
             }
-            return $exposureTime . 's';
+            // Numerator is 1, then return as fraction like "1/30s" or "1/4s" etc.
+            return $parts[0] . '/' . $parts[1] . 's';
         }
+
+        // Variant 2: ShutterSpeedValue as APEX value
         if (!isset($this->exifData['EXIF']['ShutterSpeedValue'])) {
             return '';
         }
@@ -177,12 +186,10 @@ class ExifHelper
      */
     private function exifGetFloat($value)
     {
-        $pos = strpos($value, '/');
-        if ($pos === false) {
+        $parts = explode('/', $value);
+        if (!isset($parts[1])) {
             return (float) $value;
         }
-        $a = (float) substr($value, 0, $pos);
-        $b = (float) substr($value, $pos+1);
-        return ($b == 0) ? ($a) : ($a / $b);
+        return ($parts[1] == 0) ? (float) $parts[0] : (float) ($parts[0] / $parts[1]);
     }
 }
