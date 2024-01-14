@@ -147,7 +147,7 @@ let lbwpsInit = function(domUpdate) {
                 let title = null;
                 let tabindex = element.getAttribute('tabindex');
 
-                if (tabindex == null) {
+                if (tabindex == null || tabindex == -1) {
                     tabindex = 0;
                 }
 

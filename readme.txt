@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
 Requires at least: 5.3
 Tested up to: 6.4
-Stable tag: 5.1.4
+Stable tag: 5.1.5
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -218,6 +218,12 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Example for the use in the frontend
 
 == Changelog ==
+
+= 5.1.5 =
+
+* Fixed handling of tabindex attribute in image links with Bricks image slider: if image links contain a tabindex
+  attribute "-1", this was not treated as "no tabindex set" and could cause confusing image ordering when using
+  image sliders which use the tabindex attribute to "hide" invisible images from keyboard navigation.
 
 = 5.1.4 =
 
