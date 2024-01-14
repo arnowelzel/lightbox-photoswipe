@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.1.2';
+    const VERSION = '5.1.3';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '14';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -60,6 +60,7 @@ class LightboxPhotoSwipe
             add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
             add_action('wp_footer', [$this, 'outputFooter']);
             add_action('wp_head', [$this, 'bufferStart'], 2050);
+            add_filter('the_content', [$this, 'filterOutput']);
             if ($this->optionsManager->getOption('separate_galleries')) {
                 remove_shortcode('gallery');
                 add_shortcode('gallery', [$this, 'shortcodeGallery'], 10, 1);
@@ -284,6 +285,11 @@ class LightboxPhotoSwipe
     public function callbackProperties(array $matches)
     {
         global $wpdb;
+
+        // Avoid double replacement
+        if (strpos($matches[4], 'data-lbwps-width="') !== false) {
+            return $matches[1].$matches[2].$matches[3].$matches[4].$matches[5];
+        }
 
         $use = true;
         $attr = '';
