@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.1.5';
+    const VERSION = '5.1.6';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '14';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -316,7 +316,11 @@ class LightboxPhotoSwipe
             $file = $this->getHomeUrl() . $file;
         }
 
-        $type = wp_check_filetype($file);
+        $mimeTypes = get_allowed_mime_types();
+        if (!in_array('svg', $mimeTypes)) {
+            $mimeTypes['svg'] = 'image/svg+xml';
+        }
+        $type = wp_check_filetype($file, $mimeTypes);
         $extension = strtolower($type['ext']);
         $captionCaption = '';
         $captionDescription = '';
