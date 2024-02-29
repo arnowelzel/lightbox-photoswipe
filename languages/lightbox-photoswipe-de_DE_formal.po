@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: Lightbox PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2023-08-15 06:54+0000\n"
+"PO-Revision-Date: 2024-02-29 23:14+0000\n"
 "Last-Translator: Arno Welzel\n"
-"Language-Team: Deutsch (Sie)\n"
+"Language-Team: German (Formal)\n"
 "Language: de_DE_formal\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "<a href=\"https://www.php.net/manual/book.exif.php\" target=\"_blank\">die "
 "PHP-EXIF-Erweiterung</a> fehlt auf diesem Server!"
 
-#: templates/options-tab1.inc.php:74
+#: templates/options-tab1.inc.php:75
 msgid ""
 "<a href=\"https://www.php.net/manual/en/ref.simplexml.php\" "
 "target=\"_blank\">The PHP SimpleXML extension</a> is missing on this server! "
@@ -56,6 +56,14 @@ msgstr "Deckkraft des Hintergrunds"
 msgid "bottom"
 msgstr "unten"
 
+#: templates/options-tab1.inc.php:55
+msgid ""
+"Cache image information in transients (disabling this can slow down your "
+"website, try an object cache first)"
+msgstr ""
+"Bildinformationen in Transienten zwischenspeichern (die Deaktivierung kann "
+"Ihre Website verlangsamen, versuchen Sie es zuerst mit einem Objekt-Cache)"
+
 #: templates/options-tab3.inc.php:17
 msgid "Caption"
 msgstr "Beschriftung"
@@ -64,15 +72,15 @@ msgstr "Beschriftung"
 msgid "Captions"
 msgstr "Bildunterschriften"
 
-#: templates/options-tab1.inc.php:89
+#: templates/options-tab1.inc.php:90
 msgid "CDN mode"
 msgstr "CDN-Modus"
 
-#: templates/options-tab1.inc.php:79
+#: templates/options-tab1.inc.php:80
 msgid "CDN URL prefix"
 msgstr "CDN URL-Präfix"
 
-#: templates/options-tab1.inc.php:93
+#: templates/options-tab1.inc.php:94
 msgid ""
 "CDNs usually use \"prefix mode\" which adds the CDN domain in front of the "
 "whole URL. Some CDNs like ExactDN use \"pull mode\" which means only the "
@@ -86,7 +94,7 @@ msgstr ""
 "Lightbox angezeigt werden, versuchen Sie einen anderen Modus."
 
 #: templates/frontend.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:980
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1002
 msgid "Close [Esc]"
 msgstr "Schließen [Esc]"
 
@@ -99,7 +107,7 @@ msgid "Close with vertical drag in mobile view"
 msgstr "Schließen mit vertikalem ziehen in der mobilen Ansicht"
 
 #: templates/options-tab4.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:979
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1001
 msgid "Copy image URL"
 msgstr "Bild-URL kopieren"
 
@@ -116,7 +124,7 @@ msgid "Custom link, URL"
 msgstr "Eigener Link, URL"
 
 #: templates/options-tab2.inc.php:37 templates/options-tab2.inc.php:56
-#: templates/options-tab1.inc.php:68 templates/options-tab5.inc.php:55
+#: templates/options-tab5.inc.php:55 templates/options-tab1.inc.php:69
 msgid "Default"
 msgstr "Standard"
 
@@ -128,12 +136,12 @@ msgstr "Beschreibung"
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:731
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:748
 msgid "Disable"
 msgstr "Deaktivieren"
 
 #: templates/options-tab4.inc.php:13
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:978
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1000
 msgid "Download image"
 msgstr "Herunterladen"
 
@@ -188,7 +196,7 @@ msgstr "Ausgeschlossene Post-Typen"
 msgid "EXIF data if available"
 msgstr "EXIF-Daten, wenn vorhanden"
 
-#: templates/options-tab1.inc.php:73
+#: templates/options-tab1.inc.php:74
 msgid "Factor by which SVG images get scaled when displayed in the lightbox."
 msgstr ""
 "Faktor für die Skalierung von SVG-Bildern bei der Anzeige in der Lightbox."
@@ -221,7 +229,6 @@ msgstr "Für eine Dokumentation zu Hooks, Styling etc. siehe die FAQ"
 
 #. %d value for image size
 #: templates/options-tab7.inc.php:31
-#, php-format
 msgid ""
 "For example: if an image is 1000×400 pixels the small version of it should "
 "be %d×%d pixels since the smallest registered image size is %d×%d pixels. If "
@@ -250,8 +257,8 @@ msgstr ""
 msgid "Full picture size in desktop view"
 msgstr "Volle Bildgröße in Desktop-Ansicht"
 
-#: templates/options-tab3.inc.php:4 templates/options-navigation.inc.php:2
-#: templates/options-tab6.inc.php:6 templates/options-tab5.inc.php:6
+#: templates/options-tab6.inc.php:6 templates/options-tab3.inc.php:4
+#: templates/options-navigation.inc.php:2 templates/options-tab5.inc.php:6
 msgid "General"
 msgstr "Allgemein"
 
@@ -295,7 +302,7 @@ msgstr ""
 "unterstützen möchten, würde ich mich sehr über eine Spende über PayPal "
 "freuen."
 
-#: templates/options-tab1.inc.php:84
+#: templates/options-tab1.inc.php:85
 msgid ""
 "If you use a CDN plugin which adds an URL prefix in front of the image link, "
 "you can add this prefix (including \"http://\" or \"https://\") here. You "
@@ -312,7 +319,7 @@ msgstr ""
 "Bildbeschriftungen aus der WordPress-Datenbank verwenden möchte, aber die "
 "Bilder über ein CDN ausliefert."
 
-#: templates/options-tab1.inc.php:83
+#: templates/options-tab1.inc.php:84
 msgid ""
 "If you use the JetPack CDN you can leave this setting empty – JetPack is "
 "already supported!"
@@ -356,9 +363,9 @@ msgstr "links"
 #. Name of the plugin
 #. Description of the plugin
 #: templates/options.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:678
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:679
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:711
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:695
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:696
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:728
 msgid "Lightbox with PhotoSwipe"
 msgstr "Lightbox mit PhotoSwipe"
 
@@ -399,7 +406,7 @@ msgid "New share symbol with solid background"
 msgstr "Neues Teilen-Symbol mit festem Hintergrund"
 
 #: templates/frontend.inc.php:29
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:983
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1005
 msgid "Next [→]"
 msgstr "Nächstes [→]"
 
@@ -441,7 +448,7 @@ msgid "PHP version"
 msgstr "PHP-Version"
 
 #: templates/options-tab4.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:977
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:999
 msgid "Pin it"
 msgstr "Auf Pinterest merken"
 
@@ -467,16 +474,16 @@ msgstr ""
 msgid "Plugin version"
 msgstr "Plugin-Version"
 
-#: templates/options-tab1.inc.php:92
+#: templates/options-tab1.inc.php:93
 msgid "Prefix"
 msgstr "Präfix"
 
 #: templates/frontend.inc.php:28
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:982
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1004
 msgid "Previous [←]"
 msgstr "Vorheriges [←]"
 
-#: templates/options-tab1.inc.php:92
+#: templates/options-tab1.inc.php:93
 msgid "Pull"
 msgstr "Pull"
 
@@ -508,7 +515,7 @@ msgid "Share"
 msgstr "Teilen"
 
 #: templates/options-tab4.inc.php:9
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:975
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:997
 msgid "Share on Facebook"
 msgstr "Auf Facebook teilen"
 
@@ -573,7 +580,7 @@ msgstr ""
 "mapping-on-single-site/\" target=\"_blank\">Multiple Domain Mapping on "
 "Single Site</a>"
 
-#: templates/options-tab1.inc.php:59
+#: templates/options-tab1.inc.php:60
 msgid "SVG scaling factor"
 msgstr "SVG-Skalierungsfaktor"
 
@@ -593,13 +600,12 @@ msgstr ""
 "Die verfügbaren Optionen hängen von der PhotoSwipe-Version ab. Für Version 4 "
 "vorgenommene UI-Anpassungen funktionieren möglicherweise nicht für Version 5."
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:984
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1006
 msgid "The image cannot be loaded"
 msgstr "Das Bild can nicht geladen werden"
 
 #. %d value for image size
 #: templates/options-tab7.inc.php:25
-#, php-format
 msgid ""
 "The smallest size (%d×%d pixels) will be used to check if a smaller image is "
 "available for the transition."
@@ -646,7 +652,7 @@ msgid "Title"
 msgstr "Titel"
 
 #: templates/frontend.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:985
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1007
 msgid "Toggle fullscreen [F]"
 msgstr "Vollbildanzeige umschalten [F]"
 
@@ -655,7 +661,7 @@ msgid "top"
 msgstr "oben"
 
 #: templates/options-tab4.inc.php:10
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:976
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:998
 msgid "Tweet"
 msgstr "Tweet"
 
@@ -729,10 +735,10 @@ msgstr "Breite"
 msgid "Your label here"
 msgstr "Deine Beschriftung hier"
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:981
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1003
 msgid "Zoom"
 msgstr "Zoom"
 
-#: templates/options-tab5.inc.php:30 templates/frontend.inc.php:15
+#: templates/frontend.inc.php:15 templates/options-tab5.inc.php:30
 msgid "Zoom in/out"
 msgstr "Vergrößern/Verkleinern"

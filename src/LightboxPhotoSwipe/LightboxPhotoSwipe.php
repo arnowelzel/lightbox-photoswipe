@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.1.6';
+    const VERSION = '5.1.7';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '14';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -473,7 +473,12 @@ class LightboxPhotoSwipe
             }
 
             $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
-            if (!$imgDetails = get_transient($cacheKey)) {
+            if ($this->optionsManager->getOption('use_transients')) {
+                $imgDetails = get_transient($cacheKey);
+            } else {
+                $imgDetails = false;
+            }
+            if (!$imgDetails) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);
@@ -544,7 +549,9 @@ class LightboxPhotoSwipe
                             }
                         }
                     }
-                    set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
+                    if ($this->optionsManager->getOption('use_transients')) {
+                        set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
+                    }
                 }
             }
 
