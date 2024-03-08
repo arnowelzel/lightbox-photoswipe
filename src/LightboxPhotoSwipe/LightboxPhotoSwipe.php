@@ -11,7 +11,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.1.7';
+    const VERSION = '5.1.8';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '14';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -528,10 +528,8 @@ class LightboxPhotoSwipe
                         'exifDateTime'    => '',
                         'exifOrientation' => '',
                     ];
-                    if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff']) && function_exists('exif_read_data')) {
-                        $exif = @exif_read_data( $file . $params, 'EXIF', true );
-                        if (false !== $exif) {
-                            $this->exifHelper->setExifData($exif);
+                    if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff', 'webp'])) {
+                        if ($this->exifHelper->readExifDataFromFile($file.$params, $extension)) {
                             $imgDetails['exifCamera']   = $this->exifHelper->getCamera();
                             $imgDetails['exifFocal']    = $this->exifHelper->getFocalLength();
                             $imgDetails['exifFstop']    = $this->exifHelper->getFstop();

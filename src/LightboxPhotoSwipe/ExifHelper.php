@@ -9,11 +9,24 @@ class ExifHelper
     private $exifData;
 
     /**
-     * Set EXIF data array to be used
+     * Try to read EXIF data from image
      */
-    function setExifData(array $exifData)
+    function readExifDataFromFile(string $file, string $extension)
     {
-        $this->exifData = $exifData;
+        $this->exifData = false;
+        if (function_exists('exif_read_data')) {
+            $this->exifData = @exif_read_data($file, 'EXIF', true);
+        }
+
+        return $this->exifData;
+    }
+
+    /**
+     * Get current EXIF data array
+     */
+    function getExifData()
+    {
+        return $this->exifData;
     }
 
     /**
@@ -116,10 +129,15 @@ class ExifHelper
         $result = '';
 
         if (isset($this->exifData['EXIF']['DateTimeOriginal'])) {
-            $this->exifDataDate = $this->exifData['EXIF']['DateTimeOriginal'];
-            $date = substr($this->exifDataDate, 0, 4).'-'.substr($this->exifDataDate, 5, 2 ).'-'.substr($this->exifDataDate, 8, 2).
-                ' '.substr($this->exifDataDate, 11, 2).':'.substr($this->exifDataDate, 14, 2 ).':'.substr($this->exifDataDate, 17, 2);
-            return $date;
+            $dateString = $this->exifData['EXIF']['DateTimeOriginal'];
+            return sprintf('%s-%s-%s %s:%s',
+                substr($dateString, 0, 4),
+                substr($dateString, 5, 2 ),
+                substr($dateString, 8, 2),
+                substr($dateString, 11, 2),
+                substr($dateString, 14, 2 ),
+                substr($dateString, 17, 2)
+            );
         }
 
         return $result;
