@@ -26,7 +26,7 @@ class ExifHelper
             }
             $data = bin2hex(substr($content, 2, 2));
             $size = hexdec(bin2hex(substr($content, 4, 2)));
-            $pos = 4;
+            $pos = 6;
             $maxPos = strlen($content) - 4;
             while($pos < $maxPos && $data != 'ffe1' && $data != 'ffc0' && $data != 'ffd9') {
                 switch($data) {
