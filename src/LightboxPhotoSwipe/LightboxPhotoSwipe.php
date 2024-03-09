@@ -477,7 +477,7 @@ class LightboxPhotoSwipe
             } else {
                 $imgDetails = false;
             }
-            if (!$imgDetails || true) {
+            if (!$imgDetails) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);

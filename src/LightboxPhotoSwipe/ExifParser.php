@@ -12,19 +12,12 @@ class ExifParser
     private $formatIntel;
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->exifData = [];
-    }
-
-    /**
      * Parse the given data
      */
     public function parse($binaryData)
     {
         $this->binaryData = $binaryData;
+        $this->exifData = [];
         $this->position = 0;
         $this->formatIntel = true;
         $header = $this->fetchBytes(2);
