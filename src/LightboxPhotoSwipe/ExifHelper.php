@@ -15,59 +15,66 @@ class ExifHelper
     {
         $this->exifData = false;
         $rawExifData = false;
-        $fh = fopen($file, 'rb');
-        if (!$fh) {
+        $content = @file_get_contents($file);
+        if (!$content) {
             return false;
         }
         if (in_array($extension, ['jpg', 'jpeg', 'jpe'])) {
-            $data = bin2hex(fread($fh, 2));
+            $data = bin2hex(substr($content, 0, 2));
             if ($data !== 'ffd8') {
                 return false;
             }
-            $data = bin2hex(fread($fh, 2));
-            $size = hexdec(bin2hex(fread($fh, 2)));
-            while(!feof($fh) && !in_array($data, ['ffe1', 'ffc0', 'ffd9'])) {
+            $data = bin2hex(substr($content, 2, 2));
+            $size = hexdec(bin2hex(substr($content, 4, 2)));
+            $pos = 4;
+            $maxPos = strlen($content) - 4;
+            while($pos < $maxPos && $data != 'ffe1' && $data != 'ffc0' && $data != 'ffd9') {
                 switch($data) {
                     case 'ffe0': // JFIF marker
                     case 'ffed': // IPTC Marker
                     case 'ffe2': // EXIF extension
                     case 'fffe': // COM extension Marker
                         if ($size-2 > 0) {
-                            fread($fh, $size-2);
+                            $pos += $size-2;
                         }
                         break;
                 }
-                $data = bin2hex(fread($fh, 2));
-                $size = hexdec(bin2hex(fread($fh, 2)));
+                $data = bin2hex(substr($content, $pos, 2));
+                $pos += 2;
+                $size = bin2hex(substr($content, $pos, 2));
+                $pos += 2;
             }
             if ('ffe1' === $data) {
-                $exifHeader = fread($fh, 6);
-                $rawExifData = fread($fh, hexdec($size));
+                $pos += 6;
+                $rawExifData = substr($content, $pos, hexdec($size));
             }
         } else if ('webp' === $extension) {
-            $header = fread($fh, 12);
+            $header = substr($content, 0, 12);
             if ('RIFF' !== substr($header, 0, 4)) {
                 return false;
             }
             if ('WEBP' !== substr($header, 8, 4)) {
                 return false;
             }
+            $pos = 12;
             do {
-                $chunkType = fread($fh, 4);
+                $chunkType = substr($content, $pos, 4);
+                $pos += 4;
                 if ($chunkType) {
-                    $size = unpack('Vsize', fread($fh, 4));
+                    $size = unpack('Vsize', substr($content, $pos, 4));
+                    $pos += 4;
                     $size = $size['size'];
-                    $payload = fread($fh, $size);
+                    $payload = substr($content, $pos, $size);
+                    $pos += $size;
                     if ($size & 1) {
-                        fread($fh, 1);
+                        $pos++;
                     }
                     if ('EXIF' === $chunkType) {
                         $rawExifData = $payload;
                     }
                 }
-            } while($chunkType);
+            } while($chunkType && !$rawExifData);
         }
-        fclose($fh);
 
         if ($rawExifData) {
             $exitParser = new ExifParser();
@@ -211,8 +218,8 @@ class ExifHelper
             $apex  = $this->exifGetFloat($aperture);
             $fstop = pow(2, $apex/2);
         } if (isset($this->exifData['EXIF']['FNumber'])) {
-            $fstop = $this->exifGetFloat($this->exifData['EXIF']['FNumber']);
-        }
+        $fstop = $this->exifGetFloat($this->exifData['EXIF']['FNumber']);
+    }
 
         if (0 === $fstop) {
             return '';
