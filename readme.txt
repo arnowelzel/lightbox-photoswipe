@@ -151,7 +151,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
-= 5.2.2 =
+= 5.2.3 =
 
 * Workaround for performance issues with very large image galleries (more than 100 images on one page).
 
