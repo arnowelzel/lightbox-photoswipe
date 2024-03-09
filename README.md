@@ -37,7 +37,7 @@ If you want to change any of the scripts or styles you need to update the minifi
 The plugin comes with a minifier script using PHP. To run that script use the following command:
 
 ```
-php build.php
+make build
 ```
 
 You should then see an output like this:

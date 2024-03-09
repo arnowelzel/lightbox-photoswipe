@@ -13,15 +13,13 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 == Description ==
 
-This plugin integrates an extended version of PhotoSwipe 4 or the official release of PhotoSwipe 5 to WordPress.
-All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or
-single images. Just make sure that you link the image or gallery directly to the media and not the attachment page
-(in galleries the option `link=file` should be set).
+This plugin integrates PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe,
+regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly
+to the media and not the attachment page (in galleries the option `link=file` should be set).
 
 More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
-The version of PhotoSwipe 4 provided with this plugin comes with a number of modifications and extensions. See the
-FAQ for details.
+You can also display EXIF data from JPEG and WEBP images.
 
 As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems.
 In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also
@@ -47,14 +45,12 @@ If you want to display an image in it's own lightbox which does not display othe
 you can add the attribute `data-lbwps-gid` to the link element with a unique value for this image. This value must
 not be a number since numbers are already used internally. For example you could the file name of the image like this:
 
-
 `<a href="myimage.jpg" data-lbwps-gid="myimage.jpg"><img src="myimage-300x300.jpg" alt="My Image" /></a>`
 
 You can also add the same `data-lbwps-gid` attribute to multiple single images to combine them in the same lightbox.
 
 Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in version 2.97 to avoid conflicts with
 existing themes or plugins!
-
 
 Starting with release 3.1.14 this is also supported for Elementor image widgets and Elementor image carousel widgets.
 
@@ -116,13 +112,12 @@ add_filter('lbwps_caption_title', 'my_lbwps_caption_title', 10, 2);
 PhotoSwipe 5 improves the overall performance and compatibility with newer mobile devices like the iPhone 13. However,
 some features are no longer supported by that version:
 
-
 1) Updating the browser history when opening the lightbox or navigating through images (this is no longer supported by
 PhotoSwipe).
 
 2) Customizing the display of image counter and zoom button (this may be added in future updates).
 
-3) All desktop and mobile specific options (some options may return in future updates).
+3) All mobile specific options (some options may return in future updates).
 
 4) Sharing options (some options may return in future updates).
 
@@ -147,15 +142,6 @@ Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. Howev
 "PublishPress Blocks" plugin it brings its own lightbox script which can cause conflicts. To avoid any problems, you
 should disable the Advanced Gutenberg lightbox in the settings. Disable the option "Open galleries in lightbox" in the
 backend configuration of PublishPress Blocks.
-
-= How to use the PhotoSwipe API? =
-
-Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 there is no API hook yet!
-
-The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized.
-Please note, that this variable is `null` if the lightbox is not open! This can be used to build your own extensions
-using the PhotoSwipe API. Also see
-[https://photoswipe.com/documentation/api.html](https://photoswipe.com/documentation/api.html) how to use the API.
 
 = How to change the order of the images in the lightbox? =
 
@@ -182,8 +168,8 @@ To avoid any confusion: this plugin was published with the agreement of Dmytro S
 
 = Notes for developers =
 
-If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib` you need to execute `build.php` once
-to generate new frontend assets.
+If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib` you need to run `make build`
+to generate new compressed frontend assets.
 
 == Screenshots ==
 
