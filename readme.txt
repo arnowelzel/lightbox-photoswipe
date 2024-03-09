@@ -197,6 +197,10 @@ to generate new frontend assets.
 
 == Changelog ==
 
+= 5.2.0 =
+
+* EXIF data is now supported without the PHP EXIF extension and also for WEBP images and not only JPEG.
+
 = 5.1.8 =
 
 * Refactor EXIF helper and fix deprecation warning in PHP 8.3.

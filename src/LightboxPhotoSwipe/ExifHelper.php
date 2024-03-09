@@ -14,8 +14,64 @@ class ExifHelper
     function readExifDataFromFile(string $file, string $extension)
     {
         $this->exifData = false;
-        if (function_exists('exif_read_data')) {
-            $this->exifData = @exif_read_data($file, 'EXIF', true);
+        $rawExifData = false;
+        $fh = fopen($file, 'rb');
+        if (!$fh) {
+            return false;
+        }
+        if (in_array($extension, ['jpg', 'jpeg', 'jpe'])) {
+            $data = bin2hex(fread($fh, 2));
+            if ($data !== 'ffd8') {
+                return false;
+            }
+            $data = bin2hex(fread($fh, 2));
+            $size = hexdec(bin2hex(fread($fh, 2)));
+            while(!feof($fh) && !in_array($data, ['ffe1', 'ffc0', 'ffd9'])) {
+                switch($data) {
+                    case 'ffe0': // JFIF marker
+                    case 'ffed': // IPTC Marker
+                    case 'ffe2': // EXIF extension
+                    case 'fffe': // COM extension Marker
+                        if ($size-2 > 0) {
+                            fread($fh, $size-2);
+                        }
+                        break;
+                }
+                $data = bin2hex(fread($fh, 2));
+                $size = hexdec(bin2hex(fread($fh, 2)));
+            }
+            if ('ffe1' === $data) {
+                $exifHeader = fread($fh, 6);
+                $rawExifData = fread($fh, hexdec($size));
+            }
+        } else if ('webp' === $extension) {
+            $header = fread($fh, 12);
+            if ('RIFF' !== substr($header, 0, 4)) {
+                return false;
+            }
+            if ('WEBP' !== substr($header, 8, 4)) {
+                return false;
+            }
+            do {
+                $chunkType = fread($fh, 4);
+                if ($chunkType) {
+                    $size = unpack('Vsize', fread($fh, 4));
+                    $size = $size['size'];
+                    $payload = fread($fh, $size);
+                    if ($size & 1) {
+                        fread($fh, 1);
+                    }
+                    if ('EXIF' === $chunkType) {
+                        $rawExifData = $payload;
+                    }
+                }
+            } while($chunkType);
+        }
+        fclose($fh);
+
+        if ($rawExifData) {
+            $exitParser = new ExifParser();
+            $this->exifData = $exitParser->parse($rawExifData);
         }
 
         return $this->exifData;
@@ -130,7 +186,7 @@ class ExifHelper
 
         if (isset($this->exifData['EXIF']['DateTimeOriginal'])) {
             $dateString = $this->exifData['EXIF']['DateTimeOriginal'];
-            return sprintf('%s-%s-%s %s:%s',
+            return sprintf('%s-%s-%s %s:%s:%s',
                 substr($dateString, 0, 4),
                 substr($dateString, 5, 2 ),
                 substr($dateString, 8, 2),

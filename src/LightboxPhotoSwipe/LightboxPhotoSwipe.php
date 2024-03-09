@@ -1,5 +1,4 @@
 <?php
-
 namespace LightboxPhotoSwipe;
 
 defined('ABSPATH') or die();
@@ -11,9 +10,9 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.1.8';
+    const VERSION = '5.2.0';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '14';
+    const META_VERSION = '15';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -478,7 +477,7 @@ class LightboxPhotoSwipe
             } else {
                 $imgDetails = false;
             }
-            if (!$imgDetails) {
+            if (!$imgDetails || true) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
                 if (false !== $imageSize && is_numeric($imageSize[0]) && is_numeric($imageSize[1]) && $imageSize[0] > 0 && $imageSize[1] > 0) {
                     $pathInfo = pathinfo($file);

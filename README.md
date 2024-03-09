@@ -4,13 +4,14 @@ This plugin integrates an extended version of PhotoSwipe 4 or the official relea
 
 More about PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
+Displaying EXIF data in captions is supported for WEBP and JPEG images and does not require the PHP EXIF extension.
+
 For more information about how to install Lightbox with PhotoSwipe see the [WordPress plugin repository](https://wordpress.org/plugins/lightbox-photoswipe/).
 
 ## Custom styles for PhotoSwipe 5
 
 Please note that this plugin uses a custom stylesheet for the frontend (see `assets/ps5/lib/photoswipe-local.css`).
 This style is based on the original stylesheet of PhotoSwipe 5 and contains the following changes:
-
 
 * Keep UI elements clickable when hidden - this was the behaviour of PhotoSwipe 4 and avoids
   confusion when the UI hides automatically in desktop mode and clicking the hidden arrow
