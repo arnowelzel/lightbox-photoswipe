@@ -141,13 +141,13 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Screenshots ==
 
-1. General options in the backend
-2. Theme options in the backend
-3. Options for captions in the backend
-4. Sharing options in the backend
-5. Desktop options in the backend
-6. Mobile options in the backend
-7. Example for the use in the frontend
+1. Example for the use in the frontend
+2. General options in the backend
+3. Theme options in the backend
+4. Options for captions in the backend
+5. Sharing options in the backend
+6. Desktop options in the backend
+7. Mobile options in the backend
 
 == Changelog ==
 
