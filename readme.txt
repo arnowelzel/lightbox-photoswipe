@@ -1,7 +1,7 @@
 === Lightbox with PhotoSwipe ===
 
 Contributors: awelzel
-Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
+Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.4
 Stable tag: 5.2.4
