@@ -14,74 +14,15 @@ class ExifHelper
     function readExifDataFromFile(string $file, string $extension)
     {
         $this->exifData = false;
-        $rawExifData = false;
-        $content = @file_get_contents($file);
-        if (!$content) {
-            return false;
-        }
-        if (in_array($extension, ['jpg', 'jpeg', 'jpe'])) {
-            $data = bin2hex(substr($content, 0, 2));
-            if ($data !== 'ffd8') {
-                return false;
-            }
-            $data = bin2hex(substr($content, 2, 2));
-            $size = hexdec(bin2hex(substr($content, 4, 2)));
-            $pos = 6;
-            $maxPos = strlen($content) - 4;
-            while($pos < $maxPos && $data != 'ffe1' && $data != 'ffc0' && $data != 'ffd9') {
-                switch($data) {
-                    case 'ffe0': // JFIF marker
-                    case 'ffed': // IPTC Marker
-                    case 'ffe2': // EXIF extension
-                    case 'fffe': // COM extension Marker
-                        if ($size-2 > 0) {
-                            $pos += $size-2;
-                        }
-                        break;
-                }
-                $data = bin2hex(substr($content, $pos, 2));
-                $pos += 2;
-                $size = bin2hex(substr($content, $pos, 2));
-                $pos += 2;
-            }
-            if ('ffe1' === $data) {
-                $pos += 6;
-                $rawExifData = substr($content, $pos, hexdec($size));
-            }
-        } else if ('webp' === $extension) {
-            $header = substr($content, 0, 12);
-            if ('RIFF' !== substr($header, 0, 4)) {
-                return false;
-            }
-            if ('WEBP' !== substr($header, 8, 4)) {
-                return false;
-            }
-            $pos = 12;
-            do {
-                $chunkType = substr($content, $pos, 4);
-                $pos += 4;
-                if ($chunkType) {
-                    $size = unpack('Vsize', substr($content, $pos, 4));
-                    $pos += 4;
-                    $size = $size['size'];
-                    $payload = substr($content, $pos, $size);
-                    $pos += $size;
-                    if ($size & 1) {
-                        $pos++;
-                    }
-                    if ('EXIF' === $chunkType) {
-                        $rawExifData = $payload;
-                    }
-                }
-            } while($chunkType && !$rawExifData);
+        if (function_exists('exif_read_data')) {
+            $this->exifData = @exif_read_data($file, 'EXIF', true);
         }
 
-        if ($rawExifData) {
-            $exitParser = new ExifParser();
-            $this->exifData = $exitParser->parse($rawExifData);
+        if($this->exifData) {
+            return true;
         }
 
-        return $this->exifData;
+        return false;
     }
 
     /**

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-09 16:21+0000\n"
+"POT-Creation-Date: 2024-03-10 00:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -13,6 +13,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
+
+#: templates/options-tab4.inc.php:21
+msgid ""
+"<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\">"
+"the PHP EXIF extension</a> is missing on this server!"
+msgstr ""
 
 #: templates/options-tab2.inc.php:75
 msgid ""
@@ -127,15 +133,15 @@ msgstr ""
 msgid "Download image"
 msgstr ""
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "dynamic, aside"
 msgstr ""
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "dynamic, automatic"
 msgstr ""
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "dynamic, below"
 msgstr ""
 
@@ -168,12 +174,8 @@ msgstr ""
 msgid "Excluded post types"
 msgstr ""
 
-#: templates/options-tab4.inc.php:20
+#: templates/options-tab4.inc.php:20 templates/options-tab4.inc.php:21
 msgid "EXIF data if available"
-msgstr ""
-
-#: templates/options-tab1.inc.php:43
-msgid "EXIF data in captions is currently supported for JPEG and WEBP images."
 msgstr ""
 
 #: templates/options-tab2.inc.php:74
@@ -192,7 +194,7 @@ msgid ""
 "jpg\")"
 msgstr ""
 
-#: templates/options-tab1.inc.php:45
+#: templates/options-tab1.inc.php:44
 msgid "For documentation about hooks, styling etc. please see FAQ"
 msgstr ""
 
@@ -279,7 +281,7 @@ msgstr ""
 msgid "Ignore links to images which contain a hash (#)"
 msgstr ""
 
-#: templates/options-tab1.inc.php:44
+#: templates/options-tab1.inc.php:43
 msgid ""
 "Image information like size, EXIF data, name of the preview image is cached "
 "as WordPress transients. To improve performance with large image galleries "
@@ -369,7 +371,7 @@ msgstr ""
 msgid "Other options"
 msgstr ""
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "overlay"
 msgstr ""
 
@@ -463,7 +465,7 @@ msgstr ""
 msgid "Show caption if available"
 msgstr ""
 
-#: templates/options-tab4.inc.php:21
+#: templates/options-tab4.inc.php:22
 msgid "Show date in EXIF data if available"
 msgstr ""
 
@@ -573,7 +575,7 @@ msgstr ""
 msgid "Tweet"
 msgstr ""
 
-#: templates/options-tab4.inc.php:26
+#: templates/options-tab4.inc.php:27
 msgid "Type of caption"
 msgstr ""
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lightbox with PhotoSwipe\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-28 15:59+0000\n"
-"PO-Revision-Date: 2024-03-09 16:26+0000\n"
+"PO-Revision-Date: 2024-03-10 00:58+0000\n"
 "Last-Translator: Arno Welzel\n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.6.2; wp-6.0"
+
+#: templates/options-tab4.inc.php:21
+msgid ""
+"<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\">"
+"the PHP EXIF extension</a> is missing on this server!"
+msgstr ""
+"<a href=\"https://www.php.net/manual/it/book.exif.php\" target=\"_blank\">"
+"l'estensione EXIF ​​​​PHP</a> manca su questo server!"
 
 #: templates/options-tab2.inc.php:75
 msgid ""
@@ -138,15 +146,15 @@ msgstr "Disattivare"
 msgid "Download image"
 msgstr "Scarica l'immagine"
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "dynamic, aside"
 msgstr "dinamico, a parte"
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "dynamic, automatic"
 msgstr "dinamico, automatico"
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "dynamic, below"
 msgstr "dinamico, di seguito"
 
@@ -184,16 +192,10 @@ msgstr "Pagine/post esclusi"
 msgid "Excluded post types"
 msgstr "Tipi di post esclusi"
 
-#: templates/options-tab4.inc.php:20
+#: templates/options-tab4.inc.php:20 templates/options-tab4.inc.php:21
 #| msgid "Show EXIF data if available"
 msgid "EXIF data if available"
 msgstr "Dati EXIF se disponibili"
-
-#: templates/options-tab1.inc.php:43
-msgid "EXIF data in captions is currently supported for JPEG and WEBP images."
-msgstr ""
-"I dati EXIF nelle didascalie sono attualmente supportati per le immagini "
-"JPEG e WEBP."
 
 #: templates/options-tab2.inc.php:74
 msgid "Factor by which SVG images get scaled when displayed in the lightbox."
@@ -223,7 +225,7 @@ msgstr ""
 "Correggere i collegamenti alle immagini ridimensionate (ad es. \"image.jpg\" "
 "anziché \"image-scaled.jpg\")"
 
-#: templates/options-tab1.inc.php:45
+#: templates/options-tab1.inc.php:44
 msgid "For documentation about hooks, styling etc. please see FAQ"
 msgstr "Per la documentazione su ganci, styling ecc. consultare le FAQ"
 
@@ -334,7 +336,7 @@ msgstr "Ignora i collegamenti alle immagini su altri siti Web"
 msgid "Ignore links to images which contain a hash (#)"
 msgstr "Ignora i collegamenti alle immagini che contengono un hash (#)"
 
-#: templates/options-tab1.inc.php:44
+#: templates/options-tab1.inc.php:43
 msgid ""
 "Image information like size, EXIF data, name of the preview image is cached "
 "as WordPress transients. To improve performance with large image galleries "
@@ -434,7 +436,7 @@ msgstr "Originale con sfondo uniforme"
 msgid "Other options"
 msgstr "Altre opzioni"
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "overlay"
 msgstr "copertura"
 
@@ -535,7 +537,7 @@ msgstr ""
 msgid "Show caption if available"
 msgstr "Mostra didascalia se disponibile"
 
-#: templates/options-tab4.inc.php:21
+#: templates/options-tab4.inc.php:22
 msgid "Show date in EXIF data if available"
 msgstr "Mostra la data nei dati EXIF, se disponibili"
 
@@ -669,7 +671,7 @@ msgstr "in alto"
 msgid "Tweet"
 msgstr "Tweet"
 
-#: templates/options-tab4.inc.php:26
+#: templates/options-tab4.inc.php:27
 msgid "Type of caption"
 msgstr "Tipo di didascalia"
 
