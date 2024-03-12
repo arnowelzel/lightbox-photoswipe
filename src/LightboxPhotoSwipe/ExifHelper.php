@@ -169,6 +169,15 @@ class ExifHelper
         return 'f/' . round($fstop,1);
     }
 
+    function getOrientation()
+    {
+        if (isset($this->exifData['IFD0']['Orientation'])) {
+            return $this->exifData['IFD0']['Orientation'];
+        }
+
+        return 1;
+    }
+
     /**
      * Build caption string based on given parameters
      */

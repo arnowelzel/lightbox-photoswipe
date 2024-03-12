@@ -10,9 +10,9 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.2.4';
+    const VERSION = '5.2.5';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '17';
+    const META_VERSION = '18';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -535,9 +535,7 @@ class LightboxPhotoSwipe
                             $imgDetails['exifShutter']  = $this->exifHelper->getShutter();
                             $imgDetails['exifIso']      = $this->exifHelper->getIso();
                             $imgDetails['exifDateTime'] = $this->exifHelper->getDateTime();
-                            if (isset($exif['IFD0']['Orientation'])) {
-                                $imgDetails['exifOrientation'] = $exif['IFD0']['Orientation'];
-                            }
+                            $imgDetails['exifOrientation'] = $this->exifHelper->getOrientation();
                             // If the image is rotated, width and height may need to be swapped
                             if (in_array($imgDetails['exifOrientation'], [5, 6, 7, 8])) {
                                 $swap = $imgDetails['imageSize'][0];
