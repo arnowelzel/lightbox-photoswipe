@@ -3,7 +3,7 @@
 Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: 5.2.6
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
