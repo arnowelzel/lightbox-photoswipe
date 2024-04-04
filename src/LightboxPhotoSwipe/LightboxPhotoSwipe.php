@@ -10,7 +10,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.2.5';
+    const VERSION = '5.2.6';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '18';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -421,19 +421,30 @@ class LightboxPhotoSwipe
                     $file = $realFile;
                 }
 
-                // Keep original file name for metadata retrieval
+                // Keep original file name variations for metadata retrieval
                 $fileOriginal = $file;
+                $fileOriginalNoScaled = $file;
+                $fileOriginalNoSize = $file;
+                $fileOriginalScaled = $file;
 
                 // If the "fix image links" option is set, try to remove size parameters from the image link.
                 // For example: "image-1024x768.jpg" will become "image.jpg"
                 $sizeMatcher = '/(-[0-9]+x[0-9]+\.)(?:.(?!-[0-9]+x[0-9]+\.)).+$/';
+                $fileFixed = preg_filter($sizeMatcher, '.', $file);
+                if ($fileFixed !== null && $fileFixed !== $file) {
+                    $fileOriginalScaled = substr($fileFixed, 0, -1) . '-scaled.' . $extension;
+                }
                 if ('1' === $this->optionsManager->getOption('fix_links')) {
-                    $fileFixed = preg_filter($sizeMatcher, '.', $file);
                     if ($fileFixed !== null && $fileFixed !== $file) {
                         $file = $fileFixed . $extension;
                         $matches[2] = preg_filter($sizeMatcher, '.', $matches[2]) . $extension;
+
+                        if ($file !== $fileOriginal) {
+                            $fileOriginalNoSize = $file;
+                        }
                     }
                 }
+
                 // If the "fix scaled image links" option is set, try to remove "-scaled" from the image link.
                 // For example: "image-scaled.jpg" will become "image.jpg"
                 $scaledMatcher = '/(-scaled\.).+$/';
@@ -442,6 +453,10 @@ class LightboxPhotoSwipe
                     if ($fileFixed !== null && $fileFixed !== $file) {
                         $file = $fileFixed . $extension;
                         $matches[2] = preg_filter($scaledMatcher, '.', $matches[2]) . $extension;
+
+                        if ($file !== $fileOriginal) {
+                            $fileOriginalNoScaled = $file;
+                        }
                     }
                 }
 
@@ -449,8 +464,11 @@ class LightboxPhotoSwipe
                 if ('1' === $this->optionsManager->getOption('usepostdata') && '1' === $this->optionsManager->getOption('show_caption')) {
                     $imgId = $wpdb->get_col(
                         $wpdb->prepare(
-                            'SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value = %s;',
-                            str_replace ($uploadDir . '/', '', $fileOriginal)
+                            'SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_wp_attached_file" and meta_value in (%s, %s, %s, %s);',
+                            str_replace ($uploadDir . '/', '', $fileOriginal),
+                            str_replace ($uploadDir . '/', '', $fileOriginalNoSize),
+                            str_replace ($uploadDir . '/', '', $fileOriginalNoScaled),
+                            str_replace ($uploadDir . '/', '', $fileOriginalScaled),
                         )
                     );
                     if (isset($imgId[0])) {

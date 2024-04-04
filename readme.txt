@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.4
-Stable tag: 5.2.5
+Stable tag: 5.2.6
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -151,9 +151,13 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
+= 5.2.6 =
+
+* Additional workarounds to deal with image links and captions in JetPack tiled galleries.
+
 = 5.2.5 =
 
-* Fixed handling of image rotation when using original size images using the option .
+* Fixed handling of image rotation when using original size images using the option.
 
 = 5.2.4 =
 
