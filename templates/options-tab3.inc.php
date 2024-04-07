@@ -1,32 +1,86 @@
 <table id="lbwps-tab-3" class="form-table" style="display:none;">
-    <tr>
+    <tr class="lbwps-ver4">
         <th scope="row">
-            <?php echo __('General', 'lightbox-photoswipe'); ?>
+            <?php echo __('Skin', 'lightbox-photoswipe'); ?>
         </th>
         <td>
-            <label><?php $this->uiControlCheckbox('show_caption'); ?> <?php echo __('Show caption if available', 'lightbox-photoswipe'); ?></label><br>
-            <label><?php $this->uiControlCheckbox('usepostdata'); ?> <?php echo __('Get the image captions from the database (this may cause delays on slower servers)', 'lightbox-photoswipe'); ?></label>
+            <?php $this->uiControlRadio(
+                'skin',
+                [
+                    '1',
+                    '2',
+                    '3',
+                    '4'
+                ],
+                [
+                    __('Original', 'lightbox-photoswipe'),
+                    __('Original with solid background', 'lightbox-photoswipe'),
+                    __('New share symbol', 'lightbox-photoswipe'),
+                    __('New share symbol with solid background', 'lightbox-photoswipe'),
+                ],
+                '<br>'
+            );
+            ?>
         </td>
     </tr>
     <tr>
         <th scope="row">
-            <?php echo __('Used elements', 'lightbox-photoswipe'); ?>
+            <?php echo __('Spacing between pictures', 'lightbox-photoswipe'); ?>
         </th>
         <td>
-            <label><?php $this->uiControlCheckbox('usetitle'); ?> <?php echo __('Title', 'lightbox-photoswipe'); ?></label><br>
-            <label><?php $this->uiControlCheckbox('usecaption'); ?> <?php echo __('Caption', 'lightbox-photoswipe'); ?></label><br>
-            <label><?php $this->uiControlCheckbox('usedescription'); ?> <?php echo __('Description', 'lightbox-photoswipe'); ?></label><br>
-            <label><?php $this->uiControlCheckbox('use_alt'); ?> <?php echo __('Alternative text', 'lightbox-photoswipe'); ?></label><br>
-            <label><?php $this->uiControlCheckbox('showexif'); ?> <?php echo __('EXIF data if available', 'lightbox-photoswipe'); ?><?php if (!function_exists('exif_read_data')) { ?>(<?php echo __('<a href="https://www.php.net/manual/en/book.exif.php" target="_blank">the PHP EXIF extension</a> is missing on this server!', 'lightbox-photoswipe'); ?>)<?php } ?></label><br>
-            <label><?php $this->uiControlCheckbox('showexif_date'); ?> <?php echo __('Show date in EXIF data if available', 'lightbox-photoswipe'); ?></label>
+            <select id="lightbox_photoswipe_spacing" name="lightbox_photoswipe_spacing">
+                <?php
+                for ($spacing = 0; $spacing < 13; $spacing++) {
+                    echo '<option value="'.$spacing.'"';
+                    if ((int)$this->optionsManager->getOption('spacing') === $spacing) echo ' selected="selected"';
+                    echo '>'.$spacing.'%';
+                    if ($spacing === 12) echo ' ('.__('Default', 'lightbox-photoswipe').')';
+                    echo '</option>';
+                }
+                ?>
+            </select>
+            <p class="description"><?php echo __('Space between pictures relative to screenwidth.', 'lightbox-photoswipe'); ?></p>
         </td>
     </tr>
     <tr class="lbwps-ver5">
         <th scope="row">
-            <?php echo __('Type of caption', 'lightbox-photoswipe'); ?>
+            <?php echo __('Background opacity', 'lightbox-photoswipe'); ?>
         </th>
         <td>
-            <label><?php $this->uiControlRadio('caption_type', ['auto', 'aside', 'below', 'overlay'], [__('dynamic, automatic', 'lightbox-photoswipe'), __('dynamic, aside', 'lightbox-photoswipe'), __('dynamic, below', 'lightbox-photoswipe'), __('overlay', 'lightbox-photoswipe')], '<br>'); ?></label>
+            <select id="lightbox_photoswipe_bg_opacity" name="lightbox_photoswipe_bg_opacity">
+                <?php
+                for ($bg_opacity = 0; $bg_opacity <= 100; $bg_opacity += 10) {
+                    echo '<option value="'.$bg_opacity.'"';
+                    if ((int)$this->optionsManager->getOption('bg_opacity') === $bg_opacity) echo ' selected="selected"';
+                    echo '>'.$bg_opacity.'%';
+                    if ($bg_opacity === 100) echo ' ('.__('Default', 'lightbox-photoswipe').')';
+                    echo '</option>';
+                }
+                ?>
+            </select>
+            <p class="description"><?php echo __('Opacity of the background for the lightbox (values below 100% may not work well with some caption styles).', 'lightbox-photoswipe'); ?></p>
+        </td>
+    </tr>
+    <tr class="lbwps-ver5">
+        <th scope="row">
+            <?php echo __('Image padding', 'lightbox-photoswipe'); ?>
+        </th>
+        <td>
+            <label><?php echo __('left', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_left', '', 'small-text') ?></label>
+            <label><?php echo __('top', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_top', '', 'small-text') ?></label>
+            <label><?php echo __('right', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_right', '', 'small-text') ?></label>
+            <label><?php echo __('bottom', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('padding_bottom', '', 'small-text') ?></label>
+            <p class="description"><?php echo __('Padding around the image in px.', 'lightbox-photoswipe'); ?></p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <?php echo __('Maximum image size', 'lightbox-photoswipe'); ?>
+        </th>
+        <td>
+            <label><?php echo __('width', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('max_width', '', 'small-text') ?></label>
+            <label><?php echo __('height', 'lightbox-photoswipe'); ?>: <?php $this->uiControlNumber('max_height', '', 'small-text') ?></label>
+            <p class="description"><?php echo __('Maximum width or height to be used for images in px, leave empty for automatic sizing.', 'lightbox-photoswipe'); ?></p>
         </td>
     </tr>
 </table>

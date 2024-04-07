@@ -1,66 +1,40 @@
 <div id="lbwps-tab-5" style="display:none;">
-    <div>
+    <div class="lbwps-ver4">
         <table class="form-table">
             <tr>
                 <th scope="row">
-                    <?php echo __('General', 'lightbox-photoswipe'); ?>
+                    <?php echo __('Visible sharing options', 'lightbox-photoswipe'); ?>
                 </th>
                 <td>
-                    <label class="lbwps-ver4"><?php $this->uiControlCheckbox('fulldesktop'); ?> <?php echo __('Full picture size in desktop view', 'lightbox-photoswipe'); ?></label><br class="lbwps-ver4">
-                    <label><?php $this->uiControlCheckbox('desktop_slider'); ?> <?php echo __('Use slide animation when switching images in desktop view', 'lightbox-photoswipe'); ?></label><br>
-                    <label><?php $this->uiControlCheckbox('close_on_click'); ?> <?php echo __('Close the lightbox by clicking outside the image', 'lightbox-photoswipe'); ?></label>
-                </td>
-            </tr>
-            <tr class="lbwps-ver4">
-                <th scope="row">
-                    <?php echo __('Mouse wheel function', 'lightbox-photoswipe'); ?>
-                </th>
-                <td>
-                    <?php $this->uiControlRadio(
-                        'wheelmode',
-                        [
-                            'scroll',
-                            'close',
-                            'zoom',
-                            'switch'
-                        ],
-                        [
-                            __('Scroll zoomed image otherwise do nothing', 'lightbox-photoswipe'),
-                            __('Scroll zoomed image or close lightbox if not zoomed', 'lightbox-photoswipe'),
-                            __('Zoom in/out', 'lightbox-photoswipe'),
-                            __('Switch to next/previous picture', 'lightbox-photoswipe'),
-                        ],
-                        '<br>'); ?>
+                    <label><?php $this->uiControlCheckbox('share_facebook'); ?> <?php echo __('Share on Facebook', 'lightbox-photoswipe'); ?></label><br>
+                    <label><?php $this->uiControlCheckbox('share_twitter'); ?> <?php echo __('Tweet', 'lightbox-photoswipe'); ?></label><br>
+                    <label><?php $this->uiControlCheckbox('share_direct'); ?> <?php echo __('Use URL of images instead of lightbox on Facebook and Twitter', 'lightbox-photoswipe'); ?></label><br>
+                    <label><?php $this->uiControlCheckbox('share_pinterest'); ?> <?php echo __('Pin it', 'lightbox-photoswipe'); ?></label><br>
+                    <label><?php $this->uiControlCheckbox('share_download'); ?> <?php echo __('Download image', 'lightbox-photoswipe'); ?></label><br>
+                    <label><?php $this->uiControlCheckbox('share_copyurl'); ?> <?php echo __('Copy image URL', 'lightbox-photoswipe'); ?></label><br>
+                    <label><?php $this->uiControlCheckbox('share_custom'); ?> <?php echo __('Custom link', 'lightbox-photoswipe'); ?></label>
                 </td>
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo __('Idle time for controls', 'lightbox-photoswipe'); ?>
+                    <?php echo __('Custom link, label', 'lightbox-photoswipe'); ?>
                 </th>
                 <td>
-                    <select id="lightbox_photoswipe_idletime" name="lightbox_photoswipe_idletime">
-                        <?php
-                        echo '<option value="0"';
-                        if ((int)$this->optionsManager->getOption('idletime') === 0) {
-                            echo ' selected="selected"';
-                        }
-                        echo '>'.__('never hide automatically', 'lightbox-photoswipe').'</option>';
-                        for ($idletime = 1000; $idletime <= 10000; $idletime+=1000) {
-                            echo '<option value="'.$idletime.'"';
-                            if ((int)$this->optionsManager->getOption('idletime') === $idletime) {
-                                echo ' selected="selected"';
-                            }
-                            echo '>'.($idletime/1000).' '._n('second','seconds', $idletime/1000, 'lightbox-photoswipe');
-                            if ($idletime == 4000) {
-                                echo ' ('.__('Default', 'lightbox-photoswipe').')';
-                            }
-                            echo '</option>';
-                        }
-                        ?>
-                    </select>
-                    <p class="description"><?php echo __('Time until the on screen controls will disappear automatically in desktop view. Note: Keeping controls visible is only supported with PhotoSwipe 5.', 'lightbox-photoswipe'); ?></p>
+                    <?php $this->uiControltext('share_custom_label', __('Your label here', 'lightbox-photoswipe')); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    <?php echo __('Custom link, URL', 'lightbox-photoswipe'); ?>
+                </th>
+                <td>
+                    <?php $this->uiControltext('share_custom_link', '{{raw_image_url}}'); ?>
+                    <p class="description"><?php echo __('Placeholders for the link:<br />{{raw_url}}&nbsp;&ndash;&nbsp;URL of the lightbox<br />{{url}}&nbsp;&ndash;&nbsp;encoded URL of the lightbox<br />{{raw_image_url}}&nbsp;&ndash;&nbsp;URL of the image<br />{{image_url}}&nbsp;&ndash;&nbsp;encoded URL of the image<br />{{text}}&nbsp;&ndash;&nbsp;image caption.', 'lightbox-photoswipe'); ?></p>
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="lbwps-ver5">
+        <p class="lbwps_text"><?php echo __('Sharing options are not yet supported for PhotoSwipe 5.', 'lightbox-photoswipe') ?></p>
     </div>
 </div>

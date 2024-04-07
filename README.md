@@ -11,7 +11,6 @@ For more information about how to install Lightbox with PhotoSwipe see the [Word
 Please note that this plugin uses a custom stylesheet for the frontend (see `assets/ps5/lib/photoswipe-local.css`).
 This style is based on the original stylesheet of PhotoSwipe 5 and contains the following changes:
 
-
 * Keep UI elements clickable when hidden - this was the behaviour of PhotoSwipe 4 and avoids
   confusion when the UI hides automatically in desktop mode and clicking the hidden arrow
   would then close the lightbox instead of changing to the next image.
@@ -36,7 +35,7 @@ If you want to change any of the scripts or styles you need to update the minifi
 The plugin comes with a minifier script using PHP. To run that script use the following command:
 
 ```
-php build.php
+make build
 ```
 
 You should then see an output like this:

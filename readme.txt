@@ -1,10 +1,10 @@
 === Lightbox with PhotoSwipe ===
 
 Contributors: awelzel
-Tags: attachments, images, gallery, lightbox, fancybox, photoswipe
+Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
-Tested up to: 6.4
-Stable tag: 5.1.7
+Tested up to: 6.5
+Stable tag: 5.2.6
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,11 +13,11 @@ Integration of PhotoSwipe (http://photoswipe.com) for WordPress.
 
 == Description ==
 
-This plugin integrates an extended version of PhotoSwipe 4 or the official release of PhotoSwipe 5 to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
+This plugin integrates PhotoSwipe to WordPress. All linked images in a post or page will be displayed using PhotoSwipe, regardless if they are part of a gallery or single images. Just make sure that you link the image or gallery directly to the media and not the attachment page (in galleries the option `link=file` should be set).
 
 More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
-The version of PhotoSwipe 4 provided with this plugin comes with a number of modifications and extensions. See the FAQ for details.
+You can also display EXIF data from JPEG and WEBP images.
 
 As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see [https://wordpress.org/about/requirements/](https://wordpress.org/about/requirements/).
 
@@ -43,12 +43,6 @@ You can also add the same `data-lbwps-gid` attribute to multiple single images t
 Note: the parameter was renamed from `data-gallery-id` to `data-lbwps-gid` in version 2.97 to avoid conflicts with existing themes or plugins!
 
 Starting with release 3.1.14 this is also supported for Elementor image widgets and Elementor image carousel widgets.
-
-= The plugin seems not to work properly =
-
-Some themes or plugins have their own lightbox implementation which can cause a conflict with Lightbox with PhotoSwipe. In this case you need to disable the lightbox of the theme or other plugins if possible.
-
-Also keep in mind that linked images which are added using JavaScript after the page has been loaded already by the browser will not be displayed with Lightbox with PhotoSwipe if they are missing the attributes `data-lbwps-width` and `data-lbwps-height` with the width and height of the image.
 
 = How to disable the plugin in certain pages/posts =
 
@@ -98,27 +92,6 @@ function my_lbwps_caption_title($title, $id)
 add_filter('lbwps_caption_title', 'my_lbwps_caption_title', 10, 2);
 `
 
-= How to modify the PhotoSwipe markup =
-
-Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 modifying the markup is not supported any longer, since there is no static markup included.
-
-If you want to modify the existing PhotoSwipe 4 markup, you can use the filter `lbwps_markup`. This filter gets one parameter with the existing markup and must return the modified markup to be used.
-
-A "quick & dirty" example to add additional stuff in the header with the controls (CSS should never be inline - this is just to get a working example):
-
-`function my_lbwps_markup($markup)
-{
-    // Add some additional elements
-    $markup = str_replace(
-        '<div class="pswp__top-bar">',
-        '<div class="pswp__top-bar"><div style="position:absolute; width:100%; text-align:center; line-height:44px; font-size:13px; color:#fff; opacity: 0.75;">Our content</div>',
-        $markup
-	);
-    return $markup;
-}
-
-add_filter('lbwps_markup', 'my_lbwps_markup', 10, 1);`
-
 = Changes with PhotoSwipe 5 =
 
 PhotoSwipe 5 improves the overall performance and compatibility with newer mobile devices like the iPhone 13. However, some features are no longer supported by that version:
@@ -127,7 +100,7 @@ PhotoSwipe 5 improves the overall performance and compatibility with newer mobil
 
 2) Customizing the display of image counter and zoom button (this may be added in future updates).
 
-3) All desktop and mobile specific options (some options may return in future updates).
+3) All mobile specific options (some options may return in future updates).
 
 4) Sharing options (some options may return in future updates).
 
@@ -135,7 +108,8 @@ PhotoSwipe 5 improves the overall performance and compatibility with newer mobil
 
 Which styles are available depends on which PhotoSwipe version you use and what kind of caption.
 
-Please use the web developer tools of your browser to examine the caption elements and to learn which CSS classes are used.
+Please use the web developer tools of your browser to examine the caption elements and to learn which CSS classes
+are used.
 
 = Why is there no "zoom animation" when opening the lightbox? =
 
@@ -144,12 +118,6 @@ PhotoSwipe has the option to create a zoom animation from the thumbnail to the f
 = Conflict with PublishPress Blocks (Advanced Gutenberg Blocks) =
 
 Lightbox with PhotoSwipe works fine with Gutenberg gallery blocks as well. However when you use the "PublishPress Blocks" plugin it brings its own lightbox script which can cause conflicts. To avoid any problems, you should disable the Advanced Gutenberg lightbox in the settings. Disable the option "Open galleries in lightbox" in the backend configuration of PublishPress Blocks.
-
-= How to use the PhotoSwipe API? =
-
-Note: this only applies for PhotoSwipe 4! Starting with PhotoSwipe 5 there is no API hook yet!
-
-The PhotoSwipe instance for the gallery is available as `window.lbwpsPhotoSwipe` after the gallery was initialized. Please note, that this variable is `null` if the lightbox is not open! This can be used to build your own extensions using the PhotoSwipe API. Also see [https://photoswipe.com/documentation/api.html](https://photoswipe.com/documentation/api.html) how to use the API.
 
 = How to change the order of the images in the lightbox? =
 
@@ -163,61 +131,46 @@ Lightbox with PhotoSwipe tries to determine the size based on the width/height a
 
 Reading SVG files also requires the SimpleXML extension for PHP to be available. Without this extension SVG files can not be displayed at all.
 
-= Local changes in PhotoSwipe =
-
-Note: this only applies for PhotoSwipe 4! PhotoSwipe 5 is used without any changes.
-
-The following changes are the differences to PhotoSwipe 4.0 as of 2020-04-14:
-
-1) The default UI is based on a CSS file and a number of graphics in different formats. This CSS file got modified to provide a fix for WordPress themes which use elements with a quite high Z index which hide the controls of PhotoSwipe. By setting the Z index of the affected controls to the highest possible value, all controls stay visible in front.
-
-2) There are four skins, which you can choose from. Every skin is based on the default UI with some modifications. "New share symbol" contains a modified "share" symbol while "solid" in the name indicates, that all controls have a solid background instead of a slight transparency.
-
-3) When dragging the picture to the top, there is no additional fade out animation when closing the picture.
-
-4) When looping is disabled, this also applies to the desktop view.
-
-5) The grey placeholder for images when opening the lightbox is not visible (this was accomplished by adding `display: none;` for the placeholder).
-
-6) Arrows for next and previous picture will be hidden for the first or last picture if no endless loop is activated.
-
-7) When using full picture size in desktop view the UI elements will hide automatically and not only after a mouse movement and the image caption will also be hidden together with the navigation.
-
-8) Full screen mode can also be activated by pressing the key "F" on the keyboard.
-
-9) Gallery items support an optional "exif" property to display EXIF information in addition to the caption.
-
-10) Infinite loop is also possible with only two images.
-
-11) Added slide animation for changing images using the arrow buttons or via keyboard as suggested in [https://github.com/dimsemenov/PhotoSwipe/pull/1179](https://github.com/dimsemenov/PhotoSwipe/pull/1179).
-
-12) Added options to use the mouse wheel for zooming or switching images in desktop view.
-
-13) Added option to add "onclick" handlers for sharing links.
-
-14) Added option to add a custom URL for sharing links.
-
-15) Fullscreen mode hides navigation buttons on mobile devices if possible.
-
 = Licensing =
 
 To avoid any confusion: this plugin was published with the agreement of Dmytro Semenov.
 
 = Notes for developers =
 
-If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib` you need to execute `build.php` once to generate new frontend assets.
+If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib` you need to run `make build` to generate new compressed frontend assets.
 
 == Screenshots ==
 
-1. General options in the backend
-2. Theme options in the backend
-3. Options for captions in the backend
-4. Sharing options in the backend
-5. Desktop options in the backend
-6. Mobile options in the backend
-7. Example for the use in the frontend
+1. Example for the use in the frontend
+2. General options in the backend
+3. Theme options in the backend
+4. Options for captions in the backend
+5. Sharing options in the backend
+6. Desktop options in the backend
+7. Mobile options in the backend
 
 == Changelog ==
+
+= 5.2.6 =
+
+* Additional workarounds to deal with image links and captions in JetPack tiled galleries.
+
+= 5.2.5 =
+
+* Fixed handling of image rotation when using original size images using the option.
+
+= 5.2.4 =
+
+* Reverted EXIF handling back to native PHP EXIF extension due to performance reasons.
+
+= 5.2.0 =
+
+* EXIF data is now supported without the PHP EXIF extension and also for WEBP images and not only JPEG.
+
+= 5.1.8 =
+
+* Refactor EXIF helper and fix deprecation warning in PHP 8.3.
+* Prepare EXIF support for WebP in future versions (not yet supported by PHP).
 
 = 5.1.7 =
 
@@ -225,14 +178,11 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
  
 = 5.1.6 =
 
-* Make sure, that displaying SVG images in the lightbox is supported even if WordPress does not report it as allowed
-  file type for upload (for example when not logged in as administrator).
+* Make sure, that displaying SVG images in the lightbox is supported even if WordPress does not report it as allowed file type for upload (for example when not logged in as administrator).
 
 = 5.1.5 =
 
-* Fixed handling of tabindex attribute in image links with Bricks image slider: if image links contain a tabindex
-  attribute "-1", this was not treated as "no tabindex set" and could cause confusing image ordering when using
-  image sliders which use the tabindex attribute to "hide" invisible images from keyboard navigation.
+* Fixed handling of tabindex attribute in image links with Bricks image slider: if image links contain a tabindex attribute "-1", this was not treated as "no tabindex set" and could cause confusing image ordering when using image sliders which use the tabindex attribute to "hide" invisible images from keyboard navigation.
 
 = 5.1.4 =
 
