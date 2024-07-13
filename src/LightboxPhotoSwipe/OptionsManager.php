@@ -32,6 +32,7 @@ class OptionsManager
         'use_alt' => [ 'default' => '0' ],
         'showexif' => [ 'default' => '0' ],
         'showexif_date' => [ 'default' => '0' ],
+        'showexif_lens' => [ 'default' => '0' ],
         'history' => [ 'default' => '1' ],
         'separate_galleries' => [ 'default' => '0' ],
         'desktop_slider' => [ 'default' => '1' ],

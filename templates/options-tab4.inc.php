@@ -17,9 +17,16 @@
             <label><?php $this->uiControlCheckbox('usecaption'); ?> <?php echo __('Caption', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('usedescription'); ?> <?php echo __('Description', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('use_alt'); ?> <?php echo __('Alternative text', 'lightbox-photoswipe'); ?></label><br>
-            <label><?php $this->uiControlCheckbox('showexif'); ?> <?php echo __('EXIF data if available', 'lightbox-photoswipe'); ?></label><br>
-            <label><?php $this->uiControlCheckbox('showexif'); ?> <?php echo __('EXIF data if available', 'lightbox-photoswipe'); ?><?php if (!function_exists('exif_read_data')) { ?>(<?php echo __('<a href="https://www.php.net/manual/en/book.exif.php" target="_blank">the PHP EXIF extension</a> is missing on this server!', 'lightbox-photoswipe'); ?>)<?php } ?></label><br>
-            <label><?php $this->uiControlCheckbox('showexif_date'); ?> <?php echo __('Show date in EXIF data if available', 'lightbox-photoswipe'); ?></label>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <?php echo __('EXIF information', 'lightbox-photoswipe'); ?>
+        </th>
+        <td>
+            <label><?php $this->uiControlCheckbox('showexif'); ?> <?php echo __('Show EXIF information if available', 'lightbox-photoswipe'); ?><?php if (!function_exists('exif_read_data')) { ?>(<?php echo __('<a href="https://www.php.net/manual/en/book.exif.php" target="_blank">the PHP EXIF extension</a> is missing on this server!', 'lightbox-photoswipe'); ?>)<?php } ?></label><br>
+            <label><?php $this->uiControlCheckbox('showexif_lens'); ?> <?php echo __('Show lens name if available', 'lightbox-photoswipe'); ?></label><br>
+            <label><?php $this->uiControlCheckbox('showexif_date'); ?> <?php echo __('Show date if available', 'lightbox-photoswipe'); ?></label>
         </td>
     </tr>
     <tr class="lbwps-ver5">

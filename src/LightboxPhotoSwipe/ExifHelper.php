@@ -63,6 +63,39 @@ class ExifHelper
     }
 
     /**
+     * Get the lens model
+     */
+    function getLens()
+    {
+        $make = '';
+        if (isset($this->exifData['EXIF']['UndefinedTag:0xA433'])) {
+            $make = $this->exifData['EXIF']['UndefinedTag:0xA433'];
+        } else if (isset($this->exifData['EXIF']['LensMake'])) {
+            $make = $this->exifData['EXIF']['LensMake'];
+        }
+
+        $model = '';
+        if (isset($this->exifData['EXIF']['UndefinedTag:0xA434'])) {
+            $model = $this->exifData['EXIF']['UndefinedTag:0xA434'];
+        } else if (isset($this->exifData['EXIF']['LensModel'])) {
+            $model .= $this->exifData['EXIF']['LensModel'];
+        }
+
+        $lens = '';
+        if (strlen($make)>0) {
+            if (substr($model, 0, strlen($make)) == $make) {
+                $lens = $model;
+            } else {
+                $lens = $make . ' ' . $model;
+            }
+        } else {
+            $lens = $model;
+        }
+
+        return $lens;
+    }
+
+    /**
      * Get the focal length
      */
     function getFocalLength()
@@ -166,7 +199,7 @@ class ExifHelper
             return '';
         }
 
-        return 'f/' . round($fstop,1);
+        return '𝑓/' . round($fstop,1);
     }
 
     function getOrientation()
@@ -181,11 +214,14 @@ class ExifHelper
     /**
      * Build caption string based on given parameters
      */
-    function buildCaptionString($focal, $fstop, $shutter, $iso, $date, $camera, $includeDate)
+    function buildCaptionString($focal, $fstop, $shutter, $iso, $date, $camera, $lens, $includeDate, $includeLens)
     {
         $caption = '';
 
         $this->addToCaption($caption, $camera, 'camera');
+        if ($includeLens) {
+            $this->addToCaption($caption, $lens, 'lens');
+        }
         $this->addToCaption($caption, $focal, 'focal');
         $this->addToCaption($caption, $fstop, 'fstop');
         $this->addToCaption($caption, $shutter, 'shutter');

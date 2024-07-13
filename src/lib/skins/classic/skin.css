@@ -514,6 +514,16 @@ a.pswp__share--custom:hover:before {
 	background-image: url(camera.svg);
 }
 
+.pswp__caption__exif_lens {
+  padding-left: 2.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-position: 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-image: url(lens.svg);
+}
+
 .pswp__caption__exif_focal {
 	padding-left: 2.5em;
     padding-top: 0.25em;

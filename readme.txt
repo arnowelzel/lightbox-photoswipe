@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.5
-Stable tag: 5.2.6
+Stable tag: 5.3.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,12 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Mobile options in the backend
 
 == Changelog ==
+
+= 5.3.0 =
+
+* Modified f-stop symbol for EXIF display.
+* Added optional lens name display for EXIF display.
+* Reorganized backend options for EXIF display.
 
 = 5.2.6 =
 

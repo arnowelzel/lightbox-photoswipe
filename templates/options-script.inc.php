@@ -11,10 +11,13 @@
 
     function lbwpsUpdateExifDateCheck(checkbox)
     {
+        let showExifLens = document.getElementById("lightbox_photoswipe_showexif_lens");
         let showExifDate = document.getElementById("lightbox_photoswipe_showexif_date");
         if (checkbox.checked) {
+            showExifLens.disabled = false;
             showExifDate.disabled = false;
         } else {
+            showExifLens.disabled = true;
             showExifDate.disabled = true;
         }
     }
