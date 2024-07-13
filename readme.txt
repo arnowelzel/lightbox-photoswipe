@@ -77,6 +77,7 @@ The individual parts of the caption can be modified using the following filters.
 lbwps_caption_caption
 lbwps_caption_title
 lbwps_caption_description
+lbwps_caption_exif
 `
 
 Example:
