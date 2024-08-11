@@ -147,9 +147,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 2. General options in the backend
 3. Theme options in the backend
 4. Options for captions in the backend
-5. Sharing options in the backend
-6. Desktop options in the backend
-7. Mobile options in the backend
+5. Desktop options in the backend
 
 == Changelog ==
 
