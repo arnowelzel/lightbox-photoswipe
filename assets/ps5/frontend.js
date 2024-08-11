@@ -213,6 +213,10 @@ let lbwpsInit = function(domUpdate) {
                     title = title + '<div class="pswp__caption__desc">' + element.getAttribute('data-lbwps-description') + '</div>';
                 }
 
+                if (element.getAttribute('data-lbwps-filename') != null) {
+                    title = title + '<div class="pswp__caption__file">' + element.getAttribute('data-lbwps-filename') + '</div>';
+                }
+
                 let msrc = element.getAttribute('href');
                 if (element.getAttribute('data-lbwps-srcsmall')) {
                     msrc = element.getAttribute('data-lbwps-srcsmall');

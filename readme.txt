@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.6
-Stable tag: 5.3.2
+Stable tag: 5.4.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -77,6 +77,7 @@ The individual parts of the caption can be modified using the following filters.
 lbwps_caption_caption
 lbwps_caption_title
 lbwps_caption_description
+lbwps_caption_filename
 lbwps_caption_exif
 `
 
@@ -151,6 +152,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 7. Mobile options in the backend
 
 == Changelog ==
+
+= 5.4.0 =
+
+* Added option to use file name for captions.
 
 = 5.3.2 =
 

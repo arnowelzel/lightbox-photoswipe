@@ -10,7 +10,7 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.3.2';
+    const VERSION = '5.4.0';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '19';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
@@ -324,6 +324,7 @@ class LightboxPhotoSwipe
         $captionCaption = '';
         $captionDescription = '';
         $captionTitle = '';
+        $captionFilename = '';
         $isLocal = false;
         if (!in_array($extension, ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp', 'svg'])) {
             // Ignore unknown image formats
@@ -483,6 +484,8 @@ class LightboxPhotoSwipe
                 if (false === $imgMtime) {
                     $imgMtime = 0;
                 }
+
+                $captionFilename = basename($file);
             } else {
                 // For external files we don't try to get the modification time
                 // as this can cause PHP warning messages in server logs
@@ -613,6 +616,10 @@ class LightboxPhotoSwipe
                 if ('1' === $this->optionsManager->getOption('usedescription') && '' !== $captionDescription) {
                     $captionDescription = apply_filters('lbwps_caption_description', $captionDescription, $id);
                     $attr .= sprintf(' data-lbwps-description="%s"', htmlspecialchars(nl2br(wptexturize($captionDescription))));
+                }
+                if ('1' === $this->optionsManager->getOption('usefilename') && '' !== $captionFilename) {
+                    $captionFilename = apply_filters('lbwps_caption_filename', $captionFilename, $id);
+                    $attr .= sprintf(' data-lbwps-filename="%s"', htmlspecialchars(nl2br(wptexturize($captionFilename))));
                 }
                 if ('1' === $this->optionsManager->getOption('showexif')) {
                     $exifCaption = $this->exifHelper->buildCaptionString(

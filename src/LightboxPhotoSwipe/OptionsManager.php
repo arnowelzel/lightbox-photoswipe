@@ -55,6 +55,7 @@ class OptionsManager
         'support_multiple_domain_mapping' => [ 'default' => 1 ],
         'usetitle' => [ 'default' => '0' ],
         'usecaption' => [ 'default' => '1' ],
+        'usefilename' => [ 'default' => '0' ],
         'version' => [ 'default' => '5' ],
         'bg_opacity' => [ 'default' => '100' ],
         'padding_left' => [ 'default' => '0' ],

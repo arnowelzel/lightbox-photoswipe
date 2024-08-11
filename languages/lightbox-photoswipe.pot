@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-13 11:54+0000\n"
+"POT-Creation-Date: 2024-08-11 08:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: templates/options-tab4.inc.php:27
+#: templates/options-tab4.inc.php:28
 msgid ""
 "<a href=\"https://www.php.net/manual/en/book.exif.php\" target=\"_blank\">"
 "the PHP EXIF extension</a> is missing on this server!"
@@ -82,7 +82,7 @@ msgid ""
 msgstr ""
 
 #: templates/frontend.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1020
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1026
 msgid "Close [Esc]"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgid "Close with vertical drag in mobile view"
 msgstr ""
 
 #: templates/options-tab5.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1019
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1025
 msgid "Copy image URL"
 msgstr ""
 
@@ -124,24 +124,24 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:766
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:772
 msgid "Disable"
 msgstr ""
 
 #: templates/options-tab5.inc.php:13
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1018
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1024
 msgid "Download image"
 msgstr ""
 
-#: templates/options-tab4.inc.php:37
+#: templates/options-tab4.inc.php:38
 msgid "dynamic, aside"
 msgstr ""
 
-#: templates/options-tab4.inc.php:37
+#: templates/options-tab4.inc.php:38
 msgid "dynamic, automatic"
 msgstr ""
 
-#: templates/options-tab4.inc.php:37
+#: templates/options-tab4.inc.php:38
 msgid "dynamic, below"
 msgstr ""
 
@@ -174,12 +174,16 @@ msgstr ""
 msgid "Excluded post types"
 msgstr ""
 
-#: templates/options-tab4.inc.php:24
+#: templates/options-tab4.inc.php:25
 msgid "EXIF information"
 msgstr ""
 
 #: templates/options-tab2.inc.php:74
 msgid "Factor by which SVG images get scaled when displayed in the lightbox."
+msgstr ""
+
+#: templates/options-tab4.inc.php:20
+msgid "File name"
 msgstr ""
 
 #: templates/options-tab2.inc.php:52
@@ -304,9 +308,9 @@ msgstr ""
 #. Name of the plugin
 #. Description of the plugin
 #: templates/options.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:713
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:714
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:746
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:719
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:720
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:752
 msgid "Lightbox with PhotoSwipe"
 msgstr ""
 
@@ -349,7 +353,7 @@ msgid "New share symbol with solid background"
 msgstr ""
 
 #: templates/frontend.inc.php:29
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1023
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1029
 msgid "Next [→]"
 msgstr ""
 
@@ -371,7 +375,7 @@ msgstr ""
 msgid "Other options"
 msgstr ""
 
-#: templates/options-tab4.inc.php:37
+#: templates/options-tab4.inc.php:38
 msgid "overlay"
 msgstr ""
 
@@ -388,7 +392,7 @@ msgid "PHP version"
 msgstr ""
 
 #: templates/options-tab5.inc.php:12
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1017
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1023
 msgid "Pin it"
 msgstr ""
 
@@ -414,7 +418,7 @@ msgid "Prefix"
 msgstr ""
 
 #: templates/frontend.inc.php:28
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1022
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1028
 msgid "Previous [←]"
 msgstr ""
 
@@ -449,7 +453,7 @@ msgid "Share"
 msgstr ""
 
 #: templates/options-tab5.inc.php:9
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1015
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1021
 msgid "Share on Facebook"
 msgstr ""
 
@@ -465,11 +469,11 @@ msgstr ""
 msgid "Show caption if available"
 msgstr ""
 
-#: templates/options-tab4.inc.php:29
+#: templates/options-tab4.inc.php:30
 msgid "Show date if available"
 msgstr ""
 
-#: templates/options-tab4.inc.php:27
+#: templates/options-tab4.inc.php:28
 msgid "Show EXIF information if available"
 msgstr ""
 
@@ -477,7 +481,7 @@ msgstr ""
 msgid "Show fullscreen button"
 msgstr ""
 
-#: templates/options-tab4.inc.php:28
+#: templates/options-tab4.inc.php:29
 msgid "Show lens name if available"
 msgstr ""
 
@@ -535,7 +539,7 @@ msgid ""
 "done for version 4 may not work for version 5."
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1024
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1030
 msgid "The image cannot be loaded"
 msgstr ""
 
@@ -570,7 +574,7 @@ msgid "Title"
 msgstr ""
 
 #: templates/frontend.inc.php:14
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1025
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1031
 msgid "Toggle fullscreen [F]"
 msgstr ""
 
@@ -579,11 +583,11 @@ msgid "top"
 msgstr ""
 
 #: templates/options-tab5.inc.php:10
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1016
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1022
 msgid "Tweet"
 msgstr ""
 
-#: templates/options-tab4.inc.php:34
+#: templates/options-tab4.inc.php:35
 msgid "Type of caption"
 msgstr ""
 
@@ -642,7 +646,7 @@ msgstr ""
 msgid "Your label here"
 msgstr ""
 
-#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1021
+#: src/LightboxPhotoSwipe/LightboxPhotoSwipe.php:1027
 msgid "Zoom"
 msgstr ""
 

@@ -17,6 +17,7 @@
             <label><?php $this->uiControlCheckbox('usecaption'); ?> <?php echo __('Caption', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('usedescription'); ?> <?php echo __('Description', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('use_alt'); ?> <?php echo __('Alternative text', 'lightbox-photoswipe'); ?></label><br>
+            <label><?php $this->uiControlCheckbox('usefilename'); ?> <?php echo __('File name', 'lightbox-photoswipe'); ?></label><br>
         </td>
     </tr>
     <tr>

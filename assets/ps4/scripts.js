@@ -307,6 +307,7 @@ title='';if(element.getAttribute('data-lbwps-title')!=null){title=title+'<div cl
 if(lbwpsOptions.usecaption==='1'&&caption!=null){title=title+'<div class="pswp__caption__text">'+caption+'</div>'}
 if(lbwpsOptions.use_alt==='1'&&element.firstElementChild&&element.firstElementChild.getAttribute('alt')){title=title+'<div class="pswp__caption__alt">'+element.firstElementChild.getAttribute('alt')+'</div>'}
 if(element.getAttribute('data-lbwps-description')!=null){title=title+'<div class="pswp__caption__desc">'+element.getAttribute('data-lbwps-description')+'</div>'}
+if(element.getAttribute('data-lbwps-filename')!=null){title=title+'<div class="pswp__caption__file">'+element.getAttribute('data-lbwps-filename')+'</div>'}
 let msrc=element.getAttribute('href');if(element.getAttribute('data-lbwps-srcsmall')){msrc=element.getAttribute('data-lbwps-srcsmall')}
 galleryItems.push({src:element.getAttribute('href'),msrc:msrc,w:element.getAttribute('data-lbwps-width'),h:element.getAttribute('data-lbwps-height'),title:title,exif:element.getAttribute('data-lbwps-exif'),getThumbBoundsFn:!1,showHideOpacity:!0,el:element,tabindex:tabindex})}}
 galleryItems.sort(function(a,b){let indexa=parseInt(a.tabindex);let indexb=parseInt(b.tabindex);if(indexa>indexb){return 1}
