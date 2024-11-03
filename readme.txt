@@ -3,8 +3,8 @@
 Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
-Tested up to: 6.6
-Stable tag: 5.4.0
+Tested up to: 6.7
+Stable tag: 5.4.1
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 5. Desktop options in the backend
 
 == Changelog ==
+
+= 5.4.1 =
+
+* Updated  compatibility information for WordPress 6.7.
 
 = 5.4.0 =
 
