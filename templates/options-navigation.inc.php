@@ -5,5 +5,5 @@
     <a href="#" id="lbwps-switch-4" class="nav-tab" onclick="lbwpsSwitchTab(4);return false;"><?php echo __('Captions', 'lightbox-photoswipe'); ?></a>
     <a href="#" id="lbwps-switch-5" class="nav-tab" onclick="lbwpsSwitchTab(5);return false;"><?php echo __('Sharing', 'lightbox-photoswipe'); ?></a>
     <a href="#" id="lbwps-switch-6" class="nav-tab" onclick="lbwpsSwitchTab(6);return false;"><?php echo __('Desktop', 'lightbox-photoswipe'); ?></a>
-    <a href="#" id="lbwps-switch-7" class="nav-tab" onclick="lbwpsSwitchTab(7);return false;"><?php echo __('Mobile', 'lightbox-photoswipe'); ?></a>
+    <a href="#" id="lbwps-switch-7" class="nav-tab lbwps-ver4" onclick="lbwpsSwitchTab(7);return false;"><?php echo __('Mobile', 'lightbox-photoswipe'); ?></a>
 </nav>
