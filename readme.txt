@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 5.4.1
+Stable tag: 5.5.0
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,6 +27,12 @@ As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Old
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
+
+= Issues with "optimizing" plugins =
+
+The plugin uses JavaScript modules for PhotoSwipe 5. This will not work, if you use any kind of "JavaScript optimizing"
+with a WordPress plugin which combines all frontend script into one single. Make sure that Lightbox with PhotoSwipe is
+excluded from any kind of "optimization", otherwise the plugin may not work.
 
 = Using the plugin =
 
@@ -150,6 +156,12 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 5. Desktop options in the backend
 
 == Changelog ==
+
+= 5.5.0 =
+
+PhotoSwipe 5 integration:
+
+* Implemented URL navigation to support the option "Update browser history" again. Going forward in the browser history after closing the lightbox will also open it again.
 
 = 5.4.1 =
 

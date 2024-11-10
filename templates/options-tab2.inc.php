@@ -43,7 +43,7 @@
             <?php echo __('Other options', 'lightbox-photoswipe'); ?>
         </th>
         <td>
-            <label class="lbwps-ver4"><?php $this->uiControlCheckbox('history') ?>&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', 'lightbox-photoswipe'); ?></label><br class="lbwps-ver4">
+            <label><?php $this->uiControlCheckbox('history') ?>&nbsp;<?php echo __('Update browser history (going back in the browser will first close the lightbox)', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('loop') ?>&nbsp;<?php echo __('Allow infinite loop', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('separate_galleries') ?>&nbsp;<?php echo __('Show WordPress galleries and Gutenberg gallery blocks in separate lightboxes', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('ignore_external') ?>&nbsp;<?php echo __('Ignore links to images on other sites', 'lightbox-photoswipe'); ?></label><br>

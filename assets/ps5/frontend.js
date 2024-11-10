@@ -4,6 +4,16 @@ import PhotoSwipeAutoHideUI from './auto-hide-ui/photoswipe-auto-hide-ui.esm.min
 import PhotoSwipeFullscreen from './fullscreen/photoswipe-fullscreen.esm.min.js';
 
 let lbwpsInit = function(domUpdate) {
+    // Original styles to be used to hide/show scrollbars
+    let originalBodyPaddingRight = document.body.style.paddingRight;
+    let originalBodyOverflow = document.body.style.overflow;
+
+    // Get initial hash
+    let initialHash = window.location.hash.substring(1);
+    // Check, if history.pushState() is supported
+    let supportsPushState = ('pushState' in history);
+    let isFirstHashUpdate = true;
+
     if (!domUpdate) {
         document.addEventListener('click', (event) => {
             // Backwards compatible solution for older browsers
@@ -102,13 +112,8 @@ let lbwpsInit = function(domUpdate) {
         }
     }
 
-    let originalBodyPaddingRight = '';
-    let originalBodyOverflow = '';
-
     let hideScrollbar = function () {
         const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
-        originalBodyPaddingRight = document.body.style.paddingRight;
-        originalBodyOverflow = document.body.style.overflow;
         document.body.style.paddingRight = scrollbarWidth + 'px';
         document.body.style.overflow = 'hidden';
     };
@@ -348,13 +353,13 @@ let lbwpsInit = function(domUpdate) {
         options.counterEl = lbwpsOptions.show_counter === '1';
         options.closeOnScroll = lbwpsOptions.wheelmode === 'close';
         options.switchOnScroll = lbwpsOptions.wheelmode === 'switch';
-        options.history = lbwpsOptions.history === '1';
         options.zoomEl = lbwpsOptions.show_zoom === '1';
         options.tapToToggleControls = lbwpsOptions.taptotoggle === '1';
         */
 
 
         const lightbox = new PhotoSwipeLightbox(options);
+        window.lbwpsPhotoSwipe = lightbox;
         lightbox.on('destroy', () => {
             const pswpElements = document.getElementsByClassName('pswp__scroll-wrap');
             if (lbwpsOptions.hide_scrollbars === '1') {
@@ -362,6 +367,14 @@ let lbwpsInit = function(domUpdate) {
             }
             if (element) {
                 element.focus();
+            }
+
+            // If we support hash navigation and changed the history, restore original state
+            if (lbwpsOptions.history == 1) {
+                if (!isFirstHashUpdate) {
+                    history.back();
+                }
+                isFirstHashUpdate = true;
             }
         });
 
@@ -410,16 +423,13 @@ let lbwpsInit = function(domUpdate) {
         }
 
         // Add sliding in desktop mode
-        options.desktopSlider = lbwpsOptions.desktop_slider === '1';
-
-        if (options.desktopSlider) {
+        if (lbwpsOptions.desktop_slider === '1') {
             const lbwpsGoTo = (index, animate = false) => {
-                const pwsp = lightbox.pswp;
-                index = pwsp.getLoopedIndex(index);
-                const indexChanged = pwsp.mainScroll.moveIndexBy(index - pwsp.potentialIndex, animate);
+                index = lightbox.pswp.getLoopedIndex(index);
+                const indexChanged = lightbox.pswp.mainScroll.moveIndexBy(index - lightbox.pswp.potentialIndex, animate);
 
                 if (indexChanged) {
-                    pwsp.dispatch('afterGoto');
+                    lightbox.pswp.dispatch('afterGoto');
                 }
             }
             lightbox.on('uiRegister', () => {
@@ -428,13 +438,68 @@ let lbwpsInit = function(domUpdate) {
             });
         }
 
+        // Add support for URL hash update
+        if (lbwpsOptions.history === '1') {
+            // Handler to modify URL when a new image is displayed
+            lightbox.on('change', () => {
+                let gid = 1;
+                if (lightbox.pswp.currSlide.data.el.dataset.lbwpsGid) {
+                    gid = lightbox.pswp.currSlide.data.el.dataset.lbwpsGid;
+                }
+                let pid = lightbox.pswp.currSlide.index + 1;
+                let newHash = 'gid=' + gid + '&pid=' + pid;
+                let newURL = window.location.href.split('#')[0] + '#' + newHash;
+                if (supportsPushState) {
+                    if (isFirstHashUpdate) {
+                        history.pushState('', document.title, newURL);
+                    } else {
+                        history.replaceState('', document.title, newURL);
+                    }
+                } else {
+                    if (isFirstHashUpdate) {
+                        window.location.hash = newHash;
+                    } else {
+                        window.location.replace(newURL);
+                    }
+                }
+                isFirstHashUpdate = false;
+            });
+        }
+
         lightbox.init();
         if (lbwpsOptions.hide_scrollbars === '1') {
             hideScrollbar();
         }
         lightbox.loadAndOpen(index);
+
+        // Handler to detect URL changes when user goes back or forth in history
+        // This may either mean to close the lightbox or to open it again
+        window.addEventListener('hashchange', () => {
+            let hashData = photoswipeParseHash();
+            if (!hashData.gid && !hashData.pid) {
+                if (lightbox.pswp) {
+                    lightbox.pswp.close();
+                    isFirstHashUpdate = true;
+                }
+            } else {
+                isFirstHashUpdate = false;
+                clickElement(hashData.gid, hashData.pid);
+            }
+        })
     };
 
+    let clickElement = function(gid, pid) {
+        // If the URL provides picture and group ID click the given element
+        // as opening the lightbox at this point won't work
+        let elements;
+
+        if (gid == 1) {
+            elements = document.querySelectorAll('a[data-lbwps-width]:not([data-lbwps-gid])');
+        } else {
+            elements = document.querySelectorAll('a[data-lbwps-width][data-lbwps-gid="' + gid + '"]');
+        }
+        elements[pid-1].click();
+    }
 
     window.lbwpsCopyToClipboard = function(str) {
         const el = document.createElement('textarea');
@@ -456,19 +521,12 @@ let lbwpsInit = function(domUpdate) {
         }
     }
 
-    let hashData = photoswipeParseHash();
-    if (hashData.pid && hashData.gid) {
-        // If the URL provides picture and group ID click the given element
-        // as opening the lightbox at this point won't work
-        let elements;
-
-        if (hashData.gid == 1) {
-            elements = document.querySelectorAll('a[data-lbwps-width]:not([data-lbwps-gid])');
-        } else {
-            elements = document.querySelectorAll('a[data-lbwps-width][data-lbwps-gid="' + hashData.gid + '"]');
+    if(!domUpdate) {
+        let hashData = photoswipeParseHash();
+        if (hashData.pid && hashData.gid) {
+            isFirstHashUpdate = false;
+            clickElement(hashData.gid, hashData.pid);
         }
-        history.replaceState(null, null, ' ');
-        elements[hashData.pid-1].click();
     }
 }
 
