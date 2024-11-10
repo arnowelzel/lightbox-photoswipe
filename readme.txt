@@ -104,13 +104,11 @@ add_filter('lbwps_caption_title', 'my_lbwps_caption_title', 10, 2);
 
 PhotoSwipe 5 improves the overall performance and compatibility with newer mobile devices like the iPhone 13. However, some features are no longer supported by that version:
 
-1) Updating the browser history when opening the lightbox or navigating through images (this is no longer supported by PhotoSwipe).
+1) Customizing the display of image counter and zoom button (this may be added in future updates).
 
-2) Customizing the display of image counter and zoom button (this may be added in future updates).
+2) All mobile specific options (some options may return in future updates).
 
-3) All mobile specific options (some options may return in future updates).
-
-4) Sharing options (some options may return in future updates).
+3) Sharing options (some options may return in future updates).
 
 = How to style the caption =
 
