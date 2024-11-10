@@ -30,7 +30,7 @@ As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Old
 
 = Issues with "optimizing" plugins =
 
-The plugin uses JavaScript modules for PhotoSwipe 5. This will not work, if you use any kind of "JavaScript optimizing" with a WordPress plugin which combines all frontend script into one single. Make sure that Lightbox with PhotoSwipe is excluded from any kind of "optimization", otherwise the plugin may not work.
+The plugin uses JavaScript modules for PhotoSwipe 5. This will not work, if you use any kind of "JavaScript optimizing" with a WordPress plugin which combines all frontend scripts into one single file. Make sure that Lightbox with PhotoSwipe is excluded from any kind of "optimization", otherwise the plugin may not work.
 
 = Using the plugin =
 
