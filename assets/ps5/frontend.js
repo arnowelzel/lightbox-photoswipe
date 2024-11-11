@@ -13,6 +13,7 @@ let lbwpsInit = function(domUpdate) {
     // Check, if history.pushState() is supported
     let supportsPushState = ('pushState' in history);
     let isFirstHashUpdate = true;
+    let historyChanged = false;
 
     if (!domUpdate) {
         document.addEventListener('click', (event) => {
@@ -371,8 +372,24 @@ let lbwpsInit = function(domUpdate) {
 
             // If we support hash navigation and changed the history, restore original state
             if (lbwpsOptions.history == 1) {
-                if (!isFirstHashUpdate) {
+                if (historyChanged) {
+                    historyChanged = false;
                     history.back();
+                } else {
+                    let newURL = window.location.href.split('#')[0];
+                    if (supportsPushState) {
+                        if (isFirstHashUpdate) {
+                            history.pushState('', document.title, newURL);
+                        } else {
+                            history.replaceState('', document.title, newURL);
+                        }
+                    } else {
+                        if (isFirstHashUpdate) {
+                            window.location.hash = '';
+                        } else {
+                            window.location.replace(newURL);
+                        }
+                    }
                 }
                 isFirstHashUpdate = true;
             }
@@ -451,6 +468,7 @@ let lbwpsInit = function(domUpdate) {
                 let newURL = window.location.href.split('#')[0] + '#' + newHash;
                 if (supportsPushState) {
                     if (isFirstHashUpdate) {
+                        historyChanged = true;
                         history.pushState('', document.title, newURL);
                     } else {
                         history.replaceState('', document.title, newURL);
@@ -478,6 +496,7 @@ let lbwpsInit = function(domUpdate) {
             let hashData = photoswipeParseHash();
             if (!hashData.gid && !hashData.pid) {
                 if (lightbox.pswp) {
+                    historyChanged = false;
                     lightbox.pswp.close();
                     isFirstHashUpdate = true;
                 }
