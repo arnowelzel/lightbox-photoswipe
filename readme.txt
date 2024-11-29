@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 5.5.1
+Stable tag: 5.5.2
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
+= 5.5.2 =
+
+* Added support for AVIF images.
+
 = 5.5.1 =
 
 PhotoSwipe 5 integration:
@@ -167,7 +171,7 @@ PhotoSwipe 5 integration:
 
 = 5.4.1 =
 
-* Updated  compatibility information for WordPress 6.7.
+* Updated compatibility information for WordPress 6.7.
 
 = 5.4.0 =
 
