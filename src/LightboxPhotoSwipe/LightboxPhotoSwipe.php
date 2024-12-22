@@ -10,9 +10,9 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.5.2';
+    const VERSION = '5.5.3';
     const SLUG = 'lightbox-photoswipe';
-    const META_VERSION = '19';
+    const META_VERSION = '20';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
@@ -492,11 +492,12 @@ class LightboxPhotoSwipe
                 $imgMtime = 0;
             }
 
-            $cacheKey = sprintf('%s-%s-image-%s',self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
-            if ($this->optionsManager->getOption('use_transients')) {
-                $imgDetails = get_transient($cacheKey);
-            } else {
-                $imgDetails = false;
+            $imgDetails = false;
+            if (!defined('WP_DEBUG') || WP_DEBUG !== true) {
+                $cacheKey = sprintf('%s-%s-image-%s', self::META_VERSION, self::SLUG, hash('md5', $file.$imgMtime));
+                if ($this->optionsManager->getOption('use_transients')) {
+                    $imgDetails = get_transient($cacheKey);
+                }
             }
             if (!$imgDetails) {
                 $imageSize = $this->getImageSize($file . $params, $extension);
@@ -567,7 +568,7 @@ class LightboxPhotoSwipe
                             }
                         }
                     }
-                    if ($this->optionsManager->getOption('use_transients')) {
+                    if ((!defined('WP_DEBUG') || WP_DEBUG !== true) && $this->optionsManager->getOption('use_transients')) {
                         set_transient($cacheKey, $imgDetails, self::CACHE_EXPIRE_IMG_DETAILS);
                     }
                 }
@@ -1130,19 +1131,16 @@ class LightboxPhotoSwipe
                 $svgContent = simplexml_load_file($file);
                 if (false !== $svgContent) {
                     $svgAttributes = $svgContent->attributes();
-                    if (isset($svgAttributes->width) && isset($svgAttributes->height)) {
-                        $imageSize[0] = rtrim($svgAttributes->width, 'px');
-                        $imageSize[1] = rtrim($svgAttributes->height, 'px');
-                    } else {
-                        $viewBox = false;
-                        if (isset($svgAttributes->viewBox)) {
-                            $viewBox = explode(' ', $svgAttributes->viewBox, 4);
-                        } else if (isset($svgAttributes->viewbox)) {
-                            $viewBox = explode(' ', $svgAttributes->viewbox, 4);
-                        }
-                        if ($viewBox !== false) {
+                    if (isset($svgAttributes->viewBox)) {
+                        $viewBox = explode(' ', $svgAttributes->viewBox, 4);
+                        if ($viewBox !== false && count($viewBox) == 4) {
                             $imageSize[0] = (int)($viewBox[2] - $viewBox[0]);
                             $imageSize[1] = (int)($viewBox[3] - $viewBox[1]);
+                        }
+                    } else if (isset($svgAttributes->width) && isset($svgAttributes->height)) {
+                        if (str_ends_with($svgAttributes->width, 'px') && str_ends_with($svgAttributes->height, 'px')) {
+                            $imageSize[0] = rtrim($svgAttributes->width, 'px');
+                            $imageSize[1] = rtrim($svgAttributes->height, 'px');
                         }
                     }
                 }
