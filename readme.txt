@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 5.6.0
+Stable tag: 5.6.1
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -21,7 +21,7 @@ You can also display EXIF data from JPEG and WEBP images.
 
 As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see [https://wordpress.org/about/requirements/](https://wordpress.org/about/requirements/).
 
-Please keep in mind: not the visible thumbnail is relevant, but only the image link. Images should always be linked to the file and not to the attachment page. Since version 5.6.0 there is an option to fix attachment links which can be enabled if needed - however this may slow down your website since then all links on a page will be checked if they are attachment links.
+Please keep in mind: not the visible thumbnail is relevant, but only the image link. Images should always be linked to the file and not to the attachment page. Since version 5.6.1 there is an option to fix attachment links which can be enabled if needed - however this may slow down your website since then all links on a page will be checked if they are attachment links.
 
 == Installation ==
 
@@ -155,7 +155,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 
 == Changelog ==
 
-= 5.6.0 =
+= 5.6.1 =
 
 * Added an option to replace media links to the attachment page to the media file.
 * Fixed possible compatibility issues with WordPress 6.7.
