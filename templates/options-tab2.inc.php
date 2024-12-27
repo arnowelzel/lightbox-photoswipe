@@ -51,6 +51,7 @@
             <label><?php $this->uiControlCheckbox('hide_scrollbars') ?>&nbsp;<?php echo __('Hide scrollbars when opening the lightbox (this may not work with your theme)', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('fix_links') ?>&nbsp;<?php echo __('Fix links to images which include image sizes (e.g. "image-1024x768.jpg" instead of "image.jpg")', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('fix_scaled') ?>&nbsp;<?php echo __('Fix links to scaled images (e.g."image.jpg" instead of "image-scaled.jpg")', 'lightbox-photoswipe'); ?></label><br>
+            <label><?php $this->uiControlCheckbox('fix_attachment_links') ?>&nbsp;<?php echo __('Fix links to attachment pages instead of images (may slow down your website)', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('support_multiple_domain_mapping') ?>&nbsp;<?php echo __('Support for <a href="https://wordpress.org/plugins/multiple-domain-mapping-on-single-site/" target="_blank">Multiple Domain Mapping on Single Site</a>', 'lightbox-photoswipe'); ?></label><br>
             <label><?php $this->uiControlCheckbox('use_transients') ?>&nbsp;<?php echo __('Cache image information in transients (disabling this can slow down your website, try an object cache first)', 'lightbox-photoswipe'); ?></label><br>
         </td>

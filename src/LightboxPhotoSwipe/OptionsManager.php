@@ -65,6 +65,7 @@ class OptionsManager
         'max_width' => [ 'default' => '' ],
         'max_height' => [ 'default' => '' ],
         'use_transients' => [ 'default' => '1' ],
+        'fix_attachment_links' => [ 'default' => '0' ],
     ];
 
     public $options;

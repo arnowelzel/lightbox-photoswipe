@@ -10,12 +10,13 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
  */
 class LightboxPhotoSwipe
 {
-    const VERSION = '5.5.3';
+    const VERSION = '5.6.0';
     const SLUG = 'lightbox-photoswipe';
     const META_VERSION = '20';
     const CACHE_EXPIRE_IMG_DETAILS = 86400;
     const DB_VERSION = 36;
     const BASEPATH = WP_PLUGIN_DIR.'/'.self::SLUG.'/';
+    const SUPPORTED_FORMATS = ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp', 'svg', 'avif'];
 
     private $pluginFile;
     private $optionsManager;
@@ -66,7 +67,7 @@ class LightboxPhotoSwipe
                 add_filter('render_block', [$this, 'gutenbergBlock'], 10, 2);
             }
         }
-        add_action('plugins_loaded', [$this, 'init']);
+        add_action('init', [$this, 'init']);
         add_action('admin_menu', [$this, 'adminMenu']);
         add_action('admin_init', [$this, 'adminInit']);
 
@@ -290,6 +291,27 @@ class LightboxPhotoSwipe
             return $matches[1].$matches[2].$matches[3].$matches[4].$matches[5];
         }
 
+        $mimeTypes = get_allowed_mime_types();
+        if (!in_array('svg', $mimeTypes)) {
+            $mimeTypes['svg'] = 'image/svg+xml';
+        }
+
+        // If the "fix attachment links" option is enabled and the URL itself is
+        // not a direct link to a supported image format, then check if the
+        // URL is an attachment link and use the image link instead
+        if ('1' === $this->optionsManager->getOption('fix_attachment_links')) {
+            $type = wp_check_filetype($matches[2], $mimeTypes);
+            if (!in_array(strtolower($type['ext']), self::SUPPORTED_FORMATS)) {
+                $id = url_to_postid($matches[2]);
+                if (0 !== $id) {
+                    $src = wp_get_attachment_image_src($id, 'full');
+                    if (false !== $src) {
+                        $matches[2] = $src[0];
+                    }
+                }
+            }
+        }
+
         $use = true;
         $attr = '';
         $url = $matches[2];
@@ -315,10 +337,6 @@ class LightboxPhotoSwipe
             $file = $this->getHomeUrl() . $file;
         }
 
-        $mimeTypes = get_allowed_mime_types();
-        if (!in_array('svg', $mimeTypes)) {
-            $mimeTypes['svg'] = 'image/svg+xml';
-        }
         $type = wp_check_filetype($file, $mimeTypes);
         $extension = strtolower($type['ext']);
         $captionCaption = '';
@@ -326,7 +344,8 @@ class LightboxPhotoSwipe
         $captionTitle = '';
         $captionFilename = '';
         $isLocal = false;
-        if (!in_array($extension, ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'webp', 'svg', 'avif'])) {
+
+        if (!in_array($extension, self::SUPPORTED_FORMATS)) {
             // Ignore unknown image formats
             $use = false;
         } else {
