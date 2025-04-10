@@ -17,7 +17,7 @@ This plugin integrates PhotoSwipe to WordPress. All linked images in a post or p
 
 More about the original version of PhotoSwipe see here: [http://photoswipe.com](http://photoswipe.com)
 
-You can also display EXIF data from JPEG and WEBP images.
+You can also display EXIF data from supported image types.
 
 As of version 4.0.0 this plugin requires at least WordPress 5.3 and PHP 7.0. Older PHP version will cause problems. In this case you have to upgrade your PHP version or ask your hoster to do so. Please note that WordPress itself also recommends at least PHP 7.4 - see [https://wordpress.org/about/requirements/](https://wordpress.org/about/requirements/).
 
