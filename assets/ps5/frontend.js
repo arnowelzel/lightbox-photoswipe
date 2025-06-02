@@ -19,7 +19,6 @@ let lbwpsInit = function(domUpdate) {
         document.addEventListener('click', (event) => {
             // Backwards compatible solution for older browsers
             if (event.target.parentNode.getAttribute('data-lbwps-width')) {
-
                 event.preventDefault();
                 openPhotoSwipe(false, 0, event.target.parentNode, false, '');
                 return;
@@ -300,7 +299,9 @@ let lbwpsInit = function(domUpdate) {
     let openPhotoSwipe = function(element_index, group_index, element, fromURL, returnToUrl) {
         let id = 1,
             items,
-            index;
+            index,
+            scrollX,
+            scrollY;
 
         if (element != null) {
             id = element.getAttribute('data-lbwps-gid');
@@ -362,6 +363,7 @@ let lbwpsInit = function(domUpdate) {
         const lightbox = new PhotoSwipeLightbox(options);
         window.lbwpsPhotoSwipe = lightbox;
         lightbox.on('destroy', () => {
+            window.scroll(scrollX, scrollY)
             const pswpElements = document.getElementsByClassName('pswp__scroll-wrap');
             if (lbwpsOptions.hide_scrollbars === '1') {
                 showScrollbar();
@@ -488,6 +490,8 @@ let lbwpsInit = function(domUpdate) {
         if (lbwpsOptions.hide_scrollbars === '1') {
             hideScrollbar();
         }
+        scrollX = window.scrollX;
+        scrollY = window.scrollY;
         lightbox.loadAndOpen(index);
 
         // Handler to detect URL changes when user goes back or forth in history

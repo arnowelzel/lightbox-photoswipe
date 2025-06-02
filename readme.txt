@@ -4,7 +4,7 @@ Contributors: awelzel
 Tags: lightbox, photoswipe, attachments, images, gallery
 Requires at least: 5.3
 Tested up to: 6.8
-Stable tag: 5.6.2
+Stable tag: 5.6.3
 Donate link: https://paypal.me/ArnoWelzel
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -154,6 +154,10 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 5. Desktop options in the backend
 
 == Changelog ==
+
+= 5.6.3 =
+
+* Workaround to avoid sudden scrolling when enabling browser history support with PhotoSwipe 5.
 
 = 5.6.2 =
 
