@@ -1,4 +1,9 @@
 let lbwpsInit = function(domUpdate) {
+    // Original styles to be used to hide/show scrollbars
+    let originalBodyPaddingRight = document.body.style.paddingRight;
+    let originalBodyOverflow = document.body.style.overflow;
+    let originalHtmlOverflow = document.html.style.overflow;
+
     function lbwpsClick(event) {
         // Backwards compatible solution for older browsers
         if (event.target.parentNode.getAttribute('data-lbwps-width')) {
@@ -32,9 +37,6 @@ let lbwpsInit = function(domUpdate) {
         PhotoSwipeUI_Default = window.PhotoSwipeUI_Default;
 
     let links = document.querySelectorAll('a[data-lbwps-width]');
-
-    let originalBodyPaddingRight = '';
-    let originalBodyOverflow = '';
 
     // Use group IDs of elementor image carousels for the image links inside
     // 
@@ -108,15 +110,15 @@ let lbwpsInit = function(domUpdate) {
 
     let hideScrollbar = function () {
         const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
-        originalBodyPaddingRight = document.body.style.paddingRight;
-        originalBodyOverflow = document.body.style.overflow;
         document.body.style.paddingRight = scrollbarWidth + 'px';
         document.body.style.overflow = 'hidden';
+        document.html.style.overflow = 'hidden';
     };
 
     let showScrollbar = function () {
         document.body.style.paddingRight = originalBodyPaddingRight;
         document.body.style.overflow = originalBodyOverflow;
+        document.html.style.overflow = originalHtmlOverflow;
     };
 
     let parseThumbnailElements = function (link, id) {
