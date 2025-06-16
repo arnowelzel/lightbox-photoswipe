@@ -158,6 +158,7 @@ If you change any of the stylesheets or frontend scripts in `src/js` or `src/lib
 = 5.7.1 =
 
 * Improved hiding scrollbars.
+* Workaround to avoid warnings when the EXIF data contains an array for the ISO value instead of a single number.
 
 = 5.7.0 =
 

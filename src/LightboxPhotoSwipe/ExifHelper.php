@@ -155,6 +155,9 @@ class ExifHelper
         if (!isset($this->exifData['EXIF']['ISOSpeedRatings'])) {
             return '';
         }
+        if (is_array($this->exifData['EXIF']['ISOSpeedRatings'])) {
+            return 'ISO' . $this->exifData['EXIF']['ISOSpeedRatings'][0];
+        }
         return 'ISO' . $this->exifData['EXIF']['ISOSpeedRatings'];
     }
 
