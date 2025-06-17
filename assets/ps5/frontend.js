@@ -7,7 +7,6 @@ let lbwpsInit = function(domUpdate) {
     // Original styles to be used to hide/show scrollbars
     let originalBodyPaddingRight = document.body.style.paddingRight;
     let originalBodyOverflow = document.body.style.overflow;
-    let originalHtmlOverflow = document.html.style.overflow;
 
     // Check, if history.pushState() is supported
     let supportsPushState = ('pushState' in history);
@@ -115,13 +114,11 @@ let lbwpsInit = function(domUpdate) {
         const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
         document.body.style.paddingRight = scrollbarWidth + 'px';
         document.body.style.overflow = 'hidden';
-        document.html.style.overflow = 'hidden';
     };
 
     let showScrollbar = function () {
         document.body.style.paddingRight = originalBodyPaddingRight;
         document.body.style.overflow = originalBodyOverflow;
-        document.html.style.overflow = originalHtmlOverflow;
     };
 
     let parseThumbnailElements = function (link, id) {
